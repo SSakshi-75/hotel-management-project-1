@@ -1,0 +1,237 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Management | Luxury Hotel & Resort System</title>
+    <meta name="description" content="Welcome to Hotel Management, a luxury hotel & resort offering premier rooms, fine dining, spa, and world-class hospitality services.">
+    <meta name="keywords" content="Hotel Management, Luxury Hotel, Hotel Booking, Resort, Rooms, Hotel Services, Suites">
+    <meta name="author" content="Hotel Management">
+
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    
+    <!-- Bootstrap Icons & Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Vendor CSS & Swiper & AOS -->
+    <link rel="stylesheet" type="text/css" href="css/vendor.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Upright:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+    <!-- Custom Main Stylesheet -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+
+        <!-- ==========================================
+             TOP HEADER / INFO BAR
+             ========================================== -->
+        <div class="top-bar-info bg-dark text-white py-2 border-bottom border-secondary border-opacity-25">
+            <div class="container-fluid px-4 px-lg-5">
+                <div class="d-flex flex-wrap justify-content-between align-items-center">
+                    
+                    <!-- Contact Details -->
+                    <div class="d-flex flex-wrap align-items-center gap-4">
+                        <span class="d-inline-flex align-items-center">
+                            <i class="bi bi-geo-alt-fill text-warning me-2"></i>
+                            Chanakyapuri, New Delhi, India 110021
+                        </span>
+                        <span class="d-inline-flex align-items-center">
+                            <i class="bi bi-telephone-fill text-warning me-2"></i>
+                            <a href="tel:+911139331234" class="text-white text-decoration-none">+91 11 3933 1234</a>
+                        </span>
+                        <span class="d-inline-flex align-items-center d-none d-md-inline-flex">
+                            <i class="bi bi-envelope-fill text-warning me-2"></i>
+                            <a href="mailto:info@hotelmanagement.com" class="text-white text-decoration-none">info@hotelmanagement.com</a>
+                        </span>
+                    </div>
+
+                    <!-- Social Links & Concierge Badge -->
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="d-flex gap-2">
+                            <a href="#" class="text-white hover-warning px-1" title="Facebook"><i class="bi bi-facebook"></i></a>
+                            <a href="#" class="text-white hover-warning px-1" title="Instagram"><i class="bi bi-instagram"></i></a>
+                            <a href="#" class="text-white hover-warning px-1" title="Twitter"><i class="bi bi-twitter-x"></i></a>
+                            <a href="#" class="text-white hover-warning px-1" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                        </div>
+                        <span class="text-secondary d-none d-sm-inline">|</span>
+                        <span class="badge bg-warning text-dark fw-bold d-none d-sm-inline">24/7 Concierge</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             MAIN NAVIGATION HEADER (WHITE BG & LOGO)
+             ========================================== -->
+        <header id="header" class="sticky-top">
+            <nav id="primary-header" class="navbar navbar-expand-lg py-2 border-bottom shadow-sm bg-white">
+                <div class="container-fluid px-4 px-lg-5">
+                    
+                    <!-- Brand Logo Only -->
+                    <a class="navbar-brand p-0" href="index.aspx">
+                        <img src="images/logo.png" alt="Hotel Management Logo" class="main-logo-img img-fluid" onerror="this.onerror=null; this.src='images/main-logo.png';">
+                    </a>
+
+                    <!-- Mobile Toggler -->
+                    <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileNavbar" aria-controls="mobileNavbar" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <!-- Navigation Links & CTA -->
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="mobileNavbar" aria-labelledby="mobileNavbarLabel">
+                        
+                        <div class="offcanvas-header border-bottom">
+                            <img src="images/logo.png" alt="Hotel Management Logo" style="height: 50px; width: auto;" onerror="this.onerror=null; this.src='images/main-logo.png';">
+                            <button type="button" class="btn-close shadow-none" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+
+                        <div class="offcanvas-body align-items-center">
+                            <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-4 text-uppercase fw-semibold letter-spacing-1 fs-6">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="index.aspx">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="About.aspx">About Us</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="Rooms.aspx">Rooms & Suites</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="Services.aspx">Amenities</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="Contact.aspx">Contact Us</a>
+                                </li>
+                            </ul>
+
+                            <div class="d-flex align-items-center gap-3">
+                                <a href="Rooms.aspx" class="btn btn-navbar-theme px-4 py-2 rounded-pill fw-bold text-uppercase shadow-sm">
+                                    <i class="bi bi-calendar-check me-2"></i> Book Now
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </nav>
+        </header>
+
+        <!-- ==========================================
+             MAIN CONTENT PLACEHOLDER
+             ========================================== -->
+        <main>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </main>
+
+        <!-- ==========================================
+             LUXURY FOOTER
+             ========================================== -->
+        <footer id="footer" class="mt-5 bg-white border-top">
+            <div class="container-fluid px-4 px-lg-5">
+                <div class="row g-4 py-5 border-bottom border-secondary border-opacity-25">
+                    
+                    <!-- Column 1: Brand Info -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="footer-brand mb-3">
+                            <h3 class="navbar-brand-text" style="color: #442305;">HOTEL <span class="text-warning">MANAGEMENT</span></h3>
+                        </div>
+                        <p class="pe-lg-4 text-muted" style="line-height: 1.7;">
+                            Hotel Management is a benchmark of luxury, tranquility, and world-class Indian hospitality. Experience handcrafted suites, opulent fine dining, and serene spa facilities.
+                        </p>
+                        <div class="d-flex gap-3 mt-4">
+                            <a href="#" class="px-1 fs-5" style="color: #B88E68;" title="Facebook"><i class="bi bi-facebook"></i></a>
+                            <a href="#" class="px-1 fs-5" style="color: #B88E68;" title="Instagram"><i class="bi bi-instagram"></i></a>
+                            <a href="#" class="px-1 fs-5" style="color: #B88E68;" title="Twitter"><i class="bi bi-twitter-x"></i></a>
+                            <a href="#" class="px-1 fs-5" style="color: #B88E68;" title="YouTube"><i class="bi bi-youtube"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Quick Links -->
+                    <div class="col-lg-2 col-md-6">
+                        <h4 class="mb-3" style="color: #442305;">Quick Links</h4>
+                        <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
+                            <li><a href="index.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Home</a></li>
+                            <li><a href="About.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> About Us</a></li>
+                            <li><a href="Rooms.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Rooms &amp; Suites</a></li>
+                            <li><a href="Services.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Our Amenities</a></li>
+                            <li><a href="Contact.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Contact Us</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Column 3: Hotel Services -->
+                    <div class="col-lg-3 col-md-6">
+                        <h4 class="mb-3" style="color: #442305;">Our Services</h4>
+                        <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
+                            <li><a href="Services.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Luxury Spa &amp; Wellness</a></li>
+                            <li><a href="Services.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Fine Dining Restaurant</a></li>
+                            <li><a href="Services.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Heated Swimming Pool</a></li>
+                            <li><a href="Services.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Conference &amp; Banquet Hall</a></li>
+                            <li><a href="Services.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> 24/7 Airport Transfer</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Column 4: Newsletter & Contact -->
+                    <div class="col-lg-3 col-md-6">
+                        <h4 class="mb-3" style="color: #442305;">Stay Connected</h4>
+                        <p class="small text-muted mb-3">Subscribe for exclusive offers, seasonal deals, and luxury packages.</p>
+                        
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control border" placeholder="Enter your email" aria-label="Subscriber Email">
+                            <button class="btn fw-bold px-3 text-white" style="background-color: #442305;" type="button"><i class="bi bi-send-fill"></i></button>
+                        </div>
+
+                        <div class="small text-muted">
+                            <p class="mb-1"><i class="bi bi-geo-alt me-2" style="color: #442305;"></i> Chanakyapuri, New Delhi 110021</p>
+                            <p class="mb-0"><i class="bi bi-telephone me-2" style="color: #442305;"></i> +91 11 3933 1234</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Footer Bottom -->
+                <div class="py-3 d-flex flex-wrap justify-content-between align-items-center small text-muted border-top">
+                    <p class="mb-0">&copy; 2026 Hotel Management. All Rights Reserved. Built with ASP.NET Web Forms &amp; Bootstrap 5.</p>
+                    <div class="d-flex gap-3 mt-2 mt-sm-0">
+                        <a href="Privacy.aspx" class="text-decoration-none text-muted">Privacy Policy</a>
+                        <span>|</span>
+                        <a href="Terms.aspx" class="text-decoration-none text-muted">Terms &amp; Conditions</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Floating Back To Top Button -->
+        <div id="backToTop" class="back-to-top" title="Back to top">
+            <i class="bi bi-arrow-up-short fs-3"></i>
+        </div>
+
+    </form>
+
+    <!-- JavaScript Files -->
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
