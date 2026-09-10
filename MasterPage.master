@@ -142,116 +142,79 @@
         </main>
 
         <!-- ==========================================
-             PROFESSIONAL LUXURY FOOTER
+             LUXURY FOOTER
              ========================================== -->
-        <footer id="footer" style="background: #ffffff; border-top: 3px solid #B88E68; margin-top: 0;">
+        <footer id="footer" class="mt-5 bg-white border-top">
             <div class="container-fluid px-4 px-lg-5">
-                <div class="row g-4 py-5" style="border-bottom: 1px solid #e8ddd3;">
+                <div class="row g-4 py-5 border-bottom border-secondary border-opacity-25">
                     
-                    <!-- Column 1: Logo & Brand -->
+                    <!-- Column 1: Brand Info -->
                     <div class="col-lg-4 col-md-6">
-                        <div class="mb-3">
+                        <div class="footer-brand mb-3">
                             <a href="index.aspx">
-                                <img src="images/logo.png" alt="Hotel Management Logo" style="height: 55px; width: auto;" onerror="this.onerror=null; this.src='images/main-logo.png';">
+                                <img src="images/logo.png" alt="Hotel Management Logo" style="height: 85px; width: auto; object-fit: contain; mix-blend-mode: multiply;" onerror="this.onerror=null; this.src='images/main-logo.png';">
                             </a>
                         </div>
-                        <p style="color: #666666; font-size: 0.9rem; line-height: 1.75; padding-right: 15px;">
-                            A benchmark of luxury, tranquility, and world-class Indian hospitality. Experience handcrafted royal suites, opulent fine dining, and serene spa retreats.
+                        <p class="pe-lg-4 text-muted" style="line-height: 1.7;">
+                            Hotel Management is a benchmark of luxury, tranquility, and world-class Indian hospitality. Experience handcrafted suites, opulent fine dining, and serene spa facilities.
                         </p>
-                        <div style="display: inline-flex; align-items: center; gap: 5px; background: #fdf8f3; border: 1px solid #e8ddd3; padding: 6px 14px; border-radius: 50px; margin-bottom: 16px;">
-                            <i class="bi bi-star-fill" style="color: #B88E68; font-size: 0.7rem;"></i>
-                            <i class="bi bi-star-fill" style="color: #B88E68; font-size: 0.7rem;"></i>
-                            <i class="bi bi-star-fill" style="color: #B88E68; font-size: 0.7rem;"></i>
-                            <i class="bi bi-star-fill" style="color: #B88E68; font-size: 0.7rem;"></i>
-                            <i class="bi bi-star-fill" style="color: #B88E68; font-size: 0.7rem;"></i>
-                            <span style="color: #442305; font-size: 0.78rem; font-weight: 600; margin-left: 4px;">5-Star Luxury Hotel</span>
-                        </div>
-                        <div class="d-flex gap-2 mt-2">
-                            <a href="#" style="width:38px;height:38px;border-radius:50%;border:1px solid #e8ddd3;display:flex;align-items:center;justify-content:center;color:#442305;font-size:0.9rem;transition:all 0.3s;" title="Facebook"><i class="bi bi-facebook"></i></a>
-                            <a href="#" style="width:38px;height:38px;border-radius:50%;border:1px solid #e8ddd3;display:flex;align-items:center;justify-content:center;color:#442305;font-size:0.9rem;" title="Instagram"><i class="bi bi-instagram"></i></a>
-                            <a href="#" style="width:38px;height:38px;border-radius:50%;border:1px solid #e8ddd3;display:flex;align-items:center;justify-content:center;color:#442305;font-size:0.9rem;" title="Twitter"><i class="bi bi-twitter-x"></i></a>
-                            <a href="#" style="width:38px;height:38px;border-radius:50%;border:1px solid #e8ddd3;display:flex;align-items:center;justify-content:center;color:#442305;font-size:0.9rem;" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
-                            <a href="#" style="width:38px;height:38px;border-radius:50%;border:1px solid #e8ddd3;display:flex;align-items:center;justify-content:center;color:#442305;font-size:0.9rem;" title="YouTube"><i class="bi bi-youtube"></i></a>
+                        <div class="d-flex gap-3 mt-4">
+                            <a href="#" class="btn btn-navbar-theme rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px; padding: 0;" title="Facebook"><i class="bi bi-facebook fs-5"></i></a>
+                            <a href="#" class="btn btn-navbar-theme rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px; padding: 0;" title="Instagram"><i class="bi bi-instagram fs-5"></i></a>
+                            <a href="#" class="btn btn-navbar-theme rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px; padding: 0;" title="Twitter"><i class="bi bi-twitter-x fs-5"></i></a>
+                            <a href="#" class="btn btn-navbar-theme rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px; padding: 0;" title="YouTube"><i class="bi bi-youtube fs-5"></i></a>
                         </div>
                     </div>
 
                     <!-- Column 2: Quick Links -->
                     <div class="col-lg-2 col-md-6">
-                        <h5 style="font-family: 'Cormorant Upright', serif; font-size: 1.35rem; font-weight: 700; color: #442305; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #B88E68; display: inline-block;">Quick Links</h5>
+                        <h4 class="mb-3" style="color: #442305;">Quick Links</h4>
                         <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
-                            <li><a href="index.aspx" class="text-decoration-none" style="color: #555555; font-size: 0.88rem;"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Home</a></li>
-                            <li><a href="About.aspx" class="text-decoration-none" style="color: #555555; font-size: 0.88rem;"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> About Us</a></li>
-                            <li><a href="Room.aspx" class="text-decoration-none" style="color: #555555; font-size: 0.88rem;"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Rooms &amp; Suites</a></li>
-                            <li><a href="Services.aspx" class="text-decoration-none" style="color: #555555; font-size: 0.88rem;"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Amenities</a></li>
-                            <li><a href="Booking.aspx" class="text-decoration-none" style="color: #555555; font-size: 0.88rem;"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Book Now</a></li>
-                            <li><a href="Contact.aspx" class="text-decoration-none" style="color: #555555; font-size: 0.88rem;"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Contact Us</a></li>
+                            <li><a href="index.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Home</a></li>
+                            <li><a href="About.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> About Us</a></li>
+                            <li><a href="Room.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Rooms &amp; Suites</a></li>
+                            <li><a href="Services.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Our Amenities</a></li>
+                            <li><a href="Contact.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Contact Us</a></li>
                         </ul>
                     </div>
 
-                    <!-- Column 3: Services -->
+                    <!-- Column 3: Hotel Services -->
                     <div class="col-lg-3 col-md-6">
-                        <h5 style="font-family: 'Cormorant Upright', serif; font-size: 1.35rem; font-weight: 700; color: #442305; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #B88E68; display: inline-block;">Our Services</h5>
+                        <h4 class="mb-3" style="color: #442305;">Our Services</h4>
                         <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
-                            <li><a href="Services.aspx" class="text-decoration-none" style="color: #555555; font-size: 0.88rem;"><i class="bi bi-gem small me-2" style="color: #B88E68;"></i>Imperial Spa &amp; Wellness</a></li>
-                            <li><a href="Services.aspx" class="text-decoration-none" style="color: #555555; font-size: 0.88rem;"><i class="bi bi-cup-hot-fill small me-2" style="color: #B88E68;"></i>Fine Dining Restaurant</a></li>
-                            <li><a href="Services.aspx" class="text-decoration-none" style="color: #555555; font-size: 0.88rem;"><i class="bi bi-water small me-2" style="color: #B88E68;"></i>Heated Infinity Pool</a></li>
-                            <li><a href="Services.aspx" class="text-decoration-none" style="color: #555555; font-size: 0.88rem;"><i class="bi bi-building small me-2" style="color: #B88E68;"></i>Conference &amp; Banquet</a></li>
-                            <li><a href="Services.aspx" class="text-decoration-none" style="color: #555555; font-size: 0.88rem;"><i class="bi bi-car-front-fill small me-2" style="color: #B88E68;"></i>Airport Limo Transfer</a></li>
+                            <li><a href="Services.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Luxury Spa &amp; Wellness</a></li>
+                            <li><a href="Services.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Fine Dining Restaurant</a></li>
+                            <li><a href="Services.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Heated Swimming Pool</a></li>
+                            <li><a href="Services.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Conference &amp; Banquet Hall</a></li>
+                            <li><a href="Services.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> 24/7 Airport Transfer</a></li>
                         </ul>
                     </div>
 
-                    <!-- Column 4: Contact & Newsletter -->
+                    <!-- Column 4: Newsletter & Contact -->
                     <div class="col-lg-3 col-md-6">
-                        <h5 style="font-family: 'Cormorant Upright', serif; font-size: 1.35rem; font-weight: 700; color: #442305; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #B88E68; display: inline-block;">Get In Touch</h5>
+                        <h4 class="mb-3" style="color: #442305;">Stay Connected</h4>
+                        <p class="small text-muted mb-3">Subscribe for exclusive offers, seasonal deals, and luxury packages.</p>
                         
-                        <div class="d-flex flex-column gap-3 mb-4">
-                            <div class="d-flex align-items-start gap-3">
-                                <div style="width:36px;height:36px;min-width:36px;border-radius:8px;background:#fdf8f3;border:1px solid #e8ddd3;display:flex;align-items:center;justify-content:center;color:#B88E68;font-size:0.85rem;">
-                                    <i class="bi bi-geo-alt-fill"></i>
-                                </div>
-                                <div>
-                                    <span style="color: #333333; font-size: 0.88rem; font-weight: 600; display: block;">Chanakyapuri, New Delhi</span>
-                                    <small style="color: #999999; font-size: 0.75rem;">India 110021</small>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-start gap-3">
-                                <div style="width:36px;height:36px;min-width:36px;border-radius:8px;background:#fdf8f3;border:1px solid #e8ddd3;display:flex;align-items:center;justify-content:center;color:#B88E68;font-size:0.85rem;">
-                                    <i class="bi bi-telephone-fill"></i>
-                                </div>
-                                <div>
-                                    <a href="tel:+911139331234" class="text-decoration-none" style="color: #333333; font-size: 0.88rem; font-weight: 600; display: block;">+91 11 3933 1234</a>
-                                    <small style="color: #999999; font-size: 0.75rem;">24/7 Available</small>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-start gap-3">
-                                <div style="width:36px;height:36px;min-width:36px;border-radius:8px;background:#fdf8f3;border:1px solid #e8ddd3;display:flex;align-items:center;justify-content:center;color:#B88E68;font-size:0.85rem;">
-                                    <i class="bi bi-envelope-fill"></i>
-                                </div>
-                                <div>
-                                    <a href="mailto:info@hotelmanagement.com" class="text-decoration-none" style="color: #333333; font-size: 0.85rem; font-weight: 600; display: block;">info@hotelmanagement.com</a>
-                                    <small style="color: #999999; font-size: 0.75rem;">Reservation Desk</small>
-                                </div>
-                            </div>
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control border" placeholder="Enter your email" aria-label="Subscriber Email">
+                            <button class="btn fw-bold px-3 text-white" style="background-color: #442305;" type="button"><i class="bi bi-send-fill"></i></button>
                         </div>
 
-                        <p style="color: #888888; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px;">Subscribe for Exclusive Offers</p>
-                        <div class="input-group">
-                            <input type="email" class="form-control" style="border: 1px solid #e8ddd3; background: #fdf8f3; font-size: 0.85rem;" placeholder="Your email address" aria-label="Email">
-                            <button class="btn text-white px-3" style="background: #442305; border: 1px solid #442305;" type="button"><i class="bi bi-arrow-right"></i></button>
+                        <div class="small text-muted">
+                            <p class="mb-1"><i class="bi bi-geo-alt me-2" style="color: #442305;"></i> Chanakyapuri, New Delhi 110021</p>
+                            <p class="mb-0"><i class="bi bi-telephone me-2" style="color: #442305;"></i> +91 11 3933 1234</p>
                         </div>
                     </div>
 
                 </div>
 
-                <!-- Footer Bottom Bar -->
-                <div class="py-3 d-flex flex-wrap justify-content-between align-items-center small" style="color: #999999;">
-                    <p class="mb-0">&copy; 2026 <strong style="color: #442305;">Hotel Management</strong>. All Rights Reserved.</p>
-                    <div class="d-flex align-items-center gap-3 mt-2 mt-sm-0">
-                        <a href="Privacy.aspx" class="text-decoration-none" style="color: #999999;">Privacy Policy</a>
-                        <span style="width:4px;height:4px;border-radius:50%;background:#B88E68;display:inline-block;"></span>
-                        <a href="Terms.aspx" class="text-decoration-none" style="color: #999999;">Terms &amp; Conditions</a>
-                        <span style="width:4px;height:4px;border-radius:50%;background:#B88E68;display:inline-block;"></span>
-                        <a href="Contact.aspx" class="text-decoration-none" style="color: #999999;">Sitemap</a>
+                <!-- Footer Bottom -->
+                <div class="py-3 d-flex flex-wrap justify-content-between align-items-center small text-muted border-top">
+                    <p class="mb-0">&copy; 2026 Hotel Management. All Rights Reserved. Built with ASP.NET Web Forms &amp; Bootstrap 5.</p>
+                    <div class="d-flex gap-3 mt-2 mt-sm-0">
+                        <a href="Privacy.aspx" class="text-decoration-none text-muted">Privacy Policy</a>
+                        <span>|</span>
+                        <a href="Terms.aspx" class="text-decoration-none text-muted">Terms &amp; Conditions</a>
                     </div>
                 </div>
             </div>

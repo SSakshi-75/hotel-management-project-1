@@ -619,8 +619,9 @@ a.nav-link:hover {
 
 @media (max-width: 999px) {
   a.nav-link {
-    font-size: 30px;
-    padding: 15px 0 15px 0 !important;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: 10px 0 !important;
   }
 }
 
@@ -1514,7 +1515,7 @@ iconify-icon.quote {
 #footer {
   background-color: #121212;
   color: #a0a0a0;
-  padding-top: 70px;
+  padding-top: 10px;
 }
 
 #footer h4 {
@@ -1542,6 +1543,17 @@ iconify-icon.quote {
 #footer a:hover {
   color: var(--primary-color);
   padding-left: 5px;
+}
+
+@media (max-width: 768px) {
+  #footer h4 {
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+  }
+  #footer p, #footer ul li a, #footer .small {
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+  }
 }
 
 #footer .footer-social-icon {
