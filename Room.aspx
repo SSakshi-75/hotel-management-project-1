@@ -113,7 +113,7 @@
                         data-aos-delay="100">
                         <div class="room-card-full">
                             <div class="room-card-full-img">
-                                <img src="images/room-mini-business.jpg" alt="Executive Business Suite">
+                                <img src="images/room-mini-business.jpg" loading="lazy" alt="Executive Business Suite">
                                 <span class="room-card-tag"><i class="fa-solid fa-crown me-1 text-warning"></i>
                                     EXECUTIVE</span>
                                 <div class="room-card-price-tag"><span class="currency">&#8377;</span> 8,500 <small>/
@@ -161,7 +161,7 @@
                         data-aos-delay="200">
                         <div class="room-card-full">
                             <div class="room-card-full-img">
-                                <img src="images/room-mini-garden.jpg" alt="Garden View Deluxe Room">
+                                <img src="images/room-mini-garden.jpg" loading="lazy" alt="Garden View Deluxe Room">
                                 <span class="room-card-tag"><i class="fa-solid fa-leaf me-1 text-success"></i>
                                     DELUXE</span>
                                 <div class="room-card-price-tag"><span class="currency">&#8377;</span> 6,800 <small>/
@@ -210,7 +210,7 @@
                         data-aos-delay="300">
                         <div class="room-card-full">
                             <div class="room-card-full-img">
-                                <img src="images/room-mini-family.jpg" alt="Family Comfort Suite">
+                                <img src="images/room-mini-family.jpg" loading="lazy" alt="Family Comfort Suite">
                                 <span class="room-card-tag"><i class="fa-solid fa-heart me-1 text-danger"></i>
                                     FAMILY</span>
                                 <div class="room-card-price-tag"><span class="currency">&#8377;</span> 11,500 <small>/
@@ -258,7 +258,7 @@
                         data-aos-delay="100">
                         <div class="room-card-full">
                             <div class="room-card-full-img">
-                                <img src="images/room-classic-double.jpg" alt="Classic Double Luxury Room">
+                                <img src="images/room-classic-double.jpg" loading="lazy" alt="Classic Double Luxury Room">
                                 <span class="room-card-tag"><i class="fa-solid fa-gem me-1 text-info"></i> DELUXE</span>
                                 <div class="room-card-price-tag"><span class="currency">&#8377;</span> 14,999 <small>/
                                         night</small></div>
@@ -305,7 +305,7 @@
                         data-aos-delay="200">
                         <div class="room-card-full">
                             <div class="room-card-full-img">
-                                <img src="images/room-superior-king.jpg" alt="Superior King Royal Room">
+                                <img src="images/room-superior-king.jpg" loading="lazy" alt="Superior King Royal Room">
                                 <span class="room-card-tag"><i class="fa-solid fa-crown me-1 text-warning"></i> ROYAL
                                     KING</span>
                                 <div class="room-card-price-tag"><span class="currency">&#8377;</span> 19,999 <small>/
@@ -355,7 +355,7 @@
                         data-aos-delay="300">
                         <div class="room-card-full">
                             <div class="room-card-full-img">
-                                <img src="images/room-luxury-penthouse.jpg" alt="Royal Penthouse Haven">
+                                <img src="images/room-luxury-penthouse.jpg" loading="lazy" alt="Royal Penthouse Haven">
                                 <span class="room-card-tag"><i class="fa-solid fa-chess-king me-1 text-warning"></i>
                                     PENTHOUSE</span>
                                 <div class="room-card-price-tag"><span class="currency">&#8377;</span> 95,999 <small>/

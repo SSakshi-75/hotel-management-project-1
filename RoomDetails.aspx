@@ -48,7 +48,7 @@
                 <div class="row align-items-center mb-5" data-aos="fade-up" data-aos-duration="1000">
                     <div class="col-lg-7" data-aos="fade-right" data-aos-delay="200">
                         <div class="room-header-image">
-                            <img id="headerMainImg" src="images/room-mini-business.jpg" alt="Deluxe Suite"
+                            <img id="headerMainImg" src="images/room-mini-business.jpg" loading="lazy" alt="Deluxe Suite"
                                 class="img-fluid rounded">
                             <div class="room-badge">
                                 <span class="text-white" id="headerCategoryBadge">Premium Suite</span>
@@ -107,17 +107,17 @@
                     <h3 class="section-subtitle mb-4">Room Gallery</h3>
                     <div class="gallery-grid">
                         <div class="gallery-main" data-aos="zoom-in" data-aos-delay="300">
-                            <img id="galleryMainPhoto" src="images/room-mini-business.jpg" alt="Suite Interior"
+                            <img id="galleryMainPhoto" src="images/room-mini-business.jpg" loading="lazy" alt="Suite Interior"
                                 class="img-fluid" onclick="swapGallery(this)">
                         </div>
                         <div class="gallery-thumbnails">
-                            <img src="images/room-classic-double.jpg" alt="Bedroom View" class="img-fluid"
+                            <img src="images/room-classic-double.jpg" loading="lazy" alt="Bedroom View" class="img-fluid"
                                 data-aos="fade-up" data-aos-delay="350" onclick="swapGallery(this)">
-                            <img src="images/room-superior-king.jpg" alt="Living Area" class="img-fluid"
+                            <img src="images/room-superior-king.jpg" loading="lazy" alt="Living Area" class="img-fluid"
                                 data-aos="fade-up" data-aos-delay="400" onclick="swapGallery(this)">
-                            <img src="images/room-luxury-penthouse.jpg" alt="City View" class="img-fluid"
+                            <img src="images/room-luxury-penthouse.jpg" loading="lazy" alt="City View" class="img-fluid"
                                 data-aos="fade-up" data-aos-delay="450" onclick="swapGallery(this)">
-                            <img src="images/room-mini-garden.jpg" alt="Bathroom" class="img-fluid" data-aos="fade-up"
+                            <img src="images/room-mini-garden.jpg" loading="lazy" alt="Bathroom" class="img-fluid" data-aos="fade-up"
                                 data-aos-delay="500" onclick="swapGallery(this)">
                         </div>
                     </div>

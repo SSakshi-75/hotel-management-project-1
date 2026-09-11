@@ -13,7 +13,7 @@
 
             <!-- Real Hero Image Element (Full width & height) -->
             <div class="hero-img-overlay-wrapper">
-                <img src="images/hero-bg-luxury.jpg" alt="Luxury Hotel Room" class="hero-banner-img img-fluid">
+                <img src="images/hero-bg-luxury.jpg" loading="lazy" alt="Luxury Hotel Room" class="hero-banner-img img-fluid">
                 <div class="hero-img-gradient-overlay"></div>
             </div>
 
@@ -238,7 +238,7 @@
                         <!-- Left Image (Slides from Left) -->
                         <div class="mt-4 pt-2" data-aos="fade-right" data-aos-duration="1200" data-aos-delay="200">
                             <div class="welcome-img-card welcome-img-primary shadow-sm">
-                                <img src="images/about-img1.jpg" alt="Resort Pool" class="img-fluid w-100 h-100">
+                                <img src="images/about-img1.jpg" loading="lazy" alt="Resort Pool" class="img-fluid w-100 h-100">
                             </div>
                         </div>
                     </div>
@@ -248,13 +248,13 @@
                         <!-- Right Image 1 (Slides from Right) -->
                         <div class="mb-4" data-aos="fade-left" data-aos-duration="1100" data-aos-delay="150">
                             <div class="welcome-img-card welcome-img-secondary shadow-sm">
-                                <img src="images/about-img2.jpg" alt="Luxury Suite" class="img-fluid w-100 h-100">
+                                <img src="images/about-img2.jpg" loading="lazy" alt="Luxury Suite" class="img-fluid w-100 h-100">
                             </div>
                         </div>
                         <!-- Right Image 2 (Slides from Right) -->
                         <div data-aos="fade-left" data-aos-duration="1100" data-aos-delay="300">
                             <div class="welcome-img-card welcome-img-secondary shadow-sm">
-                                <img src="images/about-img3.jpg" alt="Hotel Experience" class="img-fluid w-100 h-100">
+                                <img src="images/about-img3.jpg" loading="lazy" alt="Hotel Experience" class="img-fluid w-100 h-100">
                             </div>
                         </div>
                     </div>
@@ -297,7 +297,7 @@
 
                             <!-- Top Image with Badges -->
                             <div class="featured-suite-img-wrap">
-                                <img src="images/room-featured-presidential.jpg" alt="Grand Presidential Suite"
+                                <img src="images/room-featured-presidential.jpg" loading="lazy" alt="Grand Presidential Suite"
                                     class="img-fluid">
                                 <span class="badge-presidential-pill">PRESIDENTIAL</span>
                                 <div class="suite-overlay-pills">
@@ -372,7 +372,7 @@
                         <!-- Mini Room 1: Executive Business Room -->
                         <div class="mini-room-card" data-aos="fade-left" data-aos-duration="800" data-aos-delay="100">
                             <div class="mini-room-img-wrap">
-                                <img src="images/room-mini-business.jpg" alt="Executive Business Room">
+                                <img src="images/room-mini-business.jpg" loading="lazy" alt="Executive Business Room">
                             </div>
                             <div class="mini-room-body">
                                 <div>
@@ -400,7 +400,7 @@
                         <!-- Mini Room 2: Garden View Deluxe -->
                         <div class="mini-room-card" data-aos="fade-left" data-aos-duration="800" data-aos-delay="250">
                             <div class="mini-room-img-wrap">
-                                <img src="images/room-mini-garden.jpg" alt="Garden View Deluxe">
+                                <img src="images/room-mini-garden.jpg" loading="lazy" alt="Garden View Deluxe">
                             </div>
                             <div class="mini-room-body">
                                 <div>
@@ -428,7 +428,7 @@
                         <!-- Mini Room 3: Family Comfort Suite -->
                         <div class="mini-room-card" data-aos="fade-left" data-aos-duration="800" data-aos-delay="400">
                             <div class="mini-room-img-wrap">
-                                <img src="images/room-mini-family.jpg" alt="Family Comfort Suite">
+                                <img src="images/room-mini-family.jpg" loading="lazy" alt="Family Comfort Suite">
                             </div>
                             <div class="mini-room-body">
                                 <div>
@@ -474,7 +474,7 @@
                         data-aos-delay="100">
                         <div class="accommodations-card">
                             <div class="accommodations-card-img-wrap">
-                                <img src="images/room-classic-double.jpg" alt="Classic Double Room">
+                                <img src="images/room-classic-double.jpg" loading="lazy" alt="Classic Double Room">
                                 <a href="Room.aspx" class="accommodations-card-overlay" title="Quick View Room">
                                     <i class="bi bi-eye"></i>
                                 </a>
@@ -500,7 +500,7 @@
                         data-aos-delay="200">
                         <div class="accommodations-card">
                             <div class="accommodations-card-img-wrap">
-                                <img src="images/room-superior-king.jpg" alt="Superior King Room">
+                                <img src="images/room-superior-king.jpg" loading="lazy" alt="Superior King Room">
                                 <a href="Room.aspx" class="accommodations-card-overlay" title="Quick View Room">
                                     <i class="bi bi-eye"></i>
                                 </a>
@@ -526,7 +526,7 @@
                         data-aos-delay="300">
                         <div class="accommodations-card">
                             <div class="accommodations-card-img-wrap">
-                                <img src="images/room-ocean-view.jpg" alt="Premium Ocean View Room">
+                                <img src="images/room-ocean-view.jpg" loading="lazy" alt="Premium Ocean View Room">
                                 <a href="Room.aspx" class="accommodations-card-overlay" title="Quick View Room">
                                     <i class="bi bi-eye"></i>
                                 </a>
@@ -552,7 +552,7 @@
                         data-aos-delay="400">
                         <div class="accommodations-card">
                             <div class="accommodations-card-img-wrap">
-                                <img src="images/room-luxury-penthouse.jpg" alt="Luxury Penthouse Room">
+                                <img src="images/room-luxury-penthouse.jpg" loading="lazy" alt="Luxury Penthouse Room">
                                 <a href="Room.aspx" class="accommodations-card-overlay" title="Quick View Room">
                                     <i class="bi bi-eye"></i>
                                 </a>
@@ -642,7 +642,7 @@
                                 </p>
                             </div>
                             <div class="testimonial-author-row">
-                                <img src="images/testimonial-user1.jpg" alt="Rahul Singh" class="testimonial-avatar">
+                                <img src="images/testimonial-user1.jpg" loading="lazy" alt="Rahul Singh" class="testimonial-avatar">
                                 <div>
                                     <h4 class="testimonial-author-name">Rahul Singh</h4>
                                     <p class="testimonial-author-role">Chief Executive Officer</p>
@@ -674,7 +674,7 @@
                                 </p>
                             </div>
                             <div class="testimonial-author-row">
-                                <img src="images/testimonial-user2.jpg" alt="Priya Singhania"
+                                <img src="images/testimonial-user2.jpg" loading="lazy" alt="Priya Singhania"
                                     class="testimonial-avatar">
                                 <div>
                                     <h4 class="testimonial-author-name">Priya Singhania</h4>
@@ -707,7 +707,7 @@
                                 </p>
                             </div>
                             <div class="testimonial-author-row">
-                                <img src="images/testimonial-user3.jpg" alt="Rajesh Sharma" class="testimonial-avatar">
+                                <img src="images/testimonial-user3.jpg" loading="lazy" alt="Rajesh Sharma" class="testimonial-avatar">
                                 <div>
                                     <h4 class="testimonial-author-name">Rajesh Sharma</h4>
                                     <p class="testimonial-author-role">Product Manager</p>
@@ -739,7 +739,7 @@
                                 </p>
                             </div>
                             <div class="testimonial-author-row">
-                                <img src="images/testimonial-user4.jpg" alt="Ananya Verma" class="testimonial-avatar">
+                                <img src="images/testimonial-user4.jpg" loading="lazy" alt="Ananya Verma" class="testimonial-avatar">
                                 <div>
                                     <h4 class="testimonial-author-name">Ananya Verma</h4>
                                     <p class="testimonial-author-role">Design Lead</p>
@@ -764,7 +764,7 @@
                     <div class="gallery-marquee-track">
                         <!-- Set 1 (Original 5 Images) -->
                         <div class="gallery-card-item">
-                            <img src="images/gallery-1.jpg" alt="Luxury Hotel Suite Lounge">
+                            <img src="images/gallery-1.jpg" loading="lazy" alt="Luxury Hotel Suite Lounge">
                             <a href="javascript:void(0);" class="gallery-card-overlay gallery-lightbox-trigger"
                                 data-img-src="images/gallery-1.jpg" data-title="Luxury Hotel Suite Lounge"
                                 title="Click to View Full Size">
@@ -772,7 +772,7 @@
                             </a>
                         </div>
                         <div class="gallery-card-item">
-                            <img src="images/gallery-2.jpg" alt="Fine Dining Breakfast Service">
+                            <img src="images/gallery-2.jpg" loading="lazy" alt="Fine Dining Breakfast Service">
                             <a href="javascript:void(0);" class="gallery-card-overlay gallery-lightbox-trigger"
                                 data-img-src="images/gallery-2.jpg" data-title="Fine Dining Gourmet Breakfast Service"
                                 title="Click to View Full Size">
@@ -780,7 +780,7 @@
                             </a>
                         </div>
                         <div class="gallery-card-item">
-                            <img src="images/gallery-3.jpg" alt="Sky Lounge Panoramic Bar">
+                            <img src="images/gallery-3.jpg" loading="lazy" alt="Sky Lounge Panoramic Bar">
                             <a href="javascript:void(0);" class="gallery-card-overlay gallery-lightbox-trigger"
                                 data-img-src="images/gallery-3.jpg"
                                 data-title="Sky Lounge &amp; Executive Panoramic Bar" title="Click to View Full Size">
@@ -788,7 +788,7 @@
                             </a>
                         </div>
                         <div class="gallery-card-item">
-                            <img src="images/gallery-4.jpg" alt="Night Courtyard Architecture">
+                            <img src="images/gallery-4.jpg" loading="lazy" alt="Night Courtyard Architecture">
                             <a href="javascript:void(0);" class="gallery-card-overlay gallery-lightbox-trigger"
                                 data-img-src="images/gallery-4.jpg"
                                 data-title="Illuminated Night Courtyard &amp; Royal Palace Architecture"
@@ -797,7 +797,7 @@
                             </a>
                         </div>
                         <div class="gallery-card-item">
-                            <img src="images/gallery-5.jpg" alt="Infinity Pool Villa Resort">
+                            <img src="images/gallery-5.jpg" loading="lazy" alt="Infinity Pool Villa Resort">
                             <a href="javascript:void(0);" class="gallery-card-overlay gallery-lightbox-trigger"
                                 data-img-src="images/gallery-5.jpg"
                                 data-title="Infinity Heated Swimming Pool &amp; Luxury Villa Deck"
@@ -808,7 +808,7 @@
 
                         <!-- Set 2 (Duplicated 5 Images for Seamless Infinite Loop) -->
                         <div class="gallery-card-item">
-                            <img src="images/gallery-1.jpg" alt="Luxury Hotel Suite Lounge">
+                            <img src="images/gallery-1.jpg" loading="lazy" alt="Luxury Hotel Suite Lounge">
                             <a href="javascript:void(0);" class="gallery-card-overlay gallery-lightbox-trigger"
                                 data-img-src="images/gallery-1.jpg" data-title="Luxury Hotel Suite Lounge"
                                 title="Click to View Full Size">
@@ -816,7 +816,7 @@
                             </a>
                         </div>
                         <div class="gallery-card-item">
-                            <img src="images/gallery-2.jpg" alt="Fine Dining Breakfast Service">
+                            <img src="images/gallery-2.jpg" loading="lazy" alt="Fine Dining Breakfast Service">
                             <a href="javascript:void(0);" class="gallery-card-overlay gallery-lightbox-trigger"
                                 data-img-src="images/gallery-2.jpg" data-title="Fine Dining Gourmet Breakfast Service"
                                 title="Click to View Full Size">
@@ -824,7 +824,7 @@
                             </a>
                         </div>
                         <div class="gallery-card-item">
-                            <img src="images/gallery-3.jpg" alt="Sky Lounge Panoramic Bar">
+                            <img src="images/gallery-3.jpg" loading="lazy" alt="Sky Lounge Panoramic Bar">
                             <a href="javascript:void(0);" class="gallery-card-overlay gallery-lightbox-trigger"
                                 data-img-src="images/gallery-3.jpg"
                                 data-title="Sky Lounge &amp; Executive Panoramic Bar" title="Click to View Full Size">
@@ -832,7 +832,7 @@
                             </a>
                         </div>
                         <div class="gallery-card-item">
-                            <img src="images/gallery-4.jpg" alt="Night Courtyard Architecture">
+                            <img src="images/gallery-4.jpg" loading="lazy" alt="Night Courtyard Architecture">
                             <a href="javascript:void(0);" class="gallery-card-overlay gallery-lightbox-trigger"
                                 data-img-src="images/gallery-4.jpg"
                                 data-title="Illuminated Night Courtyard &amp; Royal Palace Architecture"
@@ -841,7 +841,7 @@
                             </a>
                         </div>
                         <div class="gallery-card-item">
-                            <img src="images/gallery-5.jpg" alt="Infinity Pool Villa Resort">
+                            <img src="images/gallery-5.jpg" loading="lazy" alt="Infinity Pool Villa Resort">
                             <a href="javascript:void(0);" class="gallery-card-overlay gallery-lightbox-trigger"
                                 data-img-src="images/gallery-5.jpg"
                                 data-title="Infinity Heated Swimming Pool &amp; Luxury Villa Deck"

@@ -49,12 +49,12 @@
                     <div class="col-lg-7" data-aos="fade-right" data-aos-delay="200">
                         <div class="booking-form-card">
 
-                            <div class="d-flex align-items-center justify-content-between pb-3 mb-4 border-bottom border-dark border-opacity-10">
+                            <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-2 pb-3 mb-4 border-bottom border-dark border-opacity-10">
                                 <div>
                                     <span class="text-uppercase fw-bold small text-gold tracking-wider"><i class="bi bi-shield-check me-1"></i> Royal Concierge Service</span>
-                                    <h2 class="booking-form-header-title">Online Reservation</h2>
+                                    <h2 class="booking-form-header-title mb-0">Online Reservation</h2>
                                 </div>
-                                <span class="badge bg-dark text-gold border border-gold px-3 py-2 small">Step 1 of 2</span>
+                                <span class="badge bg-dark text-gold border border-gold px-3 py-2 small align-self-start align-self-sm-auto text-nowrap">Step 1 of 2</span>
                             </div>
 
                             <form id="onlineBookingForm" onsubmit="handleOnlineBookingSubmit(event)">
@@ -163,7 +163,7 @@
                         
                         <!-- 1. Small Hotel Building Image -->
                         <div class="hotel-building-img-box mb-4">
-                            <img src="images/indian-palace-hero.jpg" alt="Grand Imperial Hotel Building" class="img-fluid">
+                            <img src="images/indian-palace-hero.jpg" loading="lazy" alt="Grand Imperial Hotel Building" class="img-fluid">
                             <span class="img-caption-badge"><i class="bi bi-building me-1"></i> Grand Imperial Hotel</span>
                         </div>
 

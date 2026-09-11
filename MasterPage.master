@@ -29,12 +29,51 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Upright:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 
     <!-- Custom Main Stylesheet -->
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="style.css?v=4.0">
 
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
 <body>
+    <!-- ==========================================
+         LUXURY HOTEL PRELOADER (CUSTOM DIAMOND)
+         ========================================== -->
+    <div class="preloader">
+        <div class="luxury-loader">
+            <span class="loader-diamond"></span>
+        </div>
+        <div class="luxury-loader-text">
+            <span class="hotel-title">Hotel Management</span>
+            <span class="hotel-tagline">Loading Luxury Experience...</span>
+        </div>
+    </div>
+
+    <!-- Preloader Guaranteed Dismissal Script -->
+    <script>
+        (function () {
+            function dismissPreloader() {
+                var p = document.querySelector('.preloader');
+                if (p && p.style.display !== 'none') {
+                    p.style.transition = 'opacity 0.4s ease, visibility 0.4s ease';
+                    p.style.opacity = '0';
+                    setTimeout(function () {
+                        p.style.display = 'none';
+                        document.body.classList.remove('preloader-site');
+                    }, 400);
+                }
+            }
+            if (document.readyState === 'complete') {
+                setTimeout(dismissPreloader, 400);
+            } else {
+                window.addEventListener('load', function () {
+                    setTimeout(dismissPreloader, 500);
+                });
+                // Absolute fallback (never stay stuck beyond 1.5s)
+                setTimeout(dismissPreloader, 1500);
+            }
+        })();
+    </script>
+
     <form id="form1" runat="server">
 
         <!-- ==========================================
@@ -113,7 +152,13 @@
                                     <a class="nav-link" href="Room.aspx">Rooms</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="Services.aspx">Amenities</a>
+                                    <a class="nav-link" href="Amenities.aspx">Amenities</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="Location.aspx">Location</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="Gallery.aspx">Gallery</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="Contact.aspx">Contact Us</a>
@@ -121,7 +166,13 @@
                             </ul>
 
                             <div class="d-flex align-items-center gap-3">
-                                <a href="Booking.aspx" class="btn btn-navbar-theme px-4 py-2 rounded-pill fw-bold text-uppercase shadow-sm">
+                                <a href="Login.aspx" class="btn btn-navbar-login px-4 py-2 fw-bold text-uppercase shadow-sm d-none d-lg-inline-block">
+                                    <i class="bi bi-person-circle me-1"></i> Login
+                                </a>
+                                <a href="Login.aspx" class="btn btn-navbar-login px-4 py-2 fw-bold text-uppercase shadow-sm d-inline-block d-lg-none mt-2">
+                                    <i class="bi bi-person-circle me-1"></i> Login
+                                </a>
+                                <a href="Booking.aspx" class="btn btn-navbar-theme px-4 py-2 fw-bold text-uppercase shadow-sm">
                                     <i class="bi bi-calendar-check me-2"></i> Book Now
                                 </a>
                             </div>
@@ -159,10 +210,10 @@
                             Hotel Management is a benchmark of luxury, tranquility, and world-class Indian hospitality. Experience handcrafted suites, opulent fine dining, and serene spa facilities.
                         </p>
                         <div class="d-flex gap-3 mt-4">
-                            <a href="#" class="btn btn-navbar-theme rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px; padding: 0;" title="Facebook"><i class="bi bi-facebook fs-5"></i></a>
-                            <a href="#" class="btn btn-navbar-theme rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px; padding: 0;" title="Instagram"><i class="bi bi-instagram fs-5"></i></a>
-                            <a href="#" class="btn btn-navbar-theme rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px; padding: 0;" title="Twitter"><i class="bi bi-twitter-x fs-5"></i></a>
-                            <a href="#" class="btn btn-navbar-theme rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px; padding: 0;" title="YouTube"><i class="bi bi-youtube fs-5"></i></a>
+                            <a href="#" class="footer-social-icon" title="Facebook"><i class="bi bi-facebook"></i></a>
+                            <a href="#" class="footer-social-icon" title="Instagram"><i class="bi bi-instagram"></i></a>
+                            <a href="#" class="footer-social-icon" title="Twitter"><i class="bi bi-twitter-x"></i></a>
+                            <a href="#" class="footer-social-icon" title="YouTube"><i class="bi bi-youtube"></i></a>
                         </div>
                     </div>
 
@@ -173,7 +224,7 @@
                             <li><a href="index.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Home</a></li>
                             <li><a href="About.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> About Us</a></li>
                             <li><a href="Room.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Rooms &amp; Suites</a></li>
-                            <li><a href="Services.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Our Amenities</a></li>
+                            <li><a href="Amenities.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Our Amenities</a></li>
                             <li><a href="Contact.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Contact Us</a></li>
                         </ul>
                     </div>
@@ -182,11 +233,11 @@
                     <div class="col-lg-3 col-md-6">
                         <h4 class="mb-3" style="color: #442305;">Our Services</h4>
                         <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
-                            <li><a href="Services.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Luxury Spa &amp; Wellness</a></li>
-                            <li><a href="Services.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Fine Dining Restaurant</a></li>
-                            <li><a href="Services.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Heated Swimming Pool</a></li>
-                            <li><a href="Services.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Conference &amp; Banquet Hall</a></li>
-                            <li><a href="Services.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> 24/7 Airport Transfer</a></li>
+                            <li><a href="Amenities.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Luxury Spa &amp; Wellness</a></li>
+                            <li><a href="Amenities.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Fine Dining Restaurant</a></li>
+                            <li><a href="Amenities.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Heated Swimming Pool</a></li>
+                            <li><a href="Amenities.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Conference &amp; Banquet Hall</a></li>
+                            <li><a href="Amenities.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> 24/7 Airport Transfer</a></li>
                         </ul>
                     </div>
 

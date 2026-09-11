@@ -156,7 +156,7 @@
 
                             <!-- CEO Signature -->
                             <div class="d-flex align-items-center gap-3 pt-3 border-top">
-                                <img src="images/testimonial-user1.jpg" alt="Rahul Singh"
+                                <img src="images/testimonial-user1.jpg" loading="lazy" alt="Rahul Singh"
                                     class="rounded-circle shadow-sm"
                                     style="width: 60px; height: 60px; object-fit: cover; border: 2px solid #9A724E;">
                                 <div>
@@ -331,7 +331,7 @@
                     <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
                         <div class="team-profile-card">
                             <div class="team-profile-img-wrap">
-                                <img src="images/testimonial-user1.jpg" alt="Robert Johnson">
+                                <img src="images/testimonial-user1.jpg" loading="lazy" alt="Robert Johnson">
                             </div>
                             <div class="team-profile-body">
                                 <h3 class="team-profile-name">Rahul Singh</h3>
@@ -349,7 +349,7 @@
                     <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
                         <div class="team-profile-card">
                             <div class="team-profile-img-wrap">
-                                <img src="images/testimonial-user2.jpg" alt="Priya Singhania">
+                                <img src="images/testimonial-user2.jpg" loading="lazy" alt="Priya Singhania">
                             </div>
                             <div class="team-profile-body">
                                 <h3 class="team-profile-name">Priya Singhania</h3>
@@ -367,7 +367,7 @@
                     <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
                         <div class="team-profile-card">
                             <div class="team-profile-img-wrap">
-                                <img src="images/testimonial-user3.jpg" alt="Michael Davis">
+                                <img src="images/testimonial-user3.jpg" loading="lazy" alt="Michael Davis">
                             </div>
                             <div class="team-profile-body">
                                 <h3 class="team-profile-name">Rajesh Sharma</h3>
@@ -385,7 +385,7 @@
                     <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
                         <div class="team-profile-card">
                             <div class="team-profile-img-wrap">
-                                <img src="images/testimonial-user4.jpg" alt="Ananya Verma">
+                                <img src="images/testimonial-user4.jpg" loading="lazy" alt="Ananya Verma">
                             </div>
                             <div class="team-profile-body">
                                 <h3 class="team-profile-name">Ananya Verma</h3>

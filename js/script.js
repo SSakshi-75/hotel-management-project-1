@@ -2,15 +2,22 @@
   "use strict";
 
   var initPreloader = function () {
-    $(document).ready(function () {
-      var Body = $('body');
-      Body.addClass('preloader-site');
-    });
+    var hidePreloader = function () {
+      $('.preloader').fadeOut(500, function () {
+        $('body').removeClass('preloader-site');
+      });
+    };
+
+    $('body').addClass('preloader-site');
+
+    // Allow the luxury diamond loader to display smoothly before fading out
     $(window).on('load', function () {
-      $('.preloader').fadeOut();
-      $('body').removeClass('preloader-site');
+      setTimeout(hidePreloader, 600);
     });
-  }
+
+    // Fallback timer (in case window load already fired)
+    setTimeout(hidePreloader, 1800);
+  };
 
   // init Chocolat light box
   var initChocolat = function () {
