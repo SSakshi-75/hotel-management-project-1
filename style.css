@@ -559,6 +559,7 @@ body.preloader-site {
   0% {
     transform: rotate(45deg);
   }
+
   100% {
     transform: rotate(405deg);
   }
@@ -569,6 +570,7 @@ body.preloader-site {
     transform: scale(0.75);
     opacity: 0.65;
   }
+
   100% {
     transform: scale(1.15);
     opacity: 1;
@@ -611,24 +613,29 @@ body.preloader-site {
     gap: 16px;
     padding: 15px;
   }
+
   .luxury-loader {
     width: 48px;
     height: 48px;
   }
+
   .loader-diamond {
     border-width: 2px;
     box-shadow: 0 0 18px rgba(154, 114, 78, 0.22);
   }
+
   .loader-diamond::after {
     top: 5px;
     left: 5px;
     right: 5px;
     bottom: 5px;
   }
+
   .luxury-loader-text .hotel-title {
     font-size: 1.3rem;
     letter-spacing: 1.5px;
   }
+
   .luxury-loader-text .hotel-tagline {
     font-size: 0.68rem;
     letter-spacing: 2px;
@@ -640,24 +647,29 @@ body.preloader-site {
     gap: 12px;
     padding: 10px;
   }
+
   .luxury-loader {
     width: 40px;
     height: 40px;
   }
+
   .loader-diamond {
     border-width: 2px;
     box-shadow: 0 0 14px rgba(154, 114, 78, 0.2);
   }
+
   .loader-diamond::after {
     top: 4px;
     left: 4px;
     right: 4px;
     bottom: 4px;
   }
+
   .luxury-loader-text .hotel-title {
     font-size: 1.15rem;
     letter-spacing: 1.2px;
   }
+
   .luxury-loader-text .hotel-tagline {
     font-size: 0.6rem;
     letter-spacing: 1.5px;
@@ -6286,5 +6298,1917 @@ video {
 
   .auth-card-title {
     font-size: 1.5rem;
+  }
+}
+
+/* ==================================================
+   OFFERS & PROMOTIONS LUXURY STYLES (STEP 2)
+   Theme Colors: #442305 (Royal Brown), #B88E68 (Champagne Gold), #F4E2D8
+   ================================================== */
+.special-offers-section {
+  padding: 95px 0;
+  background-color: #faf8f5;
+  position: relative;
+  overflow: hidden;
+}
+
+.special-offers-watermark {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Cormorant Upright', serif;
+  font-size: clamp(3.5rem, 8vw, 7.5rem);
+  font-weight: 800;
+  letter-spacing: 12px;
+  color: rgba(68, 35, 5, 0.04);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 0;
+  text-transform: uppercase;
+}
+
+.special-offer-card {
+  background: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(68, 35, 5, 0.06);
+  border: 1px solid rgba(184, 142, 104, 0.25);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+
+.special-offer-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 22px 45px rgba(68, 35, 5, 0.14);
+  border-color: #B88E68;
+}
+
+.offer-card-img-wrap {
+  position: relative;
+  height: 230px;
+  overflow: hidden;
+  background-color: #1a1a1a;
+}
+
+.offer-card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.special-offer-card:hover .offer-card-img-wrap img {
+  transform: scale(1.08);
+}
+
+.offer-card-overlay-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: rgba(68, 35, 5, 0.9);
+  color: #F4E2D8;
+  border: 1px solid #B88E68;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 50px;
+  backdrop-filter: blur(4px);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.offer-card-validity-pill {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #ffffff;
+  font-size: 0.72rem;
+  padding: 3px 10px;
+  border-radius: 4px;
+  backdrop-filter: blur(4px);
+  z-index: 2;
+}
+
+.offer-card-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.offer-card-category {
+  color: #B88E68;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.offer-card-title {
+  font-family: 'Cormorant Upright', 'Playfair Display', serif;
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: #442305;
+  line-height: 1.25;
+  margin-bottom: 10px;
+  transition: color 0.2s ease;
+}
+
+.special-offer-card:hover .offer-card-title {
+  color: #9A724E;
+}
+
+.offer-card-desc {
+  color: #64748b;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.offer-inclusions-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.offer-inclusions-list li {
+  font-size: 0.82rem;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.offer-inclusions-list li i {
+  color: #B88E68;
+  font-size: 0.85rem;
+}
+
+.offer-card-footer {
+  padding-top: 16px;
+  border-top: 1px solid rgba(68, 35, 5, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.offer-price-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.offer-price-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  color: #8c7866;
+  letter-spacing: 0.5px;
+}
+
+.offer-price-val {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #442305;
+  line-height: 1.1;
+}
+
+.offer-price-val .period {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #8c7866;
+}
+
+.btn-offer-view {
+  background: transparent;
+  color: #442305;
+  border: 1.5px solid #B88E68;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.84rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+}
+
+.btn-offer-view:hover {
+  background: #442305;
+  color: #F4E2D8 !important;
+  border-color: #442305;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(68, 35, 5, 0.25);
+}
+
+.btn-view-all-offers {
+  background: linear-gradient(135deg, #442305 0%, #63360b 100%);
+  color: #F4E2D8 !important;
+  border: 1.5px solid #B88E68;
+  padding: 14px 40px;
+  border-radius: 50px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.92rem;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 10px 25px rgba(68, 35, 5, 0.25);
+  transition: all 0.35s ease;
+}
+
+.btn-view-all-offers:hover {
+  background: #B88E68;
+  color: #ffffff !important;
+  border-color: #B88E68;
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(184, 142, 104, 0.45);
+}
+
+/* Offers Listing Filter Tabs */
+.offer-filter-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.offer-filter-btn {
+  background: #ffffff;
+  color: #442305;
+  border: 1.5px solid rgba(184, 142, 104, 0.35);
+  padding: 9px 24px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.offer-filter-btn:hover,
+.offer-filter-btn.active {
+  background: #442305;
+  color: #F4E2D8 !important;
+  border-color: #442305;
+  box-shadow: 0 6px 18px rgba(68, 35, 5, 0.2);
+}
+
+/* Offer Details Page Elements */
+.offer-detail-hero-box {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(68, 35, 5, 0.12);
+  border: 2px solid rgba(184, 142, 104, 0.35);
+  position: relative;
+  max-height: 520px;
+}
+
+.offer-detail-hero-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.offer-sidebar-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 32px;
+  box-shadow: 0 15px 45px rgba(68, 35, 5, 0.08);
+  border: 1.5px solid rgba(184, 142, 104, 0.35);
+  position: sticky;
+  top: 100px;
+}
+
+.offer-inclusion-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #faf8f5;
+  border: 1px solid rgba(184, 142, 104, 0.15);
+  margin-bottom: 10px;
+}
+
+.offer-inclusion-item i {
+  color: #B88E68;
+  font-size: 1.15rem;
+  margin-top: 2px;
+}
+
+.offer-terms-card {
+  background: #faf8f5;
+  border-left: 4px solid #B88E68;
+  border-radius: 0 12px 12px 0;
+  padding: 24px;
+  margin-top: 30px;
+}
+
+.btn-book-offer {
+  background: linear-gradient(135deg, #442305 0%, #63360b 100%);
+  color: #F4E2D8 !important;
+  border: 1.5px solid #B88E68;
+  padding: 16px 36px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  box-shadow: 0 10px 25px rgba(68, 35, 5, 0.25);
+  transition: all 0.35s ease;
+}
+
+.btn-book-offer:hover {
+  background: #B88E68;
+  color: #ffffff !important;
+  border-color: #B88E68;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(184, 142, 104, 0.45);
+}
+
+/* ==================================================
+   TAJ HOTELS BOOKING LANDING PAGE STYLES
+   Benchmark: tajhotels.com/en-in/bookings/landing-page
+   ================================================== */
+.taj-landing-property-bar {
+  background: #ffffff;
+  border-bottom: 1.5px solid rgba(184, 142, 104, 0.35);
+  box-shadow: 0 4px 20px rgba(68, 35, 5, 0.05);
+  padding: 16px 0;
+  position: sticky;
+  top: 72px;
+  z-index: 1020;
+}
+
+.taj-property-title {
+  font-family: 'Cormorant Upright', 'Playfair Display', serif;
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: #442305;
+  margin-bottom: 2px;
+  line-height: 1.2;
+}
+
+.taj-property-meta {
+  font-size: 0.82rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.taj-stay-summary-pill {
+  background: #faf8f5;
+  border: 1.5px solid #B88E68;
+  border-radius: 50px;
+  padding: 8px 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #442305;
+}
+
+.btn-modify-stay {
+  background: #442305;
+  color: #F4E2D8 !important;
+  border: 1px solid #B88E68;
+  padding: 9px 22px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(68, 35, 5, 0.2);
+}
+
+.btn-modify-stay:hover {
+  background: #B88E68;
+  color: #ffffff !important;
+  border-color: #B88E68;
+  box-shadow: 0 6px 20px rgba(184, 142, 104, 0.4);
+  transform: translateY(-1px);
+}
+
+.taj-modify-drawer {
+  background: linear-gradient(135deg, #fefefe 0%, #faf8f5 100%);
+  border-bottom: 2px solid #B88E68;
+  box-shadow: 0 15px 35px rgba(68, 35, 5, 0.12);
+  padding: 28px 0;
+  display: none;
+  animation: fadeInDown 0.3s ease-out;
+}
+
+.taj-modify-drawer.show {
+  display: block;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── NeuPass Banner ── */
+.taj-neupass-banner {
+  background: linear-gradient(135deg, #2c1500 0%, #442305 40%, #63360b 80%, #442305 100%);
+  color: #F4E2D8;
+  border: 1px solid rgba(184, 142, 104, 0.5);
+  border-radius: 14px;
+  padding: 18px 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+  box-shadow: 0 8px 24px rgba(68, 35, 5, 0.18);
+  position: relative;
+  overflow: hidden;
+}
+
+.taj-neupass-banner::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 120px;
+  height: 120px;
+  background: rgba(184, 142, 104, 0.12);
+  border-radius: 50%;
+}
+
+/* ── Filter Bar ── */
+.room-filter-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.room-filter-btn {
+  background: #faf8f5;
+  border: 1.5px solid rgba(184, 142, 104, 0.3);
+  color: #442305;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  padding: 7px 16px;
+  border-radius: 6px;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.room-filter-btn:hover {
+  background: #F4E2D8;
+  border-color: #B88E68;
+  box-shadow: 0 3px 10px rgba(184, 142, 104, 0.2);
+}
+
+.room-filter-btn.active {
+  background: #442305;
+  color: #F4E2D8;
+  border-color: #442305;
+  box-shadow: 0 4px 14px rgba(68, 35, 5, 0.28);
+}
+
+/* ── Horizontal Room Card ── */
+.taj-room-card-horizontal {
+  background: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(68, 35, 5, 0.07), 0 2px 8px rgba(0, 0, 0, 0.04);
+  border: 1.5px solid rgba(184, 142, 104, 0.2);
+  margin-bottom: 30px;
+  transition: all 0.4s ease;
+}
+
+.taj-room-card-horizontal:hover {
+  border-color: #B88E68;
+  box-shadow: 0 20px 50px rgba(68, 35, 5, 0.13), 0 6px 20px rgba(184, 142, 104, 0.12);
+  transform: translateY(-3px);
+}
+
+.room-card-gallery-col {
+  padding: 28px;
+  border-right: 1px solid rgba(68, 35, 5, 0.07);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(160deg, #fffdfa 0%, #faf8f5 100%);
+}
+
+.room-card-main-photo-wrap {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  height: 240px;
+  margin-bottom: 18px;
+  box-shadow: 0 8px 20px rgba(68, 35, 5, 0.12);
+}
+
+.room-card-main-photo-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.65s ease;
+}
+
+.taj-room-card-horizontal:hover .room-card-main-photo-wrap img {
+  transform: scale(1.07);
+}
+
+.badge-presidential-pill {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  backdrop-filter: blur(6px);
+}
+
+.room-photo-count-badge {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #ffffff;
+  font-size: 0.72rem;
+  padding: 4px 10px;
+  border-radius: 6px;
+  backdrop-filter: blur(5px);
+  font-weight: 600;
+}
+
+.room-specs-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.room-spec-tag {
+  background: #ffffff;
+  border: 1px solid rgba(184, 142, 104, 0.3);
+  color: #442305;
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 5px 11px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 1px 4px rgba(68, 35, 5, 0.06);
+}
+
+.btn-room-details-trigger {
+  color: #B88E68;
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: none;
+  border: none;
+  padding: 0;
+  letter-spacing: 0.3px;
+}
+
+.btn-room-details-trigger:hover {
+  color: #442305;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ── Rate Packages Column ── */
+.room-card-rates-col {
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rate-package-box {
+  background: #ffffff;
+  border: 1.5px solid rgba(184, 142, 104, 0.22);
+  border-radius: 14px;
+  padding: 18px 22px;
+  transition: all 0.28s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.rate-package-box::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  border-radius: 14px 0 0 14px;
+  background: transparent;
+  transition: background 0.25s ease;
+}
+
+.rate-package-box:hover {
+  border-color: #B88E68;
+  background: #fdfbf8;
+  box-shadow: 0 6px 22px rgba(68, 35, 5, 0.08);
+  transform: translateX(3px);
+}
+
+.rate-package-box:hover::before {
+  background: #B88E68;
+}
+
+.rate-package-box.selected {
+  border: 2px solid #442305;
+  background: linear-gradient(135deg, #fffdfa 0%, #faf3ec 100%);
+  box-shadow: 0 8px 28px rgba(68, 35, 5, 0.12);
+  transform: translateX(3px);
+}
+
+.rate-package-box.selected::before {
+  background: #442305;
+}
+
+.rate-package-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 7px;
+}
+
+.rate-badge-standard {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.rate-badge-popular {
+  background: linear-gradient(135deg, #F4E2D8 0%, #fce8d8 100%);
+  color: #442305;
+  border: 1px solid rgba(184, 142, 104, 0.4);
+}
+
+.rate-badge-neupass {
+  background: linear-gradient(135deg, #B88E68 0%, #442305 100%);
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgba(68, 35, 5, 0.2);
+}
+
+.rate-package-title {
+  font-family: 'Cormorant Upright', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #442305;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.rate-package-features {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-bottom: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.rate-package-features span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.rate-package-features i {
+  color: #16a34a;
+}
+
+.rate-cancellation-text {
+  font-size: 0.75rem;
+  color: #16a34a;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 0;
+}
+
+.btn-select-rate {
+  background: transparent;
+  color: #442305;
+  border: 2px solid #B88E68;
+  font-weight: 800;
+  font-size: 0.78rem;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 9px 22px;
+  border-radius: 8px;
+  transition: all 0.28s ease;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.btn-select-rate:hover {
+  background: #442305;
+  color: #F4E2D8;
+  border-color: #442305;
+  box-shadow: 0 5px 16px rgba(68, 35, 5, 0.25);
+  transform: translateY(-1px);
+}
+
+.rate-package-box.selected .btn-select-rate {
+  background: #16a34a;
+  border-color: #16a34a;
+  color: #ffffff;
+  box-shadow: 0 5px 16px rgba(22, 163, 74, 0.3);
+}
+
+/* ── Inclusion Filter Pills ── */
+.taj-inclusion-pill {
+  background: #ffffff;
+  border: 1.5px solid rgba(184, 142, 104, 0.3);
+  color: #442305;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 7px 16px;
+  border-radius: 50px;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  letter-spacing: 0.3px;
+}
+
+.taj-inclusion-pill:hover {
+  background: #faf8f5;
+  border-color: #B88E68;
+  box-shadow: 0 3px 10px rgba(184, 142, 104, 0.2);
+  transform: translateY(-1px);
+}
+
+.taj-inclusion-pill.active {
+  background: #442305;
+  border-color: #442305;
+  color: #F4E2D8;
+  box-shadow: 0 4px 14px rgba(68, 35, 5, 0.28);
+}
+
+/* ── Villa / Suite Filter Pills ── */
+.taj-villa-pills-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.taj-villa-pill {
+  background: #ffffff;
+  border: 1.5px solid rgba(184, 142, 104, 0.3);
+  color: #442305;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  letter-spacing: 0.2px;
+}
+
+.taj-villa-pill:hover {
+  background: #faf8f5;
+  border-color: #B88E68;
+  box-shadow: 0 3px 10px rgba(184, 142, 104, 0.2);
+}
+
+.taj-villa-pill.active {
+  background: #442305;
+  border-color: #442305;
+  color: #F4E2D8;
+  box-shadow: 0 4px 14px rgba(68, 35, 5, 0.28);
+}
+
+/* ── Dual Mode Switcher Pill ── */
+.taj-mode-switcher-pill {
+  background: #f1ede8;
+  border-radius: 50px;
+  padding: 5px;
+  display: inline-flex;
+  align-items: center;
+  border: 1.5px solid rgba(184, 142, 104, 0.35);
+  box-shadow: 0 4px 14px rgba(68, 35, 5, 0.08);
+}
+
+.taj-mode-btn {
+  background: transparent;
+  color: #64748b;
+  border: none;
+  padding: 10px 28px;
+  border-radius: 50px;
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.taj-mode-btn.active {
+  background: #442305;
+  color: #F4E2D8;
+  box-shadow: 0 5px 16px rgba(68, 35, 5, 0.3);
+}
+
+.taj-mode-btn:hover:not(.active) {
+  background: rgba(68, 35, 5, 0.06);
+  color: #442305;
+}
+
+/* ── Tax Toggle Checkbox ── */
+.taj-tax-checkbox {
+  width: 18px;
+  height: 18px;
+  accent-color: #442305;
+  cursor: pointer;
+  border-radius: 4px;
+  border: 1.5px solid #B88E68;
+}
+
+/* ── YOUR STAY Sidebar Card ── */
+.taj-your-stay-card {
+  background: #ffffff;
+  border: 1.5px solid rgba(184, 142, 104, 0.35);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 12px 36px rgba(68, 35, 5, 0.09);
+}
+
+.taj-your-stay-header {
+  background: linear-gradient(135deg, #442305 0%, #63360b 100%);
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 2px solid #B88E68;
+}
+
+.taj-your-stay-body {
+  padding: 20px;
+}
+
+.your-stay-room-toggle {
+  background: #faf8f5;
+  border: 1.5px solid rgba(184, 142, 104, 0.3);
+  border-radius: 10px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin-bottom: 16px;
+  user-select: none;
+}
+
+.your-stay-room-toggle:hover {
+  border-color: #B88E68;
+  background: #fdf6f0;
+}
+
+/* ── Offer Package Cards (Taj 3-Column) ── */
+.taj-offer-package-card {
+  background: #ffffff;
+  border: 1.5px solid rgba(184, 142, 104, 0.2);
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  transition: all 0.35s ease;
+  box-shadow: 0 6px 24px rgba(68, 35, 5, 0.06);
+}
+
+.taj-offer-package-card:hover {
+  border-color: #B88E68;
+  box-shadow: 0 16px 44px rgba(68, 35, 5, 0.12);
+  transform: translateY(-2px);
+}
+
+.taj-offer-package-card.selected {
+  border-color: #B88E68 !important;
+  box-shadow: 0 12px 36px rgba(68, 35, 5, 0.14) !important;
+  background: #fffdfa !important;
+}
+
+.offer-card-img-col {
+  border-right: 1px solid rgba(68, 35, 5, 0.07);
+  background: #faf8f5;
+}
+
+.offer-card-img-wrap {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.offer-card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.taj-offer-package-card:hover .offer-card-img-wrap img {
+  transform: scale(1.06);
+}
+
+.offer-photo-icon-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  backdrop-filter: blur(4px);
+}
+
+.offer-photo-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+}
+
+.offer-photo-dots .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.offer-photo-dots .dot.active {
+  background: #ffffff;
+  width: 16px;
+  border-radius: 3px;
+}
+
+.offer-room-specs {
+  padding: 14px 16px;
+}
+
+.offer-room-details-link {
+  color: #B88E68;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s;
+  cursor: pointer;
+}
+
+.offer-room-details-link:hover {
+  color: #442305;
+  text-decoration: underline;
+}
+
+.offer-card-content-col {
+  padding: 22px 20px;
+  border-right: 1px solid rgba(68, 35, 5, 0.07);
+}
+
+.offer-room-title {
+  font-family: 'Cormorant Upright', serif;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #B88E68;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.offer-package-name {
+  font-family: 'Cormorant Upright', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #442305;
+  margin-bottom: 10px;
+  line-height: 1.35;
+}
+
+.offer-member-exclusive-pill {
+  background: linear-gradient(135deg, #B88E68 0%, #8a6440 100%);
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 3px 10px rgba(184, 142, 104, 0.35);
+}
+
+.bullet-diamond {
+  color: #B88E68;
+  font-size: 0.9rem;
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+
+.offer-inclusions-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+  font-size: 0.8rem;
+  color: #475569;
+  line-height: 1.65;
+}
+
+.offer-inclusions-list li {
+  margin-bottom: 5px;
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+}
+
+.offer-pkg-details-link {
+  color: #B88E68;
+  font-weight: 800;
+  font-size: 0.8rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 10px;
+  transition: color 0.2s;
+  cursor: pointer;
+}
+
+.offer-pkg-details-link:hover {
+  color: #442305;
+}
+
+.offer-deposit-note {
+  font-style: italic;
+  font-size: 0.73rem;
+  color: #64748b;
+  margin-bottom: 0;
+  border-top: 1px dashed rgba(184, 142, 104, 0.3);
+  padding-top: 8px;
+  margin-top: 4px;
+}
+
+.offer-card-rate-col {
+  padding: 22px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: linear-gradient(160deg, #fffdfa 0%, #faf8f5 100%);
+}
+
+.offer-nightly-price {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #442305;
+  line-height: 1.2;
+}
+
+.btn-offer-select {
+  background: linear-gradient(135deg, #B88E68 0%, #9e7353 100%);
+  color: #ffffff;
+  border: none;
+  font-weight: 800;
+  font-size: 0.78rem;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 11px 20px;
+  border-radius: 8px;
+  transition: all 0.28s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(184, 142, 104, 0.35);
+  width: 100%;
+}
+
+.btn-offer-select:hover {
+  background: linear-gradient(135deg, #442305 0%, #63360b 100%);
+  color: #F4E2D8;
+  box-shadow: 0 6px 20px rgba(68, 35, 5, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-offer-select.btn-offer-selected {
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 5px 16px rgba(22, 163, 74, 0.35);
+}
+
+/* ── Sticky Reservation Cart Bar ── */
+.taj-sticky-cart-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 2px solid #B88E68;
+  box-shadow: 0 -10px 35px rgba(68, 35, 5, 0.14);
+  padding: 14px 0;
+  z-index: 1050;
+  display: none;
+  animation: slideUpCart 0.3s ease-out;
+}
+
+.taj-sticky-cart-bar.active {
+  display: block;
+}
+
+@keyframes slideUpCart {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+.btn-continue-booking {
+  background: linear-gradient(135deg, #442305 0%, #63360b 100%);
+  color: #F4E2D8 !important;
+  border: 1.5px solid #B88E68;
+  padding: 13px 34px;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  box-shadow: 0 6px 20px rgba(68, 35, 5, 0.3);
+  cursor: pointer;
+}
+
+.btn-continue-booking:hover {
+  background: #B88E68;
+  color: #ffffff !important;
+  border-color: #B88E68;
+  box-shadow: 0 8px 28px rgba(184, 142, 104, 0.5);
+  transform: translateY(-2px);
+}
+
+/* ── Booking Summary Card ── */
+.taj-booking-summary-card {
+  background: #ffffff;
+  border: 1.5px solid #B88E68;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 32px rgba(68, 35, 5, 0.08);
+}
+
+.taj-booking-summary-card .taj-summary-header {
+  background: #faf8f5;
+  padding: 18px 22px;
+  border-bottom: 1px solid rgba(184, 142, 104, 0.25);
+}
+
+.taj-booking-summary-card .taj-summary-body {
+  padding: 22px;
+}
+
+/* ── Room Details Modal ── */
+.taj-modal-header {
+  background: linear-gradient(135deg, #442305 0%, #1e0d02 100%);
+  padding: 22px 28px;
+  border-bottom: 2px solid #B88E68;
+}
+
+.taj-modal-title {
+  font-family: 'Cormorant Upright', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+#tajModalTabs .nav-link {
+  color: #442305;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 10px 18px;
+  border-radius: 0;
+  transition: all 0.2s ease;
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+#tajModalTabs .nav-link.active {
+  color: #B88E68;
+  background: transparent;
+  border-bottom: 3px solid #B88E68;
+}
+
+#tajModalTabs .nav-link:hover:not(.active) {
+  background: #faf8f5;
+  border-bottom-color: rgba(184, 142, 104, 0.4);
+}
+
+/* ── Best Rate Guarantee Banner ── */
+.taj-best-rate-banner {
+  background: linear-gradient(90deg, #faf8f5 0%, #fff9f6 100%);
+  border: 1px solid rgba(184, 142, 104, 0.3);
+  border-radius: 10px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 10px rgba(68, 35, 5, 0.05);
+}
+
+/* ── Responsive ── */
+@media (max-width: 991px) {
+  .room-card-gallery-col {
+    border-right: none;
+    border-bottom: 1px solid rgba(68, 35, 5, 0.07);
+  }
+
+  .offer-card-img-col,
+  .offer-card-content-col {
+    border-right: none;
+    border-bottom: 1px solid rgba(68, 35, 5, 0.07);
+  }
+
+  .taj-landing-property-bar {
+    top: 60px;
+  }
+
+  .taj-mode-btn {
+    padding: 9px 18px;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .taj-mode-switcher-pill {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .taj-mode-btn {
+    flex: 1;
+    text-align: center;
+  }
+
+  .offer-card-rate-col {
+    border-top: 1px solid rgba(68, 35, 5, 0.07);
+    padding: 18px;
+  }
+
+  .room-card-rates-col {
+    padding: 20px 16px;
+  }
+
+  .room-card-gallery-col {
+    padding: 20px 16px;
+  }
+}
+
+/* ==========================================
+   6-STEP BOOKING PROCESS STYLES (Booking.aspx)
+   ========================================== */
+.booking-step-container {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1.5px solid rgba(184, 142, 104, 0.22);
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(68, 35, 5, 0.04);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.booking-step-container:hover {
+  border-color: rgba(184, 142, 104, 0.45);
+  box-shadow: 0 6px 24px rgba(68, 35, 5, 0.08);
+}
+
+.booking-step-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(68, 35, 5, 0.08);
+}
+
+.step-num-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #442305 0%, #B88E68 100%);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 0.95rem;
+  box-shadow: 0 3px 10px rgba(68, 35, 5, 0.25);
+  flex-shrink: 0;
+}
+
+.booking-step-title {
+  font-family: "Cormorant Upright", serif;
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: #442305;
+  margin: 0;
+}
+
+/* Step 2: Room Pick Cards */
+.booking-room-pick-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.booking-room-pick-card {
+  border: 1.5px solid rgba(184, 142, 104, 0.25);
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.booking-room-pick-card:hover {
+  border-color: #B88E68;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(68, 35, 5, 0.08);
+}
+
+.booking-room-pick-card.active {
+  border: 2px solid #442305;
+  background: linear-gradient(180deg, #fffdfa 0%, #faf3ec 100%);
+  box-shadow: 0 6px 20px rgba(68, 35, 5, 0.14);
+}
+
+.booking-room-pick-card.active .room-pick-check-icon {
+  background: #442305;
+  color: #F4E2D8;
+  border-color: #442305;
+}
+
+.booking-room-pick-card.active:hover {
+  border-color: #b91c1c;
+}
+
+.booking-room-pick-card.active:hover .room-pick-check-icon {
+  background: #b91c1c;
+  border-color: #b91c1c;
+  color: #ffffff;
+}
+
+.room-pick-check-icon {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: transparent;
+  transition: all 0.2s ease;
+  z-index: 2;
+}
+
+.room-pick-img-wrap {
+  width: 100%;
+  height: 120px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.room-pick-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.booking-room-pick-card:hover .room-pick-img-wrap img {
+  transform: scale(1.05);
+}
+
+.room-pick-title {
+  font-family: "Cormorant Upright", serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #442305;
+  margin-bottom: 4px;
+  line-height: 1.25;
+}
+
+.room-pick-meta {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.room-pick-price {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #442305;
+  margin-top: auto;
+}
+
+.room-pick-price small {
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: #64748b;
+}
+
+/* Step 4: Booking Summary Box */
+.booking-summary-table-box {
+  background: #faf8f5;
+  border: 1.5px solid rgba(184, 142, 104, 0.3);
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+
+.summary-data-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px dashed rgba(68, 35, 5, 0.12);
+  font-size: 0.9rem;
+}
+
+.summary-data-row:last-child {
+  border-bottom: none;
+}
+
+.summary-data-row.total-row {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #442305;
+  border-top: 2px solid #442305;
+  border-bottom: none;
+  padding-top: 12px;
+  margin-top: 6px;
+}
+
+/* Step 5: Terms Box */
+.booking-terms-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-bottom: 14px;
+}
+
+.booking-terms-box ul {
+  padding-left: 20px;
+  margin-bottom: 0;
+  font-size: 0.84rem;
+  color: #475569;
+  line-height: 1.6;
+}
+
+/* Step 6: Confirm Button */
+.btn-confirm-booking {
+  background: linear-gradient(135deg, #442305 0%, #B88E68 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 16px 28px;
+  box-shadow: 0 6px 20px rgba(68, 35, 5, 0.25);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-confirm-booking:hover {
+  background: linear-gradient(135deg, #2a1401 0%, #9c734e 100%);
+  color: #ffffff;
+  box-shadow: 0 10px 28px rgba(68, 35, 5, 0.35);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   DINING & RESTAURANTS LUXURY SECTION (TAJ HOTELS INSPIRED)
+   ========================================================================== */
+
+.dining-venue-card {
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(184, 142, 104, 0.22);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.dining-venue-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(68, 35, 5, 0.14);
+}
+
+.dining-venue-img-wrap {
+  position: relative;
+  height: 250px;
+  overflow: hidden;
+}
+
+.dining-venue-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.dining-venue-card:hover .dining-venue-img {
+  transform: scale(1.06);
+}
+
+.dining-venue-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(44, 23, 5, 0.88);
+  backdrop-filter: blur(6px);
+  color: #F4E2D8;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(184, 142, 104, 0.4);
+}
+
+.meal-timing-box {
+  background: #ffffff;
+  border: 1px solid rgba(184, 142, 104, 0.25);
+  border-radius: 12px;
+  padding: 24px 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  height: 100%;
+}
+
+.meal-timing-box:hover {
+  transform: translateY(-4px);
+  border-color: #B88E68;
+  box-shadow: 0 10px 24px rgba(184, 142, 104, 0.18);
+}
+
+.meal-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(184, 142, 104, 0.12);
+  color: #B88E68;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 14px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.meal-timing-box:hover .meal-icon-wrap {
+  background: #442305;
+  color: #F4E2D8;
+}
+
+.meal-time-badge {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #442305;
+  background: #faf8f5;
+  border: 1px solid rgba(184, 142, 104, 0.35);
+  padding: 4px 10px;
+  border-radius: 16px;
+  margin-bottom: 10px;
+}
+
+/* ==========================================
+   5-STAR LUXURY HOTEL DINING MENU STYLES
+   ========================================== */
+.menu-dish-card {
+  background: #ffffff;
+  border: 1.5px solid rgba(184, 142, 104, 0.28);
+  border-radius: 18px;
+  padding: 18px 20px;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  height: 100%;
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  box-shadow: 0 6px 20px rgba(68, 35, 5, 0.04);
+  position: relative;
+  overflow: hidden;
+}
+
+.menu-dish-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background: linear-gradient(180deg, #B88E68, #442305);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.menu-dish-card:hover {
+  transform: translateY(-5px);
+  border-color: #B88E68;
+  box-shadow: 0 16px 36px rgba(68, 35, 5, 0.12);
+}
+
+.menu-dish-card:hover::before {
+  opacity: 1;
+}
+
+.menu-dish-thumb {
+  width: 130px;
+  height: 130px;
+  min-width: 130px;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 6px 18px rgba(68, 35, 5, 0.12);
+  border: 1.5px solid rgba(184, 142, 104, 0.35);
+  background: #fdfbf7;
+}
+
+.menu-dish-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.menu-dish-card:hover .menu-dish-img {
+  transform: scale(1.1);
+}
+
+.menu-dish-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.dish-title {
+  font-family: 'Cormorant Upright', 'Playfair Display', serif !important;
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: #442305;
+  margin-bottom: 3px;
+  line-height: 1.25;
+}
+
+.dish-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.22rem;
+  font-weight: 800;
+  color: #B88E68;
+  white-space: nowrap;
+}
+
+.dish-desc {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.84rem;
+  color: #555555;
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+
+.dish-pairing-note {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.77rem;
+  color: #8c5d33;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #faf6f0;
+  border: 1px dashed rgba(184, 142, 104, 0.45);
+  padding: 3px 9px;
+  border-radius: 6px;
+}
+
+/* 5-Star Dietary & Luxury Badges */
+.badge-veg {
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #86efac;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge-nonveg {
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge-chef-sig {
+  background: linear-gradient(135deg, #442305 0%, #7b4414 100%);
+  color: #F4E2D8;
+  border: 1px solid #B88E68;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge-spice {
+  background: #fff8f0;
+  color: #b45309;
+  border: 1px solid #fde68a;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge-vessel {
+  background: #fdfaf5;
+  color: #8c5d33;
+  border: 1px solid rgba(184, 142, 104, 0.4);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge-mocktail {
+  background: #f0f9ff;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Menu Filter Tabs */
+.btn-menu-filter {
+  background: #ffffff;
+  border: 1.5px solid rgba(184, 142, 104, 0.45);
+  color: #442305;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 10px 24px;
+  border-radius: 50px;
+  transition: all 0.35s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(68, 35, 5, 0.03);
+}
+
+.btn-menu-filter:hover {
+  background: rgba(184, 142, 104, 0.14);
+  border-color: #B88E68;
+  color: #442305;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(68, 35, 5, 0.08);
+}
+
+.btn-menu-filter.active {
+  background: linear-gradient(135deg, #442305 0%, #B88E68 100%) !important;
+  color: #ffffff !important;
+  border-color: #442305 !important;
+  box-shadow: 0 8px 22px rgba(68, 35, 5, 0.28);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 575.98px) {
+  .menu-dish-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .menu-dish-thumb {
+    width: 100%;
+    height: 180px;
   }
 }

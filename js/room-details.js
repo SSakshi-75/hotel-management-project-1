@@ -54,4 +54,12 @@ document.addEventListener("DOMContentLoaded", function () {
         if (headerMainImg) headerMainImg.src = roomImg;
         if (galleryMainPhoto) galleryMainPhoto.src = roomImg;
     }
+
+    // Update Book Now button to pass room and price to BookNow.aspx
+    var bookNowBtn = document.querySelector('.btn-book-now');
+    if (bookNowBtn && roomName) {
+        var q = '?room=' + encodeURIComponent(roomName);
+        if (roomPrice) q += '&price=' + encodeURIComponent(roomPrice);
+        bookNowBtn.href = 'BookNow.aspx' + q;
+    }
 });

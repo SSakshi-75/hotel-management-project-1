@@ -6,50 +6,53 @@
 
     <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
-    <!-- Page Title -->
-    <section class="page-title text-center" data-aos="fade-down" data-aos-duration="1000">
-        <div class="container relative-z">
-            <div class="page-title-badge mb-3 d-inline-flex align-items-center gap-2" data-aos="zoom-in" data-aos-delay="100">
-                <i class="bi bi-stars text-gold"></i>
-                <span>Royal Accommodation</span>
-                <i class="bi bi-stars text-gold"></i>
+        <!-- Page Title -->
+        <section class="page-title text-center" data-aos="fade-down" data-aos-duration="1000">
+            <div class="container relative-z">
+                <div class="page-title-badge mb-3 d-inline-flex align-items-center gap-2" data-aos="zoom-in"
+                    data-aos-delay="100">
+                    <i class="bi bi-stars text-gold"></i>
+                    <span>Royal Accommodation</span>
+                    <i class="bi bi-stars text-gold"></i>
+                </div>
+
+                <h1 class="page-title-heading" id="bannerRoomTitle" data-aos="fade-up" data-aos-delay="200">
+                    Executive Business Suite
+                </h1>
+
+                <div class="page-title-divider" data-aos="fade-up" data-aos-delay="300">
+                    <span class="divider-line"></span>
+                    <span class="divider-diamond">◆</span>
+                    <span class="divider-line"></span>
+                </div>
+
+                <p class="page-title-subtitle" id="bannerRoomSubtitle" data-aos="fade-up" data-aos-delay="350">
+                    Experience royal luxury, panoramic views, and world-class butler service tailored for your stay.
+                </p>
+
+                <nav aria-label="breadcrumb" class="mt-4" data-aos="fade-up" data-aos-delay="400">
+                    <ol class="breadcrumb page-title-breadcrumb justify-content-center mb-0">
+                        <li class="breadcrumb-item"><a href="Default.aspx"><i class="bi bi-house-door-fill me-1"></i>
+                                Home</a></li>
+                        <li class="breadcrumb-item"><a href="Room.aspx">Rooms &amp; Suites</a></li>
+                        <li class="breadcrumb-item active" id="breadcrumbRoomName" aria-current="page">Executive
+                            Business Suite</li>
+                    </ol>
+                </nav>
             </div>
-            
-            <h1 class="page-title-heading" id="bannerRoomTitle" data-aos="fade-up" data-aos-delay="200">
-                Executive Business Suite
-            </h1>
-            
-            <div class="page-title-divider" data-aos="fade-up" data-aos-delay="300">
-                <span class="divider-line"></span>
-                <span class="divider-diamond">◆</span>
-                <span class="divider-line"></span>
-            </div>
+        </section>
+        <!-- End Page Title -->
 
-            <p class="page-title-subtitle" id="bannerRoomSubtitle" data-aos="fade-up" data-aos-delay="350">
-                Experience royal luxury, panoramic views, and world-class butler service tailored for your stay.
-            </p>
-
-            <nav aria-label="breadcrumb" class="mt-4" data-aos="fade-up" data-aos-delay="400">
-                <ol class="breadcrumb page-title-breadcrumb justify-content-center mb-0">
-                    <li class="breadcrumb-item"><a href="Default.aspx"><i class="bi bi-house-door-fill me-1"></i> Home</a></li>
-                    <li class="breadcrumb-item"><a href="Room.aspx">Rooms &amp; Suites</a></li>
-                    <li class="breadcrumb-item active" id="breadcrumbRoomName" aria-current="page">Executive Business Suite</li>
-                </ol>
-            </nav>
-        </div>
-    </section>
-    <!-- End Page Title -->
-
-    <!-- Room Details Section -->
-    <section id="room-details" class="room-details-section">
-        <div class="container">
+        <!-- Room Details Section -->
+        <section id="room-details" class="room-details-section">
+            <div class="container">
 
                 <!-- 1. Room Header with Image and Basic Info -->
                 <div class="row align-items-center mb-5" data-aos="fade-up" data-aos-duration="1000">
                     <div class="col-lg-7" data-aos="fade-right" data-aos-delay="200">
                         <div class="room-header-image">
-                            <img id="headerMainImg" src="images/room-mini-business.jpg" loading="lazy" alt="Deluxe Suite"
-                                class="img-fluid rounded">
+                            <img id="headerMainImg" src="images/room-mini-business.jpg" loading="lazy"
+                                alt="Deluxe Suite" class="img-fluid rounded">
                             <div class="room-badge">
                                 <span class="text-white" id="headerCategoryBadge">Premium Suite</span>
                             </div>
@@ -94,7 +97,7 @@
                             </div>
 
                             <div data-aos="fade-up" data-aos-delay="600">
-                                <a href="Booking.aspx" class="btn btn-book-now">
+                                <a href="BookNow.aspx" class="btn btn-book-now">
                                     <i class="bi bi-calendar-check me-2"></i> Book Now
                                 </a>
                             </div>
@@ -107,18 +110,18 @@
                     <h3 class="section-subtitle mb-4">Room Gallery</h3>
                     <div class="gallery-grid">
                         <div class="gallery-main" data-aos="zoom-in" data-aos-delay="300">
-                            <img id="galleryMainPhoto" src="images/room-mini-business.jpg" loading="lazy" alt="Suite Interior"
-                                class="img-fluid" onclick="swapGallery(this)">
+                            <img id="galleryMainPhoto" src="images/room-mini-business.jpg" loading="lazy"
+                                alt="Suite Interior" class="img-fluid" onclick="swapGallery(this)">
                         </div>
                         <div class="gallery-thumbnails">
-                            <img src="images/room-classic-double.jpg" loading="lazy" alt="Bedroom View" class="img-fluid"
-                                data-aos="fade-up" data-aos-delay="350" onclick="swapGallery(this)">
+                            <img src="images/room-classic-double.jpg" loading="lazy" alt="Bedroom View"
+                                class="img-fluid" data-aos="fade-up" data-aos-delay="350" onclick="swapGallery(this)">
                             <img src="images/room-superior-king.jpg" loading="lazy" alt="Living Area" class="img-fluid"
                                 data-aos="fade-up" data-aos-delay="400" onclick="swapGallery(this)">
                             <img src="images/room-luxury-penthouse.jpg" loading="lazy" alt="City View" class="img-fluid"
                                 data-aos="fade-up" data-aos-delay="450" onclick="swapGallery(this)">
-                            <img src="images/room-mini-garden.jpg" loading="lazy" alt="Bathroom" class="img-fluid" data-aos="fade-up"
-                                data-aos-delay="500" onclick="swapGallery(this)">
+                            <img src="images/room-mini-garden.jpg" loading="lazy" alt="Bathroom" class="img-fluid"
+                                data-aos="fade-up" data-aos-delay="500" onclick="swapGallery(this)">
                         </div>
                     </div>
                 </div>

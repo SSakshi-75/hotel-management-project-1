@@ -128,7 +128,7 @@
                     <!-- Action Buttons -->
                     <div class="d-flex flex-wrap align-items-center gap-3 pt-2" data-aos="fade-up" data-aos-duration="800" data-aos-delay="700">
                         <a href="#googleMapContainer" class="btn btn-location-map rounded-pill">View on Map</a>
-                        <a href="Booking.aspx" class="btn btn-location-book rounded-pill">Book Now</a>
+                        <a href="BookNow.aspx" class="btn btn-location-book rounded-pill">Book Now</a>
                     </div>
 
                 </div>

@@ -13,7 +13,8 @@
 
             <!-- Real Hero Image Element (Full width & height) -->
             <div class="hero-img-overlay-wrapper">
-                <img src="images/hero-bg-luxury.jpg" loading="lazy" alt="Luxury Hotel Room" class="hero-banner-img img-fluid">
+                <img src="images/hero-bg-luxury.jpg" loading="lazy" alt="Luxury Hotel Room"
+                    class="hero-banner-img img-fluid">
                 <div class="hero-img-gradient-overlay"></div>
             </div>
 
@@ -238,7 +239,8 @@
                         <!-- Left Image (Slides from Left) -->
                         <div class="mt-4 pt-2" data-aos="fade-right" data-aos-duration="1200" data-aos-delay="200">
                             <div class="welcome-img-card welcome-img-primary shadow-sm">
-                                <img src="images/about-img1.jpg" loading="lazy" alt="Resort Pool" class="img-fluid w-100 h-100">
+                                <img src="images/about-img1.jpg" loading="lazy" alt="Resort Pool"
+                                    class="img-fluid w-100 h-100">
                             </div>
                         </div>
                     </div>
@@ -248,13 +250,15 @@
                         <!-- Right Image 1 (Slides from Right) -->
                         <div class="mb-4" data-aos="fade-left" data-aos-duration="1100" data-aos-delay="150">
                             <div class="welcome-img-card welcome-img-secondary shadow-sm">
-                                <img src="images/about-img2.jpg" loading="lazy" alt="Luxury Suite" class="img-fluid w-100 h-100">
+                                <img src="images/about-img2.jpg" loading="lazy" alt="Luxury Suite"
+                                    class="img-fluid w-100 h-100">
                             </div>
                         </div>
                         <!-- Right Image 2 (Slides from Right) -->
                         <div data-aos="fade-left" data-aos-duration="1100" data-aos-delay="300">
                             <div class="welcome-img-card welcome-img-secondary shadow-sm">
-                                <img src="images/about-img3.jpg" loading="lazy" alt="Hotel Experience" class="img-fluid w-100 h-100">
+                                <img src="images/about-img3.jpg" loading="lazy" alt="Hotel Experience"
+                                    class="img-fluid w-100 h-100">
                             </div>
                         </div>
                     </div>
@@ -297,8 +301,8 @@
 
                             <!-- Top Image with Badges -->
                             <div class="featured-suite-img-wrap">
-                                <img src="images/room-featured-presidential.jpg" loading="lazy" alt="Grand Presidential Suite"
-                                    class="img-fluid">
+                                <img src="images/room-featured-presidential.jpg" loading="lazy"
+                                    alt="Grand Presidential Suite" class="img-fluid">
                                 <span class="badge-presidential-pill">PRESIDENTIAL</span>
                                 <div class="suite-overlay-pills">
                                     <span class="suite-overlay-pill">
@@ -356,7 +360,8 @@
                                         <span class="amount">18,500</span>
                                         <span class="period">/ night</span>
                                     </div>
-                                    <a href="RoomDetails.aspx?title=Grand+Presidential+Suite&price=18500&img=images/room-featured-presidential.jpg" class="btn btn-reserve-suite">
+                                    <a href="RoomDetails.aspx?title=Grand+Presidential+Suite&price=18500&img=images/room-featured-presidential.jpg"
+                                        class="btn btn-reserve-suite">
                                         <span>Reserve Suite</span>
                                         <i class="fa-solid fa-arrow-right"></i>
                                     </a>
@@ -389,7 +394,8 @@
                                 <div class="mini-room-footer">
                                     <div class="mini-room-price"><span class="currency">&#8377;</span>8,500 <small>/
                                             night</small></div>
-                                    <a href="RoomDetails.aspx?title=Executive+Business+Suite&price=8500&img=images/room-mini-business.jpg" class="btn btn-book-mini">
+                                    <a href="RoomDetails.aspx?title=Executive+Business+Suite&price=8500&img=images/room-mini-business.jpg"
+                                        class="btn btn-book-mini">
                                         <span>Book</span>
                                         <i class="fa-solid fa-arrow-right" style="font-size: 0.72rem;"></i>
                                     </a>
@@ -417,7 +423,8 @@
                                 <div class="mini-room-footer">
                                     <div class="mini-room-price"><span class="currency">&#8377;</span>6,800 <small>/
                                             night</small></div>
-                                    <a href="RoomDetails.aspx?title=Garden+View+Deluxe+Room&price=6800&img=images/room-mini-garden.jpg" class="btn btn-book-mini">
+                                    <a href="RoomDetails.aspx?title=Garden+View+Deluxe+Room&price=6800&img=images/room-mini-garden.jpg"
+                                        class="btn btn-book-mini">
                                         <span>Book</span>
                                         <i class="fa-solid fa-arrow-right" style="font-size: 0.72rem;"></i>
                                     </a>
@@ -446,7 +453,8 @@
                                     <div class="mini-room-price"><span class="currency">&#8377;</span>11,500
                                         <small>/ night</small>
                                     </div>
-                                    <a href="RoomDetails.aspx?title=Family+Comfort+Suite&price=11500&img=images/room-mini-family.jpg" class="btn btn-book-mini">
+                                    <a href="RoomDetails.aspx?title=Family+Comfort+Suite&price=11500&img=images/room-mini-family.jpg"
+                                        class="btn btn-book-mini">
                                         <span>Book</span>
                                         <i class="fa-solid fa-arrow-right" style="font-size: 0.72rem;"></i>
                                     </a>
@@ -587,6 +595,301 @@
         </section>
 
         <!-- ==========================================
+             SIGNATURE DINING SHOWCASE SECTION (TAJ HOTELS INSPIRED)
+             ========================================== -->
+        <section id="dining-showcase" class="py-5" style="background-color: #faf8f5;">
+            <div class="container-fluid px-4 px-lg-5 py-4">
+
+                <!-- Section Header -->
+                <div class="text-center mb-5" data-aos="fade-down" data-aos-duration="1000">
+                    <div>
+                        <span class="welcome-subtitle-anim">
+                            <i class="fa-solid fa-sparkles text-champagne-gold" style="font-size: 0.8rem;"></i>
+                            Haute Gastronomy &amp; Culinary Art
+                            <i class="fa-solid fa-sparkles text-champagne-gold" style="font-size: 0.8rem;"></i>
+                        </span>
+                    </div>
+                    <h2 class="welcome-title-anim mb-2">
+                        Signature Dining &amp; <span class="welcome-title-gold">Culinary Journeys</span>
+                    </h2>
+                    <div class="welcome-decor-line">
+                        <div class="line"></div>
+                        <div class="diamond"><i class="fa-solid fa-gem"></i></div>
+                        <div class="line right"></div>
+                    </div>
+                    <p class="text-muted mx-auto mt-3" style="max-width: 680px; font-size: 0.95rem; line-height: 1.7;">
+                        From royal slow-cooked Awadhi delicacies at The Royal Zafran to artisanal world gastronomy at The Emperor's Pavilion, savor a gastronomic legacy crafted with timeless passion.
+                    </p>
+                </div>
+
+                <!-- 3 Dining Venue Cards Grid -->
+                <div class="row g-4 justify-content-center">
+
+                    <!-- Venue 1: The Royal Zafran -->
+                    <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+                        <div class="dining-venue-card shadow-sm h-100">
+                            <div class="dining-venue-img-wrap">
+                                <img src="images/dining-royal-zafran.jpg" loading="lazy" alt="The Royal Zafran" class="dining-venue-img">
+                                <span class="dining-venue-badge">
+                                    <i class="bi bi-award-fill text-warning me-1"></i> Indian Fine Dining
+                                </span>
+                            </div>
+                            <div class="p-4 d-flex flex-column justify-content-between flex-grow-1">
+                                <div>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="badge bg-gold-subtle text-warning-dark text-uppercase small fw-bold">Dinner 07:00 PM - 11:30 PM</span>
+                                        <span class="text-muted small"><i class="bi bi-star-fill text-warning"></i> 4.9 (420+)</span>
+                                    </div>
+                                    <h4 class="font-serif fw-bold mb-2" style="color: #442305;">The Royal Zafran</h4>
+                                    <p class="text-muted small mb-3" style="line-height: 1.6;">
+                                        Regal Awadhi flavors, slow-cooked royal potli curries, fragrant biryanis, and master-crafted tandoori delicacies under crystal chandeliers.
+                                    </p>
+                                </div>
+                                <div class="pt-3 border-top d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold small" style="color: #B88E68;">Avg. &#8377;3,200 for two</span>
+                                    <a href="Dining.aspx" class="btn btn-sm btn-outline-dark px-3 py-1 fw-semibold rounded-pill">
+                                        View Venue <i class="bi bi-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Venue 2: The Emperor's Pavilion -->
+                    <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-duration="800" data-aos-delay="250">
+                        <div class="dining-venue-card shadow-sm h-100">
+                            <div class="dining-venue-img-wrap">
+                                <img src="images/amenity-restaurant.jpg" loading="lazy" alt="The Emperor's Pavilion" class="dining-venue-img">
+                                <span class="dining-venue-badge">
+                                    <i class="bi bi-globe me-1"></i> All-Day World Dining
+                                </span>
+                            </div>
+                            <div class="p-4 d-flex flex-column justify-content-between flex-grow-1">
+                                <div>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="badge bg-gold-subtle text-warning-dark text-uppercase small fw-bold">Open 24 Hours</span>
+                                        <span class="text-muted small"><i class="bi bi-star-fill text-warning"></i> 4.8 (580+)</span>
+                                    </div>
+                                    <h4 class="font-serif fw-bold mb-2" style="color: #442305;">The Emperor's Pavilion</h4>
+                                    <p class="text-muted small mb-3" style="line-height: 1.6;">
+                                        An extravagant multi-cuisine experience with live teppanyaki counters, stone-baked artisanal pizzas, and a signature Sunday royal brunch.
+                                    </p>
+                                </div>
+                                <div class="pt-3 border-top d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold small" style="color: #B88E68;">Avg. &#8377;2,400 for two</span>
+                                    <a href="Dining.aspx" class="btn btn-sm btn-outline-dark px-3 py-1 fw-semibold rounded-pill">
+                                        View Venue <i class="bi bi-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Venue 3: Chanakya Lounge & Bar -->
+                    <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
+                        <div class="dining-venue-card shadow-sm h-100">
+                            <div class="dining-venue-img-wrap">
+                                <img src="images/dining-lounge-bar.jpg" loading="lazy" alt="Chanakya Lounge & Bar" class="dining-venue-img">
+                                <span class="dining-venue-badge">
+                                    <i class="bi bi-cup-straw me-1"></i> Cocktails &amp; High Tea
+                                </span>
+                            </div>
+                            <div class="p-4 d-flex flex-column justify-content-between flex-grow-1">
+                                <div>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="badge bg-gold-subtle text-warning-dark text-uppercase small fw-bold">11:00 AM - 01:00 AM</span>
+                                        <span class="text-muted small"><i class="bi bi-star-fill text-warning"></i> 4.9 (310+)</span>
+                                    </div>
+                                    <h4 class="font-serif fw-bold mb-2" style="color: #442305;">Chanakya Lounge &amp; Bar</h4>
+                                    <p class="text-muted small mb-3" style="line-height: 1.6;">
+                                        Bespoke botanical mixology, international single malts, and English afternoon high tea served in plush velvet and brass armchairs.
+                                    </p>
+                                </div>
+                                <div class="pt-3 border-top d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold small" style="color: #B88E68;">Avg. &#8377;1,800 for two</span>
+                                    <a href="Dining.aspx" class="btn btn-sm btn-outline-dark px-3 py-1 fw-semibold rounded-pill">
+                                        View Venue <i class="bi bi-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Bottom CTA Buttons -->
+                <div class="d-flex flex-wrap justify-content-center gap-3 mt-5" data-aos="fade-up" data-aos-delay="300">
+                    <a href="Dining.aspx" class="btn-welcome-about">
+                        <span>Explore Dining &amp; Menus</span>
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+                    <a href="Dining.aspx" class="btn btn-outline-dark px-4 py-3 rounded-pill fw-bold text-uppercase letter-spacing-1 small shadow-sm d-inline-flex align-items-center gap-2">
+                        <i class="bi bi-calendar2-check text-gold"></i>
+                        <span>Reserve A Table</span>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SPECIAL OFFERS & PROMOTIONS SECTION (STEP 2)
+             ========================================== -->
+        <section id="special-offers" class="special-offers-section">
+            <div class="special-offers-watermark">SPECIAL OFFERS</div>
+            <div class="container px-4 px-lg-5 position-relative z-1">
+
+                <!-- Section Header -->
+                <div class="text-center mb-5 position-relative" data-aos="fade-down" data-aos-duration="1000">
+                    <div class="mb-2">
+                        <span class="welcome-subtitle-anim">
+                            <i class="fa-solid fa-sparkles text-champagne-gold" style="font-size: 0.8rem;"></i>
+                            Exclusive Offers For Your Stay
+                            <i class="fa-solid fa-sparkles text-champagne-gold" style="font-size: 0.8rem;"></i>
+                        </span>
+                    </div>
+                    <h2 class="welcome-title-anim mb-2">
+                        Special <span class="welcome-title-gold">Offers</span>
+                    </h2>
+                    <div class="welcome-divider mx-auto my-3">
+                        <span class="divider-line"></span>
+                        <span class="divider-diamond">◆</span>
+                        <span class="divider-line"></span>
+                    </div>
+                    <p class="text-muted mx-auto" style="max-width: 620px; font-size: 0.95rem; line-height: 1.7;">
+                        Indulge in handcrafted seasonal packages, gourmet dining credits, and wellness privileges designed to make every stay extraordinary.
+                    </p>
+                </div>
+
+                <!-- 3 Special Offers Cards Grid -->
+                <div class="row g-4 justify-content-center mb-5">
+
+                    <!-- Offer Card 1: Breakfast Included -->
+                    <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+                        <div class="special-offer-card">
+                            <div class="offer-card-img-wrap">
+                                <img src="images/amenity-restaurant.jpg" loading="lazy" alt="Breakfast Included Offer">
+                                <span class="offer-card-overlay-badge">
+                                    <i class="bi bi-star-fill text-warning"></i> Breakfast Included
+                                </span>
+                                <span class="offer-card-validity-pill">Daily Inclusions</span>
+                            </div>
+                            <div class="offer-card-body">
+                                <div>
+                                    <span class="offer-card-category">Stay &amp; Dining</span>
+                                    <h3 class="offer-card-title">Breakfast Inclusive Offer</h3>
+                                    <p class="offer-card-desc">
+                                        Wake up to a lavish culinary spread with live chef stations, artisanal pastries, and freshly squeezed tropical juices.
+                                    </p>
+                                    <ul class="offer-inclusions-list">
+                                        <li><i class="bi bi-check-circle-fill"></i> Gourmet Breakfast for 2 Guests</li>
+                                        <li><i class="bi bi-check-circle-fill"></i> High-Speed Wi-Fi &amp; Valet Parking</li>
+                                        <li><i class="bi bi-check-circle-fill"></i> Complimentary Welcome Drink</li>
+                                    </ul>
+                                </div>
+                                <div class="offer-card-footer">
+                                    <div class="offer-price-box">
+                                        <span class="offer-price-label">Starting From</span>
+                                        <span class="offer-price-val" data-inr-price="4999">&#8377;4,999 <span class="period">/ night</span></span>
+                                    </div>
+                                    <a href="OfferDetails.aspx?id=breakfast-included" class="btn-offer-view">
+                                        <span>View Offer</span>
+                                        <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Offer Card 2: Weekend Getaway -->
+                    <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-duration="800" data-aos-delay="250">
+                        <div class="special-offer-card">
+                            <div class="offer-card-img-wrap">
+                                <img src="images/amenity-pool.jpg" loading="lazy" alt="Weekend Getaway Offer">
+                                <span class="offer-card-overlay-badge">
+                                    <i class="bi bi-calendar-heart text-warning"></i> Weekend Getaway
+                                </span>
+                                <span class="offer-card-validity-pill">Fri - Sun Special</span>
+                            </div>
+                            <div class="offer-card-body">
+                                <div>
+                                    <span class="offer-card-category">Weekend Leisure</span>
+                                    <h3 class="offer-card-title">Weekend Royal Getaway</h3>
+                                    <p class="offer-card-desc">
+                                        Escape routine with our revitalizing weekend sanctuary featuring poolside cabanas, afternoon high tea, and spa privileges.
+                                    </p>
+                                    <ul class="offer-inclusions-list">
+                                        <li><i class="bi bi-check-circle-fill"></i> Heritage High Tea Service</li>
+                                        <li><i class="bi bi-check-circle-fill"></i> 20% Savings On Spa Treatments</li>
+                                        <li><i class="bi bi-check-circle-fill"></i> Guaranteed 2:00 PM Late Checkout</li>
+                                    </ul>
+                                </div>
+                                <div class="offer-card-footer">
+                                    <div class="offer-price-box">
+                                        <span class="offer-price-label">Starting From</span>
+                                        <span class="offer-price-val" data-inr-price="5499">&#8377;5,499 <span class="period">/ night</span></span>
+                                    </div>
+                                    <a href="OfferDetails.aspx?id=weekend-getaway" class="btn-offer-view">
+                                        <span>View Offer</span>
+                                        <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Offer Card 3: Long Stay Offer -->
+                    <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
+                        <div class="special-offer-card">
+                            <div class="offer-card-img-wrap">
+                                <img src="images/room-featured-presidential.jpg" loading="lazy" alt="Long Stay Offer">
+                                <span class="offer-card-overlay-badge">
+                                    <i class="bi bi-percent text-warning"></i> Long Stay Offer
+                                </span>
+                                <span class="offer-card-validity-pill">Min 3 Nights</span>
+                            </div>
+                            <div class="offer-card-body">
+                                <div>
+                                    <span class="offer-card-category">Extended Stay</span>
+                                    <h3 class="offer-card-title">Long Stay Offer</h3>
+                                    <p class="offer-card-desc">
+                                        Immerse deeper into comfort. Stay for 3 nights or more and enjoy 20% savings along with private airport transfers.
+                                    </p>
+                                    <ul class="offer-inclusions-list">
+                                        <li><i class="bi bi-check-circle-fill"></i> 20% Flat Discount on Entire Stay</li>
+                                        <li><i class="bi bi-check-circle-fill"></i> One-Way Airport Luxury Transfer</li>
+                                        <li><i class="bi bi-check-circle-fill"></i> Daily Laundry Credit (4 garments)</li>
+                                    </ul>
+                                </div>
+                                <div class="offer-card-footer">
+                                    <div class="offer-price-box">
+                                        <span class="offer-price-label">Special Discount</span>
+                                        <span class="offer-price-val" style="color: #B88E68;">20% OFF <span class="period">/ stay</span></span>
+                                    </div>
+                                    <a href="OfferDetails.aspx?id=long-stay" class="btn-offer-view">
+                                        <span>View Offer</span>
+                                        <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Centered Bottom CTA: VIEW ALL OFFERS -->
+                <div class="text-center" data-aos="fade-up" data-aos-delay="300">
+                    <a href="Offers.aspx" class="btn-view-all-offers">
+                        <i class="bi bi-gift-fill me-1"></i>
+                        <span>View All Offers</span>
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==========================================
              TESTIMONIALS SECTION (MATCHING WEBSITE LUXURY THEME)
              ========================================== -->
         <section id="testimonials-grid" class="testimonials-section">
@@ -642,7 +945,8 @@
                                 </p>
                             </div>
                             <div class="testimonial-author-row">
-                                <img src="images/testimonial-user1.jpg" loading="lazy" alt="Rahul Singh" class="testimonial-avatar">
+                                <img src="images/testimonial-user1.jpg" loading="lazy" alt="Rahul Singh"
+                                    class="testimonial-avatar">
                                 <div>
                                     <h4 class="testimonial-author-name">Rahul Singh</h4>
                                     <p class="testimonial-author-role">Chief Executive Officer</p>
@@ -707,7 +1011,8 @@
                                 </p>
                             </div>
                             <div class="testimonial-author-row">
-                                <img src="images/testimonial-user3.jpg" loading="lazy" alt="Rajesh Sharma" class="testimonial-avatar">
+                                <img src="images/testimonial-user3.jpg" loading="lazy" alt="Rajesh Sharma"
+                                    class="testimonial-avatar">
                                 <div>
                                     <h4 class="testimonial-author-name">Rajesh Sharma</h4>
                                     <p class="testimonial-author-role">Product Manager</p>
@@ -739,7 +1044,8 @@
                                 </p>
                             </div>
                             <div class="testimonial-author-row">
-                                <img src="images/testimonial-user4.jpg" loading="lazy" alt="Ananya Verma" class="testimonial-avatar">
+                                <img src="images/testimonial-user4.jpg" loading="lazy" alt="Ananya Verma"
+                                    class="testimonial-avatar">
                                 <div>
                                     <h4 class="testimonial-author-name">Ananya Verma</h4>
                                     <p class="testimonial-author-role">Design Lead</p>
