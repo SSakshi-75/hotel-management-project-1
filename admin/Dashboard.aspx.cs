@@ -1,14 +1,38 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 
 public partial class Admin_Dashboard : System.Web.UI.Page
 {
+    string connectionString =
+        ConfigurationManager.ConnectionStrings["HotelConnection"].ConnectionString;
+
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!IsPostBack)
+        {
+            LoadUsers();
+        }
+    }
 
+    private void LoadUsers()
+    {
+        using (SqlConnection con = new SqlConnection(connectionString))
+        {
+            string query = @"
+              SELECT UserId, FirstName, LastName, Email, Phone, CreatedAt
+              FROM Users
+              ORDER BY CreatedAt DESC";
+
+            using (SqlDataAdapter da = new SqlDataAdapter(query, con))
+            {
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                gvUsers.DataSource = dt;
+                gvUsers.DataBind();
+            }
+        }
     }
 }

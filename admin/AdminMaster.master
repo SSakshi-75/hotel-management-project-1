@@ -1,0 +1,319 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="AdminMaster.master.cs" Inherits="Admin_AdminMaster" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Admin Console | Hotel Management</title>
+    <meta name="description" content="Hotel Management System Executive Administrative Portal">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Upright:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 CSS CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    
+    <!-- Bootstrap Icons & Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom Admin Dashboard CSS -->
+    <link rel="stylesheet" type="text/css" href="css/dashboard.css?v=2.1">
+
+    <asp:ContentPlaceHolder ID="adminHead" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body class="admin-body">
+    <form id="adminForm" runat="server">
+
+        <!-- Mobile Sidebar Backdrop Overlay -->
+        <div id="sidebarOverlay" class="admin-sidebar-overlay"></div>
+
+        <div class="admin-layout-wrapper">
+
+            <!-- ==========================================
+                 LUXURY ADMIN SIDEBAR
+                 ========================================== -->
+            <aside id="adminSidebar" class="admin-sidebar">
+                
+                <!-- Sidebar Brand Header -->
+                <div class="sidebar-brand-box">
+                    <a href="Dashboard.aspx" class="brand-link">
+                        <div class="brand-logo-wrap">
+                            <img src="../images/logo.png" alt="Hotel Management Logo" class="brand-img" onerror="this.onerror=null; this.src='../images/main-logo.png';">
+                        </div>
+                        <div class="brand-text-wrap">
+                            <span class="brand-hotel-name">HOTEL MANAGEMENT</span>
+                            <span class="brand-portal-sub">EXECUTIVE PORTAL</span>
+                        </div>
+                    </a>
+                    <button type="button" id="sidebarCloseBtn" class="sidebar-close-btn d-lg-none" aria-label="Close Sidebar">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Property Badge -->
+                <div class="sidebar-property-badge">
+                    <i class="bi bi-geo-alt-fill text-gold me-1"></i>
+                    <span>Chanakyapuri, New Delhi</span>
+                </div>
+
+                <!-- Sidebar Navigation Menu -->
+                <div class="sidebar-menu-scroll">
+                    <ul class="sidebar-nav-list">
+                        
+                        <li class="nav-section-title">MAIN CONSOLE</li>
+
+                        <li class="nav-item">
+                            <a href="Dashboard.aspx" class="nav-link active">
+                                <span class="nav-icon"><i class="bi bi-speedometer2"></i></span>
+                                <span class="nav-text">Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Reservations & Bookings')">
+                                <span class="nav-icon"><i class="bi bi-calendar2-check"></i></span>
+                                <span class="nav-text">Bookings &amp; Stays</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Rooms & Suites')">
+                                <span class="nav-icon"><i class="bi bi-door-open"></i></span>
+                                <span class="nav-text">Rooms &amp; Suites</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Dining & Banquets')">
+                                <span class="nav-icon"><i class="bi bi-cup-hot"></i></span>
+                                <span class="nav-text">Dining &amp; Banquets</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Guest Directory')">
+                                <span class="nav-icon"><i class="bi bi-people"></i></span>
+                                <span class="nav-text">Guest Directory</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-section-title">OPERATIONS &amp; ASSETS</li>
+
+                        <li class="nav-item">
+                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Special Offers & Loyalty')">
+                                <span class="nav-icon"><i class="bi bi-tag"></i></span>
+                                <span class="nav-text">Offers &amp; Loyalty</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Housekeeping & Maintenance')">
+                                <span class="nav-icon"><i class="bi bi-brush"></i></span>
+                                <span class="nav-text">Housekeeping</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Financial & Billing Reports')">
+                                <span class="nav-icon"><i class="bi bi-graph-up-arrow"></i></span>
+                                <span class="nav-text">Reports &amp; Revenue</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Staff Directory')">
+                                <span class="nav-icon"><i class="bi bi-person-badge"></i></span>
+                                <span class="nav-text">Staff &amp; Concierge</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-section-title">SYSTEM PREFERENCES</li>
+
+                        <li class="nav-item">
+                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Portal Settings')">
+                                <span class="nav-icon"><i class="bi bi-gear"></i></span>
+                                <span class="nav-text">Portal Settings</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="../index.aspx" target="_blank" class="nav-link nav-link-external">
+                                <span class="nav-icon"><i class="bi bi-box-arrow-up-right"></i></span>
+                                <span class="nav-text">View Live Site</span>
+                                <i class="bi bi-arrow-right-short ms-auto text-gold"></i>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+
+                <!-- Sidebar Admin Profile Card -->
+                <div class="sidebar-user-footer">
+                    <div class="user-avatar-wrap">
+                        <div class="user-avatar-placeholder">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <span class="user-status-indicator" title="Active"></span>
+                    </div>
+                    <div class="user-meta-info">
+                        <div class="user-name">Administrator</div>
+                        <div class="user-role">System Admin</div>
+                    </div>
+                    <a href="Login.aspx" class="user-logout-btn" title="Sign Out of Admin Console">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </a>
+                </div>
+
+            </aside>
+
+            <!-- ==========================================
+                 MAIN CONTENT WRAPPER
+                 ========================================== -->
+            <div class="admin-main-container">
+
+                <!-- Top Header Navigation Bar -->
+                <header class="admin-topbar">
+                    <div class="topbar-left">
+                        <!-- Mobile Hamburger Button -->
+                        <button type="button" id="sidebarToggleBtn" class="topbar-toggle-btn" aria-label="Toggle Navigation">
+                            <i class="bi bi-list fs-4"></i>
+                        </button>
+
+                        <!-- Page Breadcrumb / Status -->
+                        <div class="topbar-title-block d-none d-md-flex align-items-center gap-2">
+                            <span class="topbar-badge">
+                                <i class="bi bi-shield-check text-gold me-1"></i> Executive Portal
+                            </span>
+                            <span class="topbar-breadcrumb text-muted small">
+                                Hotel Console &bull; <strong class="text-dark">Overview</strong>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Topbar Quick Search -->
+                    <div class="topbar-search-wrap d-none d-lg-block">
+                        <div class="search-input-group">
+                            <i class="bi bi-search search-icon"></i>
+                            <input type="text" id="adminGlobalSearch" class="search-input" placeholder="Search guests, reservation #, room #..." autocomplete="off">
+                            <span class="search-shortcut">⌘K</span>
+                        </div>
+                    </div>
+
+                    <!-- Topbar Actions & Tools -->
+                    <div class="topbar-right">
+
+                        <!-- Live Date & Clock -->
+                        <div class="topbar-clock d-none d-xl-flex align-items-center gap-2">
+                            <i class="bi bi-clock-history text-gold"></i>
+                            <span id="liveClockDisplay" class="clock-text">--:--:--</span>
+                        </div>
+
+                        <!-- View Website Quick Link -->
+                        <a href="../index.aspx" target="_blank" class="btn btn-outline-gold btn-sm d-none d-sm-inline-flex align-items-center gap-1">
+                            <i class="bi bi-globe2"></i>
+                            <span>Live Website</span>
+                        </a>
+
+                        <!-- Notifications Dropdown -->
+                        <div class="dropdown">
+                            <button class="topbar-icon-btn position-relative" type="button" id="notifDropdown" data-bs-toggle="dropdown" aria-expanded="false" title="Notifications">
+                                <i class="bi bi-bell"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end notif-dropdown-menu shadow-lg p-0" aria-labelledby="notifDropdown">
+                                <div class="notif-header">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <h6 class="mb-0 fw-bold">System Notifications</h6>
+                                        <span class="badge bg-gold-subtle text-gold">0 New</span>
+                                    </div>
+                                </div>
+                                <div class="notif-list">
+                                    <div class="p-4 text-center text-muted">
+                                        <i class="bi bi-bell-slash text-gold fs-3 d-block mb-2 opacity-75"></i>
+                                        <div class="small fw-semibold text-dark">No Unread Notifications</div>
+                                        <span class="text-muted" style="font-size: 0.72rem;">All systems operational</span>
+                                    </div>
+                                </div>
+                                <div class="notif-footer text-center">
+                                    <a href="javascript:void(0)" class="small text-gold fw-bold text-decoration-none" onclick="handleMenuClick('Notifications')">Notification History</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Admin Profile Dropdown -->
+                        <div class="dropdown">
+                            <button class="admin-profile-btn" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="profile-thumb-placeholder">
+                                    <i class="bi bi-person-fill"></i>
+                                </div>
+                                <span class="profile-name d-none d-md-inline-block">Administrator</span>
+                                <i class="bi bi-chevron-down small text-muted"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end profile-dropdown-menu shadow-lg" aria-labelledby="profileDropdown">
+                                <li class="dropdown-header">
+                                    <div class="fw-bold text-dark">Administrator</div>
+                                    <div class="small text-muted">System Admin</div>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center gap-2" href="javascript:void(0)" onclick="handleMenuClick('Admin Profile')">
+                                        <i class="bi bi-person-gear text-gold"></i> Profile Settings
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center gap-2" href="javascript:void(0)" onclick="handleMenuClick('Security Log')">
+                                        <i class="bi bi-shield-lock text-gold"></i> Security &amp; Audit Trail
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center gap-2" href="../index.aspx" target="_blank">
+                                        <i class="bi bi-browser-chrome text-gold"></i> Front Guest Website
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center gap-2 text-danger fw-semibold" href="Login.aspx">
+                                        <i class="bi bi-box-arrow-right"></i> Sign Out
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </header>
+
+                <!-- Dynamic Main Content Placeholder -->
+                <main class="admin-content-body">
+                    <asp:ContentPlaceHolder ID="AdminContent" runat="server">
+                    </asp:ContentPlaceHolder>
+                </main>
+
+                <!-- Admin Footer -->
+                <footer class="admin-footer">
+                    <div class="footer-left">
+                        <span>&copy; 2026 <strong>Hotel Management &bull; Luxury Resort &amp; Palace System</strong>. All rights reserved.</span>
+                    </div>
+                    <div class="footer-right">
+                        <span class="system-tag">Enterprise Console v2.4</span>
+                        <span class="status-pill"><span class="status-dot"></span> Server: Operational</span>
+                    </div>
+                </footer>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom Admin Dashboard JS -->
+    <script src="js/dashboard.js?v=2.1"></script>
+</body>
+</html>

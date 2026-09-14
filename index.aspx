@@ -53,22 +53,22 @@
 
                     <!-- Right Column: Professional Luxury Check Availability Card (From Right Side) -->
                     <div class="col-lg-5 animate-slide-right" data-aos="fade-left" data-aos-duration="1200">
-                        <div class="card booking-hero-card border-0 p-4 p-md-5 rounded-4 bg-white shadow-luxury">
+                        <div class="card booking-hero-card border-0 p-3 p-md-4 rounded-4 bg-white shadow-luxury">
 
                             <!-- Card Header with logo matching badge -->
-                            <div class="text-center mb-4">
+                            <div class="text-center mb-3">
                                 <span
-                                    class="badge bg-gold-subtle text-warning-dark rounded-pill px-3 py-2 text-uppercase fw-semibold letter-spacing-1 small mb-2 d-inline-block">
+                                    class="badge bg-gold-subtle text-warning-dark rounded-pill px-3 py-1 text-uppercase fw-semibold letter-spacing-1 small mb-1 d-inline-block">
                                     <i class="bi bi-shield-check me-1"></i> Direct Reservation
                                 </span>
-                                <h2 class="card-title text-dark font-serif fw-bold mb-1 fs-2">Check Availability
+                                <h2 class="card-title text-dark font-serif fw-bold mb-1 fs-3">Check Availability
                                 </h2>
-                                <div class="mx-auto bg-warning mt-2"
-                                    style="width: 45px; height: 2px; border-radius: 2px; opacity: 0.9;"></div>
+                                <div class="mx-auto bg-warning mt-1"
+                                    style="width: 40px; height: 2px; border-radius: 2px; opacity: 0.9;"></div>
                             </div>
 
-                            <div class="mb-3">
-                                <label class="form-label text-uppercase text-dark fw-bold small letter-spacing-1">
+                            <div class="mb-2">
+                                <label class="form-label text-uppercase text-dark fw-bold small letter-spacing-1 mb-1">
                                     <i class="bi bi-calendar-event text-warning me-1"></i> CHECK-IN DATE
                                 </label>
                                 <div class="input-group luxury-input-group">
@@ -78,8 +78,8 @@
                                 </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label class="form-label text-uppercase text-dark fw-bold small letter-spacing-1">
+                            <div class="mb-2">
+                                <label class="form-label text-uppercase text-dark fw-bold small letter-spacing-1 mb-1">
                                     <i class="bi bi-calendar-check text-warning me-1"></i> CHECK-OUT DATE
                                 </label>
                                 <div class="input-group luxury-input-group">
@@ -89,8 +89,8 @@
                                 </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label class="form-label text-uppercase text-dark fw-bold small letter-spacing-1">
+                            <div class="mb-2">
+                                <label class="form-label text-uppercase text-dark fw-bold small letter-spacing-1 mb-1">
                                     <i class="bi bi-door-open text-warning me-1"></i> SELECT SUITE CATEGORY
                                 </label>
                                 <div class="input-group luxury-input-group">
@@ -105,8 +105,8 @@
                                 </div>
                             </div>
 
-                            <div class="mb-4">
-                                <label class="form-label text-uppercase text-dark fw-bold small letter-spacing-1">
+                            <div class="mb-3">
+                                <label class="form-label text-uppercase text-dark fw-bold small letter-spacing-1 mb-1">
                                     <i class="bi bi-people text-warning me-1"></i> GUESTS & CHILDREN
                                 </label>
                                 <div class="input-group luxury-input-group">
@@ -123,7 +123,7 @@
                             </div>
 
                             <button type="button"
-                                class="btn btn-luxury-check w-100 py-3 rounded-3 fw-bold text-uppercase shadow-sm"
+                                class="btn btn-luxury-check w-100 py-2 py-md-2 rounded-3 fw-bold text-uppercase shadow-sm"
                                 onclick="alert('Checking Room Availability... Directing to Reservation System.');">
                                 <span>CHECK ROOM AVAILABILITY</span> <i
                                     class="bi bi-arrow-right-circle-fill ms-2 fs-5"></i>
