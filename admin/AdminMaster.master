@@ -6,13 +6,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Executive Admin Console | Hotel Management</title>
+    <title>Hotel Management | Executive Admin Panel</title>
     <meta name="description" content="Hotel Management System Executive Administrative Portal">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Upright:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
 
     <!-- Bootstrap 5 CSS CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
@@ -21,8 +21,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+    <!-- Chart.js CDN for Modern Interactive Charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <!-- Custom Admin Dashboard CSS -->
-    <link rel="stylesheet" type="text/css" href="css/dashboard.css?v=2.1">
+    <link rel="stylesheet" type="text/css" href="css/dashboard.css?v=3.0">
 
     <asp:ContentPlaceHolder ID="adminHead" runat="server">
     </asp:ContentPlaceHolder>
@@ -36,138 +39,116 @@
         <div class="admin-layout-wrapper">
 
             <!-- ==========================================
-                 LUXURY ADMIN SIDEBAR
+                 MODERN LIGHT ADMIN SIDEBAR
                  ========================================== -->
             <aside id="adminSidebar" class="admin-sidebar">
                 
                 <!-- Sidebar Brand Header -->
-                <div class="sidebar-brand-box">
-                    <a href="Dashboard.aspx" class="brand-link">
-                        <div class="brand-logo-wrap">
-                            <img src="../images/logo.png" alt="Hotel Management Logo" class="brand-img" onerror="this.onerror=null; this.src='../images/main-logo.png';">
-                        </div>
-                        <div class="brand-text-wrap">
-                            <span class="brand-hotel-name">HOTEL MANAGEMENT</span>
-                            <span class="brand-portal-sub">EXECUTIVE PORTAL</span>
-                        </div>
+                <div class="sidebar-brand-box py-3 px-3">
+                    <a href="Dashboard.aspx" class="brand-link w-100 d-flex justify-content-center">
+                        <img src="../images/logo-transparent.png" alt="Hotel Management Logo" class="admin-sidebar-logo"
+                             onerror="this.onerror=null; this.src='../images/logo.png';"
+                             style="max-height: 75px; max-width: 195px; width: 100%; object-fit: contain;">
                     </a>
                     <button type="button" id="sidebarCloseBtn" class="sidebar-close-btn d-lg-none" aria-label="Close Sidebar">
                         <i class="bi bi-x-lg"></i>
                     </button>
                 </div>
 
-                <!-- Property Badge -->
-                <div class="sidebar-property-badge">
-                    <i class="bi bi-geo-alt-fill text-gold me-1"></i>
-                    <span>Chanakyapuri, New Delhi</span>
-                </div>
-
                 <!-- Sidebar Navigation Menu -->
                 <div class="sidebar-menu-scroll">
                     <ul class="sidebar-nav-list">
                         
-                        <li class="nav-section-title">MAIN CONSOLE</li>
-
                         <li class="nav-item">
                             <a href="Dashboard.aspx" class="nav-link active">
-                                <span class="nav-icon"><i class="bi bi-speedometer2"></i></span>
+                                <span class="nav-icon"><i class="bi bi-grid-fill"></i></span>
                                 <span class="nav-text">Dashboard</span>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Reservations & Bookings')">
-                                <span class="nav-icon"><i class="bi bi-calendar2-check"></i></span>
-                                <span class="nav-text">Bookings &amp; Stays</span>
+                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Rooms')">
+                                <span class="nav-icon"><i class="bi bi-door-closed"></i></span>
+                                <span class="nav-text">Rooms</span>
+                                <i class="bi bi-chevron-right nav-arrow"></i>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Rooms & Suites')">
-                                <span class="nav-icon"><i class="bi bi-door-open"></i></span>
-                                <span class="nav-text">Rooms &amp; Suites</span>
+                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Bookings')">
+                                <span class="nav-icon"><i class="bi bi-calendar-check"></i></span>
+                                <span class="nav-text">Bookings</span>
+                                <i class="bi bi-chevron-right nav-arrow"></i>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Dining & Banquets')">
-                                <span class="nav-icon"><i class="bi bi-cup-hot"></i></span>
-                                <span class="nav-text">Dining &amp; Banquets</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Guest Directory')">
+                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Guests')">
                                 <span class="nav-icon"><i class="bi bi-people"></i></span>
-                                <span class="nav-text">Guest Directory</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-section-title">OPERATIONS &amp; ASSETS</li>
-
-                        <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Special Offers & Loyalty')">
-                                <span class="nav-icon"><i class="bi bi-tag"></i></span>
-                                <span class="nav-text">Offers &amp; Loyalty</span>
+                                <span class="nav-text">Guests</span>
+                                <i class="bi bi-chevron-right nav-arrow"></i>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Housekeeping & Maintenance')">
-                                <span class="nav-icon"><i class="bi bi-brush"></i></span>
-                                <span class="nav-text">Housekeeping</span>
+                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Dining')">
+                                <span class="nav-icon"><i class="bi bi-cup-hot"></i></span>
+                                <span class="nav-text">Dining</span>
+                                <i class="bi bi-chevron-right nav-arrow"></i>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Financial & Billing Reports')">
-                                <span class="nav-icon"><i class="bi bi-graph-up-arrow"></i></span>
-                                <span class="nav-text">Reports &amp; Revenue</span>
+                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Payments')">
+                                <span class="nav-icon"><i class="bi bi-credit-card"></i></span>
+                                <span class="nav-text">Payments</span>
+                                <i class="bi bi-chevron-right nav-arrow"></i>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Staff Directory')">
-                                <span class="nav-icon"><i class="bi bi-person-badge"></i></span>
-                                <span class="nav-text">Staff &amp; Concierge</span>
+                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Reports')">
+                                <span class="nav-icon"><i class="bi bi-bar-chart-line"></i></span>
+                                <span class="nav-text">Reports</span>
+                                <i class="bi bi-chevron-right nav-arrow"></i>
                             </a>
                         </li>
 
-                        <li class="nav-section-title">SYSTEM PREFERENCES</li>
-
                         <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Portal Settings')">
+                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Settings')">
                                 <span class="nav-icon"><i class="bi bi-gear"></i></span>
-                                <span class="nav-text">Portal Settings</span>
+                                <span class="nav-text">Settings</span>
+                                <i class="bi bi-chevron-right nav-arrow"></i>
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="../index.aspx" target="_blank" class="nav-link nav-link-external">
-                                <span class="nav-icon"><i class="bi bi-box-arrow-up-right"></i></span>
-                                <span class="nav-text">View Live Site</span>
-                                <i class="bi bi-arrow-right-short ms-auto text-gold"></i>
+                        <li class="nav-item nav-item-logout mt-4">
+                            <a href="Login.aspx" class="nav-link">
+                                <span class="nav-icon"><i class="bi bi-box-arrow-right"></i></span>
+                                <span class="nav-text">Logout</span>
                             </a>
                         </li>
 
                     </ul>
                 </div>
 
-                <!-- Sidebar Admin Profile Card -->
-                <div class="sidebar-user-footer">
-                    <div class="user-avatar-wrap">
-                        <div class="user-avatar-placeholder">
-                            <i class="bi bi-person-fill"></i>
-                        </div>
-                        <span class="user-status-indicator" title="Active"></span>
+                <!-- Sidebar Bottom Decorative Art -->
+                <div class="sidebar-decorative-art">
+                    <div class="art-icon mb-2">
+                        <svg width="46" height="46" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 52h40M22 52V28l10-8 10 8v24M28 34h8M28 42h8M16 52V36l6-4M48 52V36l-6-4" stroke="#B88E68" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 52c0-12 6-18 6-18M56 52c0-12-6-18-6-18" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round"/>
+                            <circle cx="32" cy="14" r="3" fill="#B88E68"/>
+                        </svg>
                     </div>
-                    <div class="user-meta-info">
-                        <div class="user-name">Administrator</div>
-                        <div class="user-role">System Admin</div>
+                    <div class="art-quote">
+                        <span>Great Stays</span>
+                        <span>Create Happy</span>
+                        <span>Memories</span>
                     </div>
-                    <a href="Login.aspx" class="user-logout-btn" title="Sign Out of Admin Console">
-                        <i class="bi bi-box-arrow-right"></i>
-                    </a>
+                    <div class="art-divider">
+                        <span class="art-dot"></span>
+                    </div>
                 </div>
 
             </aside>
@@ -177,108 +158,75 @@
                  ========================================== -->
             <div class="admin-main-container">
 
-                <!-- Top Header Navigation Bar -->
+                <!-- Modern Clean Topbar -->
                 <header class="admin-topbar">
-                    <div class="topbar-left">
+                    <div class="topbar-left d-flex align-items-center gap-3">
                         <!-- Mobile Hamburger Button -->
                         <button type="button" id="sidebarToggleBtn" class="topbar-toggle-btn" aria-label="Toggle Navigation">
                             <i class="bi bi-list fs-4"></i>
                         </button>
 
-                        <!-- Page Breadcrumb / Status -->
-                        <div class="topbar-title-block d-none d-md-flex align-items-center gap-2">
-                            <span class="topbar-badge">
-                                <i class="bi bi-shield-check text-gold me-1"></i> Executive Portal
-                            </span>
-                            <span class="topbar-breadcrumb text-muted small">
-                                Hotel Console &bull; <strong class="text-dark">Overview</strong>
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- Topbar Quick Search -->
-                    <div class="topbar-search-wrap d-none d-lg-block">
-                        <div class="search-input-group">
-                            <i class="bi bi-search search-icon"></i>
-                            <input type="text" id="adminGlobalSearch" class="search-input" placeholder="Search guests, reservation #, room #..." autocomplete="off">
-                            <span class="search-shortcut">⌘K</span>
-                        </div>
-                    </div>
-
-                    <!-- Topbar Actions & Tools -->
-                    <div class="topbar-right">
-
-                        <!-- Live Date & Clock -->
-                        <div class="topbar-clock d-none d-xl-flex align-items-center gap-2">
-                            <i class="bi bi-clock-history text-gold"></i>
-                            <span id="liveClockDisplay" class="clock-text">--:--:--</span>
-                        </div>
-
-                        <!-- View Website Quick Link -->
-                        <a href="../index.aspx" target="_blank" class="btn btn-outline-gold btn-sm d-none d-sm-inline-flex align-items-center gap-1">
-                            <i class="bi bi-globe2"></i>
-                            <span>Live Website</span>
+                        <!-- Mobile Brand Logo -->
+                        <a href="Dashboard.aspx" class="d-lg-none me-2">
+                            <img src="../images/logo-transparent.png" alt="Hotel Management Logo"
+                                 onerror="this.onerror=null; this.src='../images/logo.png';"
+                                 style="max-height: 44px; max-width: 140px; width: auto; object-fit: contain;">
                         </a>
 
-                        <!-- Notifications Dropdown -->
+                        <!-- Rounded Search Box -->
+                        <div class="topbar-search-box">
+                            <i class="bi bi-search search-icon"></i>
+                            <input type="text" id="adminGlobalSearch" class="search-input" placeholder="Search here..." autocomplete="off">
+                        </div>
+                    </div>
+
+                    <!-- Topbar Right Actions -->
+                    <div class="topbar-right d-flex align-items-center gap-3">
+
+                        <!-- Notifications Bell -->
                         <div class="dropdown">
                             <button class="topbar-icon-btn position-relative" type="button" id="notifDropdown" data-bs-toggle="dropdown" aria-expanded="false" title="Notifications">
                                 <i class="bi bi-bell"></i>
+                                <span class="notif-badge-pill d-none">0</span>
                             </button>
-                            <div class="dropdown-menu dropdown-menu-end notif-dropdown-menu shadow-lg p-0" aria-labelledby="notifDropdown">
-                                <div class="notif-header">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <h6 class="mb-0 fw-bold">System Notifications</h6>
-                                        <span class="badge bg-gold-subtle text-gold">0 New</span>
-                                    </div>
+                            <div class="dropdown-menu dropdown-menu-end shadow-sm p-0 notif-menu" aria-labelledby="notifDropdown">
+                                <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
+                                    <h6 class="mb-0 fw-bold small text-dark">Notifications</h6>
+                                    <span class="badge bg-secondary">0 New</span>
                                 </div>
-                                <div class="notif-list">
-                                    <div class="p-4 text-center text-muted">
-                                        <i class="bi bi-bell-slash text-gold fs-3 d-block mb-2 opacity-75"></i>
-                                        <div class="small fw-semibold text-dark">No Unread Notifications</div>
-                                        <span class="text-muted" style="font-size: 0.72rem;">All systems operational</span>
-                                    </div>
-                                </div>
-                                <div class="notif-footer text-center">
-                                    <a href="javascript:void(0)" class="small text-gold fw-bold text-decoration-none" onclick="handleMenuClick('Notifications')">Notification History</a>
+                                <div class="p-4 text-center text-muted">
+                                    <i class="bi bi-bell-slash text-muted fs-3 d-block mb-2 opacity-50"></i>
+                                    <div class="small fw-semibold text-dark">No New Notifications</div>
+                                    <span class="text-muted" style="font-size: 0.72rem;">All systems operational</span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Admin Profile Dropdown -->
+                        <!-- Fullscreen Toggle Button -->
+                        <button class="topbar-icon-btn d-none d-sm-inline-flex" type="button" id="fullscreenToggleBtn" title="Toggle Fullscreen">
+                            <i class="bi bi-arrows-fullscreen"></i>
+                        </button>
+
+                        <!-- Admin Profile Pill -->
                         <div class="dropdown">
-                            <button class="admin-profile-btn" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                <div class="profile-thumb-placeholder">
-                                    <i class="bi bi-person-fill"></i>
+                            <button class="admin-profile-pill d-flex align-items-center gap-2" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="avatar-circle">AS</div>
+                                <div class="profile-info text-start d-none d-md-block">
+                                    <span class="profile-name">Admin</span>
+                                    <span class="profile-role">Administrator</span>
                                 </div>
-                                <span class="profile-name d-none d-md-inline-block">Administrator</span>
-                                <i class="bi bi-chevron-down small text-muted"></i>
+                                <i class="bi bi-chevron-down text-muted small ms-1"></i>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end profile-dropdown-menu shadow-lg" aria-labelledby="profileDropdown">
-                                <li class="dropdown-header">
-                                    <div class="fw-bold text-dark">Administrator</div>
-                                    <div class="small text-muted">System Admin</div>
-                                </li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <a class="dropdown-item d-flex align-items-center gap-2" href="javascript:void(0)" onclick="handleMenuClick('Admin Profile')">
-                                        <i class="bi bi-person-gear text-gold"></i> Profile Settings
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item d-flex align-items-center gap-2" href="javascript:void(0)" onclick="handleMenuClick('Security Log')">
-                                        <i class="bi bi-shield-lock text-gold"></i> Security &amp; Audit Trail
-                                    </a>
-                                </li>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="profileDropdown">
                                 <li>
                                     <a class="dropdown-item d-flex align-items-center gap-2" href="../index.aspx" target="_blank">
-                                        <i class="bi bi-browser-chrome text-gold"></i> Front Guest Website
+                                        <i class="bi bi-globe2 text-gold"></i> Live Guest Website
                                     </a>
                                 </li>
-                                <li><hr class="dropdown-divider"></li>
+                                <li><hr class="dropdown-divider my-1"></li>
                                 <li>
-                                    <a class="dropdown-item d-flex align-items-center gap-2 text-danger fw-semibold" href="Login.aspx">
-                                        <i class="bi bi-box-arrow-right"></i> Sign Out
+                                    <a class="dropdown-item d-flex align-items-center gap-2 text-danger" href="Login.aspx">
+                                        <i class="bi bi-box-arrow-right"></i> Logout
                                     </a>
                                 </li>
                             </ul>
@@ -288,19 +236,22 @@
                 </header>
 
                 <!-- Dynamic Main Content Placeholder -->
-                <main class="admin-content-body">
+                <main class="admin-content-body p-3 p-lg-4">
                     <asp:ContentPlaceHolder ID="AdminContent" runat="server">
                     </asp:ContentPlaceHolder>
                 </main>
 
-                <!-- Admin Footer -->
-                <footer class="admin-footer">
-                    <div class="footer-left">
-                        <span>&copy; 2026 <strong>Hotel Management &bull; Luxury Resort &amp; Palace System</strong>. All rights reserved.</span>
-                    </div>
-                    <div class="footer-right">
-                        <span class="system-tag">Enterprise Console v2.4</span>
-                        <span class="status-pill"><span class="status-dot"></span> Server: Operational</span>
+                <!-- Clean Footer -->
+                <footer class="admin-footer px-4 py-3">
+                    <div class="d-flex flex-column flex-sm-row align-items-center justify-content-between gap-2">
+                        <span class="text-muted small">&copy; 2025 Hotel Management. All rights reserved.</span>
+                        <div class="footer-links small text-muted">
+                            <a href="../Privacy.aspx" class="text-muted text-decoration-none">Privacy</a>
+                            <span class="mx-2">|</span>
+                            <a href="../Terms.aspx" class="text-muted text-decoration-none">Terms</a>
+                            <span class="mx-2">|</span>
+                            <a href="../Contact.aspx" class="text-muted text-decoration-none">Support</a>
+                        </div>
                     </div>
                 </footer>
 
@@ -314,6 +265,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Custom Admin Dashboard JS -->
-    <script src="js/dashboard.js?v=2.1"></script>
+    <script src="js/dashboard.js?v=3.0"></script>
 </body>
 </html>

@@ -1,18 +1,19 @@
 /**
  * Hotel Management System - Executive Admin Dashboard JavaScript
- * Client-side Interactivity & Management Functions
+ * Charts, Live Clock, Sidebar Controls & Interactivity
  */
 
 document.addEventListener('DOMContentLoaded', function () {
+    checkLoginConfirmation();
     initSidebar();
-    initLiveClock();
-    initBookingTableFilters();
-    initRoomMatrixFilters();
-    initGlobalSearchShortcut();
+    initLiveClockAndDate();
+    initFullscreenToggle();
+    initBookingsChart();
+    initRoomStatusDonutChart();
 });
 
 // ==========================================
-// 1. SIDEBAR TOGGLE & MOBILE DRAWER
+// 1. SIDEBAR TOGGLE (DESKTOP & MOBILE)
 // ==========================================
 function initSidebar() {
     var sidebar = document.getElementById('adminSidebar');
@@ -42,182 +43,224 @@ function initSidebar() {
         });
     }
 
-    if (closeBtn) {
-        closeBtn.addEventListener('click', closeSidebar);
-    }
-
-    if (overlay) {
-        overlay.addEventListener('click', closeSidebar);
-    }
+    if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+    if (overlay) overlay.addEventListener('click', closeSidebar);
 
     window.addEventListener('resize', function () {
-        if (window.innerWidth >= 992) {
-            closeSidebar();
-        }
+        if (window.innerWidth >= 992) closeSidebar();
     });
 }
 
 // ==========================================
-// 2. LIVE CLOCK (IST)
+// 2. LIVE DATE & TIME IN HERO PANEL
 // ==========================================
-function initLiveClock() {
-    var clockElem = document.getElementById('liveClockDisplay');
-    if (!clockElem) return;
+function initLiveClockAndDate() {
+    var dateElem = document.getElementById('heroDateText');
+    var timeElem = document.getElementById('heroTimeText');
 
-    function updateTime() {
+    function updateDateTime() {
         var now = new Date();
+
+        // Format Date: e.g. "Tue, 16 Sep 2025"
+        var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+        var dayName = days[now.getDay()];
+        var monthName = months[now.getMonth()];
+        var dayNum = now.getDate();
+        var year = now.getFullYear();
+
+        if (dateElem) {
+            dateElem.textContent = dayName + ', ' + dayNum + ' ' + monthName + ' ' + year;
+        }
+
+        // Format Time: e.g. "11:42 AM"
         var hours = now.getHours();
         var minutes = now.getMinutes();
-        var seconds = now.getSeconds();
         var ampm = hours >= 12 ? 'PM' : 'AM';
 
         hours = hours % 12;
-        hours = hours ? hours : 12; // 0 becomes 12
-        var hStr = hours < 10 ? '0' + hours : hours;
-        var mStr = minutes < 10 ? '0' + minutes : minutes;
-        var sStr = seconds < 10 ? '0' + seconds : seconds;
+        hours = hours ? hours : 12;
+        var minStr = minutes < 10 ? '0' + minutes : minutes;
 
-        clockElem.textContent = hStr + ':' + mStr + ':' + sStr + ' ' + ampm + ' IST';
+        if (timeElem) {
+            timeElem.textContent = hours + ':' + minStr + ' ' + ampm;
+        }
     }
 
-    updateTime();
-    setInterval(updateTime, 1000);
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
 }
 
 // ==========================================
-// 3. BOOKINGS TABLE SEARCH & STATUS FILTER
+// 3. FULLSCREEN TOGGLE
 // ==========================================
-function initBookingTableFilters() {
-    var searchInput = document.getElementById('tableSearchInput');
-    var filterBtns = document.querySelectorAll('.booking-filter-btn');
-    var tableRows = document.querySelectorAll('#recentBookingsTable tbody tr:not(#emptyBookingsRow):not(#noBookingsRow)');
-    var emptyRow = document.getElementById('emptyBookingsRow');
-    var noResultsRow = document.getElementById('noBookingsRow');
+function initFullscreenToggle() {
+    var btn = document.getElementById('fullscreenToggleBtn');
+    if (!btn) return;
 
-    var currentFilter = 'all';
-    var currentSearch = '';
-
-    function applyFilters() {
-        if (tableRows.length === 0) {
-            if (emptyRow) emptyRow.style.display = '';
-            if (noResultsRow) noResultsRow.style.display = 'none';
-            return;
-        }
-
-        var visibleCount = 0;
-        tableRows.forEach(function (row) {
-            var rowStatus = (row.getAttribute('data-status') || '').toLowerCase();
-            var rowText = row.textContent.toLowerCase();
-
-            var matchesStatus = (currentFilter === 'all' || rowStatus === currentFilter);
-            var matchesSearch = (currentSearch === '' || rowText.includes(currentSearch));
-
-            if (matchesStatus && matchesSearch) {
-                row.style.display = '';
-                visibleCount++;
-            } else {
-                row.style.display = 'none';
+    btn.addEventListener('click', function () {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(function () { });
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen().catch(function () { });
             }
-        });
-
-        if (emptyRow) emptyRow.style.display = 'none';
-        if (noResultsRow) {
-            noResultsRow.style.display = visibleCount === 0 ? '' : 'none';
         }
-    }
-
-    if (searchInput) {
-        searchInput.addEventListener('input', function (e) {
-            currentSearch = e.target.value.trim().toLowerCase();
-            applyFilters();
-        });
-    }
-
-    filterBtns.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            filterBtns.forEach(function (b) { b.classList.remove('active'); });
-            btn.classList.add('active');
-            currentFilter = btn.getAttribute('data-filter').toLowerCase();
-            applyFilters();
-        });
     });
 }
 
 // ==========================================
-// 4. ROOM MATRIX STATUS FILTERS
+// 4. CHART.JS: BOOKINGS OVERVIEW (SPLINE AREA)
 // ==========================================
-function initRoomMatrixFilters() {
-    var roomFilterBtns = document.querySelectorAll('.room-filter-btn');
-    var roomCards = document.querySelectorAll('#roomStatusGrid .room-col-item');
+function initBookingsChart() {
+    var canvas = document.getElementById('bookingsOverviewChart');
+    if (!canvas || typeof Chart === 'undefined') return;
 
-    roomFilterBtns.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            roomFilterBtns.forEach(function (b) { b.classList.remove('active'); });
-            btn.classList.add('active');
-            var filter = btn.getAttribute('data-room-filter');
+    var ctx = canvas.getContext('2d');
 
-            roomCards.forEach(function (card) {
-                var status = card.getAttribute('data-room-status');
-                if (filter === 'all' || status === filter) {
-                    card.style.display = '';
-                } else {
-                    card.style.display = 'none';
+    // Create golden gradient fill
+    var gradient = ctx.createLinearGradient(0, 0, 0, 240);
+    gradient.addColorStop(0, 'rgba(184, 142, 104, 0.45)');
+    gradient.addColorStop(0.7, 'rgba(184, 142, 104, 0.15)');
+    gradient.addColorStop(1, 'rgba(184, 142, 104, 0.0)');
+
+    // Generate dynamic date labels for the last 7 days
+    var dayLabels = [];
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    for (var i = 6; i >= 0; i--) {
+        var d = new Date();
+        d.setDate(d.getDate() - i);
+        dayLabels.push(months[d.getMonth()] + ' ' + d.getDate());
+    }
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dayLabels,
+            datasets: [{
+                label: 'Bookings',
+                data: [0, 0, 0, 0, 0, 0, 0],
+                borderColor: '#B88E68',
+                borderWidth: 2.5,
+                backgroundColor: gradient,
+                fill: true,
+                tension: 0.45,
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                pointBackgroundColor: '#B88E68',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: '#0f172a',
+                    titleColor: '#ffffff',
+                    bodyColor: '#e2e8f0',
+                    padding: 10,
+                    cornerRadius: 8,
+                    callbacks: {
+                        label: function (context) {
+                            return ' ' + context.parsed.y + ' Bookings';
+                        }
+                    }
                 }
-            });
-        });
+            },
+            scales: {
+                x: {
+                    grid: { display: false },
+                    ticks: {
+                        font: { family: 'Plus Jakarta Sans', size: 11 },
+                        color: '#94a3b8'
+                    }
+                },
+                y: {
+                    min: 0,
+                    max: 10,
+                    ticks: {
+                        stepSize: 2,
+                        font: { family: 'Plus Jakarta Sans', size: 11 },
+                        color: '#94a3b8'
+                    },
+                    grid: {
+                        color: '#f1f5f9',
+                        drawBorder: false
+                    }
+                }
+            }
+        }
     });
 }
 
 // ==========================================
-// 5. GLOBAL SEARCH SHORTCUT (⌘K or Ctrl+K)
+// 5. CHART.JS: ROOM STATUS (DOUGHNUT)
 // ==========================================
-function initGlobalSearchShortcut() {
-    var searchInput = document.getElementById('adminGlobalSearch');
-    if (!searchInput) return;
+function initRoomStatusDonutChart() {
+    var canvas = document.getElementById('roomStatusDonutChart');
+    if (!canvas || typeof Chart === 'undefined') return;
 
-    document.addEventListener('keydown', function (e) {
-        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-            e.preventDefault();
-            searchInput.focus();
-        }
-    });
+    var ctx = canvas.getContext('2d');
 
-    // When global search receives input, sync with table search
-    searchInput.addEventListener('input', function (e) {
-        var tableSearch = document.getElementById('tableSearchInput');
-        if (tableSearch) {
-            tableSearch.value = e.target.value;
-            tableSearch.dispatchEvent(new Event('input'));
+    // Clean neutral empty-state ring when no room records are present
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['No Active Rooms'],
+            datasets: [{
+                data: [1],
+                backgroundColor: ['#e2e8f0'],
+                borderWidth: 0,
+                hoverOffset: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '76%',
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    enabled: false
+                }
+            }
         }
     });
 }
 
 // ==========================================
-// 6. QUICK ACTIONS & TOAST FEEDBACK
+// 6. TOAST FEEDBACK FOR QUICK ACTIONS & MENUS
 // ==========================================
-function showLuxuryToast(title, message, iconClass) {
+function showAdminToast(title, message, iconClass) {
     iconClass = iconClass || 'bi-info-circle-fill text-gold';
     var container = document.getElementById('adminToastContainer');
     if (!container) {
         container = document.createElement('div');
         container.id = 'adminToastContainer';
-        container.className = 'admin-toast-container';
+        container.style.position = 'fixed';
+        container.style.bottom = '24px';
+        container.style.right = '24px';
+        container.style.zIndex = '9999';
         document.body.appendChild(container);
     }
 
     var toast = document.createElement('div');
-    toast.className = 'toast show luxury-toast align-items-center mb-2';
-    toast.setAttribute('role', 'alert');
+    toast.className = 'toast show align-items-center mb-2 bg-white shadow-lg border rounded-3';
+    toast.style.minWidth = '280px';
     toast.innerHTML = `
-        <div class="d-flex p-3">
+        <div class="d-flex p-3 align-items-center">
             <div class="me-3 fs-5">
                 <i class="bi ${iconClass}"></i>
             </div>
-            <div class="toast-body p-0 flex-grow-1">
-                <strong class="d-block text-gold mb-1">${title}</strong>
-                <span class="small text-light">${message}</span>
+            <div class="flex-grow-1">
+                <strong class="d-block text-dark small mb-0">${title}</strong>
+                <span class="text-muted" style="font-size: 0.75rem;">${message}</span>
             </div>
-            <button type="button" class="btn-close btn-close-white ms-2 m-auto" aria-label="Close" onclick="this.closest('.toast').remove()"></button>
+            <button type="button" class="btn-close ms-2 m-auto" onclick="this.closest('.toast').remove()"></button>
         </div>
     `;
 
@@ -225,69 +268,56 @@ function showLuxuryToast(title, message, iconClass) {
 
     setTimeout(function () {
         if (toast && toast.parentNode) {
-            toast.classList.remove('show');
-            setTimeout(function () { toast.remove(); }, 300);
+            toast.remove();
         }
-    }, 4500);
+    }, 4000);
 }
 
-// Global helper for menu clicks
 window.handleMenuClick = function (featureName) {
-    showLuxuryToast(
-        featureName + ' Console',
-        'Viewing operational module: ' + featureName + '. Live sync active with central database.',
-        'bi-layers-fill text-gold'
+    showAdminToast(
+        featureName + ' Module',
+        'Viewing ' + featureName + '. Real-time synchronization active.',
+        'bi-layers text-primary'
     );
 };
 
-// Global helper for Quick Actions
 window.triggerQuickAction = function (actionType) {
     switch (actionType) {
         case 'new-reservation':
-            showLuxuryToast(
-                'New Reservation Engine',
-                'Opening VIP Reservation wizard for Chanakyapuri property.',
-                'bi-calendar-plus text-gold'
-            );
-            break;
-        case 'quick-checkin':
-            showLuxuryToast(
-                'Front Desk Express Check-in',
-                'Ready for biometric & keycard dispensing. Select incoming reservation below.',
-                'bi-person-check-fill text-success'
-            );
+            showAdminToast('New Reservation', 'Opening reservation wizard for guests.', 'bi-calendar-plus text-warning');
             break;
         case 'block-room':
-            showLuxuryToast(
-                'Room Inventory Control',
-                'Maintenance hold modal initiated for selected suites.',
-                'bi-shield-exclamation text-warning'
-            );
+            showAdminToast('Room Maintenance', 'Maintenance block mode active.', 'bi-door-closed text-primary');
             break;
         case 'export-report':
-            showLuxuryToast(
-                'Exporting Daily Briefing',
-                'Generating Executive Revenue & Occupancy Report (PDF)...',
-                'bi-file-earmark-pdf-fill text-danger'
-            );
+            showAdminToast('Export Report', 'Generating revenue and occupancy report...', 'bi-bar-chart-line text-success');
             break;
         default:
-            showLuxuryToast('Action Triggered', 'Processing administrative instruction.', 'bi-check-circle');
+            showAdminToast('Action Triggered', 'Processing administrative command.', 'bi-check-circle text-success');
     }
 };
 
-window.checkInGuest = function (guestName, roomNo) {
-    showLuxuryToast(
-        'Check-In Successful',
-        guestName + ' successfully assigned to Room ' + roomNo + '. Welcome amenities dispatched.',
-        'bi-check-circle-fill text-success'
-    );
-};
+// ==========================================
+// 7. LOGIN SUCCESS CONFIRMATION (ON-PAGE, NO POPUP)
+// ==========================================
+function checkLoginConfirmation() {
+    try {
+        var isLoginSuccess = sessionStorage.getItem('adminLoginSuccess');
+        if (isLoginSuccess === 'true') {
+            sessionStorage.removeItem('adminLoginSuccess');
+            var banner = document.getElementById('loginSuccessBanner');
+            if (banner) {
+                banner.classList.remove('d-none');
+                banner.classList.add('d-flex');
 
-window.viewFolio = function (bookingId) {
-    showLuxuryToast(
-        'Guest Folio ' + bookingId,
-        'Opening billing details, incidentals, and dining tabs.',
-        'bi-receipt text-gold'
-    );
-};
+                // Auto dismiss gently after 5 seconds
+                setTimeout(function () {
+                    if (banner && banner.parentNode) {
+                        banner.classList.remove('show');
+                        setTimeout(function () { banner.remove(); }, 350);
+                    }
+                }, 5000);
+            }
+        }
+    } catch (e) { }
+}

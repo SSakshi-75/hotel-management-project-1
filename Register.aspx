@@ -37,8 +37,13 @@
                             </div>
 
 
-                            <!-- Card Body -->
                             <div class="auth-card-body">
+
+                                <!-- Browser Autofill Trap: absorbs unwanted saved credentials from browsers -->
+                                <div style="position: absolute; top: -9999px; left: -9999px; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none;" aria-hidden="true">
+                                    <input type="text" name="decoy_user_check" tabindex="-1" autocomplete="username" />
+                                    <input type="password" name="decoy_pass_check" tabindex="-1" autocomplete="current-password" />
+                                </div>
 
                                 <!-- First Name + Last Name -->
                                 <div class="row g-3 mb-4">
@@ -106,9 +111,9 @@
 
                                         <i class="bi bi-envelope auth-input-icon"></i>
 
-                                        <asp:TextBox ID="txtEmail" runat="server"
+                                        <asp:TextBox ID="txtEmail" runat="server" ClientIDMode="Static"
                                             CssClass="form-control auth-input shadow-none" TextMode="Email"
-                                            placeholder="your@email.com">
+                                            placeholder="your@email.com" autocomplete="off">
                                         </asp:TextBox>
 
                                     </div>
@@ -160,7 +165,7 @@
 
                                         <asp:TextBox ID="txtPassword" runat="server" ClientIDMode="Static"
                                             CssClass="form-control auth-input shadow-none" TextMode="Password"
-                                            placeholder="Create a password">
+                                            placeholder="Create a password" autocomplete="new-password">
                                         </asp:TextBox>
 
                                         <button type="button" class="auth-toggle-password"
@@ -199,7 +204,7 @@
 
                                         <asp:TextBox ID="txtConfirmPassword" runat="server" ClientIDMode="Static"
                                             CssClass="form-control auth-input shadow-none" TextMode="Password"
-                                            placeholder="Confirm your password">
+                                            placeholder="Repeat your password" autocomplete="new-password">
                                         </asp:TextBox>
 
                                         <button type="button" class="auth-toggle-password"
@@ -227,26 +232,22 @@
 
 
                                 <!-- Terms Agreement -->
-                                <div class="form-check mb-4">
+                                <div class="mb-4">
+                                    <div class="d-flex align-items-center">
+                                        <input type="checkbox" id="chkTerms" runat="server" ClientIDMode="Static"
+                                            class="auth-checkbox" style="cursor: pointer;" />
 
-                                    <input type="checkbox" id="chkTerms" runat="server" ClientIDMode="Static"
-                                        class="form-check-input auth-checkbox" />
-
-                                    <label class="form-check-label auth-check-label" for="chkTerms">
-
-                                        I agree to the
-
-                                        <a href="Terms.aspx" class="auth-forgot-link">
-                                            Terms & Conditions
-                                        </a>
-
-                                        and
-
-                                        <a href="Privacy.aspx" class="auth-forgot-link">
-                                            Privacy Policy
-                                        </a>
-
-                                    </label>
+                                        <label class="auth-check-label ms-2 mb-0" for="chkTerms" style="cursor: pointer;">
+                                            I agree to the
+                                            <a href="Terms.aspx" class="auth-forgot-link">
+                                                Terms & Conditions
+                                            </a>
+                                            and
+                                            <a href="Privacy.aspx" class="auth-forgot-link">
+                                                Privacy Policy
+                                            </a>
+                                        </label>
+                                    </div>
 
                                     <div>
                                         <asp:CustomValidator ID="cvTerms" runat="server"
@@ -256,7 +257,6 @@
                                             OnServerValidate="cvTerms_ServerValidate">
                                         </asp:CustomValidator>
                                     </div>
-
                                 </div>
 
 
@@ -322,7 +322,7 @@
         <script>
             function togglePassword(inputId, btn) {
                 var input = document.getElementById(inputId) ||
-                            (btn && btn.closest('.auth-input-wrapper') ? btn.closest('.auth-input-wrapper').querySelector('input') : null);
+                    (btn && btn.closest('.auth-input-wrapper') ? btn.closest('.auth-input-wrapper').querySelector('input') : null);
                 if (!input) return;
                 var icon = btn ? btn.querySelector('i') : null;
                 if (input.type === 'password') {

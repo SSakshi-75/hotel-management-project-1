@@ -1,1029 +1,495 @@
-<%@ Page Title="Admin Executive Dashboard | Hotel Management" Language="C#" MasterPageFile="~/admin/AdminMaster.master"
+<%@ Page Title="Admin Dashboard | Hotel Management" Language="C#" MasterPageFile="~/admin/AdminMaster.master"
     AutoEventWireup="true" CodeFile="Dashboard.aspx.cs" Inherits="Admin_Dashboard" %>
 
     <asp:Content ID="Content1" ContentPlaceHolderID="adminHead" Runat="Server">
-
         <meta name="description" content="Hotel Management System Executive Real-time Dashboard">
-
     </asp:Content>
 
     <asp:Content ID="Content2" ContentPlaceHolderID="AdminContent" Runat="Server">
 
-        <!-- ==========================================
-         EXECUTIVE WELCOME BANNER
-         ========================================== -->
-        <div class="dashboard-welcome-strip">
-            <div class="row align-items-center g-4">
-
-                <div class="col-lg-7">
-
-                    <div class="welcome-subtitle-badge">
-                        <i class="bi bi-patch-check-fill text-gold me-1"></i>
-                        Executive Operations Console
-                    </div>
-
-                    <h1 class="welcome-title">
-                        Welcome back, Administrator
-                    </h1>
-
-                    <p class="welcome-desc">
-                        Hotel Administrative Console. Real-time overview of room inventory,
-                        guest reservations, front desk flow, and revenue operations.
-                    </p>
-
-                </div>
-
-                <div class="col-lg-5">
-
-                    <div class="welcome-actions-group justify-content-lg-end">
-
-                        <button type="button" class="btn btn-welcome-primary"
-                            onclick="triggerQuickAction('new-reservation')">
-
-                            <i class="bi bi-calendar-plus me-1"></i>
-                            + New Reservation
-
-                        </button>
-
-                        <button type="button" class="btn btn-welcome-glass"
-                            onclick="triggerQuickAction('quick-checkin')">
-
-                            <i class="bi bi-person-check me-1"></i>
-                            Express Check-In
-
-                        </button>
-
-                        <button type="button" class="btn btn-welcome-glass" onclick="triggerQuickAction('block-room')">
-
-                            <i class="bi bi-shield-lock me-1"></i>
-                            Block Room
-
-                        </button>
-
-                        <button type="button" class="btn btn-welcome-glass"
-                            onclick="triggerQuickAction('export-report')" title="Download Daily Operations Briefing">
-
-                            <i class="bi bi-download me-1"></i>
-                            Export PDF
-
-                        </button>
-
-                    </div>
-
-                </div>
-
+        <!-- On-Page Admin Login Confirmation Banner (NO POPUP: White BG & Green Text) -->
+        <div id="loginSuccessBanner"
+            class="alert alert-dismissible fade show d-none align-items-center gap-3 p-3 rounded-4 shadow-sm mb-4"
+            role="alert"
+            style="background-color: #ffffff !important; border: 1.5px solid #22c55e !important; border-left: 5px solid #16a34a !important;">
+            <div class="d-flex align-items-center justify-content-center rounded-circle flex-shrink-0"
+                style="width: 38px; height: 38px; background-color: #f0fdf4;">
+                <i class="bi bi-check2-circle fs-5" style="color: #16a34a;"></i>
             </div>
+            <div class="flex-grow-1">
+                <strong class="d-block fw-bold mb-0" style="color: #15803d; font-size: 0.95rem;">Admin Login
+                    Successfully!</strong>
+                <span class="small" style="color: #16a34a;">Welcome back to the Hotel Management Executive Console. All
+                    real-time hotel metrics are synchronized.</span>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 
 
+
         <!-- ==========================================
-         KEY PERFORMANCE INDICATORS (KPIs)
-         ========================================== -->
-        <div class="row g-3 mb-4">
+             2. TOP 4 KEY METRIC CARDS (KPIs)
+             ========================================== -->
+        <div class="row g-3 g-xl-4 mb-4">
 
-            <!-- KPI 1 -->
-            <div class="col-12 col-sm-6 col-xl-4 col-xxl-2">
-
-                <div class="metric-card">
-
-                    <div class="metric-card-top">
-
-                        <div class="metric-icon-box icon-gold">
-                            <i class="bi bi-currency-rupee"></i>
+            <!-- Card 1: Total Rooms -->
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="kpi-card bg-white p-3 p-xl-4 rounded-4 shadow-sm h-100 position-relative">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="kpi-icon-circle bg-blue-subtle text-primary">
+                                <i class="bi bi-door-closed fs-5"></i>
+                            </div>
+                            <span class="kpi-label text-dark fw-semibold small">Total Rooms</span>
                         </div>
-
-                        <span class="metric-trend-pill trend-neutral">
-                            0.0%
-                        </span>
-
+                        <button type="button" class="btn btn-link p-0 text-muted kpi-dots-btn" title="Options">
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </button>
                     </div>
 
-                    <div class="metric-title">
-                        Today's Revenue
+                    <div class="kpi-value display-6 fw-bold text-dark mb-1">
+                        0
                     </div>
 
-                    <div class="metric-value">
-                        ₹0.00
+                    <div class="kpi-sub-detail text-muted small mb-2">
+                        0 Occupied &nbsp;|&nbsp; 0 Available
                     </div>
 
-                    <p class="metric-caption">
-                        vs ₹0.00 yesterday
-                    </p>
-
+                    <div class="kpi-trend-pill text-muted small fw-semibold">
+                        <i class="bi bi-dash fs-6"></i> 0.0% <span class="fw-normal text-muted">from last week</span>
+                    </div>
                 </div>
-
             </div>
 
-
-            <!-- KPI 2 -->
-            <div class="col-12 col-sm-6 col-xl-4 col-xxl-2">
-
-                <div class="metric-card">
-
-                    <div class="metric-card-top">
-
-                        <div class="metric-icon-box icon-brown">
-                            <i class="bi bi-pie-chart-fill"></i>
+            <!-- Card 2: Total Bookings -->
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="kpi-card bg-white p-3 p-xl-4 rounded-4 shadow-sm h-100 position-relative">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="kpi-icon-circle bg-green-subtle text-success">
+                                <i class="bi bi-calendar-check fs-5"></i>
+                            </div>
+                            <span class="kpi-label text-dark fw-semibold small">Total Bookings</span>
                         </div>
-
-                        <span class="metric-trend-pill trend-neutral">
-                            0.0%
-                        </span>
-
+                        <button type="button" class="btn btn-link p-0 text-muted kpi-dots-btn" title="Options">
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </button>
                     </div>
 
-                    <div class="metric-title">
-                        Room Occupancy
+                    <div class="kpi-value display-6 fw-bold text-dark mb-1">
+                        0
                     </div>
 
-                    <div class="metric-value">
-                        0.0%
+                    <div class="kpi-sub-detail text-muted small mb-2">
+                        0 Today's Bookings
                     </div>
 
-                    <div class="progress-luxury">
-
-                        <div class="progress-bar progress-bar-gold" role="progressbar" style="width: 0%"
-                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                        </div>
-
+                    <div class="kpi-trend-pill text-muted small fw-semibold">
+                        <i class="bi bi-dash fs-6"></i> 0.0% <span class="fw-normal text-muted">from last week</span>
                     </div>
-
-                    <p class="metric-caption mt-2">
-                        0 of 0 Rooms Occupied
-                    </p>
-
                 </div>
-
             </div>
 
-
-            <!-- KPI 3 -->
-            <div class="col-12 col-sm-6 col-xl-4 col-xxl-2">
-
-                <div class="metric-card">
-
-                    <div class="metric-card-top">
-
-                        <div class="metric-icon-box icon-emerald">
-                            <i class="bi bi-journal-bookmark-fill"></i>
+            <!-- Card 3: Total Guests -->
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="kpi-card bg-white p-3 p-xl-4 rounded-4 shadow-sm h-100 position-relative">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="kpi-icon-circle bg-purple-subtle text-purple">
+                                <i class="bi bi-people fs-5"></i>
+                            </div>
+                            <span class="kpi-label text-dark fw-semibold small">Total Guests</span>
                         </div>
-
-                        <span class="metric-trend-pill trend-neutral">
-                            0 Active
-                        </span>
-
+                        <button type="button" class="btn btn-link p-0 text-muted kpi-dots-btn" title="Options">
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </button>
                     </div>
 
-                    <div class="metric-title">
-                        Active Bookings
+                    <div class="kpi-value display-6 fw-bold text-dark mb-1">
+                        0
                     </div>
 
-                    <div class="metric-value">
-                        0 Stays
+                    <div class="kpi-sub-detail text-muted small mb-2">
+                        0 Check-ins Today
                     </div>
 
-                    <p class="metric-caption">
-                        0 Arrived &bull; 0 In-Stay
-                    </p>
-
+                    <div class="kpi-trend-pill text-muted small fw-semibold">
+                        <i class="bi bi-dash fs-6"></i> 0.0% <span class="fw-normal text-muted">from last week</span>
+                    </div>
                 </div>
-
             </div>
 
-
-            <!-- KPI 4 -->
-            <div class="col-12 col-sm-6 col-xl-4 col-xxl-2">
-
-                <div class="metric-card">
-
-                    <div class="metric-card-top">
-
-                        <div class="metric-icon-box icon-sapphire">
-                            <i class="bi bi-arrow-left-right"></i>
+            <!-- Card 4: Total Revenue -->
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="kpi-card bg-white p-3 p-xl-4 rounded-4 shadow-sm h-100 position-relative">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="kpi-icon-circle bg-amber-subtle text-warning-dark">
+                                <i class="bi bi-currency-rupee fs-5"></i>
+                            </div>
+                            <span class="kpi-label text-dark fw-semibold small">Total Revenue</span>
                         </div>
-
-                        <span class="metric-trend-pill trend-neutral">
-                            <i class="bi bi-clock"></i> Today
-                        </span>
-
+                        <button type="button" class="btn btn-link p-0 text-muted kpi-dots-btn" title="Options">
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </button>
                     </div>
 
-                    <div class="metric-title">
-                        Front Desk Flow
+                    <div class="kpi-value display-6 fw-bold text-dark mb-1">
+                        &#8377; 0.00
                     </div>
 
-                    <div class="metric-value">
-                        0 / 0
+                    <div class="kpi-sub-detail text-muted small mb-2">
+                        &#8377; 0.00 Today's Earnings
                     </div>
 
-                    <p class="metric-caption">
-                        0 Check-Ins &bull; 0 Check-Outs
-                    </p>
-
+                    <div class="kpi-trend-pill text-muted small fw-semibold">
+                        <i class="bi bi-dash fs-6"></i> 0.0% <span class="fw-normal text-muted">from last week</span>
+                    </div>
                 </div>
-
-            </div>
-
-
-            <!-- KPI 5 -->
-            <div class="col-12 col-sm-6 col-xl-4 col-xxl-2">
-
-                <div class="metric-card">
-
-                    <div class="metric-card-top">
-
-                        <div class="metric-icon-box icon-amber">
-                            <i class="bi bi-cup-straw"></i>
-                        </div>
-
-                        <span class="metric-trend-pill trend-neutral">
-                            0% Cap
-                        </span>
-
-                    </div>
-
-                    <div class="metric-title">
-                        Dining Covers
-                    </div>
-
-                    <div class="metric-value">
-                        0 Tables
-                    </div>
-
-                    <p class="metric-caption">
-                        No table reservations today
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <!-- KPI 6 -->
-            <div class="col-12 col-sm-6 col-xl-4 col-xxl-2">
-
-                <div class="metric-card">
-
-                    <div class="metric-card-top">
-
-                        <div class="metric-icon-box icon-purple">
-                            <i class="bi bi-award-fill"></i>
-                        </div>
-
-                        <span class="metric-trend-pill trend-neutral">
-                            0 VIPs
-                        </span>
-
-                    </div>
-
-                    <div class="metric-title">
-                        VIP In-House
-                    </div>
-
-                    <div class="metric-value">
-                        0 Guests
-                    </div>
-
-                    <p class="metric-caption">
-                        No VIP guests in-house
-                    </p>
-
-                </div>
-
             </div>
 
         </div>
 
-
         <!-- ==========================================
-         LIVE ROOM OCCUPANCY
-         ========================================== -->
-        <div class="content-card">
+             3. CHARTS ROW: BOOKINGS OVERVIEW & ROOM STATUS
+             ========================================== -->
+        <div class="row g-3 g-xl-4 mb-4">
 
-            <div class="content-card-header">
+            <!-- Bookings Overview (Spline Area Chart) -->
+            <div class="col-12 col-lg-7 col-xl-8">
+                <div class="dashboard-card bg-white p-4 rounded-4 shadow-sm h-100">
+                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+                        <div>
+                            <h5 class="card-heading fw-bold text-dark mb-0">Bookings Overview</h5>
+                            <span class="text-muted small">Last 7 Days</span>
+                        </div>
 
-                <div>
-
-                    <h3 class="content-card-title">
-                        <i class="bi bi-door-open-fill text-gold"></i>
-                        Live Room &amp; Suite Inventory Matrix
-                    </h3>
-
-                    <p class="content-card-subtitle">
-                        Real-time room occupancy status across wings and luxury tiers
-                    </p>
-
-                </div>
-
-                <div class="filter-btn-group">
-
-                    <button type="button" class="filter-pill-btn room-filter-btn active" data-room-filter="all">
-                        All Rooms
-                    </button>
-
-                    <button type="button" class="filter-pill-btn room-filter-btn" data-room-filter="occupied">
-                        Occupied
-                    </button>
-
-                    <button type="button" class="filter-pill-btn room-filter-btn" data-room-filter="available">
-                        Available
-                    </button>
-
-                    <button type="button" class="filter-pill-btn room-filter-btn" data-room-filter="reserved">
-                        Reserved
-                    </button>
-
-                    <button type="button" class="filter-pill-btn room-filter-btn" data-room-filter="cleaning">
-                        Cleaning
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <div class="room-grid-wrapper">
-
-                <div id="roomStatusGrid" class="row g-3">
-
-                    <div class="col-12 text-center py-5">
-
-                        <div class="py-4">
-
-                            <i class="bi bi-door-closed text-gold fs-1 d-block mb-3 opacity-75"></i>
-
-                            <h5 class="fw-bold text-dark mb-2"
-                                style="font-family: var(--font-heading); font-size: 1.5rem;">
-                                No Room Records Loaded
-                            </h5>
-
-                            <p class="small text-muted mb-3 mx-auto" style="max-width: 480px;">
-
-                                Room inventory and live occupancy status will automatically
-                                display here once rooms are synchronized with the central database.
-
-                            </p>
-
-                            <button type="button" class="btn btn-sm btn-outline-gold"
-                                onclick="triggerQuickAction('block-room')">
-
-                                <i class="bi bi-plus-circle me-1"></i>
-                                Configure Rooms
-
+                        <div class="dropdown">
+                            <button class="btn btn-filter-pill btn-sm d-flex align-items-center gap-2" type="button"
+                                id="chartFilterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span>This Week</span>
+                                <i class="bi bi-chevron-down small"></i>
                             </button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="chartFilterDropdown">
+                                <li><a class="dropdown-item active" href="javascript:void(0)">This Week</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0)">Last Week</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0)">This Month</a></li>
+                            </ul>
+                        </div>
+                    </div>
 
+                    <!-- Canvas for Area Chart -->
+                    <div class="chart-container-area position-relative" style="height: 240px;">
+                        <canvas id="bookingsOverviewChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Room Status (Doughnut Chart with Center Number) -->
+            <div class="col-12 col-lg-5 col-xl-4">
+                <div class="dashboard-card bg-white p-4 rounded-4 shadow-sm h-100">
+                    <h5 class="card-heading fw-bold text-dark mb-3">Room Status</h5>
+
+                    <div class="row align-items-center h-100 py-2">
+                        <!-- Donut Graphic Column -->
+                        <div class="col-7 position-relative">
+                            <div style="height: 180px;" class="d-flex align-items-center justify-content-center">
+                                <canvas id="roomStatusDonutChart"></canvas>
+                            </div>
+                            <!-- Centered Total Rooms Text -->
+                            <div class="donut-center-metric text-center">
+                                <div class="donut-number fw-bold text-dark">0</div>
+                                <div class="donut-label text-muted">Total Rooms</div>
+                            </div>
                         </div>
 
+                        <!-- Legend Column -->
+                        <div class="col-5">
+                            <div class="donut-legend-wrap d-flex flex-column gap-3">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <span class="d-flex align-items-center gap-2 small text-dark">
+                                        <span class="legend-indicator bg-success"></span>
+                                        Occupied
+                                    </span>
+                                    <span class="fw-bold text-dark small">0</span>
+                                </div>
+
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <span class="d-flex align-items-center gap-2 small text-dark">
+                                        <span class="legend-indicator bg-warning"></span>
+                                        Available
+                                    </span>
+                                    <span class="fw-bold text-dark small">0</span>
+                                </div>
+
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <span class="d-flex align-items-center gap-2 small text-dark">
+                                        <span class="legend-indicator bg-danger"></span>
+                                        Maintenance
+                                    </span>
+                                    <span class="fw-bold text-dark small">0</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
-
             </div>
 
         </div>
 
-
         <!-- ==========================================
-         REGISTERED GUESTS - DYNAMIC DATABASE SECTION
-         ========================================== -->
-        <div class="content-card mt-4">
+             4. BOTTOM ROW: RECENT BOOKINGS, QUICK ACTIONS, LATEST ACTIVITY
+             ========================================== -->
+        <div class="row g-3 g-xl-4 mb-4">
 
-            <div class="content-card-header">
-
-                <div>
-
-                    <h3 class="content-card-title">
-
-                        <i class="bi bi-people-fill text-gold"></i>
-
-                        Registered Guests
-
-                    </h3>
-
-                    <p class="content-card-subtitle">
-
-                        Guest registrations from the hotel database
-
-                    </p>
-
-                </div>
-
-                <div class="d-flex align-items-center gap-2 flex-wrap">
-
-                    <div class="input-group input-group-sm" style="max-width: 320px;">
-                        <input type="search" id="userSearchInput" class="form-control form-control-sm"
-                            placeholder="Search by name, email, phone, ID..."
-                            autocomplete="off"
-                            onkeyup="filterRegisteredGuests()"
-                            onsearch="filterRegisteredGuests()"
-                            onkeydown="if(event.key==='Enter'){event.preventDefault();filterRegisteredGuests();}"
-                            style="border-color: rgba(184, 142, 104, 0.4); border-radius: 20px 0 0 20px; font-size: 0.82rem; padding: 6px 14px;">
-                        <button type="button" class="btn btn-outline-gold" id="btnUserSearch"
-                            onclick="filterRegisteredGuests()"
-                            style="border-radius: 0 20px 20px 0; font-size: 0.82rem; padding: 6px 14px;">
-                            <i class="bi bi-search"></i> Search
-                        </button>
+            <!-- Recent Bookings Table -->
+            <div class="col-12 col-xl-5">
+                <div class="dashboard-card bg-white p-4 rounded-4 shadow-sm h-100">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h5 class="card-heading fw-bold text-dark mb-0">Recent Bookings</h5>
+                        <a href="javascript:void(0)"
+                            class="view-all-link small fw-semibold text-decoration-none d-flex align-items-center gap-1"
+                            onclick="toggleDatabaseGuests()">
+                            <span>View All</span> <i class="bi bi-arrow-right"></i>
+                        </a>
                     </div>
 
-                    <button type="button" class="btn btn-sm btn-outline-secondary" id="btnUserReset"
-                        onclick="resetRegisteredGuests()"
-                        style="display: none; border-radius: 20px; font-size: 0.82rem; padding: 6px 12px;">
-                        <i class="bi bi-x-circle"></i> Clear
-                    </button>
-
-                    <span class="badge bg-gold-subtle text-gold">
-
-                        Registered Users
-
-                    </span>
-
+                    <div class="table-responsive">
+                        <table class="table table-dashboard align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-muted small fw-semibold">#</th>
+                                    <th class="text-muted small fw-semibold">Guest Name</th>
+                                    <th class="text-muted small fw-semibold">Room No.</th>
+                                    <th class="text-muted small fw-semibold">Check In</th>
+                                    <th class="text-muted small fw-semibold">Status</th>
+                                    <th class="text-muted small fw-semibold text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="6" class="text-center py-4 text-muted">
+                                        <i class="bi bi-inbox fs-3 d-block mb-2 opacity-50"></i>
+                                        <div class="small fw-semibold text-dark mb-1">No Recent Bookings</div>
+                                        <span class="text-muted small">New guest reservations will appear here
+                                            automatically.</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-
             </div>
 
+            <!-- Quick Actions (6 Colored Tile Cards: 2 cols x 3 rows) -->
+            <div class="col-12 col-md-6 col-xl-4">
+                <div class="dashboard-card bg-white p-4 rounded-4 shadow-sm h-100">
+                    <h5 class="card-heading fw-bold text-dark mb-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-lightning-charge-fill text-warning"></i> Quick Actions
+                    </h5>
 
-            <div class="table-luxury-wrapper">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <a href="javascript:void(0)"
+                                class="action-tile tile-peach text-decoration-none text-center p-3 rounded-3 d-flex flex-column align-items-center justify-content-center h-100"
+                                onclick="triggerQuickAction('new-reservation')">
+                                <div class="tile-icon mb-2"><i class="bi bi-calendar-plus fs-4"></i></div>
+                                <span class="tile-title small fw-semibold">Add Booking</span>
+                            </a>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0)"
+                                class="action-tile tile-blue text-decoration-none text-center p-3 rounded-3 d-flex flex-column align-items-center justify-content-center h-100"
+                                onclick="triggerQuickAction('block-room')">
+                                <div class="tile-icon mb-2"><i class="bi bi-door-closed fs-4"></i></div>
+                                <span class="tile-title small fw-semibold">Add Room</span>
+                            </a>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0)"
+                                class="action-tile tile-purple text-decoration-none text-center p-3 rounded-3 d-flex flex-column align-items-center justify-content-center h-100"
+                                onclick="toggleDatabaseGuests()">
+                                <div class="tile-icon mb-2"><i class="bi bi-people fs-4"></i></div>
+                                <span class="tile-title small fw-semibold">Manage Guests</span>
+                            </a>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0)"
+                                class="action-tile tile-green text-decoration-none text-center p-3 rounded-3 d-flex flex-column align-items-center justify-content-center h-100"
+                                onclick="triggerQuickAction('export-report')">
+                                <div class="tile-icon mb-2"><i class="bi bi-bar-chart-line fs-4"></i></div>
+                                <span class="tile-title small fw-semibold">View Reports</span>
+                            </a>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0)"
+                                class="action-tile tile-pink text-decoration-none text-center p-3 rounded-3 d-flex flex-column align-items-center justify-content-center h-100"
+                                onclick="handleMenuClick('Settings')">
+                                <div class="tile-icon mb-2"><i class="bi bi-gear fs-4"></i></div>
+                                <span class="tile-title small fw-semibold">Settings</span>
+                            </a>
+                        </div>
+                        <div class="col-6">
+                            <a href="Login.aspx"
+                                class="action-tile tile-slate text-decoration-none text-center p-3 rounded-3 d-flex flex-column align-items-center justify-content-center h-100">
+                                <div class="tile-icon mb-2"><i class="bi bi-box-arrow-right fs-4"></i></div>
+                                <span class="tile-title small fw-semibold">Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                <asp:GridView ID="gvUsers" runat="server" AutoGenerateColumns="False" CssClass="table table-luxury"
-                    GridLines="None" EmptyDataText="No registered guests found.">
+            <!-- Latest Activity Timeline -->
+            <div class="col-12 col-md-6 col-xl-3">
+                <div class="dashboard-card bg-white p-4 rounded-4 shadow-sm h-100">
+                    <h5 class="card-heading fw-bold text-dark mb-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-clock-history text-dark"></i> Latest Activity
+                    </h5>
 
+                    <div class="timeline-activity-list position-relative">
+                        <div class="text-center py-4 text-muted">
+                            <i class="bi bi-clock-history fs-3 d-block mb-2 opacity-50"></i>
+                            <div class="small fw-semibold text-dark mb-1">No Recent Activity</div>
+                            <span class="text-muted small">Live front desk, booking, and check-in logs will stream
+                                here.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ==========================================
+             5. REGISTERED GUESTS (ASP.NET DATABASE GRIDVIEW)
+             Retains gvUsers for Dashboard.aspx.cs DataBind
+             ========================================== -->
+        <div id="databaseGuestsPanel" class="dashboard-card bg-white p-4 rounded-4 shadow-sm mt-4">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+                <div>
+                    <h5 class="card-heading fw-bold text-dark mb-1 d-flex align-items-center gap-2">
+                        <i class="bi bi-people-fill text-gold"></i> Registered Guests Directory (Database)
+                    </h5>
+                    <p class="text-muted small mb-0">Live records connected to Users table in SQL Server database.</p>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <input type="text" id="userSearchInput" class="form-control form-control-sm"
+                        placeholder="Search guests..." onkeyup="filterRegisteredGuests()" style="max-width: 220px;" />
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <asp:GridView ID="gvUsers" runat="server" AutoGenerateColumns="False"
+                    CssClass="table table-dashboard align-middle mb-0" GridLines="None"
+                    EmptyDataText="No registered guests found in database.">
                     <Columns>
-
-
-                        <asp:BoundField DataField="UserId" HeaderText="ID" />
-
-
-                        <asp:TemplateField HeaderText="Guest Name">
-
+                        <asp:BoundField DataField="UserId" HeaderText="ID" ItemStyle-CssClass="small text-muted"
+                            HeaderStyle-CssClass="text-muted small fw-semibold" />
+                        <asp:TemplateField HeaderText="Guest Name" HeaderStyle-CssClass="text-muted small fw-semibold">
                             <ItemTemplate>
-
-                                <%# Eval("FirstName") + " " + Eval("LastName") %>
-
+                                <span class="fw-semibold text-dark small">
+                                    <%# Eval("FirstName") + " " + Eval("LastName") %>
+                                </span>
                             </ItemTemplate>
-
                         </asp:TemplateField>
-
-
-                        <asp:BoundField DataField="Email" HeaderText="Email" />
-
-
-                        <asp:BoundField DataField="Phone" HeaderText="Phone" />
-
-
+                        <asp:BoundField DataField="Email" HeaderText="Email" ItemStyle-CssClass="small text-muted"
+                            HeaderStyle-CssClass="text-muted small fw-semibold" />
+                        <asp:BoundField DataField="Phone" HeaderText="Phone" ItemStyle-CssClass="small text-muted"
+                            HeaderStyle-CssClass="text-muted small fw-semibold" />
                         <asp:BoundField DataField="CreatedAt" HeaderText="Registered On"
-                            DataFormatString="{0:dd-MMM-yyyy hh:mm tt}" />
-
+                            DataFormatString="{0:dd-MMM-yyyy hh:mm tt}" ItemStyle-CssClass="small text-muted"
+                            HeaderStyle-CssClass="text-muted small fw-semibold" />
                     </Columns>
-
                 </asp:GridView>
+            </div>
+        </div>
 
-                <!-- Empty Search Results Message (when searching) -->
-                <div id="noUserResultsRow" class="text-center py-4" style="display: none;">
-                    <i class="bi bi-search text-muted fs-2 mb-2 d-block"></i>
-                    <h6 class="fw-bold text-muted mb-1">No registered guests matched your search.</h6>
-                    <p class="small text-muted mb-0">Try searching by another name, email address, phone number, or ID.</p>
+        <!-- ==========================================
+             USER LOGINS DIRECTORY (DATABASE: LOGIN TABLE)
+             Shows ONLY User Logins (Keval Admin Login Nahi)
+             ========================================== -->
+        <div id="databaseLoginsPanel" class="dashboard-card bg-white p-4 rounded-4 shadow-sm mt-4">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+                <div>
+                    <h5 class="card-heading fw-bold text-dark mb-1 d-flex align-items-center gap-2">
+                        <i class="bi bi-box-arrow-in-right text-success"></i> User Logins Directory (Database: Login Table)
+                    </h5>
+                    <p class="text-muted small mb-0">Live user login records connected to [Login] table in SQL Server database.</p>
                 </div>
-
+                <div class="d-flex align-items-center gap-2">
+                    <input type="text" id="loginSearchInput" class="form-control form-control-sm"
+                        placeholder="Search user logins..." onkeyup="filterLoginDirectory()" style="max-width: 220px;" />
+                </div>
             </div>
 
+            <div class="table-responsive">
+                <asp:GridView ID="gvLogins" runat="server" AutoGenerateColumns="False"
+                    CssClass="table table-dashboard align-middle mb-0" GridLines="None"
+                    EmptyDataText="No user login records found in database.">
+                    <Columns>
+                        <asp:BoundField DataField="LoginId" HeaderText="Login ID" ItemStyle-CssClass="small text-muted"
+                            HeaderStyle-CssClass="text-muted small fw-semibold" />
+                        <asp:BoundField DataField="UserId" HeaderText="User ID" ItemStyle-CssClass="small text-muted"
+                            HeaderStyle-CssClass="text-muted small fw-semibold" />
+                        <asp:BoundField DataField="UserName" HeaderText="User Name" ItemStyle-CssClass="small fw-semibold text-dark"
+                            HeaderStyle-CssClass="text-muted small fw-semibold" />
+                        <asp:BoundField DataField="Email" HeaderText="Email" ItemStyle-CssClass="small text-muted"
+                            HeaderStyle-CssClass="text-muted small fw-semibold" />
+                        <asp:BoundField DataField="LoginTime" HeaderText="Login Date & Time"
+                            DataFormatString="{0:dd-MMM-yyyy hh:mm:ss tt}" ItemStyle-CssClass="small text-muted"
+                            HeaderStyle-CssClass="text-muted small fw-semibold" />
+                        <asp:TemplateField HeaderText="Status" HeaderStyle-CssClass="text-muted small fw-semibold">
+                            <ItemTemplate>
+                                <span class="badge bg-success-subtle text-success border border-success-subtle py-1 px-2">
+                                    <i class="bi bi-check-circle me-1"></i><%# Eval("Status") %>
+                                </span>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                    </Columns>
+                </asp:GridView>
+            </div>
         </div>
 
         <script>
+            function toggleDatabaseGuests() {
+                var panel = document.getElementById('databaseGuestsPanel');
+                if (panel) {
+                    panel.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+
             function filterRegisteredGuests() {
                 var input = document.getElementById('userSearchInput');
-                var resetBtn = document.getElementById('btnUserReset');
-                var noResults = document.getElementById('noUserResultsRow');
                 var table = document.querySelector('[id$="gvUsers"]');
                 if (!input || !table) return;
 
                 var query = input.value.trim().toLowerCase();
-                if (resetBtn) {
-                    resetBtn.style.display = query.length > 0 ? 'inline-block' : 'none';
-                }
-
                 var rows = table.querySelectorAll('tr');
-                var visibleCount = 0;
-                var dataRowCount = 0;
 
                 for (var i = 0; i < rows.length; i++) {
                     var row = rows[i];
                     if (row.querySelector('th')) continue;
-                    var cells = row.querySelectorAll('td');
-                    if (!cells || cells.length === 0) continue;
-                    if (cells.length === 1 && cells[0].hasAttribute('colspan')) continue;
-
-                    dataRowCount++;
-                    var text = (row.textContent || row.innerText || '').toLowerCase();
-                    if (query === '' || text.indexOf(query) > -1) {
-                        row.style.display = '';
-                        visibleCount++;
-                    } else {
-                        row.style.display = 'none';
-                    }
-                }
-
-                if (noResults && dataRowCount > 0) {
-                    noResults.style.display = (visibleCount === 0 && query !== '') ? 'block' : 'none';
+                    var text = row.textContent.toLowerCase();
+                    row.style.display = (query === '' || text.includes(query)) ? '' : 'none';
                 }
             }
 
-            function resetRegisteredGuests() {
-                var input = document.getElementById('userSearchInput');
-                if (input) {
-                    input.value = '';
-                    filterRegisteredGuests();
-                    input.focus();
+            function filterLoginDirectory() {
+                var input = document.getElementById('loginSearchInput');
+                var table = document.querySelector('[id$="gvLogins"]');
+                if (!input || !table) return;
+
+                var query = input.value.trim().toLowerCase();
+                var rows = table.querySelectorAll('tr');
+
+                for (var i = 0; i < rows.length; i++) {
+                    var row = rows[i];
+                    if (row.querySelector('th')) continue;
+                    var text = row.textContent.toLowerCase();
+                    row.style.display = (query === '' || text.includes(query)) ? '' : 'none';
                 }
             }
         </script>
-
-
-        <!-- ==========================================
-         RECENT BOOKINGS & GUEST ROSTER
-         ========================================== -->
-        <div class="content-card mt-4">
-
-            <div class="content-card-header">
-
-                <div>
-
-                    <h3 class="content-card-title">
-
-                        <i class="bi bi-calendar-check-fill text-gold"></i>
-
-                        Live Reservations &amp; Front Desk Ledger
-
-                    </h3>
-
-                    <p class="content-card-subtitle">
-
-                        Real-time incoming and active guest stays for hotel property
-
-                    </p>
-
-                </div>
-
-                <div class="d-flex align-items-center gap-2 flex-wrap">
-
-                    <div class="filter-btn-group">
-
-                        <button type="button" class="filter-pill-btn booking-filter-btn active" data-filter="all">
-                            All Stays
-                        </button>
-
-                        <button type="button" class="filter-pill-btn booking-filter-btn" data-filter="confirmed">
-                            Confirmed
-                        </button>
-
-                        <button type="button" class="filter-pill-btn booking-filter-btn" data-filter="checkedin">
-                            Checked-In
-                        </button>
-
-                        <button type="button" class="filter-pill-btn booking-filter-btn" data-filter="pending">
-                            Pending
-                        </button>
-
-                    </div>
-
-                    <div class="ms-lg-2">
-
-                        <input type="text" id="tableSearchInput" class="form-control form-control-sm"
-                            placeholder="Search guest name, phone..."
-                            style="border-color: rgba(184, 142, 104, 0.35); border-radius: 20px; font-size: 0.82rem; padding: 5px 14px; width: 220px;">
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="table-luxury-wrapper">
-
-                <table id="recentBookingsTable" class="table table-luxury">
-
-                    <thead>
-
-                        <tr>
-
-                            <th>Booking ID</th>
-                            <th>Guest Information</th>
-                            <th>Room &amp; Suite</th>
-                            <th>Dates of Stay</th>
-                            <th>Total Amount</th>
-                            <th>Payment</th>
-                            <th>Reservation Status</th>
-                            <th class="text-end">Actions</th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        <tr id="emptyBookingsRow">
-
-                            <td colspan="8" class="text-center py-5">
-
-                                <div class="py-4">
-
-                                    <i class="bi bi-calendar2-x text-gold fs-1 d-block mb-3 opacity-75"></i>
-
-                                    <h5 class="fw-bold text-dark mb-2"
-                                        style="font-family: var(--font-heading); font-size: 1.5rem;">
-
-                                        No Active Bookings Found
-
-                                    </h5>
-
-                                    <p class="small text-muted mb-3 mx-auto" style="max-width: 480px;">
-
-                                        There are currently no active reservations or in-house
-                                        guest records in the ledger. New bookings will appear here in real time.
-
-                                    </p>
-
-                                    <button type="button" class="btn btn-sm btn-welcome-primary"
-                                        onclick="triggerQuickAction('new-reservation')">
-
-                                        <i class="bi bi-calendar-plus me-1"></i>
-                                        Create First Reservation
-
-                                    </button>
-
-                                </div>
-
-                            </td>
-
-                        </tr>
-
-                    </tbody>
-
-                </table>
-
-
-                <div id="noBookingsRow" class="text-center py-5" style="display: none;">
-
-                    <i class="bi bi-search text-muted fs-1 mb-2 d-block"></i>
-
-                    <h6 class="fw-bold text-muted">
-                        No reservations matched your search query.
-                    </h6>
-
-                    <p class="small text-muted mb-0">
-
-                        Try searching by another guest name, phone number,
-                        or booking reference.
-
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- ==========================================
-         ANALYTICS
-         ========================================== -->
-        <div class="row g-4 mt-1">
-
-            <div class="col-12 col-xl-8">
-
-                <div class="content-card h-100">
-
-                    <div class="content-card-header">
-
-                        <div>
-
-                            <h3 class="content-card-title">
-
-                                <i class="bi bi-graph-up-arrow text-gold"></i>
-
-                                7-Day Revenue &amp; Occupancy Trend
-
-                            </h3>
-
-                            <p class="content-card-subtitle">
-
-                                Hotel daily revenue performance &bull; Current week
-
-                            </p>
-
-                        </div>
-
-                        <div class="d-flex align-items-center gap-2">
-
-                            <span class="badge bg-gold-subtle text-gold px-3 py-2 fw-semibold">
-
-                                Total Week: ₹0.00
-
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="chart-card-body">
-
-                        <div class="chart-bar-container">
-
-                            <div class="chart-col">
-                                <span class="chart-bar-tooltip">
-                                    Mon: ₹0.00 (0%)
-                                </span>
-
-                                <div class="chart-bar-pillar" style="height: 6px; background: #E2DBD2;">
-                                </div>
-
-                                <span class="chart-col-label">
-                                    Mon
-                                </span>
-                            </div>
-
-
-                            <div class="chart-col">
-                                <span class="chart-bar-tooltip">
-                                    Tue: ₹0.00 (0%)
-                                </span>
-
-                                <div class="chart-bar-pillar" style="height: 6px; background: #E2DBD2;">
-                                </div>
-
-                                <span class="chart-col-label">
-                                    Tue
-                                </span>
-                            </div>
-
-
-                            <div class="chart-col">
-                                <span class="chart-bar-tooltip">
-                                    Wed: ₹0.00 (0%)
-                                </span>
-
-                                <div class="chart-bar-pillar" style="height: 6px; background: #E2DBD2;">
-                                </div>
-
-                                <span class="chart-col-label">
-                                    Wed
-                                </span>
-                            </div>
-
-
-                            <div class="chart-col">
-                                <span class="chart-bar-tooltip">
-                                    Thu: ₹0.00 (0%)
-                                </span>
-
-                                <div class="chart-bar-pillar" style="height: 6px; background: #E2DBD2;">
-                                </div>
-
-                                <span class="chart-col-label">
-                                    Thu
-                                </span>
-                            </div>
-
-
-                            <div class="chart-col">
-                                <span class="chart-bar-tooltip">
-                                    Fri: ₹0.00 (0%)
-                                </span>
-
-                                <div class="chart-bar-pillar" style="height: 6px; background: #E2DBD2;">
-                                </div>
-
-                                <span class="chart-col-label">
-                                    Fri
-                                </span>
-                            </div>
-
-
-                            <div class="chart-col">
-                                <span class="chart-bar-tooltip">
-                                    Sat: ₹0.00 (0%)
-                                </span>
-
-                                <div class="chart-bar-pillar" style="height: 6px; background: #E2DBD2;">
-                                </div>
-
-                                <span class="chart-col-label">
-                                    Sat
-                                </span>
-                            </div>
-
-
-                            <div class="chart-col">
-                                <span class="chart-bar-tooltip">
-                                    Sun: ₹0.00 (0%)
-                                </span>
-
-                                <div class="chart-bar-pillar" style="height: 6px; background: #B88E68;">
-                                </div>
-
-                                <span class="chart-col-label text-gold fw-bold">
-                                    Today
-                                </span>
-                            </div>
-
-                        </div>
-
-
-                        <div class="row g-3 pt-3 mt-1 text-center">
-
-                            <div class="col-4 border-end">
-
-                                <div class="text-muted small">
-                                    Avg Daily Revenue
-                                </div>
-
-                                <div class="fw-bold fs-5 text-dark">
-                                    ₹0.00
-                                </div>
-
-                            </div>
-
-
-                            <div class="col-4 border-end">
-
-                                <div class="text-muted small">
-                                    Peak Day
-                                </div>
-
-                                <div class="fw-bold fs-5 text-gold">
-                                    --
-                                </div>
-
-                            </div>
-
-
-                            <div class="col-4">
-
-                                <div class="text-muted small">
-                                    Weekly RevPAR
-                                </div>
-
-                                <div class="fw-bold fs-5 text-dark">
-                                    ₹0.00
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- VIP ARRIVALS -->
-            <div class="col-12 col-xl-4">
-
-                <div class="content-card h-100">
-
-                    <div class="content-card-header">
-
-                        <div>
-
-                            <h3 class="content-card-title">
-
-                                <i class="bi bi-person-lines-fill text-gold"></i>
-                                VIP Arrivals
-
-                            </h3>
-
-                            <p class="content-card-subtitle">
-
-                                Scheduled check-ins requiring executive attention
-
-                            </p>
-
-                        </div>
-
-                        <span class="badge bg-gold-subtle text-gold">
-                            0 Scheduled
-                        </span>
-
-                    </div>
-
-
-                    <div class="arrival-list">
-
-                        <div class="text-center py-4 px-2">
-
-                            <i class="bi bi-person-check text-gold fs-2 d-block mb-2 opacity-75"></i>
-
-                            <h6 class="fw-bold text-dark mb-1"
-                                style="font-family: var(--font-heading); font-size: 1.25rem;">
-
-                                No VIP Arrivals Scheduled
-
-                            </h6>
-
-                            <p class="small text-muted mb-0">
-
-                                Upcoming arrivals requiring executive concierge
-                                or personalized amenities will appear here.
-
-                            </p>
-
-                        </div>
-
-
-                        <div class="p-3 bg-light rounded-3 border border-secondary border-opacity-10 mt-3">
-
-                            <div class="d-flex align-items-center gap-2 mb-1 text-gold fw-bold small">
-
-                                <i class="bi bi-info-circle-fill"></i>
-                                Concierge Protocol
-
-                            </div>
-
-                            <div class="small text-muted" style="line-height: 1.4;">
-
-                                VIP concierge protocol active.
-                                Welcome beverages and express check-in prepared upon guest arrival.
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- ==========================================
-         LIVE AUDIT & ACTIVITY STREAM
-         ========================================== -->
-        <div class="row mt-4">
-
-            <div class="col-12">
-
-                <div class="content-card mb-0">
-
-                    <div class="content-card-header">
-
-                        <div>
-
-                            <h3 class="content-card-title">
-
-                                <i class="bi bi-activity text-gold"></i>
-
-                                Property Activity &amp; Operational Stream
-
-                            </h3>
-
-                            <p class="content-card-subtitle">
-
-                                Real-time event logging across Front Desk,
-                                Housekeeping &amp; Point-of-Sale
-
-                            </p>
-
-                        </div>
-
-                        <span class="badge bg-success-subtle text-success border border-success-subtle">
-
-                            <i class="bi bi-broadcast me-1"></i>
-                            Stream Ready
-
-                        </span>
-
-                    </div>
-
-
-                    <div class="text-center py-5 px-3">
-
-                        <i class="bi bi-clock-history text-gold fs-2 d-block mb-2 opacity-75"></i>
-
-                        <h6 class="fw-bold text-dark mb-1"
-                            style="font-family: var(--font-heading); font-size: 1.25rem;">
-
-                            No Recent System Activities
-
-                        </h6>
-
-                        <p class="small text-muted mb-0">
-
-                            Operational events across front desk,
-                            housekeeping, and billing will stream here in real time.
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
 
     </asp:Content>

@@ -24,7 +24,12 @@
     <link rel="stylesheet" type="text/css" href="css/login.css?v=9.0">
 </head>
 <body class="admin-login-body">
-    <form id="formAdminLogin" runat="server">
+    <form id="formAdminLogin" runat="server" autocomplete="off">
+        <!-- Browser Autofill Trap: absorbs unwanted saved credentials from browsers -->
+        <div style="position: absolute; top: -9999px; left: -9999px; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none;" aria-hidden="true">
+            <input type="text" name="decoy_user_field" tabindex="-1" autocomplete="username" />
+            <input type="password" name="decoy_pass_field" tabindex="-1" autocomplete="current-password" />
+        </div>
 
         <!-- ==========================================
              DEDICATED ADMIN LOGIN PORTAL
@@ -32,7 +37,22 @@
         <div class="admin-login-viewport">
             <div class="container py-4">
                 <div class="row justify-content-center">
-                    <div class="col-12 col-md-10 col-lg-8 col-xl-7 d-flex justify-content-center">
+                    <div class="col-12 col-md-10 col-lg-8 col-xl-7 d-flex flex-column align-items-center">
+
+                        <!-- Success Confirmation Message (Outside Card: White BG & Green Text) -->
+                        <div id="adminSuccessMsg" class="d-none align-items-center gap-3 p-3 rounded-3 shadow-lg mb-3" role="alert"
+                             style="width: 100%; max-width: 640px; background-color: #ffffff !important; color: #15803d !important; border: 2px solid #22c55e; border-left: 6px solid #16a34a;">
+                            <div class="d-flex align-items-center justify-content-center rounded-circle flex-shrink-0" style="width: 40px; height: 40px; background-color: #f0fdf4;">
+                                <i class="bi bi-check-circle-fill fs-4" style="color: #16a34a;"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <strong class="d-block fw-bold" style="color: #15803d; font-size: 1rem;">Admin Login Successfully!</strong>
+                                <span class="small" style="color: #16a34a;">Authentication confirmed. Redirecting to Executive Dashboard...</span>
+                            </div>
+                            <div class="spinner-border spinner-border-sm ms-auto" role="status" style="width: 1.2rem; height: 1.2rem; color: #16a34a;">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
 
                         <!-- Luxury Admin Login Card -->
                         <div class="admin-login-card shadow-lg">
@@ -55,7 +75,7 @@
                             <!-- Body (Login Form) -->
                             <div class="card-body-luxury">
 
-                                <!-- Alert Message -->
+                                <!-- Alert Message (Error) -->
                                 <div id="adminAlertMsg" class="alert alert-danger py-2 px-3 small d-none mb-3" role="alert">
                                     <i class="bi bi-exclamation-triangle-fill me-1"></i>
                                     <span id="adminAlertText">Please enter your credentials.</span>
@@ -67,7 +87,7 @@
                                     <div class="input-wrapper">
                                         <i class="bi bi-person-badge input-icon"></i>
                                         <input type="text" class="custom-form-control shadow-none" id="adminEmail"
-                                            placeholder="e.g. admin@hotel.com" autocomplete="username" required>
+                                            placeholder="Enter your Email or Staff ID" autocomplete="off" required>
                                     </div>
                                 </div>
 
@@ -76,7 +96,7 @@
                                     <div class="d-flex justify-content-between align-items-center mb-1">
                                         <label for="adminPassword" class="input-label mb-0">Password</label>
                                         <a href="javascript:void(0);"
-                                            onclick="alert('For security, administrator password resets require IT authorization. Please contact IT Security Support at it-support@hotelmanagement.com.');"
+                                            onclick="alert('For security, administrator password resets require IT authorization. Please contact the IT Administration Department.');"
                                             class="forgot-link">
                                             Forgot password?
                                         </a>
@@ -85,7 +105,7 @@
                                         <i class="bi bi-key-fill input-icon"></i>
                                         <input type="password" class="custom-form-control shadow-none"
                                             id="adminPassword" placeholder="Enter security key / password"
-                                            autocomplete="current-password" required>
+                                            autocomplete="new-password" required>
                                         <button type="button" class="toggle-pw-btn"
                                             onclick="toggleAdminPasswordVisibility('adminPassword', this)"
                                             title="Show/Hide Password">

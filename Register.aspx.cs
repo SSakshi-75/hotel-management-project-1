@@ -13,6 +13,15 @@ public partial class Register : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!IsPostBack)
+        {
+            txtEmail.Text = string.Empty;
+            txtPassword.Attributes["value"] = string.Empty;
+            txtConfirmPassword.Attributes["value"] = string.Empty;
+            txtPassword.Attributes["autocomplete"] = "new-password";
+            txtConfirmPassword.Attributes["autocomplete"] = "new-password";
+            txtEmail.Attributes["autocomplete"] = "off";
+        }
     }
 
 
