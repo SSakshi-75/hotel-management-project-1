@@ -289,40 +289,7 @@
          PASSWORD SHOW / HIDE
          ========================================== -->
 
-        <script>
-
-            function togglePassword(inputId, btn) {
-
-                var input = document.getElementById(inputId);
-
-                if (!input) {
-                    return;
-                }
-
-
-                var icon = btn.querySelector("i");
-
-
-                if (input.type === "password") {
-
-                    input.type = "text";
-
-                    icon.classList.remove("bi-eye");
-
-                    icon.classList.add("bi-eye-slash");
-
-                }
-                else {
-
-                    input.type = "password";
-
-                    icon.classList.remove("bi-eye-slash");
-
-                    icon.classList.add("bi-eye");
-
-                }
-            }
-        </script>
+        <script src="js/login.js"></script>
 
 
     </asp:Content>

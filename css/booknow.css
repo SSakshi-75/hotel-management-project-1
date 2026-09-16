@@ -1,0 +1,700 @@
+/* ==========================================================================
+   BOOK NOW PAGE - MATCHING LUXURY WEBSITE THEME
+   ========================================================================== */
+
+:root {
+    --bn-theme-dark: #442305;
+    --bn-theme-gold: #9A724E;
+    --bn-theme-gold-light: #c59d5f;
+    --bn-navy: #0f172a;
+    --bn-cream: #faf7f2;
+    --bn-border: #f0e6d8;
+    --bn-amber: #d97706;
+}
+
+.text-secondary {
+    --bs-text-opacity: 1;
+    color: rgb(122 84 60 / 99%) !important;
+}
+
+.booknow-page-container {
+    background-color: #faf8f5;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    color: #334155;
+    padding-bottom: 60px;
+}
+
+/* 1. Schedule Modifier & Filter Bar Styling */
+.schedule-bar-input {
+    border-radius: 8px !important;
+    border: 1px solid #cbd5e1 !important;
+    font-size: 0.88rem !important;
+    padding: 8px 12px !important;
+    background-color: #ffffff !important;
+}
+
+.schedule-bar-input:focus {
+    border-color: var(--bn-theme-gold) !important;
+    box-shadow: 0 0 0 3px rgba(154, 114, 78, 0.15) !important;
+}
+
+.best-rate-banner {
+    background: #ffffff;
+    border: 1px solid rgba(184, 142, 104, 0.35);
+    border-radius: 12px;
+    padding: 12px 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.bn-tab-button {
+    background: #ffffff;
+    border: 1.5px solid #9A724E;
+    color: #442305;
+    padding: 9px 24px;
+    font-size: 0.84rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    transition: all 0.25s ease;
+    cursor: pointer !important;
+    border-radius: 6px;
+    outline: none !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.bn-tab-button:hover {
+    background: #fbf8f4;
+    color: #442305;
+    border-color: #442305;
+    box-shadow: 0 4px 10px rgba(68, 35, 5, 0.12);
+}
+
+.bn-tab-button.active {
+    background: #442305 !important;
+    color: #ffffff !important;
+    border-color: #442305 !important;
+    box-shadow: 0 4px 14px rgba(68, 35, 5, 0.28) !important;
+}
+
+.bn-package-pill {
+    background: #ffffff;
+    border: 1.5px solid #cbd5e1;
+    color: #475569;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    outline: none !important;
+}
+
+.bn-package-pill:hover {
+    background: #f8f4ef;
+    color: #442305;
+    border-color: #9A724E;
+}
+
+.bn-package-pill.active {
+    background: linear-gradient(135deg, #442305 0%, #9A724E 100%) !important;
+    color: #ffffff !important;
+    border-color: #442305 !important;
+    box-shadow: 0 4px 12px rgba(68, 35, 5, 0.25);
+}
+
+.package-offer-card-block {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 28px;
+    border: 1px solid rgba(184, 142, 104, 0.25);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+    margin-bottom: 40px;
+    transition: all 0.35s ease;
+    scroll-margin-top: 110px;
+}
+
+.package-offer-card-block:hover {
+    box-shadow: 0 16px 40px rgba(154, 114, 78, 0.12);
+    border-color: rgba(184, 142, 104, 0.5);
+}
+
+.bn-filter-pill {
+    background: #ffffff;
+    border: 1.5px solid #cbd5e1;
+    color: #475569;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    outline: none !important;
+}
+
+.bn-filter-pill:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(154, 114, 78, 0.25);
+}
+
+.bn-filter-pill:hover {
+    background: #f8f4ef;
+    color: #442305;
+    border-color: #9A724E;
+}
+
+.bn-filter-pill.active {
+    background: linear-gradient(135deg, #442305 0%, #9A724E 100%) !important;
+    color: #ffffff !important;
+    border-color: #442305 !important;
+    box-shadow: 0 4px 12px rgba(68, 35, 5, 0.25);
+}
+
+/* 2. Room Card Main Container */
+.room-card-luxury-block {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 28px;
+    border: 1px solid rgba(184, 142, 104, 0.25);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+    margin-bottom: 40px;
+    transition: all 0.35s ease;
+    scroll-margin-top: 110px;
+}
+
+.room-card-luxury-block:hover {
+    box-shadow: 0 16px 40px rgba(154, 114, 78, 0.12);
+    border-color: rgba(184, 142, 104, 0.5);
+}
+
+/* 3. Photo Gallery Sub-component */
+.room-gallery-frame {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: #0f172a;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.room-gallery-frame img {
+    width: 100%;
+    height: 330px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.room-gallery-frame:hover img {
+    transform: scale(1.03);
+}
+
+.photo-count-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    z-index: 2;
+}
+
+.gallery-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.75);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.gallery-nav-btn:hover {
+    background: var(--bn-theme-gold);
+    color: #ffffff;
+    border-color: var(--bn-theme-gold);
+}
+
+.gallery-nav-btn.prev {
+    left: 10px;
+}
+
+.gallery-nav-btn.next {
+    right: 10px;
+}
+
+.thumb-preview-img {
+    height: 273px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.thumb-preview-img:hover,
+.thumb-preview-img.active {
+    border-color: var(--bn-theme-gold);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(154, 114, 78, 0.25);
+}
+
+/* 4. Room Highlights Sub-component */
+.room-highlights-box {
+    background: var(--bn-cream);
+    border: 1px solid var(--bn-border);
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.highlight-icon-wrapper {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    border-radius: 10px;
+    background: #ffffff;
+    border: 1px solid var(--bn-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--bn-theme-gold);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+/* 5. Rate Details Cards Sub-component */
+.rate-plan-card {
+    background: #ffffff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px 18px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.rate-plan-card:hover {
+    border-color: rgba(154, 114, 78, 0.5);
+    box-shadow: 0 6px 16px rgba(154, 114, 78, 0.1);
+}
+
+.rate-plan-card.active {
+    border-color: var(--bn-amber);
+    background: #fffdfa;
+    box-shadow: 0 6px 20px rgba(217, 119, 6, 0.12);
+}
+
+.rate-plan-card .form-check-input {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--bn-amber);
+}
+
+/* 6. Your Stay Sidebar Sub-component */
+.your-stay-card {
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 12px 35px rgba(15, 23, 42, 0.1);
+    border: 1px solid rgba(184, 142, 104, 0.25);
+    background: #ffffff;
+}
+
+.your-stay-header {
+    background: linear-gradient(180deg, rgba(68, 35, 5, 0.75) 0%, rgba(15, 23, 42, 0.9) 100%), url('../images/room-superior-king.jpg') center/cover no-repeat;
+    padding: 22px 20px;
+    color: #ffffff;
+}
+
+.your-stay-body {
+    padding: 20px;
+}
+
+.guest-info-select {
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.btn-book-gold {
+    background: linear-gradient(135deg, #442305 0%, #9A724E 100%);
+    color: #ffffff !important;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    box-shadow: 0 6px 20px rgba(154, 114, 78, 0.3);
+    transition: all 0.35s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    text-decoration: none !important;
+}
+
+.btn-book-gold:hover {
+    background: linear-gradient(135deg, #9A724E 0%, #7d5939 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(154, 114, 78, 0.45);
+    color: #ffffff !important;
+}
+
+@media (max-width: 991.98px) {
+    .room-gallery-frame img {
+        height: 260px;
+    }
+}
+
+/* ==========================================================================
+   4. LUXURY GALLERY EYE ICON & ENLARGE LIGHTBOX MODAL
+   ========================================================================== */
+.gallery-zoom-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.78);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    transition: all 0.25s ease;
+    font-size: 1.05rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    outline: none !important;
+}
+
+.gallery-zoom-btn:hover {
+    background: #442305;
+    color: #ffffff;
+    border-color: #9A724E;
+    transform: scale(1.12);
+    box-shadow: 0 6px 18px rgba(68, 35, 5, 0.45);
+}
+
+.room-gallery-frame img {
+    cursor: pointer;
+}
+
+.bn-lightbox-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10, 15, 29, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 20px;
+    animation: bnFadeIn 0.25s ease forwards;
+}
+
+.bn-lightbox-content {
+    position: relative;
+    max-width: 92vw;
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: bnZoomIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.bn-lightbox-image-wrapper {
+    position: relative;
+    max-width: 90vw;
+    max-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bn-lightbox-image-wrapper img {
+    max-width: 90vw;
+    max-height: 78vh;
+    object-fit: contain;
+    border-radius: 14px;
+    border: 2px solid rgba(184, 142, 104, 0.45);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65);
+    background: #0f172a;
+}
+
+.bn-lightbox-close {
+    position: absolute;
+    top: -46px;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #ffffff;
+    font-size: 1.15rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    backdrop-filter: blur(6px);
+    outline: none !important;
+}
+
+.bn-lightbox-close:hover {
+    background: #442305;
+    border-color: #9A724E;
+    transform: rotate(90deg) scale(1.1);
+}
+
+@keyframes bnFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes bnZoomIn {
+    from {
+        transform: scale(0.92);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ==========================================================================
+   5. SIGNATURE ANIMATIONS (LEFT-RIGHT IMAGES & SHIMMER HEADINGS)
+   ========================================================================== */
+
+/* --- A. Heading Animation (Matching All Other Pages) --- */
+.welcome-title-gold {
+    background: linear-gradient(100deg, #0f172a 0%, #B88E68 25%, #F4E2D8 50%, #B88E68 75%, #0f172a 100%);
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: titleShimmer 5s linear infinite;
+    display: inline-block;
+    font-weight: 800;
+}
+
+@keyframes titleShimmer {
+    0% {
+        background-position: -200% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
+}
+
+.room-title-text {
+    transition: transform 0.35s ease;
+}
+
+.room-card-luxury-block:hover .room-title-text,
+.package-offer-card-block:hover .room-title-text {
+    transform: translateX(4px);
+}
+
+/* --- B. Room Image Cards Left / Right Entrance Animation --- */
+.room-card-luxury-block:nth-of-type(odd) .room-gallery-frame,
+.package-offer-card-block:nth-of-type(odd) .room-gallery-frame {
+    animation: bnImageSlideLeft 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.room-card-luxury-block:nth-of-type(even) .room-gallery-frame,
+.package-offer-card-block:nth-of-type(even) .room-gallery-frame {
+    animation: bnImageSlideRight 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes bnImageSlideLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes bnImageSlideRight {
+    0% {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* --- C. Room Cards Hover Lift & Ambient Glow --- */
+.room-card-luxury-block,
+.package-offer-card-block {
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                border-color 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.room-card-luxury-block:hover,
+.package-offer-card-block:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 24px 50px -10px rgba(68, 35, 5, 0.14), 0 0 0 1px rgba(184, 142, 104, 0.4);
+    border-color: rgba(184, 142, 104, 0.65) !important;
+}
+
+/* --- D. Rate Plan Cards Shimmer & Glow --- */
+.rate-plan-card {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                box-shadow 0.35s ease, 
+                border-color 0.3s ease;
+}
+
+.rate-plan-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -140%;
+    width: 80%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    transform: skewX(-25deg);
+    transition: left 0.85s ease;
+    pointer-events: none;
+}
+
+.rate-plan-card:hover::after {
+    left: 160%;
+}
+
+.rate-plan-card:hover {
+    transform: translateY(-4px);
+    border-color: #9A724E;
+    box-shadow: 0 10px 24px rgba(154, 114, 78, 0.18);
+}
+
+.rate-plan-card.active {
+    border-color: #d97706 !important;
+    background: #fffdf9 !important;
+    box-shadow: 0 8px 24px rgba(217, 119, 6, 0.18) !important;
+}
+
+/* --- E. Highlight Icons Rotation & Micro-interactions --- */
+.highlight-icon-wrapper {
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.room-highlights-box .d-flex:hover .highlight-icon-wrapper {
+    transform: translateY(-3px) rotate(10deg) scale(1.14);
+    background: #442305;
+    color: #ffffff;
+    border-color: #9A724E;
+    box-shadow: 0 6px 16px rgba(68, 35, 5, 0.25);
+}
+
+/* --- F. Eye Icon Button Continuous Pulse --- */
+@keyframes bnEyePulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(154, 114, 78, 0.7);
+        border-color: #d97706;
+    }
+}
+
+.gallery-zoom-btn {
+    animation: bnEyePulse 3s infinite ease-in-out;
+}
+
+.gallery-zoom-btn:hover {
+    animation: none;
+    background: #442305 !important;
+    color: #ffffff !important;
+    border-color: #9A724E !important;
+    transform: scale(1.2) rotate(12deg) !important;
+    box-shadow: 0 8px 24px rgba(68, 35, 5, 0.5) !important;
+}
+
+/* --- G. Gold Book Button Luxury Shimmer --- */
+.btn-book-gold {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.btn-book-gold::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -80%;
+    width: 50%;
+    height: 200%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: rotate(25deg);
+    animation: bnShimmerLight 3.8s infinite;
+}
+
+@keyframes bnShimmerLight {
+    0% { left: -80%; }
+    30%, 100% { left: 140%; }
+}
+
+.btn-book-gold:hover {
+    background: linear-gradient(135deg, #9A724E 0%, #7d5939 100%);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(154, 114, 78, 0.5);
+}
+
+.bn-card-animate-in {
+    animation: bnCardPopIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+
+@keyframes bnCardPopIn {
+    0% {
+        opacity: 0;
+        transform: translateY(22px) scale(0.98);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}

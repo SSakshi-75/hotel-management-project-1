@@ -58,19 +58,6 @@
 
         </section>
 
-        <script>
-            (function () {
-                var seconds = 3;
-                var countdownEl = document.getElementById('countdown');
-                var timer = setInterval(function () {
-                    seconds--;
-                    if (countdownEl) countdownEl.textContent = seconds;
-                    if (seconds <= 0) {
-                        clearInterval(timer);
-                        window.location.href = 'index.aspx';
-                    }
-                }, 1000);
-            })();
-        </script>
+        <script src="js/login-confirmation.js"></script>
 
     </asp:Content>
