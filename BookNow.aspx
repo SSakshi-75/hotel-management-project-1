@@ -267,45 +267,49 @@
 
                                 <h4 class="font-serif fw-bold text-navy mb-3 fs-5">Rate Details</h4>
                                 <div class="rate-plan-card active mb-3"
-                                    onclick="selectRatePlan('superior_twin', 7225, this)">
+                                    onclick="selectRatePlan('superior_twin', 7225, 'Room Only', this)">
                                     <div class="d-flex justify-content-between align-items-start">
                                         <div>
-                                            <div class="fw-bold text-dark mb-1">Room Only / Best Available Rate</div>
+                                            <div class="fw-bold text-dark mb-1">Room Only</div>
                                             <ul class="list-unstyled small text-muted mb-0" style="font-size: 0.78rem;">
-                                                <li class="mb-1">&bull; Complimentary high-speed Wi-Fi &amp; valet
-                                                    parking
-                                                </li>
-                                                <li>&bull; Access to heated pool &amp; luxury fitness centre</li>
+                                                <li class="text-danger fw-semibold mb-1"><i class="bi bi-x-circle me-1"></i> No meals included</li>
+                                                <li class="mb-1">&bull; Complimentary high-speed Wi-Fi &amp; valet parking</li>
+                                                <li class="mb-1">&bull; Access to heated pool &amp; luxury fitness centre</li>
+                                                <li class="text-success mb-1" style="font-size: 0.73rem;"><i class="bi bi-check-circle me-1"></i> Free cancellation up to 48h prior</li>
+                                                <li class="text-secondary" style="font-size: 0.73rem;"><i class="bi bi-credit-card me-1"></i> Pay at hotel &bull; No deposit required</li>
                                             </ul>
                                         </div>
                                         <div class="text-end ms-2">
-                                            <span class="badge text-uppercase text-muted fw-semibold p-0"
-                                                style="font-size: 0.65rem;">MEMBER RATE</span>
+                                            <span class="badge text-uppercase fw-semibold p-1 member-rate-badge"
+                                                style="font-size: 0.65rem; background: #faf0e6; color: #9A724E;">MEMBER RATE</span>
                                             <div class="fw-bold text-dark fs-5">&#8377;7,225 <small class="text-muted"
                                                     style="font-size: 0.7rem;">/ Night</small></div>
+                                            <div class="text-muted" style="font-size: 0.65rem;">Taxes &amp; fees may apply</div>
                                             <input type="radio" name="rate_superior_twin"
                                                 class="form-check-input rate-radio mt-2" checked>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="rate-plan-card mb-3" onclick="selectRatePlan('superior_twin', 8500, this)">
+                                <div class="rate-plan-card mb-3" onclick="selectRatePlan('superior_twin', 8500, 'Standard Rate', this)">
                                     <div class="d-flex justify-content-between align-items-start">
                                         <div>
                                             <div class="fw-bold text-dark mb-1"><i
                                                     class="bi bi-crown text-warning me-1"></i> Standard Rate</div>
                                             <ul class="list-unstyled small text-muted mb-0" style="font-size: 0.78rem;">
-                                                <li class="mb-1">&bull; Complimentary high-speed Wi-Fi &amp; valet
-                                                    parking
-                                                </li>
-                                                <li>&bull; Access to heated pool &amp; luxury fitness centre</li>
+                                                <li class="text-success fw-semibold mb-1"><i class="bi bi-cup-hot-fill text-warning me-1"></i> Daily Buffet Breakfast Included</li>
+                                                <li class="mb-1">&bull; Complimentary high-speed Wi-Fi &amp; valet parking</li>
+                                                <li class="mb-1">&bull; Access to heated pool &amp; luxury fitness centre</li>
+                                                <li class="text-success mb-1" style="font-size: 0.73rem;"><i class="bi bi-check-circle me-1"></i> Free cancellation up to 48h prior</li>
+                                                <li class="text-secondary" style="font-size: 0.73rem;"><i class="bi bi-credit-card me-1"></i> Pay at hotel &bull; No deposit required</li>
                                             </ul>
                                         </div>
                                         <div class="text-end ms-2">
-                                            <span class="badge text-uppercase text-muted fw-semibold p-0"
-                                                style="font-size: 0.65rem;">MEMBER RATE</span>
+                                            <span class="badge text-uppercase fw-semibold p-1 member-rate-badge"
+                                                style="font-size: 0.65rem; background: #faf0e6; color: #9A724E;">MEMBER RATE</span>
                                             <div class="fw-bold text-dark fs-5">&#8377;8,500 <small class="text-muted"
                                                     style="font-size: 0.7rem;">/ Night</small></div>
+                                            <div class="text-muted" style="font-size: 0.65rem;">Taxes &amp; fees may apply</div>
                                             <input type="radio" name="rate_superior_twin"
                                                 class="form-check-input rate-radio mt-2">
                                         </div>
@@ -359,7 +363,7 @@
                                                 to
                                                 proceed with your luxury reservation.</div>
                                         </div>
-                                        <a href="Booking.aspx?room=Superior%20Room%20Twin%20Bed&price=7225"
+                                        <a href="Booking.aspx?room=Superior%20Room%20Twin%20Bed&price=7225&rate=Room%20Only"
                                             class="btn-book-gold sidebar-book-btn">
                                             <span>Book Now</span> <i class="bi bi-arrow-right ms-1"></i>
                                         </a>
@@ -479,43 +483,49 @@
 
                                 <h4 class="font-serif fw-bold text-navy mb-3 fs-5">Rate Details</h4>
                                 <div class="rate-plan-card active mb-3"
-                                    onclick="selectRatePlan('superior_king', 8200, this)">
+                                    onclick="selectRatePlan('superior_king', 8200, 'Room Only', this)">
                                     <div class="d-flex justify-content-between align-items-start">
                                         <div>
-                                            <div class="fw-bold text-dark mb-1">Room Only / Best Available Rate</div>
+                                            <div class="fw-bold text-dark mb-1">Room Only</div>
                                             <ul class="list-unstyled small text-muted mb-0" style="font-size: 0.78rem;">
-                                                <li class="mb-1">&bull; Complimentary high-speed Wi-Fi &amp; valet
-                                                    parking
-                                                </li>
-                                                <li>&bull; Access to heated pool &amp; luxury fitness centre</li>
+                                                <li class="text-danger fw-semibold mb-1"><i class="bi bi-x-circle me-1"></i> No meals included</li>
+                                                <li class="mb-1">&bull; Complimentary high-speed Wi-Fi &amp; valet parking</li>
+                                                <li class="mb-1">&bull; Access to heated pool &amp; luxury fitness centre</li>
+                                                <li class="text-success mb-1" style="font-size: 0.73rem;"><i class="bi bi-check-circle me-1"></i> Free cancellation up to 48h prior</li>
+                                                <li class="text-secondary" style="font-size: 0.73rem;"><i class="bi bi-credit-card me-1"></i> Pay at hotel &bull; No deposit required</li>
                                             </ul>
                                         </div>
                                         <div class="text-end ms-2">
-                                            <span class="badge text-uppercase text-muted fw-semibold p-0"
-                                                style="font-size: 0.65rem;">MEMBER RATE</span>
+                                            <span class="badge text-uppercase fw-semibold p-1 member-rate-badge"
+                                                style="font-size: 0.65rem; background: #faf0e6; color: #9A724E;">MEMBER RATE</span>
                                             <div class="fw-bold text-dark fs-5">&#8377;8,200 <small class="text-muted"
                                                     style="font-size: 0.7rem;">/ Night</small></div>
+                                            <div class="text-muted" style="font-size: 0.65rem;">Taxes &amp; fees may apply</div>
                                             <input type="radio" name="rate_superior_king"
                                                 class="form-check-input rate-radio mt-2" checked>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="rate-plan-card mb-3" onclick="selectRatePlan('superior_king', 9500, this)">
+                                <div class="rate-plan-card mb-3" onclick="selectRatePlan('superior_king', 9500, 'Standard Rate', this)">
                                     <div class="d-flex justify-content-between align-items-start">
                                         <div>
                                             <div class="fw-bold text-dark mb-1"><i
                                                     class="bi bi-crown text-warning me-1"></i> Standard Rate</div>
                                             <ul class="list-unstyled small text-muted mb-0" style="font-size: 0.78rem;">
-                                                <li class="mb-1">&bull; Gourmet breakfast included</li>
-                                                <li>&bull; Access to heated pool &amp; luxury fitness centre</li>
+                                                <li class="text-success fw-semibold mb-1"><i class="bi bi-cup-hot-fill text-warning me-1"></i> Daily Buffet Breakfast Included</li>
+                                                <li class="mb-1">&bull; Complimentary high-speed Wi-Fi &amp; valet parking</li>
+                                                <li class="mb-1">&bull; Access to heated pool &amp; luxury fitness centre</li>
+                                                <li class="text-success mb-1" style="font-size: 0.73rem;"><i class="bi bi-check-circle me-1"></i> Free cancellation up to 48h prior</li>
+                                                <li class="text-secondary" style="font-size: 0.73rem;"><i class="bi bi-credit-card me-1"></i> Pay at hotel &bull; No deposit required</li>
                                             </ul>
                                         </div>
                                         <div class="text-end ms-2">
-                                            <span class="badge text-uppercase text-muted fw-semibold p-0"
-                                                style="font-size: 0.65rem;">MEMBER RATE</span>
+                                            <span class="badge text-uppercase fw-semibold p-1 member-rate-badge"
+                                                style="font-size: 0.65rem; background: #faf0e6; color: #9A724E;">MEMBER RATE</span>
                                             <div class="fw-bold text-dark fs-5">&#8377;9,500 <small class="text-muted"
                                                     style="font-size: 0.7rem;">/ Night</small></div>
+                                            <div class="text-muted" style="font-size: 0.65rem;">Taxes &amp; fees may apply</div>
                                             <input type="radio" name="rate_superior_king"
                                                 class="form-check-input rate-radio mt-2">
                                         </div>
@@ -567,7 +577,7 @@
                                                 to
                                                 proceed with your luxury reservation.</div>
                                         </div>
-                                        <a href="Booking.aspx?room=Superior%20Room%20King%20Bed&price=8200"
+                                        <a href="Booking.aspx?room=Superior%20Room%20King%20Bed&price=8200&rate=Room%20Only"
                                             class="btn-book-gold sidebar-book-btn">
                                             <span>Book Now</span> <i class="bi bi-arrow-right ms-1"></i>
                                         </a>
@@ -686,42 +696,49 @@
 
                                 <h4 class="font-serif fw-bold text-navy mb-3 fs-5">Rate Details</h4>
                                 <div class="rate-plan-card active mb-3"
-                                    onclick="selectRatePlan('deluxe_king', 9800, this)">
+                                    onclick="selectRatePlan('deluxe_king', 9800, 'Room Only', this)">
                                     <div class="d-flex justify-content-between align-items-start">
                                         <div>
-                                            <div class="fw-bold text-dark mb-1">Room Only / Best Available Rate</div>
+                                            <div class="fw-bold text-dark mb-1">Room Only</div>
                                             <ul class="list-unstyled small text-muted mb-0" style="font-size: 0.78rem;">
-                                                <li class="mb-1">&bull; Complimentary Wi-Fi &amp; garden view balcony
-                                                </li>
-                                                <li>&bull; Access to heated pool &amp; luxury fitness centre</li>
+                                                <li class="text-danger fw-semibold mb-1"><i class="bi bi-x-circle me-1"></i> No meals included</li>
+                                                <li class="mb-1">&bull; Complimentary high-speed Wi-Fi &amp; valet parking</li>
+                                                <li class="mb-1">&bull; Access to heated pool &amp; luxury fitness centre</li>
+                                                <li class="text-success mb-1" style="font-size: 0.73rem;"><i class="bi bi-check-circle me-1"></i> Free cancellation up to 48h prior</li>
+                                                <li class="text-secondary" style="font-size: 0.73rem;"><i class="bi bi-credit-card me-1"></i> Pay at hotel &bull; No deposit required</li>
                                             </ul>
                                         </div>
                                         <div class="text-end ms-2">
-                                            <span class="badge text-uppercase text-muted fw-semibold p-0"
-                                                style="font-size: 0.65rem;">MEMBER RATE</span>
+                                            <span class="badge text-uppercase fw-semibold p-1 member-rate-badge"
+                                                style="font-size: 0.65rem; background: #faf0e6; color: #9A724E;">MEMBER RATE</span>
                                             <div class="fw-bold text-dark fs-5">&#8377;9,800 <small class="text-muted"
                                                     style="font-size: 0.7rem;">/ Night</small></div>
+                                            <div class="text-muted" style="font-size: 0.65rem;">Taxes &amp; fees may apply</div>
                                             <input type="radio" name="rate_deluxe_king"
                                                 class="form-check-input rate-radio mt-2" checked>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="rate-plan-card mb-3" onclick="selectRatePlan('deluxe_king', 11500, this)">
+                                <div class="rate-plan-card mb-3" onclick="selectRatePlan('deluxe_king', 11500, 'Standard Rate', this)">
                                     <div class="d-flex justify-content-between align-items-start">
                                         <div>
                                             <div class="fw-bold text-dark mb-1"><i
                                                     class="bi bi-crown text-warning me-1"></i> Standard Rate</div>
                                             <ul class="list-unstyled small text-muted mb-0" style="font-size: 0.78rem;">
-                                                <li class="mb-1">&bull; Gourmet breakfast included</li>
-                                                <li>&bull; Access to heated pool &amp; luxury fitness centre</li>
+                                                <li class="text-success fw-semibold mb-1"><i class="bi bi-cup-hot-fill text-warning me-1"></i> Daily Buffet Breakfast Included</li>
+                                                <li class="mb-1">&bull; Complimentary high-speed Wi-Fi &amp; valet parking</li>
+                                                <li class="mb-1">&bull; Access to heated pool &amp; luxury fitness centre</li>
+                                                <li class="text-success mb-1" style="font-size: 0.73rem;"><i class="bi bi-check-circle me-1"></i> Free cancellation up to 48h prior</li>
+                                                <li class="text-secondary" style="font-size: 0.73rem;"><i class="bi bi-credit-card me-1"></i> Pay at hotel &bull; No deposit required</li>
                                             </ul>
                                         </div>
                                         <div class="text-end ms-2">
-                                            <span class="badge text-uppercase text-muted fw-semibold p-0"
-                                                style="font-size: 0.65rem;">MEMBER RATE</span>
+                                            <span class="badge text-uppercase fw-semibold p-1 member-rate-badge"
+                                                style="font-size: 0.65rem; background: #faf0e6; color: #9A724E;">MEMBER RATE</span>
                                             <div class="fw-bold text-dark fs-5">&#8377;11,500 <small class="text-muted"
                                                     style="font-size: 0.7rem;">/ Night</small></div>
+                                            <div class="text-muted" style="font-size: 0.65rem;">Taxes &amp; fees may apply</div>
                                             <input type="radio" name="rate_deluxe_king"
                                                 class="form-check-input rate-radio mt-2">
                                         </div>
@@ -773,7 +790,7 @@
                                                 to
                                                 proceed with your luxury reservation.</div>
                                         </div>
-                                        <a href="Booking.aspx?room=Deluxe%20Room%20King%20Bed&price=9800"
+                                        <a href="Booking.aspx?room=Deluxe%20Room%20King%20Bed&price=9800&rate=Room%20Only"
                                             class="btn-book-gold sidebar-book-btn">
                                             <span>Book Now</span> <i class="bi bi-arrow-right ms-1"></i>
                                         </a>
@@ -892,45 +909,49 @@
 
                                 <h4 class="font-serif fw-bold text-navy mb-3 fs-5">Rate Details</h4>
                                 <div class="rate-plan-card active mb-3"
-                                    onclick="selectRatePlan('deluxe_twin', 10500, this)">
+                                    onclick="selectRatePlan('deluxe_twin', 10500, 'Room Only', this)">
                                     <div class="d-flex justify-content-between align-items-start">
                                         <div>
-                                            <div class="fw-bold text-dark mb-1">Room Only / Best Available Rate</div>
+                                            <div class="fw-bold text-dark mb-1">Room Only</div>
                                             <ul class="list-unstyled small text-muted mb-0" style="font-size: 0.78rem;">
-                                                <li class="mb-1">&bull; Complimentary high-speed Wi-Fi &amp; valet
-                                                    parking
-                                                </li>
-                                                <li>&bull; Access to heated pool &amp; luxury fitness centre</li>
+                                                <li class="text-danger fw-semibold mb-1"><i class="bi bi-x-circle me-1"></i> No meals included</li>
+                                                <li class="mb-1">&bull; Complimentary high-speed Wi-Fi &amp; valet parking</li>
+                                                <li class="mb-1">&bull; Access to heated pool &amp; luxury fitness centre</li>
+                                                <li class="text-success mb-1" style="font-size: 0.73rem;"><i class="bi bi-check-circle me-1"></i> Free cancellation up to 48h prior</li>
+                                                <li class="text-secondary" style="font-size: 0.73rem;"><i class="bi bi-credit-card me-1"></i> Pay at hotel &bull; No deposit required</li>
                                             </ul>
                                         </div>
                                         <div class="text-end ms-2">
-                                            <span class="badge text-uppercase text-muted fw-semibold p-0"
-                                                style="font-size: 0.65rem;">MEMBER RATE</span>
+                                            <span class="badge text-uppercase fw-semibold p-1 member-rate-badge"
+                                                style="font-size: 0.65rem; background: #faf0e6; color: #9A724E;">MEMBER RATE</span>
                                             <div class="fw-bold text-dark fs-5">&#8377;10,500 <small class="text-muted"
                                                     style="font-size: 0.7rem;">/ Night</small></div>
+                                            <div class="text-muted" style="font-size: 0.65rem;">Taxes &amp; fees may apply</div>
                                             <input type="radio" name="rate_deluxe_twin"
                                                 class="form-check-input rate-radio mt-2" checked>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="rate-plan-card mb-3" onclick="selectRatePlan('deluxe_twin', 12000, this)">
+                                <div class="rate-plan-card mb-3" onclick="selectRatePlan('deluxe_twin', 12000, 'Standard Rate', this)">
                                     <div class="d-flex justify-content-between align-items-start">
                                         <div>
                                             <div class="fw-bold text-dark mb-1"><i
                                                     class="bi bi-crown text-warning me-1"></i> Standard Rate</div>
                                             <ul class="list-unstyled small text-muted mb-0" style="font-size: 0.78rem;">
-                                                <li class="mb-1">&bull; Complimentary high-speed Wi-Fi &amp; valet
-                                                    parking
-                                                </li>
-                                                <li>&bull; Access to heated pool &amp; luxury fitness centre</li>
+                                                <li class="text-success fw-semibold mb-1"><i class="bi bi-cup-hot-fill text-warning me-1"></i> Daily Buffet Breakfast Included</li>
+                                                <li class="mb-1">&bull; Complimentary high-speed Wi-Fi &amp; valet parking</li>
+                                                <li class="mb-1">&bull; Access to heated pool &amp; luxury fitness centre</li>
+                                                <li class="text-success mb-1" style="font-size: 0.73rem;"><i class="bi bi-check-circle me-1"></i> Free cancellation up to 48h prior</li>
+                                                <li class="text-secondary" style="font-size: 0.73rem;"><i class="bi bi-credit-card me-1"></i> Pay at hotel &bull; No deposit required</li>
                                             </ul>
                                         </div>
                                         <div class="text-end ms-2">
-                                            <span class="badge text-uppercase text-muted fw-semibold p-0"
-                                                style="font-size: 0.65rem;">MEMBER RATE</span>
+                                            <span class="badge text-uppercase fw-semibold p-1 member-rate-badge"
+                                                style="font-size: 0.65rem; background: #faf0e6; color: #9A724E;">MEMBER RATE</span>
                                             <div class="fw-bold text-dark fs-5">&#8377;12,000 <small class="text-muted"
                                                     style="font-size: 0.7rem;">/ Night</small></div>
+                                            <div class="text-muted" style="font-size: 0.65rem;">Taxes &amp; fees may apply</div>
                                             <input type="radio" name="rate_deluxe_twin"
                                                 class="form-check-input rate-radio mt-2">
                                         </div>
@@ -982,7 +1003,7 @@
                                                 to
                                                 proceed with your luxury reservation.</div>
                                         </div>
-                                        <a href="Booking.aspx?room=Deluxe%20Room%20Twin%20Bed&price=10500"
+                                        <a href="Booking.aspx?room=Deluxe%20Room%20Twin%20Bed&price=10500&rate=Room%20Only"
                                             class="btn-book-gold sidebar-book-btn">
                                             <span>Book Now</span> <i class="bi bi-arrow-right ms-1"></i>
                                         </a>
@@ -1098,45 +1119,49 @@
 
                                 <h4 class="font-serif fw-bold text-navy mb-3 fs-5">Rate Details</h4>
                                 <div class="rate-plan-card active mb-3"
-                                    onclick="selectRatePlan('luxury_suite', 16500, this)">
+                                    onclick="selectRatePlan('luxury_suite', 16500, 'Room Only', this)">
                                     <div class="d-flex justify-content-between align-items-start">
                                         <div>
-                                            <div class="fw-bold text-dark mb-1">Room Only / Best Available Rate</div>
+                                            <div class="fw-bold text-dark mb-1">Room Only</div>
                                             <ul class="list-unstyled small text-muted mb-0" style="font-size: 0.78rem;">
-                                                <li class="mb-1">&bull; Complimentary high-speed Wi-Fi &amp; valet
-                                                    parking
-                                                </li>
-                                                <li>&bull; Access to heated pool &amp; luxury fitness centre</li>
+                                                <li class="text-danger fw-semibold mb-1"><i class="bi bi-x-circle me-1"></i> No meals included</li>
+                                                <li class="mb-1">&bull; Complimentary high-speed Wi-Fi &amp; valet parking</li>
+                                                <li class="mb-1">&bull; Access to heated pool &amp; luxury fitness centre</li>
+                                                <li class="text-success mb-1" style="font-size: 0.73rem;"><i class="bi bi-check-circle me-1"></i> Free cancellation up to 48h prior</li>
+                                                <li class="text-secondary" style="font-size: 0.73rem;"><i class="bi bi-credit-card me-1"></i> Pay at hotel &bull; No deposit required</li>
                                             </ul>
                                         </div>
                                         <div class="text-end ms-2">
-                                            <span class="badge text-uppercase text-muted fw-semibold p-0"
-                                                style="font-size: 0.65rem;">MEMBER RATE</span>
+                                            <span class="badge text-uppercase fw-semibold p-1 member-rate-badge"
+                                                style="font-size: 0.65rem; background: #faf0e6; color: #9A724E;">MEMBER RATE</span>
                                             <div class="fw-bold text-dark fs-5">&#8377;16,500 <small class="text-muted"
                                                     style="font-size: 0.7rem;">/ Night</small></div>
+                                            <div class="text-muted" style="font-size: 0.65rem;">Taxes &amp; fees may apply</div>
                                             <input type="radio" name="rate_luxury_suite"
                                                 class="form-check-input rate-radio mt-2" checked>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="rate-plan-card mb-3" onclick="selectRatePlan('luxury_suite', 19000, this)">
+                                <div class="rate-plan-card mb-3" onclick="selectRatePlan('luxury_suite', 19000, 'Standard Rate', this)">
                                     <div class="d-flex justify-content-between align-items-start">
                                         <div>
                                             <div class="fw-bold text-dark mb-1"><i
                                                     class="bi bi-crown text-warning me-1"></i> Standard Rate</div>
                                             <ul class="list-unstyled small text-muted mb-0" style="font-size: 0.78rem;">
-                                                <li class="mb-1">&bull; Complimentary high-speed Wi-Fi &amp; valet
-                                                    parking
-                                                </li>
-                                                <li>&bull; Access to heated pool &amp; luxury fitness centre</li>
+                                                <li class="text-success fw-semibold mb-1"><i class="bi bi-cup-hot-fill text-warning me-1"></i> Daily Buffet Breakfast Included</li>
+                                                <li class="mb-1">&bull; Complimentary high-speed Wi-Fi &amp; valet parking</li>
+                                                <li class="mb-1">&bull; Access to heated pool &amp; luxury fitness centre</li>
+                                                <li class="text-success mb-1" style="font-size: 0.73rem;"><i class="bi bi-check-circle me-1"></i> Free cancellation up to 48h prior</li>
+                                                <li class="text-secondary" style="font-size: 0.73rem;"><i class="bi bi-credit-card me-1"></i> Pay at hotel &bull; No deposit required</li>
                                             </ul>
                                         </div>
                                         <div class="text-end ms-2">
-                                            <span class="badge text-uppercase text-muted fw-semibold p-0"
-                                                style="font-size: 0.65rem;">MEMBER RATE</span>
+                                            <span class="badge text-uppercase fw-semibold p-1 member-rate-badge"
+                                                style="font-size: 0.65rem; background: #faf0e6; color: #9A724E;">MEMBER RATE</span>
                                             <div class="fw-bold text-dark fs-5">&#8377;19,000 <small class="text-muted"
                                                     style="font-size: 0.7rem;">/ Night</small></div>
+                                            <div class="text-muted" style="font-size: 0.65rem;">Taxes &amp; fees may apply</div>
                                             <input type="radio" name="rate_luxury_suite"
                                                 class="form-check-input rate-radio mt-2">
                                         </div>
@@ -1188,7 +1213,7 @@
                                                 to
                                                 proceed with your luxury reservation.</div>
                                         </div>
-                                        <a href="Booking.aspx?room=Luxury%20Suite&price=16500"
+                                        <a href="Booking.aspx?room=Luxury%20Suite&price=16500&rate=Room%20Only"
                                             class="btn-book-gold sidebar-book-btn">
                                             <span>Book Now</span> <i class="bi bi-arrow-right ms-1"></i>
                                         </a>
@@ -1307,45 +1332,49 @@
 
                                 <h4 class="font-serif fw-bold text-navy mb-3 fs-5">Rate Details</h4>
                                 <div class="rate-plan-card active mb-3"
-                                    onclick="selectRatePlan('presidential', 35000, this)">
+                                    onclick="selectRatePlan('presidential', 35000, 'Room Only', this)">
                                     <div class="d-flex justify-content-between align-items-start">
                                         <div>
-                                            <div class="fw-bold text-dark mb-1">Room Only / Best Available Rate</div>
+                                            <div class="fw-bold text-dark mb-1">Room Only</div>
                                             <ul class="list-unstyled small text-muted mb-0" style="font-size: 0.78rem;">
-                                                <li class="mb-1">&bull; Complimentary high-speed Wi-Fi &amp; valet
-                                                    parking
-                                                </li>
-                                                <li>&bull; Access to heated pool &amp; luxury fitness centre</li>
+                                                <li class="text-danger fw-semibold mb-1"><i class="bi bi-x-circle me-1"></i> No meals included</li>
+                                                <li class="mb-1">&bull; Complimentary high-speed Wi-Fi &amp; valet parking</li>
+                                                <li class="mb-1">&bull; Access to heated pool &amp; luxury fitness centre</li>
+                                                <li class="text-success mb-1" style="font-size: 0.73rem;"><i class="bi bi-check-circle me-1"></i> Free cancellation up to 48h prior</li>
+                                                <li class="text-secondary" style="font-size: 0.73rem;"><i class="bi bi-credit-card me-1"></i> Pay at hotel &bull; No deposit required</li>
                                             </ul>
                                         </div>
                                         <div class="text-end ms-2">
-                                            <span class="badge text-uppercase text-muted fw-semibold p-0"
-                                                style="font-size: 0.65rem;">MEMBER RATE</span>
+                                            <span class="badge text-uppercase fw-semibold p-1 member-rate-badge"
+                                                style="font-size: 0.65rem; background: #faf0e6; color: #9A724E;">MEMBER RATE</span>
                                             <div class="fw-bold text-dark fs-5">&#8377;35,000 <small class="text-muted"
                                                     style="font-size: 0.7rem;">/ Night</small></div>
+                                            <div class="text-muted" style="font-size: 0.65rem;">Taxes &amp; fees may apply</div>
                                             <input type="radio" name="rate_presidential"
                                                 class="form-check-input rate-radio mt-2" checked>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="rate-plan-card mb-3" onclick="selectRatePlan('presidential', 40000, this)">
+                                <div class="rate-plan-card mb-3" onclick="selectRatePlan('presidential', 40000, 'Standard Rate', this)">
                                     <div class="d-flex justify-content-between align-items-start">
                                         <div>
                                             <div class="fw-bold text-dark mb-1"><i
                                                     class="bi bi-crown text-warning me-1"></i> Standard Rate</div>
                                             <ul class="list-unstyled small text-muted mb-0" style="font-size: 0.78rem;">
-                                                <li class="mb-1">&bull; Complimentary high-speed Wi-Fi &amp; valet
-                                                    parking
-                                                </li>
-                                                <li>&bull; Access to heated pool &amp; luxury fitness centre</li>
+                                                <li class="text-success fw-semibold mb-1"><i class="bi bi-cup-hot-fill text-warning me-1"></i> Daily Buffet Breakfast Included</li>
+                                                <li class="mb-1">&bull; Complimentary high-speed Wi-Fi &amp; valet parking</li>
+                                                <li class="mb-1">&bull; Access to heated pool &amp; luxury fitness centre</li>
+                                                <li class="text-success mb-1" style="font-size: 0.73rem;"><i class="bi bi-check-circle me-1"></i> Free cancellation up to 48h prior</li>
+                                                <li class="text-secondary" style="font-size: 0.73rem;"><i class="bi bi-credit-card me-1"></i> Pay at hotel &bull; No deposit required</li>
                                             </ul>
                                         </div>
                                         <div class="text-end ms-2">
-                                            <span class="badge text-uppercase text-muted fw-semibold p-0"
-                                                style="font-size: 0.65rem;">MEMBER RATE</span>
+                                            <span class="badge text-uppercase fw-semibold p-1 member-rate-badge"
+                                                style="font-size: 0.65rem; background: #faf0e6; color: #9A724E;">MEMBER RATE</span>
                                             <div class="fw-bold text-dark fs-5">&#8377;40,000 <small class="text-muted"
                                                     style="font-size: 0.7rem;">/ Night</small></div>
+                                            <div class="text-muted" style="font-size: 0.65rem;">Taxes &amp; fees may apply</div>
                                             <input type="radio" name="rate_presidential"
                                                 class="form-check-input rate-radio mt-2">
                                         </div>
@@ -1397,7 +1426,7 @@
                                                 to
                                                 proceed with your luxury reservation.</div>
                                         </div>
-                                        <a href="Booking.aspx?room=Presidential%20Suite&price=35000"
+                                        <a href="Booking.aspx?room=Presidential%20Suite&price=35000&rate=Room%20Only"
                                             class="btn-book-gold sidebar-book-btn">
                                             <span>Book Now</span> <i class="bi bi-arrow-right ms-1"></i>
                                         </a>

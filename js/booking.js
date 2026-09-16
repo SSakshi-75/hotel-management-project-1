@@ -8,7 +8,9 @@ var currentAppliedOffer = null;
 // Initial state starts clean without fake/default room or dates
 var bookingState = {
     room: '',
+    ratePlan: 'Room Only',
     ratePerNight: 0,
+    baseRoomPrice: 0,
     nights: 0,
     checkIn: '',
     checkOut: '',
@@ -53,6 +55,55 @@ function formatGuestsText(adults, children, rooms) {
     return txt;
 }
 
+// Handler for selecting rate plan (Room Only vs Standard Rate) in Booking.aspx
+function selectBookingRatePlan(planName, el) {
+    bookingState.ratePlan = planName;
+
+    var cardRoomOnly = document.getElementById('rateCardRoomOnly');
+    var cardStandard = document.getElementById('rateCardStandard');
+    var radioRoomOnly = document.getElementById('radioRateRoomOnly');
+    var radioStandard = document.getElementById('radioRateStandard');
+
+    if (cardRoomOnly && cardStandard) {
+        if (planName === 'Standard Rate') {
+            cardStandard.classList.add('active');
+            cardStandard.style.background = '#fffdfa';
+            cardStandard.style.borderColor = '#B88E68';
+
+            cardRoomOnly.classList.remove('active');
+            cardRoomOnly.style.background = '#ffffff';
+            cardRoomOnly.style.borderColor = '#dee2e6';
+
+            if (radioStandard) radioStandard.checked = true;
+            if (radioRoomOnly) radioRoomOnly.checked = false;
+        } else {
+            cardRoomOnly.classList.add('active');
+            cardRoomOnly.style.background = '#fffdfa';
+            cardRoomOnly.style.borderColor = '#B88E68';
+
+            cardStandard.classList.remove('active');
+            cardStandard.style.background = '#ffffff';
+            cardStandard.style.borderColor = '#dee2e6';
+
+            if (radioRoomOnly) radioRoomOnly.checked = true;
+            if (radioStandard) radioStandard.checked = false;
+        }
+    }
+
+    // Adjust rate per night if base room price is set
+    if (bookingState.baseRoomPrice > 0) {
+        if (planName === 'Standard Rate') {
+            // Standard Rate includes daily breakfast (~15% premium or fixed extra)
+            bookingState.ratePerNight = Math.round(bookingState.baseRoomPrice * 1.15);
+        } else {
+            bookingState.ratePerNight = bookingState.baseRoomPrice;
+        }
+    }
+
+    updateBookingSummary();
+}
+window.selectBookingRatePlan = selectBookingRatePlan;
+
 // Step 2 Room Picker Handler (With Direct Uncheck / Toggle Support)
 function selectBookingRoomCard(title, price, el) {
     var wasActive = el && el.classList.contains('active');
@@ -67,6 +118,7 @@ function selectBookingRoomCard(title, price, el) {
     if (wasActive) {
         currentAppliedOffer = null;
         bookingState.room = '';
+        bookingState.baseRoomPrice = 0;
         bookingState.ratePerNight = 0;
 
         // Reset hidden select
@@ -92,7 +144,14 @@ function selectBookingRoomCard(title, price, el) {
 
     currentAppliedOffer = null;
     bookingState.room = title;
-    bookingState.ratePerNight = parseInt(price) || 0;
+    var baseP = parseInt(price) || 0;
+    bookingState.baseRoomPrice = baseP;
+
+    if (bookingState.ratePlan === 'Standard Rate') {
+        bookingState.ratePerNight = Math.round(baseP * 1.15);
+    } else {
+        bookingState.ratePerNight = baseP;
+    }
 
     // Keep hidden select in sync
     var select = document.getElementById('bookingRoomSelect');
@@ -130,7 +189,17 @@ function updateBookingSummary() {
     var d2 = new Date(depInput.value + 'T00:00:00');
     var diffTime = d2.getTime() - d1.getTime();
     var diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
-    var nights = diffDays > 0 ? diffDays : 1;
+    
+    // Date validation
+    if (diffDays <= 0) {
+        alert('Check-out date must be after check-in date.');
+        depInput.value = '';
+        if (emptyStateEl) emptyStateEl.classList.remove('d-none');
+        if (tableBoxEl) tableBoxEl.classList.add('d-none');
+        return;
+    }
+
+    var nights = diffDays;
 
     bookingState.nights = nights;
     bookingState.checkIn = arrInput.value;
@@ -160,6 +229,7 @@ function updateBookingSummary() {
     if (tableBoxEl) tableBoxEl.classList.remove('d-none');
 
     var tblRoom = document.getElementById('sumTableRoom');
+    var tblRatePlan = document.getElementById('sumTableRatePlan');
     var tblDates = document.getElementById('sumTableDates');
     var tblGuests = document.getElementById('sumTableGuests');
     var tblNights = document.getElementById('sumTableNights');
@@ -168,6 +238,10 @@ function updateBookingSummary() {
     var tblTotal = document.getElementById('sumTableTotal');
 
     if (tblRoom) tblRoom.textContent = bookingState.room;
+    if (tblRatePlan) {
+        var planTag = bookingState.ratePlan === 'Standard Rate' ? ' (Breakfast Included)' : ' (No Meals Included)';
+        tblRatePlan.textContent = bookingState.ratePlan + planTag;
+    }
     if (tblDates) tblDates.textContent = datesFormatted;
     if (tblGuests) tblGuests.textContent = guestsFormatted;
     if (tblNights) tblNights.textContent = nights + (nights === 1 ? ' Night' : ' Nights');
@@ -363,26 +437,27 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Special Offer Banner prefill if applicable
-    var offerCodeParam = urlParams.get('offerRateCode');
-    if (roomParam && planParam) {
-        var banner = document.getElementById('bookingOfferAppliedBanner');
-        var bannerTitle = document.getElementById('bookingOfferTitle');
-        var bannerRate = document.getElementById('bookingOfferRateBadge');
-
-        if (banner) {
-            banner.classList.remove('d-none');
-            banner.style.backgroundColor = '#faf8f5';
-        }
-        if (bannerTitle) {
-            var badgeText = offerParam ? (offerParam + (offerCodeParam ? ' &bull; ' + offerCodeParam : '')) : 'Selected Stay Package';
-            bannerTitle.innerHTML = '<span class="badge bg-gold-subtle text-warning-dark text-uppercase px-2 py-1 mb-1 small d-inline-block">' + badgeText + '</span><br>' + roomParam + ' &mdash; <span class="fw-normal text-muted">' + planParam + '</span>';
-        }
-        if (bannerRate) {
-            var sym = currencySymbols[bookingState.currency] || '₹';
-            bannerRate.innerHTML = sym + Number(bookingState.ratePerNight).toLocaleString() + ' / night';
+    // Rate plan pre-fill if passed in URL
+    var rateParam = urlParams.get('rate') || urlParams.get('plan');
+    if (rateParam) {
+        if (rateParam.toLowerCase().includes('standard')) {
+            selectBookingRatePlan('Standard Rate');
+        } else {
+            selectBookingRatePlan('Room Only');
         }
     }
+
+    // Auto-prefill guest details if user session is saved
+    var savedUserEmail = sessionStorage.getItem('userEmail') || localStorage.getItem('userEmail');
+    var savedUserName = sessionStorage.getItem('userName') || localStorage.getItem('userName');
+    var savedPhone = sessionStorage.getItem('userPhone') || localStorage.getItem('userPhone');
+    var emailInput = document.getElementById('guestEmail');
+    var nameInput = document.getElementById('guestName');
+    var phoneInput = document.getElementById('guestContact');
+
+    if (emailInput && savedUserEmail && !emailInput.value) emailInput.value = savedUserEmail;
+    if (nameInput && savedUserName && !nameInput.value) nameInput.value = savedUserName;
+    if (phoneInput && savedPhone && !phoneInput.value) phoneInput.value = savedPhone;
 
     // Initial summary evaluation:
     // If details & room are selected (e.g. from URL), it shows summary; otherwise displays placeholder!

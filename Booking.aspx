@@ -315,6 +315,47 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <!-- Rate Plan Selection Sub-Section -->
+                                    <div class="mt-4 pt-3 border-top">
+                                        <h5 class="fw-bold font-serif mb-3" style="color: #442305;"><i class="bi bi-shield-check text-warning me-2"></i> Select Rate Plan</h5>
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <div class="rate-plan-option-card active p-3 rounded-3 border h-100" id="rateCardRoomOnly" onclick="selectBookingRatePlan('Room Only', this)" style="cursor: pointer; background: #fffdfa; border-color: #B88E68 !important;">
+                                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <span class="fw-bold text-dark fs-6">Room Only</span>
+                                                        <span class="badge text-uppercase p-1 member-rate-badge" style="font-size: 0.65rem; background: #faf0e6; color: #9A724E;">MEMBER RATE</span>
+                                                    </div>
+                                                    <ul class="list-unstyled small text-muted mb-2" style="font-size: 0.78rem;">
+                                                        <li class="text-danger fw-semibold"><i class="bi bi-x-circle me-1"></i> No meals included</li>
+                                                        <li>&bull; Wi-Fi &amp; Valet Parking</li>
+                                                        <li>&bull; Pool &amp; Fitness Access</li>
+                                                    </ul>
+                                                    <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top">
+                                                        <small class="text-success fw-semibold" style="font-size: 0.73rem;"><i class="bi bi-check-circle me-1"></i> Free Cancellation (48h)</small>
+                                                        <input type="radio" name="bookingRateRadio" id="radioRateRoomOnly" value="Room Only" checked class="form-check-input">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="rate-plan-option-card p-3 rounded-3 border h-100" id="rateCardStandard" onclick="selectBookingRatePlan('Standard Rate', this)" style="cursor: pointer; background: #ffffff;">
+                                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <span class="fw-bold text-dark fs-6"><i class="bi bi-crown text-warning me-1"></i> Standard Rate</span>
+                                                        <span class="badge text-uppercase p-1 member-rate-badge" style="font-size: 0.65rem; background: #faf0e6; color: #9A724E;">MEMBER RATE</span>
+                                                    </div>
+                                                    <ul class="list-unstyled small text-muted mb-2" style="font-size: 0.78rem;">
+                                                        <li class="text-success fw-semibold"><i class="bi bi-cup-hot-fill text-warning me-1"></i> Daily Buffet Breakfast Included</li>
+                                                        <li>&bull; Wi-Fi &amp; Valet Parking</li>
+                                                        <li>&bull; Pool &amp; Fitness Access</li>
+                                                    </ul>
+                                                    <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top">
+                                                        <small class="text-success fw-semibold" style="font-size: 0.73rem;"><i class="bi bi-check-circle me-1"></i> Free Cancellation (48h)</small>
+                                                        <input type="radio" name="bookingRateRadio" id="radioRateStandard" value="Standard Rate" class="form-check-input">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <!-- 3. Guest Information -->
@@ -393,6 +434,11 @@
                                             <span class="text-muted"><i
                                                     class="bi bi-door-closed me-2 text-gold"></i>Room</span>
                                             <strong id="sumTableRoom" class="text-dark">--</strong>
+                                        </div>
+                                        <div class="summary-data-row">
+                                            <span class="text-muted"><i
+                                                    class="bi bi-shield-check me-2 text-gold"></i>Rate Plan</span>
+                                            <strong id="sumTableRatePlan" class="text-dark">Room Only</strong>
                                         </div>
                                         <div class="summary-data-row">
                                             <span class="text-muted"><i

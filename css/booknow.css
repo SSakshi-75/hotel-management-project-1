@@ -237,7 +237,7 @@
 }
 
 .thumb-preview-img {
-    height: 273px;
+    height: 457px;
     object-fit: cover;
     border-radius: 10px;
     cursor: pointer;
@@ -513,6 +513,7 @@
     0% {
         background-position: -200% center;
     }
+
     100% {
         background-position: 200% center;
     }
@@ -543,6 +544,7 @@
         opacity: 0;
         transform: translateX(-50px);
     }
+
     100% {
         opacity: 1;
         transform: translateX(0);
@@ -554,6 +556,7 @@
         opacity: 0;
         transform: translateX(50px);
     }
+
     100% {
         opacity: 1;
         transform: translateX(0);
@@ -563,9 +566,9 @@
 /* --- C. Room Cards Hover Lift & Ambient Glow --- */
 .room-card-luxury-block,
 .package-offer-card-block {
-    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), 
-                box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), 
-                border-color 0.4s ease;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+        box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+        border-color 0.4s ease;
     position: relative;
     overflow: hidden;
 }
@@ -581,9 +584,9 @@
 .rate-plan-card {
     position: relative;
     overflow: hidden;
-    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), 
-                box-shadow 0.35s ease, 
-                border-color 0.3s ease;
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+        box-shadow 0.35s ease,
+        border-color 0.3s ease;
 }
 
 .rate-plan-card::after {
@@ -630,10 +633,13 @@
 
 /* --- F. Eye Icon Button Continuous Pulse --- */
 @keyframes bnEyePulse {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: scale(1);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     }
+
     50% {
         transform: scale(1.1);
         box-shadow: 0 6px 20px rgba(154, 114, 78, 0.7);
@@ -674,8 +680,14 @@
 }
 
 @keyframes bnShimmerLight {
-    0% { left: -80%; }
-    30%, 100% { left: 140%; }
+    0% {
+        left: -80%;
+    }
+
+    30%,
+    100% {
+        left: 140%;
+    }
 }
 
 .btn-book-gold:hover {
@@ -693,6 +705,7 @@
         opacity: 0;
         transform: translateY(22px) scale(0.98);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0) scale(1);

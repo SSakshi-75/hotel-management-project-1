@@ -210,19 +210,37 @@ function selectRoomPhoto(roomId, index) {
 /* ==========================================================================
    5. RATE PLAN SELECTOR & LIVE PRICE CALCULATION
    ========================================================================== */
-function selectRatePlan(roomId, price, element) {
+function selectRatePlan(roomId, price, rateNameOrElem, element) {
+    let rateName = 'Room Only';
+    let targetEl = element;
+
+    if (typeof rateNameOrElem === 'string') {
+        rateName = rateNameOrElem;
+    } else if (rateNameOrElem) {
+        targetEl = rateNameOrElem;
+    }
+
     const roomCard = document.getElementById(`card_${roomId}`);
     if (!roomCard) return;
 
-    roomCard.querySelectorAll('.rate-plan-card').forEach(card => {
-        card.classList.remove('active');
-        const radio = card.querySelector('.rate-radio');
-        if (radio) radio.checked = false;
-    });
+    if (targetEl) {
+        roomCard.querySelectorAll('.rate-plan-card').forEach(card => {
+            card.classList.remove('active');
+            const radio = card.querySelector('.rate-radio');
+            if (radio) radio.checked = false;
+        });
 
-    element.classList.add('active');
-    const radio = element.querySelector('.rate-radio');
-    if (radio) radio.checked = true;
+        targetEl.classList.add('active');
+        const radio = targetEl.querySelector('.rate-radio');
+        if (radio) radio.checked = true;
+
+        const titleEl = targetEl.querySelector('.fw-bold');
+        if (titleEl) {
+            const text = titleEl.textContent.trim();
+            if (text.includes('Standard')) rateName = 'Standard Rate';
+            else if (text.includes('Room Only')) rateName = 'Room Only';
+        }
+    }
 
     const basePrice = parseFloat(price) || 0;
     const taxes = Math.round(basePrice * TAX_RATE * 100) / 100;
@@ -239,9 +257,10 @@ function selectRatePlan(roomId, price, element) {
     if (totalEl) totalEl.textContent = total.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
     if (bookBtn) {
-        bookBtn.href = `Booking.aspx?room=${encodeURIComponent(roomTitle)}&price=${basePrice}&total=${total}`;
+        bookBtn.href = `Booking.aspx?room=${encodeURIComponent(roomTitle.trim())}&price=${basePrice}&rate=${encodeURIComponent(rateName)}&total=${total}`;
     }
 }
+window.selectRatePlan = selectRatePlan;
 
 function toggleTaxesDisplay(showWithTaxes) {
     const totalEls = document.querySelectorAll('.sidebar-total-price');
