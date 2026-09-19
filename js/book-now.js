@@ -331,12 +331,40 @@ function attachBookNowEventListeners() {
     }
 
     // 5. Initialize galleries for all 6 rooms
-    initGallery('superior_twin', ['images/room-classic-double.jpg', 'images/room-superior-king.jpg']);
-    initGallery('superior_king', ['images/room-superior-king.jpg', 'images/room-classic-double.jpg']);
-    initGallery('deluxe_king', ['images/room-mini-garden.jpg', 'images/room-classic-double.jpg']);
-    initGallery('deluxe_twin', ['images/room-mini-family.jpg', 'images/room-classic-double.jpg']);
-    initGallery('luxury_suite', ['images/room-mini-business.jpg', 'images/room-superior-king.jpg']);
-    initGallery('presidential', ['images/room-luxury-penthouse.jpg', 'images/room-featured-presidential.jpg']);
+    // initGallery('1', ['images/room-classic-double.jpg', 'images/room-superior-king.jpg']);
+    // initGallery('2', ['images/room-superior-king.jpg', 'images/room-classic-double.jpg']);
+    // initGallery('3', ['images/room-mini-garden.jpg', 'images/room-classic-double.jpg']);
+    // initGallery('4', ['images/room-mini-family.jpg', 'images/room-classic-double.jpg']);
+    // initGallery('5', ['images/room-mini-business.jpg', 'images/room-superior-king.jpg']);
+    // initGallery('6', ['images/room-luxury-penthouse.jpg', 'images/room-featured-presidential.jpg']);
+
+    // 5. Initialize galleries dynamically from RoomImages database
+    document.querySelectorAll('.room-card-luxury-block').forEach(function (card) {
+
+        const roomId = card.id.replace('card_', '');
+        const galleryData = card.getAttribute('data-gallery-images');
+
+        if (!roomId || !galleryData) return;
+
+        try {
+            const imageObjects = JSON.parse(galleryData);
+
+            const images = imageObjects
+                .map(function (item) {
+                    return item.ImageUrl;
+                })
+                .filter(function (url) {
+                    return url && url.trim() !== '';
+                });
+
+            if (images.length > 0) {
+                initGallery(roomId, images);
+            }
+
+        } catch (error) {
+            console.error('Gallery data error for RoomId:', roomId, error);
+        }
+    });
 }
 
 /* ==========================================================================

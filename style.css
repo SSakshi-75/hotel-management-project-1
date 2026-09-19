@@ -6862,15 +6862,16 @@ input[type="checkbox"].auth-checkbox {
 }
 
 .room-filter-btn:hover {
-  background: #F4E2D8;
-  border-color: #B88E68;
-  box-shadow: 0 3px 10px rgba(184, 142, 104, 0.2);
+  background: #442305;
+  color: #ffffff !important;
+  border-color: #442305;
+  box-shadow: 0 4px 14px rgba(68, 35, 5, 0.28);
 }
 
 .room-filter-btn.active {
-  background: #442305;
-  color: #F4E2D8;
-  border-color: #442305;
+  background: linear-gradient(135deg, #442305 0%, #9A724E 100%);
+  color: #ffffff !important;
+  border-color: #9A724E;
   box-shadow: 0 4px 14px rgba(68, 35, 5, 0.28);
 }
 

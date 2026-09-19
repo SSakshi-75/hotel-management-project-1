@@ -97,10 +97,12 @@
                                     <select
                                         class="form-select border-0 bg-light text-dark fs-6 rounded-3 px-3 fw-semibold"
                                         id="roomTypeSelect" name="roomTypeSelect">
-                                        <option value="1">1 Room (Deluxe King Suite)</option>
-                                        <option value="2">2 Rooms (Executive Ocean Suite)</option>
-                                        <option value="3">3 Rooms (Presidential Villa)</option>
-                                        <option value="4">4+ Rooms (Luxury Family Villa)</option>
+                                        <option value="1">Executive Business Suite</option>
+                                        <option value="2">Garden View Deluxe Room</option>
+                                        <option value="3">Family Comfort Suite</option>
+                                        <option value="4">Classic Double Luxury Room</option>
+                                        <option value="5">Superior King Royal Room</option>
+                                        <option value="6">Royal Penthouse Haven</option>
                                     </select>
                                 </div>
                             </div>

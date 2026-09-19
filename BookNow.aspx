@@ -257,7 +257,7 @@
                                         </div>
                                         <div class="col-12 d-flex align-items-center gap-3">
                                             <div class="highlight-icon-wrapper"><i
-                                                    class="bi bi-person-workspace fs-4"></i>
+                                                    class="fa-solid fa-bell-concierge fs-5"></i>
                                             </div>
                                             <div class="small text-secondary lh-sm">24/7 room service &amp; concierge
                                             </div>
@@ -461,7 +461,7 @@
                                                 valet parking</div>
                                         </div>
                                         <div class="col-12 d-flex align-items-center gap-3">
-                                            <div class="highlight-icon-wrapper"><i class="bi bi-hottub fs-4"></i></div>
+                                            <div class="highlight-icon-wrapper"><i class="fa-solid fa-bath fs-5"></i></div>
                                             <div class="small text-secondary lh-sm">Marble bath with Italian rainfall
                                                 shower
                                             </div>
@@ -473,7 +473,7 @@
                                         </div>
                                         <div class="col-12 d-flex align-items-center gap-3">
                                             <div class="highlight-icon-wrapper"><i
-                                                    class="bi bi-person-workspace fs-4"></i>
+                                                    class="fa-solid fa-bell-concierge fs-5"></i>
                                             </div>
                                             <div class="small text-secondary lh-sm">24/7 room service &amp; concierge
                                             </div>
@@ -1306,7 +1306,7 @@
                                     <h4 class="font-serif fw-bold text-navy mb-3 fs-5">Room Highlights</h4>
                                     <div class="row g-3">
                                         <div class="col-12 d-flex align-items-center gap-3">
-                                            <div class="highlight-icon-wrapper"><i class="bi bi-crown fs-4"></i></div>
+                                            <div class="highlight-icon-wrapper"><i class="fa-solid fa-crown fs-5"></i></div>
                                             <div class="small text-secondary lh-sm">Grand royal master bedroom with
                                                 walk-in dressing salon</div>
                                         </div>
