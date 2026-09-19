@@ -273,7 +273,13 @@ function showAdminToast(title, message, iconClass) {
     }, 4000);
 }
 
-window.handleMenuClick = function (featureName) {
+window.handleMenuClick = function (featureName, elem) {
+    if (elem) {
+        document.querySelectorAll('.sidebar-nav-list .nav-link').forEach(function (l) {
+            l.classList.remove('active');
+        });
+        elem.classList.add('active');
+    }
     showAdminToast(
         featureName + ' Module',
         'Viewing ' + featureName + '. Real-time synchronization active.',
@@ -321,6 +327,73 @@ function checkLoginConfirmation() {
         }
     } catch (e) { }
 }
+
+// Auto highlight active sidebar navigation link based on URL and SessionStorage
+function highlightActiveSidebarMenu() {
+    var path = (window.location.pathname + window.location.search).toLowerCase();
+    var href = window.location.href.toLowerCase();
+    var links = document.querySelectorAll('.sidebar-nav-list .nav-link');
+    var activeMatched = false;
+
+    links.forEach(function (link) {
+        var linkHref = (link.getAttribute('href') || '').toLowerCase();
+        var dataPage = (link.getAttribute('data-page') || '').toLowerCase();
+
+        if (linkHref && linkHref !== 'javascript:void(0)') {
+            var cleanHref = linkHref.replace('../', '').replace('./', '');
+            var pageBase = cleanHref.replace('.aspx', '');
+
+            if (
+                path.endsWith('/' + cleanHref) ||
+                path.indexOf('/' + cleanHref) !== -1 ||
+                href.indexOf('/' + cleanHref) !== -1 ||
+                (pageBase && (path.indexOf('/' + pageBase) !== -1 || href.indexOf('/' + pageBase) !== -1)) ||
+                (dataPage && (path.indexOf(dataPage) !== -1 || href.indexOf(dataPage) !== -1))
+            ) {
+                links.forEach(function (l) { l.classList.remove('active'); });
+                link.classList.add('active');
+                activeMatched = true;
+            }
+        }
+    });
+
+    if (!activeMatched) {
+        var savedPage = sessionStorage.getItem('adminActiveMenu');
+        if (savedPage) {
+            links.forEach(function (link) {
+                var linkHref = (link.getAttribute('href') || '').toLowerCase();
+                var dataPage = (link.getAttribute('data-page') || '').toLowerCase();
+                if (dataPage === savedPage || linkHref.indexOf(savedPage) !== -1) {
+                    links.forEach(function (l) { l.classList.remove('active'); });
+                    link.classList.add('active');
+                    activeMatched = true;
+                }
+            });
+        }
+    }
+
+    if (!activeMatched) {
+        var dashLink = document.querySelector('.sidebar-nav-list .nav-link[data-page="dashboard.aspx"]');
+        if (dashLink) {
+            dashLink.classList.add('active');
+        }
+    }
+}
+
+// Store clicked menu item in sessionStorage for instant active highlight across page loads
+document.addEventListener('click', function (e) {
+    var link = e.target.closest('.sidebar-nav-list .nav-link');
+    if (link) {
+        var page = link.getAttribute('data-page') || link.getAttribute('href');
+        if (page && page !== 'javascript:void(0)') {
+            sessionStorage.setItem('adminActiveMenu', page.toLowerCase());
+        }
+        document.querySelectorAll('.sidebar-nav-list .nav-link').forEach(function (l) {
+            l.classList.remove('active');
+        });
+        link.classList.add('active');
+    }
+});
 
 // ==========================================
 // 8. REGISTERED GUESTS & LOGIN DIRECTORY FILTERS

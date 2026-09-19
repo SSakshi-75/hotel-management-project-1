@@ -299,9 +299,8 @@
                             </a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0)"
-                                class="action-tile tile-blue text-decoration-none text-center p-3 rounded-3 d-flex flex-column align-items-center justify-content-center h-100"
-                                onclick="triggerQuickAction('block-room')">
+                            <a href="AddRoom.aspx"
+                                class="action-tile tile-blue text-decoration-none text-center p-3 rounded-3 d-flex flex-column align-items-center justify-content-center h-100">
                                 <div class="tile-icon mb-2"><i class="bi bi-door-closed fs-4"></i></div>
                                 <span class="tile-title small fw-semibold">Add Room</span>
                             </a>
