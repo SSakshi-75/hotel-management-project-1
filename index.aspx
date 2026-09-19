@@ -21,8 +21,8 @@
             <div class="container-fluid px-4 px-lg-5 position-relative z-2 py-5 min-vh-85 d-flex align-items-center">
                 <div class="row align-items-center g-4 g-lg-5 w-100 mx-auto">
 
-                    <!-- Left Column: Side Animated Title & Custom Explore Rooms Button (From Left Side) -->
-                    <div class="col-lg-7 text-dark hero-text-container animate-slide-left" data-aos="fade-right"
+                    <!-- Hero Title & Custom Explore Rooms Button -->
+                    <div class="col-lg-10 col-xl-9 text-dark hero-text-container animate-slide-left" data-aos="fade-right"
                         data-aos-duration="1200">
                         <!-- 5 Luxury Animated Stars & Glass Badge -->
                         <div class="mb-3">
@@ -48,88 +48,6 @@
                             <a href="Room.aspx" class="btn-explore-custom">
                                 Explore Rooms
                             </a>
-                        </div>
-                    </div>
-
-                    <!-- Right Column: Professional Luxury Check Availability Card (From Right Side) -->
-                    <div class="col-lg-5 animate-slide-right" data-aos="fade-left" data-aos-duration="1200">
-                        <div class="card booking-hero-card border-0 p-3 p-md-4 rounded-4 bg-white shadow-luxury">
-
-                            <!-- Card Header with logo matching badge -->
-                            <div class="text-center mb-3">
-                                <span
-                                    class="badge bg-gold-subtle text-warning-dark rounded-pill px-3 py-1 text-uppercase fw-semibold letter-spacing-1 small mb-1 d-inline-block">
-                                    <i class="bi bi-shield-check me-1"></i> Direct Reservation
-                                </span>
-                                <h2 class="card-title text-dark font-serif fw-bold mb-1 fs-3">Check Availability
-                                </h2>
-                                <div class="mx-auto bg-warning mt-1"
-                                    style="width: 40px; height: 2px; border-radius: 2px; opacity: 0.9;"></div>
-                            </div>
-
-                            <div class="mb-2">
-                                <label class="form-label text-uppercase text-dark fw-bold small letter-spacing-1 mb-1">
-                                    <i class="bi bi-calendar-event text-warning me-1"></i> CHECK-IN DATE
-                                </label>
-                                <div class="input-group luxury-input-group">
-                                    <input type="date"
-                                        class="form-control border-0 bg-light text-dark fs-6 rounded-3 px-3 fw-semibold"
-                                        id="checkInDate" name="checkInDate" required />
-                                </div>
-                            </div>
-
-                            <div class="mb-2">
-                                <label class="form-label text-uppercase text-dark fw-bold small letter-spacing-1 mb-1">
-                                    <i class="bi bi-calendar-check text-warning me-1"></i> CHECK-OUT DATE
-                                </label>
-                                <div class="input-group luxury-input-group">
-                                    <input type="date"
-                                        class="form-control border-0 bg-light text-dark fs-6 rounded-3 px-3 fw-semibold"
-                                        id="checkOutDate" name="checkOutDate" required />
-                                </div>
-                            </div>
-
-                            <div class="mb-2">
-                                <label class="form-label text-uppercase text-dark fw-bold small letter-spacing-1 mb-1">
-                                    <i class="bi bi-door-open text-warning me-1"></i> SELECT SUITE CATEGORY
-                                </label>
-                                <div class="input-group luxury-input-group">
-                                    <select
-                                        class="form-select border-0 bg-light text-dark fs-6 rounded-3 px-3 fw-semibold"
-                                        id="roomTypeSelect" name="roomTypeSelect">
-                                        <option value="1">Executive Business Suite</option>
-                                        <option value="2">Garden View Deluxe Room</option>
-                                        <option value="3">Family Comfort Suite</option>
-                                        <option value="4">Classic Double Luxury Room</option>
-                                        <option value="5">Superior King Royal Room</option>
-                                        <option value="6">Royal Penthouse Haven</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label text-uppercase text-dark fw-bold small letter-spacing-1 mb-1">
-                                    <i class="bi bi-people text-warning me-1"></i> GUESTS & CHILDREN
-                                </label>
-                                <div class="input-group luxury-input-group">
-                                    <select
-                                        class="form-select border-0 bg-light text-dark fs-6 rounded-3 px-3 fw-semibold"
-                                        id="guestsSelect" name="guestsSelect">
-                                        <option value="1">1 Adult (Single Guest)</option>
-                                        <option value="2" selected>2 Adults (Recommended)</option>
-                                        <option value="3">2 Adults, 1 Child</option>
-                                        <option value="4">3 Adults, 2 Children</option>
-                                        <option value="5">Family & Group (5+ Guests)</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <button type="button"
-                                class="btn btn-luxury-check w-100 py-2 py-md-2 rounded-3 fw-bold text-uppercase shadow-sm"
-                                onclick="alert('Checking Room Availability... Directing to Reservation System.');">
-                                <span>CHECK ROOM AVAILABILITY</span> <i
-                                    class="bi bi-arrow-right-circle-fill ms-2 fs-5"></i>
-                            </button>
                         </div>
                     </div>
 

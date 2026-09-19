@@ -15,6 +15,29 @@ document.addEventListener('DOMContentLoaded', function () {
 // ==========================================
 // 1. SIDEBAR TOGGLE (DESKTOP & MOBILE)
 // ==========================================
+// Global Accordion Submenu Toggle Function
+window.toggleSubmenu = function (elem) {
+    if (!elem) return false;
+    var parentItem = elem.closest ? elem.closest('.has-submenu') : elem.parentElement;
+    if (parentItem) {
+        var isOpen = parentItem.classList.contains('open');
+        
+        var allItems = document.querySelectorAll('.sidebar-nav-list .has-submenu');
+        for (var i = 0; i < allItems.length; i++) {
+            allItems[i].classList.remove('open');
+            var sub = allItems[i].querySelector('.sidebar-submenu');
+            if (sub) sub.style.display = 'none';
+        }
+
+        if (!isOpen) {
+            parentItem.classList.add('open');
+            var currentSub = parentItem.querySelector('.sidebar-submenu');
+            if (currentSub) currentSub.style.display = 'block';
+        }
+    }
+    return false;
+};
+
 function initSidebar() {
     var sidebar = document.getElementById('adminSidebar');
     var toggleBtn = document.getElementById('sidebarToggleBtn');
@@ -49,6 +72,17 @@ function initSidebar() {
     window.addEventListener('resize', function () {
         if (window.innerWidth >= 992) closeSidebar();
     });
+
+    document.addEventListener('click', function (e) {
+        var subToggle = e.target.closest('.submenu-toggle');
+        if (subToggle) {
+            e.preventDefault();
+            e.stopPropagation();
+            window.toggleSubmenu(subToggle);
+        }
+    });
+
+    highlightActiveSidebarMenu();
 }
 
 // ==========================================
@@ -332,8 +366,11 @@ function checkLoginConfirmation() {
 function highlightActiveSidebarMenu() {
     var path = (window.location.pathname + window.location.search).toLowerCase();
     var href = window.location.href.toLowerCase();
-    var links = document.querySelectorAll('.sidebar-nav-list .nav-link');
+    var links = document.querySelectorAll('.sidebar-nav-list .nav-link, .sidebar-submenu .submenu-link');
     var activeMatched = false;
+
+    // Clear active class on all links first
+    links.forEach(function (l) { l.classList.remove('active'); });
 
     links.forEach(function (link) {
         var linkHref = (link.getAttribute('href') || '').toLowerCase();
@@ -344,33 +381,25 @@ function highlightActiveSidebarMenu() {
             var pageBase = cleanHref.replace('.aspx', '');
 
             if (
-                path.endsWith('/' + cleanHref) ||
-                path.indexOf('/' + cleanHref) !== -1 ||
-                href.indexOf('/' + cleanHref) !== -1 ||
-                (pageBase && (path.indexOf('/' + pageBase) !== -1 || href.indexOf('/' + pageBase) !== -1)) ||
-                (dataPage && (path.indexOf(dataPage) !== -1 || href.indexOf(dataPage) !== -1))
+                !activeMatched && (
+                    path.endsWith('/' + cleanHref) ||
+                    path.indexOf('/' + cleanHref) !== -1 ||
+                    href.indexOf('/' + cleanHref) !== -1 ||
+                    (pageBase && (path.indexOf('/' + pageBase) !== -1 || href.indexOf('/' + pageBase) !== -1)) ||
+                    (dataPage && (path.indexOf(dataPage) !== -1 || href.indexOf(dataPage) !== -1))
+                )
             ) {
-                links.forEach(function (l) { l.classList.remove('active'); });
                 link.classList.add('active');
                 activeMatched = true;
+
+                // Auto expand parent submenu without highlighting parent button
+                var parentSub = link.closest('.has-submenu');
+                if (parentSub) {
+                    parentSub.classList.add('open');
+                }
             }
         }
     });
-
-    if (!activeMatched) {
-        var savedPage = sessionStorage.getItem('adminActiveMenu');
-        if (savedPage) {
-            links.forEach(function (link) {
-                var linkHref = (link.getAttribute('href') || '').toLowerCase();
-                var dataPage = (link.getAttribute('data-page') || '').toLowerCase();
-                if (dataPage === savedPage || linkHref.indexOf(savedPage) !== -1) {
-                    links.forEach(function (l) { l.classList.remove('active'); });
-                    link.classList.add('active');
-                    activeMatched = true;
-                }
-            });
-        }
-    }
 
     if (!activeMatched) {
         var dashLink = document.querySelector('.sidebar-nav-list .nav-link[data-page="dashboard.aspx"]');
@@ -380,15 +409,15 @@ function highlightActiveSidebarMenu() {
     }
 }
 
-// Store clicked menu item in sessionStorage for instant active highlight across page loads
+// Store clicked menu item in sessionStorage and manage single active state
 document.addEventListener('click', function (e) {
-    var link = e.target.closest('.sidebar-nav-list .nav-link');
+    var link = e.target.closest('.sidebar-nav-list .nav-link, .sidebar-submenu .submenu-link');
     if (link) {
         var page = link.getAttribute('data-page') || link.getAttribute('href');
         if (page && page !== 'javascript:void(0)') {
             sessionStorage.setItem('adminActiveMenu', page.toLowerCase());
         }
-        document.querySelectorAll('.sidebar-nav-list .nav-link').forEach(function (l) {
+        document.querySelectorAll('.sidebar-nav-list .nav-link, .sidebar-submenu .submenu-link').forEach(function (l) {
             l.classList.remove('active');
         });
         link.classList.add('active');

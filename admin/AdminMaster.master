@@ -16,7 +16,7 @@
 
     <!-- Bootstrap 5 CSS CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    
+
     <!-- Bootstrap Icons & Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -27,11 +27,62 @@
     <!-- Custom Admin Dashboard CSS -->
     <link rel="stylesheet" type="text/css" href="css/dashboard.css?v=3.0">
 
+    <script>
+        function toggleSubmenu(elem) {
+            if (!elem) return false;
+            var parentItem = elem.closest ? elem.closest('.has-submenu') : elem.parentElement;
+            if (parentItem) {
+                var isOpen = parentItem.classList.contains('open');
+
+                // Close all other open submenus
+                var allItems = document.querySelectorAll('.sidebar-nav-list .has-submenu');
+                for (var i = 0; i < allItems.length; i++) {
+                    allItems[i].classList.remove('open');
+                    var sub = allItems[i].querySelector('.sidebar-submenu');
+                    if (sub) sub.style.display = 'none';
+                }
+
+                if (!isOpen) {
+                    parentItem.classList.add('open');
+                    var currentSub = parentItem.querySelector('.sidebar-submenu');
+                    if (currentSub) currentSub.style.display = 'block';
+                }
+            }
+            return false;
+        }
+
+        // Global dropdown click listener for topbar profile & notifications
+        document.addEventListener('click', function (e) {
+            var dropToggle = e.target.closest('[data-bs-toggle="dropdown"]');
+            if (dropToggle) {
+                e.preventDefault();
+                e.stopPropagation();
+                var menu = dropToggle.nextElementSibling || (dropToggle.parentElement ? dropToggle.parentElement.querySelector('.dropdown-menu') : null);
+                if (menu) {
+                    var isShown = menu.classList.contains('show');
+                    document.querySelectorAll('.dropdown-menu.show').forEach(function (m) {
+                        m.classList.remove('show');
+                    });
+                    if (!isShown) {
+                        menu.classList.add('show');
+                    }
+                }
+                return;
+            }
+
+            if (!e.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown-menu.show').forEach(function (m) {
+                    m.classList.remove('show');
+                });
+            }
+        });
+    </script>
+
     <asp:ContentPlaceHolder ID="adminHead" runat="server">
     </asp:ContentPlaceHolder>
 </head>
 <body class="admin-body">
-    <form id="adminForm" runat="server">
+    <form id="adminForm" runat="server" enctype="multipart/form-data">
 
         <!-- Mobile Sidebar Backdrop Overlay -->
         <div id="sidebarOverlay" class="admin-sidebar-overlay"></div>
@@ -42,13 +93,13 @@
                  MODERN LIGHT ADMIN SIDEBAR
                  ========================================== -->
             <aside id="adminSidebar" class="admin-sidebar">
-                
+
                 <!-- Sidebar Brand Header -->
                 <div class="sidebar-brand-box py-3 px-3">
                     <a href="Dashboard.aspx" class="brand-link w-100 d-flex justify-content-center">
                         <img src="../images/logo-transparent.png" alt="Hotel Management Logo" class="admin-sidebar-logo"
-                             onerror="this.onerror=null; this.src='../images/logo.png';"
-                             style="max-height: 75px; max-width: 195px; width: 100%; object-fit: contain;">
+                            onerror="this.onerror=null; this.src='../images/logo.png';"
+                            style="max-height: 75px; max-width: 195px; width: 100%; object-fit: contain;">
                     </a>
                     <button type="button" id="sidebarCloseBtn" class="sidebar-close-btn d-lg-none" aria-label="Close Sidebar">
                         <i class="bi bi-x-lg"></i>
@@ -58,79 +109,131 @@
                 <!-- Sidebar Navigation Menu -->
                 <div class="sidebar-menu-scroll">
                     <ul class="sidebar-nav-list" id="sidebarMenuList">
-                        
+
+                        <!-- Dashboard -->
                         <li class="nav-item">
                             <a href="Dashboard.aspx" class="nav-link" data-page="dashboard.aspx">
                                 <span class="nav-icon"><i class="bi bi-grid-fill"></i></span>
                                 <span class="nav-text">Dashboard</span>
-                                <i class="bi bi-chevron-right nav-arrow"></i>
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="AddRoom.aspx" class="nav-link" data-page="addroom.aspx">
-                                <span class="nav-icon"><i class="bi bi-plus-circle"></i></span>
-                                <span class="nav-text">Add Room</span>
-                                <i class="bi bi-chevron-right nav-arrow"></i>
+                        <!-- Hotel Management Accordion -->
+                        <li class="nav-item has-submenu">
+                            <a href="javascript:void(0)" class="nav-link submenu-toggle" onclick="toggleSubmenu(this); return false;">
+                                <span class="nav-icon"><i class="bi bi-building-gear"></i></span>
+                                <span class="nav-text">Hotel Management</span>
+                                <i class="bi bi-chevron-right submenu-arrow"></i>
                             </a>
+                            <ul class="sidebar-submenu">
+                                <li class="submenu-item"><a href="Rooms.aspx" class="submenu-link"><i class="bi bi-door-open sub-icon"></i>Rooms</a></li>
+                                <li class="submenu-item"><a href="AddRoom.aspx" class="submenu-link"><i class="bi bi-plus-circle sub-icon"></i>Add Room</a></li>
+                            </ul>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="ManageRoomDetails.aspx" class="nav-link" data-page="manageroomdetails.aspx">
-                                <span class="nav-icon"><i class="bi bi-sliders"></i></span>
-                                <span class="nav-text">Room Details</span>
-                                <i class="bi bi-chevron-right nav-arrow"></i>
+                        <!-- Reservations Accordion -->
+                        <li class="nav-item has-submenu">
+                            <a href="javascript:void(0)" class="nav-link submenu-toggle" onclick="toggleSubmenu(this); return false;">
+                                <span class="nav-icon"><i class="bi bi-calendar-check-fill"></i></span>
+                                <span class="nav-text">Reservations</span>
+                                <i class="bi bi-chevron-right submenu-arrow"></i>
                             </a>
+                            <ul class="sidebar-submenu">
+                                <li class="submenu-item"><a href="Bookings.aspx" class="submenu-link"><i class="bi bi-journal-bookmark sub-icon"></i>All Bookings</a></li>
+                                <li class="submenu-item"><a href="javascript:void(0)" class="submenu-link" onclick="handleMenuClick('New Booking', this)"><i class="bi bi-calendar-plus sub-icon"></i>New Booking</a></li>
+                                <li class="submenu-item"><a href="javascript:void(0)" class="submenu-link" onclick="handleMenuClick('Check-in / Check-out', this)"><i class="bi bi-arrow-left-right sub-icon"></i>Check-in / Out</a></li>
+                            </ul>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Bookings', this)">
-                                <span class="nav-icon"><i class="bi bi-calendar-check"></i></span>
-                                <span class="nav-text">Bookings</span>
-                                <i class="bi bi-chevron-right nav-arrow"></i>
+                        <!-- Rates & Availability Accordion -->
+                        <li class="nav-item has-submenu">
+                            <a href="javascript:void(0)" class="nav-link submenu-toggle" onclick="toggleSubmenu(this); return false;">
+                                <span class="nav-icon"><i class="bi bi-currency-rupee"></i></span>
+                                <span class="nav-text">Rates & Availability</span>
+                                <i class="bi bi-chevron-right submenu-arrow"></i>
                             </a>
+                            <ul class="sidebar-submenu">
+                                <li class="submenu-item"><a href="RoomRates.aspx" class="submenu-link"><i class="bi bi-tag sub-icon"></i>Room Rates</a></li>
+                                <li class="submenu-item"><a href="Availability.aspx" class="submenu-link"><i class="bi bi-calendar3 sub-icon"></i>Availability</a></li>
+                            </ul>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Guests', this)">
-                                <span class="nav-icon"><i class="bi bi-people"></i></span>
-                                <span class="nav-text">Guests</span>
-                                <i class="bi bi-chevron-right nav-arrow"></i>
+                        <!-- Offers & Packages Accordion -->
+                        <li class="nav-item has-submenu">
+                            <a href="javascript:void(0)" class="nav-link submenu-toggle" onclick="toggleSubmenu(this); return false;">
+                                <span class="nav-icon"><i class="bi bi-gift-fill"></i></span>
+                                <span class="nav-text">Offers & Packages</span>
+                                <i class="bi bi-chevron-right submenu-arrow"></i>
                             </a>
+                            <ul class="sidebar-submenu">
+                                <li class="submenu-item"><a href="Offers.aspx" class="submenu-link"><i class="bi bi-percent sub-icon"></i>Offers</a></li>
+                                <li class="submenu-item"><a href="Packages.aspx" class="submenu-link"><i class="bi bi-box-seam sub-icon"></i>Packages</a></li>
+                            </ul>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Dining', this)">
-                                <span class="nav-icon"><i class="bi bi-cup-hot"></i></span>
+                        <!-- Dining Accordion -->
+                        <li class="nav-item has-submenu">
+                            <a href="javascript:void(0)" class="nav-link submenu-toggle" onclick="toggleSubmenu(this); return false;">
+                                <span class="nav-icon"><i class="bi bi-cup-hot-fill"></i></span>
                                 <span class="nav-text">Dining</span>
-                                <i class="bi bi-chevron-right nav-arrow"></i>
+                                <i class="bi bi-chevron-right submenu-arrow"></i>
                             </a>
+                            <ul class="sidebar-submenu">
+                                <li class="submenu-item"><a href="javascript:void(0)" class="submenu-link" onclick="handleMenuClick('Restaurants', this)"><i class="bi bi-shop sub-icon"></i>Restaurants</a></li>
+                                <li class="submenu-item"><a href="javascript:void(0)" class="submenu-link" onclick="handleMenuClick('Menu Management', this)"><i class="bi bi-book sub-icon"></i>Menu</a></li>
+                            </ul>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Payments', this)">
-                                <span class="nav-icon"><i class="bi bi-credit-card"></i></span>
-                                <span class="nav-text">Payments</span>
-                                <i class="bi bi-chevron-right nav-arrow"></i>
+                        <!-- Customers Accordion -->
+                        <li class="nav-item has-submenu">
+                            <a href="javascript:void(0)" class="nav-link submenu-toggle" onclick="toggleSubmenu(this); return false;">
+                                <span class="nav-icon"><i class="bi bi-people-fill"></i></span>
+                                <span class="nav-text">Customers</span>
+                                <i class="bi bi-chevron-right submenu-arrow"></i>
                             </a>
+                            <ul class="sidebar-submenu">
+                                <li class="submenu-item"><a href="Users.aspx" class="submenu-link"><i class="bi bi-person-check sub-icon"></i>Registered Users</a></li>
+                            </ul>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Reports', this)">
-                                <span class="nav-icon"><i class="bi bi-bar-chart-line"></i></span>
-                                <span class="nav-text">Reports</span>
-                                <i class="bi bi-chevron-right nav-arrow"></i>
+                        <!-- Reviews Accordion -->
+                        <li class="nav-item has-submenu">
+                            <a href="javascript:void(0)" class="nav-link submenu-toggle" onclick="toggleSubmenu(this); return false;">
+                                <span class="nav-icon"><i class="bi bi-star-fill"></i></span>
+                                <span class="nav-text">Reviews</span>
+                                <i class="bi bi-chevron-right submenu-arrow"></i>
                             </a>
+                            <ul class="sidebar-submenu">
+                                <li class="submenu-item"><a href="Reviews.aspx" class="submenu-link"><i class="bi bi-chat-left-quote sub-icon"></i>Guest Reviews</a></li>
+                            </ul>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link" onclick="handleMenuClick('Settings', this)">
-                                <span class="nav-icon"><i class="bi bi-gear"></i></span>
+                        <!-- Enquiries Accordion -->
+                        <li class="nav-item has-submenu">
+                            <a href="javascript:void(0)" class="nav-link submenu-toggle" onclick="toggleSubmenu(this); return false;">
+                                <span class="nav-icon"><i class="bi bi-envelope-fill"></i></span>
+                                <span class="nav-text">Enquiries</span>
+                                <i class="bi bi-chevron-right submenu-arrow"></i>
+                            </a>
+                            <ul class="sidebar-submenu">
+                                <li class="submenu-item"><a href="Enquiries.aspx" class="submenu-link"><i class="bi bi-inbox sub-icon"></i>Contact Messages</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Settings Accordion -->
+                        <li class="nav-item has-submenu">
+                            <a href="javascript:void(0)" class="nav-link submenu-toggle" onclick="toggleSubmenu(this); return false;">
+                                <span class="nav-icon"><i class="bi bi-gear-fill"></i></span>
                                 <span class="nav-text">Settings</span>
-                                <i class="bi bi-chevron-right nav-arrow"></i>
+                                <i class="bi bi-chevron-right submenu-arrow"></i>
                             </a>
+                            <ul class="sidebar-submenu">
+                                <li class="submenu-item"><a href="Settings.aspx" class="submenu-link"><i class="bi bi-sliders2 sub-icon"></i>Hotel Settings</a></li>
+                                <li class="submenu-item"><a href="javascript:void(0)" class="submenu-link" onclick="handleMenuClick('Admin Profile', this)"><i class="bi bi-person-gear sub-icon"></i>Admin Profile</a></li>
+                            </ul>
                         </li>
 
+                        <!-- Logout -->
                         <li class="nav-item nav-item-logout mt-4">
                             <a href="Login.aspx" class="nav-link">
                                 <span class="nav-icon"><i class="bi bi-box-arrow-right"></i></span>
@@ -161,8 +264,8 @@
                         <!-- Mobile Brand Logo -->
                         <a href="Dashboard.aspx" class="d-lg-none me-2">
                             <img src="../images/logo-transparent.png" alt="Hotel Management Logo"
-                                 onerror="this.onerror=null; this.src='../images/logo.png';"
-                                 style="max-height: 44px; max-width: 140px; width: auto; object-fit: contain;">
+                                onerror="this.onerror=null; this.src='../images/logo.png';"
+                                style="max-height: 44px; max-width: 140px; width: auto; object-fit: contain;">
                         </a>
 
                         <!-- Rounded Search Box -->
@@ -212,13 +315,15 @@
                             <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="profileDropdown">
                                 <li>
                                     <a class="dropdown-item d-flex align-items-center gap-2" href="../index.aspx" target="_blank">
-                                        <i class="bi bi-globe2 text-gold"></i> Live Guest Website
+                                        <i class="bi bi-globe2 text-gold"></i>Live Guest Website
                                     </a>
                                 </li>
-                                <li><hr class="dropdown-divider my-1"></li>
+                                <li>
+                                    <hr class="dropdown-divider my-1">
+                                </li>
                                 <li>
                                     <a class="dropdown-item d-flex align-items-center gap-2 text-danger" href="Login.aspx">
-                                        <i class="bi bi-box-arrow-right"></i> Logout
+                                        <i class="bi bi-box-arrow-right"></i>Logout
                                     </a>
                                 </li>
                             </ul>

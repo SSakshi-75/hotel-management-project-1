@@ -334,28 +334,6 @@
                     </div>
                 </div>
 
-                <!-- 7. Booking CTA Section -->
-                <div id="booking-cta" class="booking-cta" data-aos="fade-up" data-aos-delay="200">
-                    <div class="booking-card">
-                        <div class="row align-items-center">
-                            <div class="col-lg-7 mb-4 mb-lg-0">
-                                <h4>Ready to book your stay?</h4>
-                                <p>Experience luxury and comfort in our handcrafted suite. Reserve now and create
-                                    unforgettable memories.</p>
-                            </div>
-                            <div class="col-lg-5 text-center text-lg-end">
-                                <div class="price-display">
-                                    <span class="price" id="ctaPrice">&#8377; 8,500</span>
-                                    <span class="period">per night</span>
-                                </div>
-                                <button type="button" class="btn btn-book-now px-5 py-3 shadow"
-                                    onclick="openReserveModal()">
-                                    <i class="bi bi-check-circle-fill me-2"></i> Check Availability
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
             </div>
         </section>

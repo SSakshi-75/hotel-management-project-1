@@ -28,115 +28,101 @@
 
 
         <!-- ==========================================
-             2. TOP 4 KEY METRIC CARDS (KPIs)
+             2. TOP 6 KEY METRIC CARDS (KPIs)
              ========================================== -->
-        <div class="row g-3 g-xl-4 mb-4">
+        <div class="row g-3 mb-4">
 
-            <!-- Card 1: Total Rooms -->
-            <div class="col-12 col-sm-6 col-xl-3">
-                <div class="kpi-card bg-white p-3 p-xl-4 rounded-4 shadow-sm h-100 position-relative">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="kpi-icon-circle bg-blue-subtle text-primary">
-                                <i class="bi bi-door-closed fs-5"></i>
-                            </div>
-                            <span class="kpi-label text-dark fw-semibold small">Total Rooms</span>
+            <!-- Card 1: Today's Revenue -->
+            <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                <div class="kpi-card bg-white p-3 rounded-4 shadow-sm h-100 border">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div class="kpi-icon-circle bg-amber-subtle text-warning-dark">
+                            <i class="bi bi-currency-rupee fs-5"></i>
                         </div>
-                        <button type="button" class="btn btn-link p-0 text-muted kpi-dots-btn" title="Options">
-                            <i class="bi bi-three-dots-vertical"></i>
-                        </button>
+                        <span class="badge bg-light text-dark border">Today</span>
                     </div>
-
-                    <div class="kpi-value display-6 fw-bold text-dark mb-1">
-                        0
-                    </div>
-
-                    <div class="kpi-sub-detail text-muted small mb-2">
-                        0 Occupied &nbsp;|&nbsp; 0 Available
-                    </div>
-
-                    <div class="kpi-trend-pill text-muted small fw-semibold">
-                        <i class="bi bi-dash fs-6"></i> 0.0% <span class="fw-normal text-muted">from last week</span>
-                    </div>
+                    <div class="text-muted small fw-semibold">Today's Revenue</div>
+                    <div class="fs-4 fw-bold text-dark my-1">&#8377;0.00</div>
+                    <div class="text-muted small">0 Transactions Today</div>
                 </div>
             </div>
 
-            <!-- Card 2: Total Bookings -->
-            <div class="col-12 col-sm-6 col-xl-3">
-                <div class="kpi-card bg-white p-3 p-xl-4 rounded-4 shadow-sm h-100 position-relative">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="kpi-icon-circle bg-green-subtle text-success">
-                                <i class="bi bi-calendar-check fs-5"></i>
-                            </div>
-                            <span class="kpi-label text-dark fw-semibold small">Total Bookings</span>
+            <!-- Card 2: Room Occupancy -->
+            <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                <div class="kpi-card bg-white p-3 rounded-4 shadow-sm h-100 border">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div class="kpi-icon-circle bg-blue-subtle text-primary">
+                            <i class="bi bi-pie-chart-fill fs-5"></i>
                         </div>
-                        <button type="button" class="btn btn-link p-0 text-muted kpi-dots-btn" title="Options">
-                            <i class="bi bi-three-dots-vertical"></i>
-                        </button>
+                        <span class="badge bg-light text-dark border">0%</span>
                     </div>
-
-                    <div class="kpi-value display-6 fw-bold text-dark mb-1">
-                        0
-                    </div>
-
-                    <div class="kpi-sub-detail text-muted small mb-2">
-                        0 Today's Bookings
-                    </div>
-
-                    <div class="kpi-trend-pill text-muted small fw-semibold">
-                        <i class="bi bi-dash fs-6"></i> 0.0% <span class="fw-normal text-muted">from last week</span>
-                    </div>
+                    <div class="text-muted small fw-semibold">Room Occupancy</div>
+                    <div class="fs-4 fw-bold text-dark my-1">0%</div>
+                    <div class="text-muted small">0 Occupied / 0 Total</div>
                 </div>
             </div>
 
-            <!-- Card 3: Total Guests -->
-            <div class="col-12 col-sm-6 col-xl-3">
-                <div class="kpi-card bg-white p-3 p-xl-4 rounded-4 shadow-sm h-100 position-relative">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="kpi-icon-circle bg-purple-subtle text-purple">
-                                <i class="bi bi-people fs-5"></i>
-                            </div>
-                            <span class="kpi-label text-dark fw-semibold small">Total Guests</span>
+            <!-- Card 3: Active Bookings -->
+            <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                <div class="kpi-card bg-white p-3 rounded-4 shadow-sm h-100 border">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div class="kpi-icon-circle bg-green-subtle text-success">
+                            <i class="bi bi-calendar-check fs-5"></i>
                         </div>
-                        <button type="button" class="btn btn-link p-0 text-muted kpi-dots-btn" title="Options">
-                            <i class="bi bi-three-dots-vertical"></i>
-                        </button>
+                        <span class="badge bg-light text-dark border">Active</span>
                     </div>
-
-                    <div class="kpi-value display-6 fw-bold text-dark mb-1">
-                        0
-                    </div>
-
-                    <div class="kpi-sub-detail text-muted small mb-2">
-                        0 Check-ins Today
-                    </div>
-
-                    <div class="kpi-trend-pill text-muted small fw-semibold">
-                        <i class="bi bi-dash fs-6"></i> 0.0% <span class="fw-normal text-muted">from last week</span>
-                    </div>
+                    <div class="text-muted small fw-semibold">Active Bookings</div>
+                    <div class="fs-4 fw-bold text-dark my-1">0</div>
+                    <div class="text-muted small">0 Pending</div>
                 </div>
             </div>
 
-            <!-- Card 4: Total Revenue -->
-            <div class="col-12 col-sm-6 col-xl-3">
-                <div class="kpi-card bg-white p-3 p-xl-4 rounded-4 shadow-sm h-100 position-relative">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="kpi-icon-circle bg-amber-subtle text-warning-dark">
-                                <i class="bi bi-currency-rupee fs-5"></i>
-                            </div>
-                            <span class="kpi-label text-dark fw-semibold small">Total Revenue</span>
+            <!-- Card 4: Available Rooms -->
+            <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                <div class="kpi-card bg-white p-3 rounded-4 shadow-sm h-100 border">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div class="kpi-icon-circle bg-purple-subtle text-purple">
+                            <i class="bi bi-door-open-fill fs-5"></i>
                         </div>
-                        <button type="button" class="btn btn-link p-0 text-muted kpi-dots-btn" title="Options">
-                            <i class="bi bi-three-dots-vertical"></i>
-                        </button>
+                        <span class="badge bg-light text-dark border">0 Ready</span>
                     </div>
+                    <div class="text-muted small fw-semibold">Available Rooms</div>
+                    <div class="fs-4 fw-bold text-dark my-1">0</div>
+                    <div class="text-muted small">Out of 0 total</div>
+                </div>
+            </div>
 
-                    <div class="kpi-value display-6 fw-bold text-dark mb-1">
-                        &#8377; 0.00
+            <!-- Card 5: Check-ins Today -->
+            <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                <div class="kpi-card bg-white p-3 rounded-4 shadow-sm h-100 border">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div class="kpi-icon-circle bg-blue-subtle text-info">
+                            <i class="bi bi-box-arrow-in-right fs-5"></i>
+                        </div>
+                        <span class="badge bg-light text-dark border">Today</span>
                     </div>
+                    <div class="text-muted small fw-semibold">Check-ins Today</div>
+                    <div class="fs-4 fw-bold text-dark my-1">0</div>
+                    <div class="text-muted small">0 Completed</div>
+                </div>
+            </div>
+
+            <!-- Card 6: Check-outs Today -->
+            <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                <div class="kpi-card bg-white p-3 rounded-4 shadow-sm h-100 border">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div class="kpi-icon-circle bg-amber-subtle text-danger">
+                            <i class="bi bi-box-arrow-right fs-5"></i>
+                        </div>
+                        <span class="badge bg-light text-dark border">Today</span>
+                    </div>
+                    <div class="text-muted small fw-semibold">Check-outs Today</div>
+                    <div class="fs-4 fw-bold text-dark my-1">0</div>
+                    <div class="text-muted small">0 Pending</div>
+                </div>
+            </div>
+
+        </div>
 
                     <div class="kpi-sub-detail text-muted small mb-2">
                         &#8377; 0.00 Today's Earnings

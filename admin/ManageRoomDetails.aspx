@@ -211,9 +211,9 @@
         <div class="row g-4">
 
             <!-- ==========================================
-                 LEFT COLUMN: FORM CONFIGURATION (8 COLS)
+                 ROOM DETAILS FORM CONFIGURATION (FULL WIDTH)
                  ========================================== -->
-            <div class="col-lg-8">
+            <div class="col-12">
 
                 <!-- SECTION 1: HERO & HEADER CONTENT -->
                 <div class="admin-form-card">
@@ -395,132 +395,6 @@
                     </div>
                 </div>
 
-                <!-- SECTION 5: POLICIES, LOCATION & SERVICES -->
-                <div class="admin-form-card">
-                    <div class="admin-card-header">
-                        <h3 class="admin-card-title">
-                            <i class="bi bi-shield-check"></i> 5. Policies &amp; Stay Rules
-                        </h3>
-                        <span class="badge bg-light text-secondary border">Rules &amp; Policies</span>
-                    </div>
-                    <div class="admin-card-body">
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label-custom" for="txtCheckIn">Check-In Time</label>
-                                <input type="text" id="txtCheckIn" class="form-control form-control-admin" value="02:00 PM">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label-custom" for="txtCheckOut">Check-Out Time</label>
-                                <input type="text" id="txtCheckOut" class="form-control form-control-admin" value="12:00 PM">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label-custom" for="txtCancelPolicy">Cancellation Policy</label>
-                                <input type="text" id="txtCancelPolicy" class="form-control form-control-admin" value="Free cancellation up to 48 hours before check-in date.">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label-custom" for="txtPetPolicy">Pet &amp; Smoking Policy</label>
-                                <input type="text" id="txtPetPolicy" class="form-control form-control-admin" value="Non-smoking luxury room • Pets permitted upon request.">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- SECTION 6: ENHANCE YOUR STAY (ADD-ON PACKAGES) -->
-                <div class="admin-form-card">
-                    <div class="admin-card-header">
-                        <h3 class="admin-card-title">
-                            <i class="bi bi-gift-fill text-gold"></i> 6. Enhance Your Stay (3 Add-on Packages)
-                        </h3>
-                        <span class="badge bg-light text-secondary border">Add-on Upgrades</span>
-                    </div>
-                    <div class="admin-card-body">
-                        <div class="row g-3">
-                            <!-- Package 1 -->
-                            <div class="col-12">
-                                <div class="addon-package-card">
-                                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3 pb-2 border-bottom">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <span class="badge bg-warning text-dark font-sans fw-bold px-3 py-1.5" style="font-size: 0.78rem;">
-                                                <i class="bi bi-egg-fried me-1"></i> Add-on Package 1
-                                            </span>
-                                            <span class="text-muted small fw-semibold">Breakfast Option</span>
-                                        </div>
-                                        <div class="input-group input-group-sm" style="max-width: 240px;">
-                                            <span class="input-group-text bg-light fw-bold text-dark">+&#8377;</span>
-                                            <input type="text" class="form-control form-control-admin font-sans fw-bold" value="1,200 per person" placeholder="1,200 per person">
-                                        </div>
-                                    </div>
-                                    <div class="row g-3">
-                                        <div class="col-md-5">
-                                            <label class="form-label-custom">Package Title</label>
-                                            <input type="text" class="form-control form-control-admin fw-bold text-dark" value="Royal Breakfast Package">
-                                        </div>
-                                        <div class="col-md-7">
-                                            <label class="form-label-custom">Package Description &amp; Details</label>
-                                            <input type="text" class="form-control form-control-admin" value="Start your morning with our signature gourmet breakfast buffet featuring artisan dishes.">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Package 2 -->
-                            <div class="col-12">
-                                <div class="addon-package-card">
-                                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3 pb-2 border-bottom">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <span class="badge bg-warning text-dark font-sans fw-bold px-3 py-1.5" style="font-size: 0.78rem;">
-                                                <i class="bi bi-water me-1"></i> Add-on Package 2
-                                            </span>
-                                            <span class="text-muted small fw-semibold">Spa &amp; Wellness</span>
-                                        </div>
-                                        <div class="input-group input-group-sm" style="max-width: 240px;">
-                                            <span class="input-group-text bg-light fw-bold text-dark">+&#8377;</span>
-                                            <input type="text" class="form-control form-control-admin font-sans fw-bold" value="2,500 per day" placeholder="2,500 per day">
-                                        </div>
-                                    </div>
-                                    <div class="row g-3">
-                                        <div class="col-md-5">
-                                            <label class="form-label-custom">Package Title</label>
-                                            <input type="text" class="form-control form-control-admin fw-bold text-dark" value="Luxury Spa Access">
-                                        </div>
-                                        <div class="col-md-7">
-                                            <label class="form-label-custom">Package Description &amp; Details</label>
-                                            <input type="text" class="form-control form-control-admin" value="Enjoy unlimited access to our heated hydrotherapy pool and organic sauna facilities.">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Package 3 -->
-                            <div class="col-12">
-                                <div class="addon-package-card">
-                                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3 pb-2 border-bottom">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <span class="badge bg-warning text-dark font-sans fw-bold px-3 py-1.5" style="font-size: 0.78rem;">
-                                                <i class="bi bi-car-front me-1"></i> Add-on Package 3
-                                            </span>
-                                            <span class="text-muted small fw-semibold">Transportation</span>
-                                        </div>
-                                        <div class="input-group input-group-sm" style="max-width: 240px;">
-                                            <span class="input-group-text bg-light fw-bold text-dark">+&#8377;</span>
-                                            <input type="text" class="form-control form-control-admin font-sans fw-bold" value="1,500 round trip" placeholder="1,500 round trip">
-                                        </div>
-                                    </div>
-                                    <div class="row g-3">
-                                        <div class="col-md-5">
-                                            <label class="form-label-custom">Package Title</label>
-                                            <input type="text" class="form-control form-control-admin fw-bold text-dark" value="VIP Airport Transfer">
-                                        </div>
-                                        <div class="col-md-7">
-                                            <label class="form-label-custom">Package Description &amp; Details</label>
-                                            <input type="text" class="form-control form-control-admin" value="Private luxury sedan transfer to and from the airport with personal concierge.">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- SAVE & PUBLISH ACTION BUTTONS -->
                 <div class="admin-form-card">
@@ -541,83 +415,7 @@
 
             </div>
 
-            <!-- ==========================================
-                 RIGHT COLUMN: LIVE ROOM DETAILS PREVIEW (4 COLS)
-                 ========================================== -->
-            <div class="col-lg-4">
-                <div class="preview-sticky">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="badge bg-dark text-gold border border-warning px-3 py-1 text-uppercase" style="letter-spacing: 1px;">
-                            <i class="bi bi-eye-fill me-1"></i> Live Page Preview
-                        </span>
-                        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1">
-                            <i class="bi bi-circle-fill me-1" style="font-size: 0.55rem;"></i> RoomDetails.aspx
-                        </span>
-                    </div>
-
-                    <!-- PREVIEW CARD -->
-                    <div class="room-details-preview-card">
-                        <div class="rd-prev-hero" id="rdPrevHero">
-                            <span class="badge bg-warning text-dark text-uppercase small mb-1" id="rdPrevBadge">ROYAL ACCOMMODATION</span>
-                            <h4 class="font-serif fw-bold text-white mb-1" id="rdPrevTitle">Executive Business Suite</h4>
-                            <p class="small text-champagne-gold mb-0 fst-italic" style="font-size: 0.72rem;" id="rdPrevSub">Experience royal luxury &amp; panoramic views</p>
-                        </div>
-
-                        <div class="p-3">
-                            <div class="d-flex align-items-center justify-content-between mb-2 pb-2 border-bottom">
-                                <div>
-                                    <span class="fw-bold text-dark fs-6" id="rdPrevCategory">Premium Suite</span>
-                                    <div class="text-warning small" style="font-size: 0.72rem;">
-                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                                        <span class="text-dark fw-bold ms-1">(4.9)</span>
-                                    </div>
-                                </div>
-                                <div class="text-end">
-                                    <div class="fw-bold text-dark fs-5">&#8377; 8,500</div>
-                                    <small class="text-muted" style="font-size: 0.68rem;">per night</small>
-                                </div>
-                            </div>
-
-                            <label class="form-label-custom d-block mb-1">Gallery Preview:</label>
-                            <div class="d-flex gap-1 mb-3">
-                                <img src="../images/room-mini-business.jpg" class="rounded" style="width: 32%; height: 45px; object-fit: cover;">
-                                <img src="../images/room-deluxe.jpg" class="rounded" style="width: 32%; height: 45px; object-fit: cover;">
-                                <img src="../images/room-royal-king.jpg" class="rounded" style="width: 32%; height: 45px; object-fit: cover;">
-                            </div>
-
-                            <label class="form-label-custom d-block mb-1">Guest Review Quote:</label>
-                            <div class="bg-light p-2 rounded border small text-muted fst-italic mb-3" style="font-size: 0.75rem;" id="rdPrevQuote">
-                                "The most luxurious stay we have ever experienced. The skyline view is breathtaking..."
-                            </div>
-
-                            <div class="d-grid">
-                                <a href="../RoomDetails.aspx" target="_blank" class="btn btn-outline-dark btn-sm rounded-pill fw-bold">
-                                    <i class="bi bi-box-arrow-up-right me-1"></i> Preview Live Page
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
         </div>
 
     </div>
-
-    <script>
-        function updateDetailsPreview() {
-            var badge = document.getElementById('txtBadgeText').value || 'ROYAL ACCOMMODATION';
-            var title = document.getElementById('txtHeaderTitle').value || 'Executive Business Suite';
-            var sub = document.getElementById('txtHeaderSubtitle').value || 'Experience royal luxury...';
-            var cat = document.getElementById('txtCategoryTag').value || 'Premium Suite';
-            var quote = document.getElementById('txtQuoteText').value || 'The most luxurious stay...';
-
-            document.getElementById('rdPrevBadge').textContent = badge.toUpperCase();
-            document.getElementById('rdPrevTitle').textContent = title;
-            document.getElementById('rdPrevSub').textContent = sub;
-            document.getElementById('rdPrevCategory').textContent = cat;
-            document.getElementById('rdPrevQuote').textContent = '"' + quote + '"';
-        }
-    </script>
 </asp:Content>
