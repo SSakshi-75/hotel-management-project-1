@@ -2,6 +2,7 @@ using System;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.IO;
+using System.Web;
 using System.Web.UI;
 
 public partial class Admin_AddRoom : System.Web.UI.Page
@@ -49,8 +50,8 @@ public partial class Admin_AddRoom : System.Web.UI.Page
             keyAmenities = string.Join(", ", amenities);
         }
 
+        // ================= IMAGE UPLOAD =================
 
-        // Image file names
         string primaryRoomImage = "";
         string headerImage = "";
         string galleryImage1 = "";
@@ -60,33 +61,129 @@ public partial class Admin_AddRoom : System.Web.UI.Page
         string galleryImage5 = "";
         string galleryImage6 = "";
 
-        if (Request.Files["fileMainImage"] != null)
+        // Images folder
+        string imageFolder = Server.MapPath("~/images/rooms/");
+
+        if (!Directory.Exists(imageFolder))
         {
-            primaryRoomImage = Path.GetFileName(Request.Files["fileMainImage"].FileName);
+            Directory.CreateDirectory(imageFolder);
         }
 
-        if (Request.Files["fileHeaderImage"] != null)
+
+        // ================= PRIMARY ROOM IMAGE =================
+
+        HttpPostedFile mainImage = Request.Files["fileMainImage"];
+
+        if (mainImage != null && mainImage.ContentLength > 0)
         {
-            headerImage = Path.GetFileName(Request.Files["fileHeaderImage"].FileName);
+            string fileName = Path.GetFileName(mainImage.FileName);
+
+            string filePath = Path.Combine(imageFolder, fileName);
+
+            mainImage.SaveAs(filePath);
+
+            primaryRoomImage = "~/images/rooms/" + fileName;
         }
 
-        if (Request.Files["fileGallery1"] != null)
-            galleryImage1 = Path.GetFileName(Request.Files["fileGallery1"].FileName);
 
-        if (Request.Files["fileGallery2"] != null)
-            galleryImage2 = Path.GetFileName(Request.Files["fileGallery2"].FileName);
+        // ================= HEADER IMAGE =================
 
-        if (Request.Files["fileGallery3"] != null)
-            galleryImage3 = Path.GetFileName(Request.Files["fileGallery3"].FileName);
+        HttpPostedFile headerFile = Request.Files["fileHeaderImage"];
 
-        if (Request.Files["fileGallery4"] != null)
-            galleryImage4 = Path.GetFileName(Request.Files["fileGallery4"].FileName);
+        if (headerFile != null && headerFile.ContentLength > 0)
+        {
+            string fileName = Path.GetFileName(headerFile.FileName);
 
-        if (Request.Files["fileGallery5"] != null)
-            galleryImage5 = Path.GetFileName(Request.Files["fileGallery5"].FileName);
+            string filePath = Path.Combine(imageFolder, fileName);
 
-        if (Request.Files["fileGallery6"] != null)
-            galleryImage6 = Path.GetFileName(Request.Files["fileGallery6"].FileName);
+            headerFile.SaveAs(filePath);
+
+            headerImage = "~/images/rooms/" + fileName;
+        }
+
+
+        // ================= GALLERY IMAGE 1 =================
+
+        HttpPostedFile galleryFile1 = Request.Files["fileGallery1"];
+
+        if (galleryFile1 != null && galleryFile1.ContentLength > 0)
+        {
+            string fileName = Path.GetFileName(galleryFile1.FileName);
+
+            galleryFile1.SaveAs(Path.Combine(imageFolder, fileName));
+
+            galleryImage1 = "~/images/rooms/" + fileName;
+        }
+
+
+        // ================= GALLERY IMAGE 2 =================
+
+        HttpPostedFile galleryFile2 = Request.Files["fileGallery2"];
+
+        if (galleryFile2 != null && galleryFile2.ContentLength > 0)
+        {
+            string fileName = Path.GetFileName(galleryFile2.FileName);
+
+            galleryFile2.SaveAs(Path.Combine(imageFolder, fileName));
+
+            galleryImage2 = "~/images/rooms/" + fileName;
+        }
+
+
+        // ================= GALLERY IMAGE 3 =================
+
+        HttpPostedFile galleryFile3 = Request.Files["fileGallery3"];
+
+        if (galleryFile3 != null && galleryFile3.ContentLength > 0)
+        {
+            string fileName = Path.GetFileName(galleryFile3.FileName);
+
+            galleryFile3.SaveAs(Path.Combine(imageFolder, fileName));
+
+            galleryImage3 = "~/images/rooms/" + fileName;
+        }
+
+
+        // ================= GALLERY IMAGE 4 =================
+
+        HttpPostedFile galleryFile4 = Request.Files["fileGallery4"];
+
+        if (galleryFile4 != null && galleryFile4.ContentLength > 0)
+        {
+            string fileName = Path.GetFileName(galleryFile4.FileName);
+
+            galleryFile4.SaveAs(Path.Combine(imageFolder, fileName));
+
+            galleryImage4 = "~/images/rooms/" + fileName;
+        }
+
+
+        // ================= GALLERY IMAGE 5 =================
+
+        HttpPostedFile galleryFile5 = Request.Files["fileGallery5"];
+
+        if (galleryFile5 != null && galleryFile5.ContentLength > 0)
+        {
+            string fileName = Path.GetFileName(galleryFile5.FileName);
+
+            galleryFile5.SaveAs(Path.Combine(imageFolder, fileName));
+
+            galleryImage5 = "~/images/rooms/" + fileName;
+        }
+
+
+        // ================= GALLERY IMAGE 6 =================
+
+        HttpPostedFile galleryFile6 = Request.Files["fileGallery6"];
+
+        if (galleryFile6 != null && galleryFile6.ContentLength > 0)
+        {
+            string fileName = Path.GetFileName(galleryFile6.FileName);
+
+            galleryFile6.SaveAs(Path.Combine(imageFolder, fileName));
+
+            galleryImage6 = "~/images/rooms/" + fileName;
+        }
 
 
         string query = @"

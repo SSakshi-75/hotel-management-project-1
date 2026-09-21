@@ -1,4 +1,4 @@
-<%@ Page Title="Room Details | Hotel Management" Language="C#" MasterPageFile="~/MasterPage.master"
+<%--<%@ Page Title="Room Details | Hotel Management" Language="C#" MasterPageFile="~/MasterPage.master"
     AutoEventWireup="true" CodeFile="RoomDetails.aspx.cs" Inherits="RoomDetails" %>
 
     <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
@@ -384,4 +384,1066 @@
         <!-- External Room Details JS Script -->
         <script src="js/room-details.js"></script>
 
-    </asp:Content>
+    </asp:Content>--%>
+
+<%@ Page Title="Room Details | Hotel Management" Language="C#" MasterPageFile="~/MasterPage.master"
+    AutoEventWireup="true" CodeFile="RoomDetails.aspx.cs" Inherits="RoomDetails" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+
+    <!-- ==========================================
+         ROOM DETAILS REPEATER
+         ========================================== -->
+
+    <asp:Repeater ID="rptRoomDetails" runat="server">
+
+        <ItemTemplate>
+
+            <!-- ==========================================
+                 1. PAGE TITLE / HERO
+                 ========================================== -->
+
+            <section class="page-title text-center"
+                data-aos="fade-down"
+                data-aos-duration="1000">
+
+                <div class="container relative-z">
+
+                    <!-- Top Banner Badge -->
+                    <div class="page-title-badge mb-3 d-inline-flex align-items-center gap-2"
+                        data-aos="zoom-in"
+                        data-aos-delay="100">
+
+                        <i class="bi bi-stars text-gold"></i>
+
+                        <span>
+                            <%# Eval("TopBannerBadge") %>
+                        </span>
+
+                        <i class="bi bi-stars text-gold"></i>
+
+                    </div>
+
+
+                    <!-- Room Title -->
+                    <h1 class="page-title-heading"
+                        data-aos="fade-up"
+                        data-aos-delay="200">
+
+                        <%# Eval("PageHeroTitle") %>
+
+                    </h1>
+
+
+                    <!-- Divider -->
+                    <div class="page-title-divider"
+                        data-aos="fade-up"
+                        data-aos-delay="300">
+
+                        <span class="divider-line"></span>
+
+                        <span class="divider-diamond">◆</span>
+
+                        <span class="divider-line"></span>
+
+                    </div>
+
+
+                    <!-- Subtitle -->
+                    <p class="page-title-subtitle"
+                        data-aos="fade-up"
+                        data-aos-delay="350">
+
+                        <%# Eval("PageSubtitleTagline") %>
+
+                    </p>
+
+
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb"
+                        class="mt-4"
+                        data-aos="fade-up"
+                        data-aos-delay="400">
+
+                        <ol class="breadcrumb page-title-breadcrumb justify-content-center mb-0">
+
+                            <li class="breadcrumb-item">
+
+                                <a href="index.aspx">
+
+                                    <i class="bi bi-house-door-fill me-1"></i>
+                                    Home
+
+                                </a>
+
+                            </li>
+
+
+                            <li class="breadcrumb-item">
+
+                                <a href="Room.aspx">
+                                    Rooms &amp; Suites
+                                </a>
+
+                            </li>
+
+
+                            <li class="breadcrumb-item active"
+                                aria-current="page">
+
+                                <%# Eval("RoomName") %>
+
+                            </li>
+
+                        </ol>
+
+                    </nav>
+
+                </div>
+
+            </section>
+
+
+            <!-- ==========================================
+                 2. ROOM HEADER
+                 ========================================== -->
+
+            <section id="room-details"
+                class="room-details-section">
+
+                <div class="container">
+
+
+                    <div class="row align-items-center mb-5"
+                        data-aos="fade-up"
+                        data-aos-duration="1000">
+
+
+                        <!-- ROOM IMAGE -->
+                        <div class="col-lg-7"
+                            data-aos="fade-right"
+                            data-aos-delay="200">
+
+                            <div class="room-header-image">
+
+                                <img src='<%# GetRoomImage(Eval("FeaturedRoomHeaderImage")) %>'
+                                    loading="lazy"
+                                    alt='<%# Eval("RoomName") %>'
+                                    class="img-fluid rounded" />
+
+
+                                <!-- Category Badge -->
+                                <div class="room-badge">
+
+                                    <span class="text-white">
+
+                                        <%# Eval("CategoryBadge") %>
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ROOM BASIC INFORMATION -->
+                        <div class="col-lg-5"
+                            data-aos="fade-left"
+                            data-aos-delay="300">
+
+                            <div class="room-header-content">
+
+
+                                <!-- Rating -->
+                                <div class="room-rating mb-3"
+                                    data-aos="fade-up"
+                                    data-aos-delay="350">
+
+                                    <span class="rating-score">
+
+                                        <%# Eval("Rating") %>
+
+                                    </span>
+
+
+                                    <div class="stars">
+
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+
+                                    </div>
+
+
+                                    <span class="reviews-count">
+
+                                        Verified Guest Reviews
+
+                                    </span>
+
+                                </div>
+
+
+                                <!-- Room Name -->
+                                <h1 class="room-title"
+                                    data-aos="fade-up"
+                                    data-aos-delay="400">
+
+                                    <%# Eval("RoomName") %>
+
+                                </h1>
+
+
+                                <!-- Room Tagline -->
+                                <p class="room-tagline"
+                                    data-aos="fade-up"
+                                    data-aos-delay="450">
+
+                                    <%# Eval("PageSubtitleTagline") %>
+
+                                </p>
+
+
+                                <!-- ROOM CAPACITY -->
+                                <div class="room-capacity mb-4"
+                                    data-aos="fade-up"
+                                    data-aos-delay="500">
+
+
+                                    <!-- Guests -->
+                                    <div class="capacity-item">
+
+                                        <i class="bi bi-people-fill"></i>
+
+                                        <span>
+                                            Up to <%# Eval("MaxGuests") %> guests
+                                        </span>
+
+                                    </div>
+
+
+                                    <!-- Area -->
+                                    <div class="capacity-item">
+
+                                        <i class="bi bi-aspect-ratio-fill"></i>
+
+                                        <span>
+                                            <%# Eval("RoomArea") %>
+                                        </span>
+
+                                    </div>
+
+
+                                    <!-- View -->
+                                    <div class="capacity-item">
+
+                                        <i class="bi bi-building"></i>
+
+                                        <span>
+                                            <%# Eval("ViewType") %>
+                                        </span>
+
+                                    </div>
+
+
+                                </div>
+
+
+                                <!-- PRICE -->
+                                <div class="room-price"
+                                    data-aos="fade-up"
+                                    data-aos-delay="550">
+
+                                    <span class="price-amount">
+
+                                        &#8377;
+                                        <%# Eval("PricePerNight", "{0:N0}") %>
+
+                                    </span>
+
+                                    <span class="price-period">
+                                        per night
+                                    </span>
+
+                                </div>
+
+
+                                <!-- BOOK NOW -->
+                                <div data-aos="fade-up"
+                                    data-aos-delay="600">
+
+                                    <a href='BookNow.aspx?RoomId=<%# Eval("RoomId") %>'
+                                        class="btn btn-book-now">
+
+                                        <i class="bi bi-calendar-check me-2"></i>
+
+                                        Book Now
+
+                                    </a>
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ==========================================
+                         3. ROOM GALLERY
+                         ========================================== -->
+
+                    <div class="room-gallery mb-5"
+                        data-aos="fade-up"
+                        data-aos-delay="200">
+
+
+                        <h3 class="section-subtitle mb-4">
+                            Room Gallery
+                        </h3>
+
+
+                        <div class="gallery-grid">
+
+
+                            <!-- MAIN PHOTO -->
+                            <div class="gallery-main"
+                                data-aos="zoom-in"
+                                data-aos-delay="300">
+
+                                <img src='<%# GetRoomImage(Eval("GalleryImage1")) %>'
+                                    loading="lazy"
+                                    alt='<%# Eval("RoomName") %>'
+                                    class="img-fluid"
+                                    onclick="swapGallery(this)" />
+
+                            </div>
+
+
+                            <!-- THUMBNAILS -->
+                            <div class="gallery-thumbnails">
+
+
+                                <!-- Gallery 1 -->
+                                <img src='<%# GetRoomImage(Eval("GalleryImage2")) %>'
+                                    loading="lazy"
+                                    alt="Bedroom"
+                                    class="img-fluid"
+                                    data-aos="fade-up"
+                                    data-aos-delay="350"
+                                    onclick="swapGallery(this)" />
+
+
+                                <!-- Gallery 2 -->
+                                <img src='<%# GetRoomImage(Eval("GalleryImage3")) %>'
+                                    loading="lazy"
+                                    alt="Bathroom"
+                                    class="img-fluid"
+                                    data-aos="fade-up"
+                                    data-aos-delay="400"
+                                    onclick="swapGallery(this)" />
+
+
+                                <!-- Gallery 3 -->
+                                <img src='<%# GetRoomImage(Eval("GalleryImage4")) %>'
+                                    loading="lazy"
+                                    alt="Balcony"
+                                    class="img-fluid"
+                                    data-aos="fade-up"
+                                    data-aos-delay="450"
+                                    onclick="swapGallery(this)" />
+
+
+                                <!-- Gallery 4 -->
+                                <img src='<%# GetRoomImage(Eval("GalleryImage5")) %>'
+                                    loading="lazy"
+                                    alt="Lounge"
+                                    class="img-fluid"
+                                    data-aos="fade-up"
+                                    data-aos-delay="500"
+                                    onclick="swapGallery(this)" />
+
+
+                                <!-- Gallery 5 -->
+                                <img src='<%# GetRoomImage(Eval("GalleryImage6")) %>'
+                                    loading="lazy"
+                                    alt="Room View"
+                                    class="img-fluid"
+                                    data-aos="fade-up"
+                                    data-aos-delay="550"
+                                    onclick="swapGallery(this)" />
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ==========================================
+                         4. ROOM OVERVIEW
+                         ========================================== -->
+
+                    <div class="row mb-5">
+
+
+                        <!-- OVERVIEW -->
+                        <div class="col-lg-8"
+                            data-aos="fade-up"
+                            data-aos-delay="200">
+
+                            <div class="room-description">
+
+                                <h3 class="section-subtitle mb-4">
+                                    Room Overview
+                                </h3>
+
+
+                                <div class="room-overview-content">
+
+                                    <%# FormatOverview(Eval("DetailedRoomOverview")) %>
+
+                                </div>
+
+
+                                <!-- KEY HIGHLIGHTS -->
+
+                                <div class="room-highlights mt-4">
+
+                                    <h5 class="mb-3">
+                                        Suite Highlights
+                                    </h5>
+
+                                    <div class="d-flex flex-wrap gap-2">
+
+                                        <%# FormatHighlights(Eval("SuiteKeyHighlights")) %>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- GUEST REVIEW -->
+                        <div class="col-lg-4"
+                            data-aos="fade-left"
+                            data-aos-delay="300">
+
+                            <div class="highlight-box">
+
+
+                                <div class="highlight-icon">
+
+                                    <i class="bi bi-star-fill"></i>
+
+                                </div>
+
+
+                                <h4>
+                                    Premium Experience
+                                </h4>
+
+
+                                <p>
+
+                                    "<%# Eval("FeaturedGuestReviewQuote") %>"
+
+                                </p>
+
+
+                                <div class="quote-author">
+
+                                    <span>
+
+                                        -
+                                        <%# Eval("GuestNameDesignation") %>
+
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ==========================================
+                         5. ROOM AMENITIES
+                         ========================================== -->
+
+                    <div class="room-amenities mb-5"
+                        data-aos="fade-up"
+                        data-aos-delay="200">
+
+
+                        <h3 class="section-subtitle mb-4">
+                            Room Amenities
+                        </h3>
+
+
+                        <div class="row g-4">
+
+
+                            <div class="col-lg-12">
+
+                                <div class="amenity-category">
+
+                                    <h5>
+                                        Key Amenities
+                                    </h5>
+
+
+                                    <ul>
+
+                                        <%# FormatAmenities(Eval("KeyAmenities")) %>
+
+                                    </ul>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ==========================================
+                         6. ROOM INFORMATION TABS
+                         ========================================== -->
+
+                    <div class="room-tabs mb-5"
+                        data-aos="fade-up"
+                        data-aos-delay="200">
+
+
+                        <ul class="nav nav-tabs"
+                            id="room-detailsRoomTabs"
+                            role="tablist">
+
+
+                            <!-- POLICIES -->
+                            <li class="nav-item"
+                                role="presentation">
+
+                                <button class="nav-link active"
+                                    id="room-details-policies-tab"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#room-details-policies"
+                                    type="button"
+                                    role="tab"
+                                    aria-selected="true">
+
+                                    Policies
+
+                                </button>
+
+                            </li>
+
+
+                            <!-- LOCATION -->
+                            <li class="nav-item"
+                                role="presentation">
+
+                                <button class="nav-link"
+                                    id="room-details-location-tab"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#room-details-location"
+                                    type="button"
+                                    role="tab"
+                                    aria-selected="false">
+
+                                    Location
+
+                                </button>
+
+                            </li>
+
+
+                            <!-- SERVICES -->
+                            <li class="nav-item"
+                                role="presentation">
+
+                                <button class="nav-link"
+                                    id="room-details-services-tab"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#room-details-services"
+                                    type="button"
+                                    role="tab"
+                                    aria-selected="false">
+
+                                    Services
+
+                                </button>
+
+                            </li>
+
+                        </ul>
+
+
+                        <div class="tab-content"
+                            id="room-detailsRoomTabsContent">
+
+
+                            <!-- POLICIES -->
+                            <div class="tab-pane fade show active"
+                                id="room-details-policies"
+                                role="tabpanel"
+                                aria-labelledby="room-details-policies-tab">
+
+
+                                <div class="tab-content-wrapper">
+
+                                    <div class="row g-4">
+
+
+                                        <div class="col-md-4">
+
+                                            <h6>
+                                                Check-in / Check-out
+                                            </h6>
+
+                                            <p>
+                                                Check-in: 02:00 PM
+                                                <br />
+                                                Check-out: 11:00 AM
+                                            </p>
+
+                                        </div>
+
+
+                                        <div class="col-md-4">
+
+                                            <h6>
+                                                Cancellation
+                                            </h6>
+
+                                            <p>
+                                                Free cancellation up to 24 hours before check-in date
+                                            </p>
+
+                                        </div>
+
+
+                                        <div class="col-md-4">
+
+                                            <h6>
+                                                Policies
+                                            </h6>
+
+                                            <p>
+                                                Non-smoking luxury accommodation
+                                                <br />
+                                                Pet-free accommodations
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- LOCATION -->
+                            <div class="tab-pane fade"
+                                id="room-details-location"
+                                role="tabpanel"
+                                aria-labelledby="room-details-location-tab">
+
+
+                                <div class="tab-content-wrapper">
+
+                                    <div class="row g-4">
+
+
+                                        <div class="col-md-6">
+
+                                            <h6>
+                                                Nearby Attractions
+                                            </h6>
+
+                                            <ul>
+
+                                                <li>
+                                                    Hotel city centre
+                                                </li>
+
+                                                <li>
+                                                    Shopping &amp; dining nearby
+                                                </li>
+
+                                                <li>
+                                                    Major attractions nearby
+                                                </li>
+
+                                                <li>
+                                                    Airport accessible
+                                                </li>
+
+                                            </ul>
+
+                                        </div>
+
+
+                                        <div class="col-md-6">
+
+                                            <h6>
+                                                Transportation
+                                            </h6>
+
+                                            <ul>
+
+                                                <li>
+                                                    Airport transfer available
+                                                </li>
+
+                                                <li>
+                                                    Valet parking available
+                                                </li>
+
+                                                <li>
+                                                    Local transportation assistance
+                                                </li>
+
+                                                <li>
+                                                    Car rental assistance
+                                                </li>
+
+                                            </ul>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- SERVICES -->
+                            <div class="tab-pane fade"
+                                id="room-details-services"
+                                role="tabpanel"
+                                aria-labelledby="room-details-services-tab">
+
+
+                                <div class="tab-content-wrapper">
+
+                                    <div class="row g-4">
+
+
+                                        <div class="col-md-4">
+
+                                            <h6>
+                                                Concierge
+                                            </h6>
+
+                                            <p>
+                                                24/7 concierge service for reservations and guest assistance.
+                                            </p>
+
+                                        </div>
+
+
+                                        <div class="col-md-4">
+
+                                            <h6>
+                                                Room Service
+                                            </h6>
+
+                                            <p>
+                                                In-room dining service available for a comfortable stay.
+                                            </p>
+
+                                        </div>
+
+
+                                        <div class="col-md-4">
+
+                                            <h6>
+                                                Housekeeping
+                                            </h6>
+
+                                            <p>
+                                                Professional housekeeping service for a clean and comfortable room.
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ==========================================
+                         7. ENHANCE YOUR STAY
+                         ========================================== -->
+
+                    <div class="room-addons mb-5"
+                        data-aos="fade-up"
+                        data-aos-delay="200">
+
+
+                        <h3 class="section-subtitle mb-4">
+                            Enhance Your Stay
+                        </h3>
+
+
+                        <div class="row g-4">
+
+
+                            <!-- BREAKFAST -->
+                            <div class="col-lg-4 col-md-6"
+                                data-aos="fade-up"
+                                data-aos-delay="250">
+
+                                <div class="addon-card">
+
+                                    <div class="addon-icon">
+
+                                        <i class="bi bi-cup-hot"></i>
+
+                                    </div>
+
+                                    <h5>
+                                        Royal Breakfast Package
+                                    </h5>
+
+                                    <p>
+                                        Start your morning with our signature gourmet breakfast buffet featuring
+                                        fresh artisan dishes.
+                                    </p>
+
+                                    <div class="addon-price">
+                                        +&#8377; 1,200 per person
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- SPA -->
+                            <div class="col-lg-4 col-md-6"
+                                data-aos="fade-up"
+                                data-aos-delay="300">
+
+                                <div class="addon-card">
+
+                                    <div class="addon-icon">
+
+                                        <i class="bi bi-flower1"></i>
+
+                                    </div>
+
+                                    <h5>
+                                        Luxury Spa Access
+                                    </h5>
+
+                                    <p>
+                                        Enjoy access to our relaxing spa and wellness facilities during your stay.
+                                    </p>
+
+                                    <div class="addon-price">
+                                        +&#8377; 2,500 per day
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- AIRPORT TRANSFER -->
+                            <div class="col-lg-4 col-md-6"
+                                data-aos="fade-up"
+                                data-aos-delay="350">
+
+                                <div class="addon-card">
+
+                                    <div class="addon-icon">
+
+                                        <i class="bi bi-car-front-fill"></i>
+
+                                    </div>
+
+                                    <h5>
+                                        VIP Airport Transfer
+                                    </h5>
+
+                                    <p>
+                                        Private luxury transfer to and from the airport with professional assistance.
+                                    </p>
+
+                                    <div class="addon-price">
+                                        +&#8377; 1,500 round trip
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+        </ItemTemplate>
+
+    </asp:Repeater>
+
+
+    <!-- ==========================================
+         QUICK INQUIRY MODAL
+         ========================================== -->
+
+    <div class="modal fade"
+        id="inquiryModal"
+        tabindex="-1"
+        aria-hidden="true">
+
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content rounded-4 border-0 shadow-lg">
+
+
+                <div class="modal-header text-white py-3 px-4"
+                    style="background: linear-gradient(135deg, #442305 0%, #9A724E 100%);">
+
+                    <h5 class="modal-title font-serif fw-bold text-white">
+
+                        <i class="bi bi-door-open-fill text-warning me-2"></i>
+
+                        Reserve Room Inquiry
+
+                    </h5>
+
+
+                    <button type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                    </button>
+
+                </div>
+
+
+                <div class="modal-body p-4 bg-white font-sans">
+
+                    <form onsubmit="handleInquirySubmit(event)">
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label small fw-bold text-uppercase text-muted">
+                                Full Name *
+                            </label>
+
+                            <input type="text"
+                                class="form-control rounded-3 p-2 shadow-none"
+                                required
+                                placeholder="e.g. Vikramaditya Singh" />
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label small fw-bold text-uppercase text-muted">
+                                Mobile Number *
+                            </label>
+
+                            <input type="tel"
+                                class="form-control rounded-3 p-2 shadow-none"
+                                required
+                                placeholder="+91 98765 43210" />
+
+                        </div>
+
+
+                        <div class="row g-2 mb-3">
+
+
+                            <div class="col-6">
+
+                                <label class="form-label small fw-bold text-uppercase text-muted">
+                                    Check-In *
+                                </label>
+
+                                <input type="date"
+                                    class="form-control rounded-3 p-2 shadow-none"
+                                    required />
+
+                            </div>
+
+
+                            <div class="col-6">
+
+                                <label class="form-label small fw-bold text-uppercase text-muted">
+                                    Check-Out *
+                                </label>
+
+                                <input type="date"
+                                    class="form-control rounded-3 p-2 shadow-none"
+                                    required />
+
+                            </div>
+
+
+                        </div>
+
+
+                        <button type="submit"
+                            class="btn btn-book-now w-100 py-3 rounded-pill">
+
+                            Submit Booking Inquiry
+
+                        </button>
+
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ROOM DETAILS JS -->
+
+    <script src="js/room-details.js"></script>
+
+
+</asp:Content>
