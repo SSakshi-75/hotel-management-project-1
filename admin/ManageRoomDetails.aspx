@@ -249,57 +249,42 @@
                     </div>
                 </div>
 
-                <!-- SECTION 2: ROOM PHOTO GALLERY GRID (6 SLOTS) -->
+                <!-- SECTION 2: ROOM PHOTO GALLERY GRID (4 SLOTS) -->
                 <div class="admin-form-card">
                     <div class="admin-card-header">
                         <h3 class="admin-card-title">
-                            <i class="bi bi-images"></i> 2. Room Photo Gallery (6 Slots)
+                            <i class="bi bi-images"></i> 2. Room Photo Gallery (4 Slots)
                         </h3>
                         <span class="badge bg-light text-secondary border">Gallery Grid</span>
                     </div>
                     <div class="admin-card-body">
                         <div class="row g-3">
-                            <div class="col-md-4 col-6">
+                            <div class="col-md-6 col-6">
                                 <div class="gallery-slot-card">
                                     <img src="../images/room-mini-business.jpg" id="galPrev1" class="gallery-slot-preview" alt="Slot 1">
                                     <label class="form-label-custom d-block mb-1">Gallery Slot 1</label>
                                     <input type="text" id="txtGal1" class="form-control form-control-admin text-center py-1 small" value="../images/room-mini-business.jpg" oninput="document.getElementById('galPrev1').src=this.value">
                                 </div>
                             </div>
-                            <div class="col-md-4 col-6">
+                            <div class="col-md-6 col-6">
                                 <div class="gallery-slot-card">
                                     <img src="../images/room-deluxe.jpg" id="galPrev2" class="gallery-slot-preview" alt="Slot 2">
                                     <label class="form-label-custom d-block mb-1">Gallery Slot 2</label>
                                     <input type="text" id="txtGal2" class="form-control form-control-admin text-center py-1 small" value="../images/room-deluxe.jpg" oninput="document.getElementById('galPrev2').src=this.value">
                                 </div>
                             </div>
-                            <div class="col-md-4 col-6">
+                            <div class="col-md-6 col-6">
                                 <div class="gallery-slot-card">
                                     <img src="../images/room-royal-king.jpg" id="galPrev3" class="gallery-slot-preview" alt="Slot 3">
                                     <label class="form-label-custom d-block mb-1">Gallery Slot 3</label>
                                     <input type="text" id="txtGal3" class="form-control form-control-admin text-center py-1 small" value="../images/room-royal-king.jpg" oninput="document.getElementById('galPrev3').src=this.value">
                                 </div>
                             </div>
-
-                            <div class="col-md-4 col-6">
+                            <div class="col-md-6 col-6">
                                 <div class="gallery-slot-card">
                                     <img src="../images/room-family-suite.jpg" id="galPrev4" class="gallery-slot-preview" alt="Slot 4">
                                     <label class="form-label-custom d-block mb-1">Gallery Slot 4</label>
                                     <input type="text" id="txtGal4" class="form-control form-control-admin text-center py-1 small" value="../images/room-family-suite.jpg" oninput="document.getElementById('galPrev4').src=this.value">
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-6">
-                                <div class="gallery-slot-card">
-                                    <img src="../images/room-luxury-penthouse.jpg" id="galPrev5" class="gallery-slot-preview" alt="Slot 5">
-                                    <label class="form-label-custom d-block mb-1">Gallery Slot 5</label>
-                                    <input type="text" id="txtGal5" class="form-control form-control-admin text-center py-1 small" value="../images/room-luxury-penthouse.jpg" oninput="document.getElementById('galPrev5').src=this.value">
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-6">
-                                <div class="gallery-slot-card">
-                                    <img src="../images/room-classic-double.jpg" id="galPrev6" class="gallery-slot-preview" alt="Slot 6">
-                                    <label class="form-label-custom d-block mb-1">Gallery Slot 6</label>
-                                    <input type="text" id="txtGal6" class="form-control form-control-admin text-center py-1 small" value="../images/room-classic-double.jpg" oninput="document.getElementById('galPrev6').src=this.value">
                                 </div>
                             </div>
                         </div>

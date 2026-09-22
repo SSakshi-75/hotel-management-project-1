@@ -241,9 +241,9 @@
                             value="">
                     </div>
 
-                    <!-- Photo Gallery Slots (6 Slots with File Upload) -->
+                    <!-- Photo Gallery Slots (4 Slots with File Upload) -->
                     <div class="col-12">
-                        <label class="form-label-custom mb-2">Room Photo Gallery Slots (6 File Uploads)</label>
+                        <label class="form-label-custom mb-2">Room Photo Gallery Slots (4 File Uploads)</label>
                         <div class="row g-3">
                             <!-- Slot 1 -->
                             <div class="col-md-4 col-sm-6">
@@ -281,26 +281,6 @@
                                     <label class="form-label-custom small mb-2" for="fileGallery4">Photo Slot 4
                                         (Balcony)</label>
                                     <input type="file" id="fileGallery4" name="fileGallery4" accept="image/*"
-                                        class="form-control form-control-admin form-control-sm">
-                                </div>
-                            </div>
-
-                            <!-- Slot 5 -->
-                            <div class="col-md-4 col-sm-6">
-                                <div class="gallery-slot-box p-3">
-                                    <label class="form-label-custom small mb-2" for="fileGallery5">Photo Slot 5
-                                        (Lounge)</label>
-                                    <input type="file" id="fileGallery5" name="fileGallery5" accept="image/*"
-                                        class="form-control form-control-admin form-control-sm">
-                                </div>
-                            </div>
-
-                            <!-- Slot 6 -->
-                            <div class="col-md-4 col-sm-6">
-                                <div class="gallery-slot-box p-3">
-                                    <label class="form-label-custom small mb-2" for="fileGallery6">Photo Slot 6
-                                        (View)</label>
-                                    <input type="file" id="fileGallery6" name="fileGallery6" accept="image/*"
                                         class="form-control form-control-admin form-control-sm">
                                 </div>
                             </div>

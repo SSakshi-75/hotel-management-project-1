@@ -58,8 +58,6 @@ public partial class Admin_AddRoom : System.Web.UI.Page
         string galleryImage2 = "";
         string galleryImage3 = "";
         string galleryImage4 = "";
-        string galleryImage5 = "";
-        string galleryImage6 = "";
 
         // Images folder
         string imageFolder = Server.MapPath("~/images/rooms/");
@@ -158,34 +156,6 @@ public partial class Admin_AddRoom : System.Web.UI.Page
         }
 
 
-        // ================= GALLERY IMAGE 5 =================
-
-        HttpPostedFile galleryFile5 = Request.Files["fileGallery5"];
-
-        if (galleryFile5 != null && galleryFile5.ContentLength > 0)
-        {
-            string fileName = Path.GetFileName(galleryFile5.FileName);
-
-            galleryFile5.SaveAs(Path.Combine(imageFolder, fileName));
-
-            galleryImage5 = "~/images/rooms/" + fileName;
-        }
-
-
-        // ================= GALLERY IMAGE 6 =================
-
-        HttpPostedFile galleryFile6 = Request.Files["fileGallery6"];
-
-        if (galleryFile6 != null && galleryFile6.ContentLength > 0)
-        {
-            string fileName = Path.GetFileName(galleryFile6.FileName);
-
-            galleryFile6.SaveAs(Path.Combine(imageFolder, fileName));
-
-            galleryImage6 = "~/images/rooms/" + fileName;
-        }
-
-
         string query = @"
         INSERT INTO Rooms
         (
@@ -210,8 +180,6 @@ public partial class Admin_AddRoom : System.Web.UI.Page
             GalleryImage2,
             GalleryImage3,
             GalleryImage4,
-            GalleryImage5,
-            GalleryImage6,
             ReviewQuote,
             ReviewAuthor
         )
@@ -238,12 +206,9 @@ public partial class Admin_AddRoom : System.Web.UI.Page
             @GalleryImage2,
             @GalleryImage3,
             @GalleryImage4,
-            @GalleryImage5,
-            @GalleryImage6,
             @ReviewQuote,
             @ReviewAuthor
         )";
-
 
         using (SqlConnection con = new SqlConnection(connectionString))
         {
@@ -273,8 +238,6 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                 cmd.Parameters.AddWithValue("@GalleryImage2", galleryImage2);
                 cmd.Parameters.AddWithValue("@GalleryImage3", galleryImage3);
                 cmd.Parameters.AddWithValue("@GalleryImage4", galleryImage4);
-                cmd.Parameters.AddWithValue("@GalleryImage5", galleryImage5);
-                cmd.Parameters.AddWithValue("@GalleryImage6", galleryImage6);
 
                 cmd.Parameters.AddWithValue("@ReviewQuote", reviewQuote ?? "");
                 cmd.Parameters.AddWithValue("@ReviewAuthor", reviewAuthor ?? "");

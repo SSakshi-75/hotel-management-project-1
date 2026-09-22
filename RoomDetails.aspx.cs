@@ -1,14 +1,12 @@
 using System;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Web.UI;
+using System.Text;
+using System.Web;
 
-public partial class RoomDetails : Page
+public partial class RoomDetails : System.Web.UI.Page
 {
-    string conStr = System.Configuration.ConfigurationManager
-                    .ConnectionStrings["HotelConnection"]
-                    .ConnectionString;
-
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -19,62 +17,76 @@ public partial class RoomDetails : Page
 
     private void LoadRoomDetails()
     {
-        string roomId = Request.QueryString["RoomId"];
+        string connectionString = ConfigurationManager.ConnectionStrings["HotelConnection"].ConnectionString;
 
-        if (string.IsNullOrEmpty(roomId))
+        string roomIdStr = Request.QueryString["RoomId"] ?? Request.QueryString["RoomID"] ?? Request.QueryString["id"];
+        string roomTitle = Request.QueryString["title"] ?? Request.QueryString["room"];
+        int roomId = 0;
+
+        string query = @"
+            SELECT
+                Id,
+                RoomID,
+                RoomName,
+                RoomCategory,
+                PricePerNight,
+                CategoryBadge,
+                Rating,
+                MaxGuests,
+                RoomArea,
+                ViewType,
+                PrimaryRoomImage,
+                ShortDescription,
+                KeyAmenities,
+                HeaderBadge,
+                HeaderTitle,
+                HeaderSubtitle,
+                HeaderImage,
+                FullOverview,
+                Highlights,
+                GalleryImage1,
+                GalleryImage2,
+                GalleryImage3,
+                GalleryImage4,
+                ReviewQuote,
+                ReviewAuthor
+            FROM Rooms ";
+
+        bool hasParam = false;
+
+        if (!string.IsNullOrEmpty(roomIdStr) && int.TryParse(roomIdStr, out roomId))
         {
-            Response.Redirect("Room.aspx");
-            return;
+            query += "WHERE (RoomID = @RoomID OR Id = @RoomID)";
+            hasParam = true;
+        }
+        else if (!string.IsNullOrEmpty(roomTitle))
+        {
+            query += "WHERE (RoomName = @RoomName OR RoomName LIKE '%' + @RoomName + '%')";
+            hasParam = true;
+        }
+        else
+        {
+            query = "SELECT TOP 1 * FROM Rooms ORDER BY RoomID DESC";
         }
 
         DataTable dt = new DataTable();
-
-        using (SqlConnection con = new SqlConnection(conStr))
+        using (SqlConnection con = new SqlConnection(connectionString))
         {
-            string query = @"
-                SELECT
-                    r.RoomId,
-                    r.RoomName,
-                    r.PricePerNight,
-                    r.ImageUrl,
-                    r.MaxAdults,
-                    r.RoomType,
-
-                    rd.TopBannerBadge,
-                    rd.PageHeroTitle,
-                    rd.PageSubtitleTagline,
-                    rd.FeaturedRoomHeaderImage,
-                    rd.DetailedRoomOverview,
-                    rd.SuiteKeyHighlights,
-
-                    rd.GalleryImage1,
-                    rd.GalleryImage2,
-                    rd.GalleryImage3,
-                    rd.GalleryImage4,
-                    rd.GalleryImage5,
-                    rd.GalleryImage6,
-
-                    rd.FeaturedGuestReviewQuote,
-                    rd.GuestNameDesignation,
-                    rd.KeyAmenities,
-
-                    rd.CategoryBadge,
-                    rd.Rating,
-                    rd.RoomArea,
-                    rd.ViewType
-
-                FROM Rooms r
-
-                LEFT JOIN RoomDetails rd
-                    ON r.RoomId = rd.RoomId
-
-                WHERE r.RoomId = @RoomId
-                  AND r.IsActive = 1";
-
             using (SqlCommand cmd = new SqlCommand(query, con))
             {
-                cmd.Parameters.AddWithValue("@RoomId", roomId);
+                if (hasParam)
+                {
+                    if (roomId > 0)
+                    {
+                        cmd.Parameters.Add("@RoomID", SqlDbType.Int).Value = roomId;
+                    }
+                    else if (!string.IsNullOrEmpty(roomTitle))
+                    {
+                        cmd.Parameters.Add("@RoomName", SqlDbType.NVarChar, 150).Value = roomTitle;
+                    }
+                }
 
+                con.Open();
                 using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                 {
                     da.Fill(dt);
@@ -93,140 +105,278 @@ public partial class RoomDetails : Page
         }
     }
 
-
     // ==========================================
-    // ROOM IMAGE
+    // ROOM IMAGE HELPER
     // ==========================================
-
-    public string GetRoomImage(object imagePath)
+    protected string GetRoomImage(object image)
     {
-        if (imagePath == null || imagePath == DBNull.Value)
+        string imageName = Convert.ToString(image).Trim();
+
+        if (string.IsNullOrEmpty(imageName))
         {
-            return ResolveUrl("~/images/room-mini-business.jpg");
+            return ResolveUrl("~/images/room-featured-presidential.jpg");
         }
 
-        string path = imagePath.ToString().Trim();
-
-        if (string.IsNullOrEmpty(path))
+        if (imageName.StartsWith("http://") || imageName.StartsWith("https://"))
         {
-            return ResolveUrl("~/images/room-mini-business.jpg");
+            return imageName;
         }
 
-        return ResolveUrl(path);
+        if (imageName.StartsWith("~/"))
+        {
+            return ResolveUrl(imageName);
+        }
+
+        if (imageName.StartsWith("/"))
+        {
+            return ResolveUrl("~" + imageName);
+        }
+
+        if (imageName.StartsWith("images/"))
+        {
+            return ResolveUrl("~/" + imageName);
+        }
+
+        return ResolveUrl("~/images/rooms/" + imageName);
     }
 
-
     // ==========================================
-    // ROOM OVERVIEW
+    // GALLERY THUMBNAILS
     // ==========================================
-
-    public string FormatOverview(object overview)
+    protected string GetGalleryThumbnails(object dataItem)
     {
-        if (overview == null || overview == DBNull.Value)
+        System.Data.DataRowView row = dataItem as System.Data.DataRowView;
+        if (row == null)
         {
             return "";
         }
 
-        string text = overview.ToString().Trim();
+        StringBuilder html = new StringBuilder();
 
-        if (string.IsNullOrEmpty(text))
+        string[] galleryImages =
         {
-            return "";
-        }
+            Convert.ToString(row["GalleryImage1"]),
+            Convert.ToString(row["GalleryImage2"]),
+            Convert.ToString(row["GalleryImage3"]),
+            Convert.ToString(row["GalleryImage4"])
+        };
 
-        // Line breaks ko paragraphs me convert karega
-        string[] paragraphs = text.Split(
-            new string[] { Environment.NewLine },
-            StringSplitOptions.RemoveEmptyEntries
-        );
-
-        string result = "";
-
-        foreach (string paragraph in paragraphs)
+        foreach (string image in galleryImages)
         {
-            result += "<p>" + Server.HtmlEncode(paragraph.Trim()) + "</p>";
-        }
-
-        return result;
-    }
-
-
-    // ==========================================
-    // SUITE HIGHLIGHTS
-    // ==========================================
-
-    public string FormatHighlights(object highlights)
-    {
-        if (highlights == null || highlights == DBNull.Value)
-        {
-            return "";
-        }
-
-        string text = highlights.ToString().Trim();
-
-        if (string.IsNullOrEmpty(text))
-        {
-            return "";
-        }
-
-        string[] items = text.Split(',');
-
-        string result = "";
-
-        foreach (string item in items)
-        {
-            string value = item.Trim();
-
-            if (!string.IsNullOrEmpty(value))
+            string imageName = image.Trim();
+            if (!string.IsNullOrEmpty(imageName))
             {
-                result +=
-                    "<span class='badge bg-light text-dark border px-3 py-2'>" +
-                    "<i class='bi bi-check-circle-fill text-success me-1'></i>" +
-                    Server.HtmlEncode(value) +
-                    "</span>";
+                html.Append("<img src='" + GetRoomImage(imageName) + "' class='gallery-thumb' alt='Room Gallery' onclick='swapGallery(this)' />");
             }
         }
 
-        return result;
+        return html.ToString();
+    }
+
+    // ==========================================
+    // HEADER BADGE
+    // ==========================================
+    protected string GetHeaderBadge(object headerBadge, object roomCategory)
+    {
+        string value = Convert.ToString(headerBadge).Trim();
+        if (!string.IsNullOrEmpty(value))
+        {
+            return value;
+        }
+
+        value = Convert.ToString(roomCategory).Trim();
+        if (!string.IsNullOrEmpty(value))
+        {
+            return value;
+        }
+
+        return "Room Details";
+    }
+
+    // ==========================================
+    // HEADER TITLE
+    // ==========================================
+    protected string GetHeaderTitle(object headerTitle, object roomName)
+    {
+        string value = Convert.ToString(headerTitle).Trim();
+        if (!string.IsNullOrEmpty(value))
+        {
+            return value;
+        }
+
+        return Convert.ToString(roomName).Trim();
+    }
+
+    // ==========================================
+    // HEADER SUBTITLE
+    // ==========================================
+    protected string GetHeaderSubtitle(object headerSubtitle, object shortDescription)
+    {
+        string value = Convert.ToString(headerSubtitle).Trim();
+        if (!string.IsNullOrEmpty(value))
+        {
+            return value;
+        }
+
+        return Convert.ToString(shortDescription).Trim();
+    }
+
+    // ==========================================
+    // CATEGORY BADGE
+    // ==========================================
+    protected string GetCategoryBadge(object categoryBadge, object roomCategory)
+    {
+        string value = Convert.ToString(categoryBadge).Trim();
+        if (!string.IsNullOrEmpty(value))
+        {
+            return value;
+        }
+
+        return Convert.ToString(roomCategory).Trim();
+    }
+
+    // ==========================================
+    // RATING
+    // ==========================================
+    protected string GetRatingScore(object rating)
+    {
+        string value = Convert.ToString(rating).Trim();
+        if (!string.IsNullOrEmpty(value))
+        {
+            return value;
+        }
+
+        return "5.0";
+    }
+
+    // ==========================================
+    // STAR ICONS
+    // ==========================================
+    protected string GetStarIconsHtml(object rating)
+    {
+        double score = 5.0;
+        double.TryParse(Convert.ToString(rating), out score);
+
+        if (score <= 0)
+        {
+            score = 5.0;
+        }
+
+        int fullStars = (int)Math.Floor(score);
+        StringBuilder html = new StringBuilder();
+
+        for (int i = 0; i < fullStars && i < 5; i++)
+        {
+            html.Append("<i class=\"bi bi-star-fill\"></i> ");
+        }
+
+        if (score - fullStars >= 0.5 && fullStars < 5)
+        {
+            html.Append("<i class=\"bi bi-star-half\"></i> ");
+        }
+
+        return html.ToString();
+    }
+
+    // ==========================================
+    // OVERVIEW
+    // ==========================================
+    protected string FormatOverview(object fullOverview, object shortDescription)
+    {
+        string value = Convert.ToString(fullOverview).Trim();
+        if (string.IsNullOrEmpty(value))
+        {
+            value = Convert.ToString(shortDescription).Trim();
+        }
+
+        if (string.IsNullOrEmpty(value))
+        {
+            return "";
+        }
+
+        string[] paragraphs = value.Split(new[] { "\r\n\r\n", "\n\n", "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+        StringBuilder sb = new StringBuilder();
+        foreach (string p in paragraphs)
+        {
+            string clean = p.Trim();
+            if (!string.IsNullOrEmpty(clean))
+            {
+                sb.Append("<p>" + HttpUtility.HtmlEncode(clean) + "</p>");
+            }
+        }
+        return sb.ToString();
+    }
+
+    // ==========================================
+    // OVERVIEW COLUMN CLASS
+    // ==========================================
+    protected string GetOverviewColClass(object reviewQuote)
+    {
+        string value = Convert.ToString(reviewQuote).Trim();
+        if (string.IsNullOrEmpty(value))
+        {
+            return "col-lg-12";
+        }
+
+        return "col-lg-8";
+    }
+
+    // ==========================================
+    // REVIEW SECTION (HIGHLIGHT BOX)
+    // ==========================================
+    protected string GetReviewSectionHtml(object reviewQuote, object reviewAuthor)
+    {
+        string quote = Convert.ToString(reviewQuote).Trim();
+        string author = Convert.ToString(reviewAuthor).Trim();
+
+        if (string.IsNullOrEmpty(quote))
+        {
+            return "";
+        }
+
+        StringBuilder html = new StringBuilder();
+        html.Append("<div class='col-lg-4' data-aos='fade-left' data-aos-delay='300'>");
+        html.Append("<div class='highlight-box'>");
+        html.Append("<div class='highlight-icon'><i class='bi bi-star-fill'></i></div>");
+        html.Append("<h4>Premium Experience</h4>");
+        html.Append("<p>\"" + HttpUtility.HtmlEncode(quote.Trim('"', ' ')) + "\"</p>");
+
+        if (!string.IsNullOrEmpty(author))
+        {
+            html.Append("<div class='quote-author'><span>- " + HttpUtility.HtmlEncode(author.TrimStart('-', ' ')) + "</span></div>");
+        }
+
+        html.Append("</div>");
+        html.Append("</div>");
+
+        return html.ToString();
     }
 
 
-    // ==========================================
-    // ROOM AMENITIES
-    // ==========================================
 
-    public string FormatAmenities(object amenities)
+    // ==========================================
+    // FORMAT AMENITIES (CARD LEVEL)
+    // ==========================================
+    protected string FormatAmenities(object amenities)
     {
-        if (amenities == null || amenities == DBNull.Value)
+        string value = Convert.ToString(amenities).Trim();
+        if (string.IsNullOrEmpty(value))
         {
             return "";
         }
 
-        string text = amenities.ToString().Trim();
-
-        if (string.IsNullOrEmpty(text))
-        {
-            return "";
-        }
-
-        string[] items = text.Split(',');
-
-        string result = "";
+        string[] items = value.Split(',');
+        StringBuilder html = new StringBuilder();
 
         foreach (string item in items)
         {
-            string value = item.Trim();
-
-            if (!string.IsNullOrEmpty(value))
+            string amenity = item.Trim();
+            if (!string.IsNullOrEmpty(amenity))
             {
-                result +=
-                    "<li>" +
-                    "<i class='bi bi-check2'></i> " +
-                    Server.HtmlEncode(value) +
-                    "</li>";
+                html.Append("<span class='room-amenity-tag'><i class='bi bi-check-circle me-1'></i> " + HttpUtility.HtmlEncode(amenity) + "</span>");
             }
         }
 
-        return result;
+        return html.ToString();
     }
 }
