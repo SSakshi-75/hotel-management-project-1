@@ -228,56 +228,7 @@ MODULE 5: GUEST BOOKING ENGINE & CHECKOUT (Booking.aspx & BookNow.aspx)
 * Secure Payment Gateway Simulation: Card, UPI, Net Banking, and Pay-At-Hotel modes.
 
 ================================================================================
-5. DATABASE SCHEMA SPECIFICATIONS
-================================================================================
-
-TABLE: Rooms
---------------------------------------------------------------------------------
-* Id                : INT (Identity, Primary Key)
-* RoomID            : INT (Auto-generated from sequence [RoomIDSequence])
-* RoomName          : NVARCHAR(150), Not Null
-* RoomCategory      : NVARCHAR(50), Not Null
-* PricePerNight     : NVARCHAR(50), Not Null
-* CategoryBadge     : NVARCHAR(50), Nullable
-* Rating            : NVARCHAR(10), Nullable
-* MaxGuests         : NVARCHAR(50), Nullable
-* RoomArea          : NVARCHAR(50), Nullable
-* ViewType          : NVARCHAR(100), Nullable
-* PrimaryRoomImage  : NVARCHAR(255), Nullable
-* ShortDescription  : NVARCHAR(MAX), Nullable
-* KeyAmenities      : NVARCHAR(500), Nullable
-* HeaderBadge       : NVARCHAR(100), Nullable
-* HeaderTitle       : NVARCHAR(150), Nullable
-* HeaderSubtitle    : NVARCHAR(255), Nullable
-* HeaderImage       : NVARCHAR(255), Nullable
-* FullOverview      : NVARCHAR(MAX), Nullable
-* Highlights        : NVARCHAR(MAX), Nullable
-* GalleryImage1     : NVARCHAR(255), Nullable
-* GalleryImage2     : NVARCHAR(255), Nullable
-* GalleryImage3     : NVARCHAR(255), Nullable
-* GalleryImage4     : NVARCHAR(255), Nullable
-* ReviewQuote       : NVARCHAR(MAX), Nullable
-* ReviewAuthor      : NVARCHAR(100), Nullable
-
-TABLE: Users & Authentication
---------------------------------------------------------------------------------
-* Id / UserID       : INT (Identity, Primary Key)
-* FullName          : NVARCHAR(100)
-* Email             : NVARCHAR(100), Unique
-* PasswordHash      : NVARCHAR(256), Cryptographically Hashed
-* PhoneNumber       : NVARCHAR(20)
-* CreatedDate       : DATETIME
-
-TABLE: AdminLogin
---------------------------------------------------------------------------------
-* AdminID           : INT (Identity, Primary Key)
-* Username          : NVARCHAR(50), Unique
-* PasswordHash      : NVARCHAR(256), Cryptographically Hashed
-* Role              : NVARCHAR(50)
-* LastLogin         : DATETIME
-
-================================================================================
-6. SECURITY & DATA PROTECTION STANDARDS
+5. SECURITY & DATA PROTECTION STANDARDS
 ================================================================================
 * SQL Injection Prevention:
   All database interactions in C# code-behind files strictly utilize parameterized 
@@ -297,7 +248,7 @@ TABLE: AdminLogin
   kept confidential and protected inside configuration boundaries.
 
 ================================================================================
-7. SETUP & DEPLOYMENT INSTRUCTIONS
+6. SETUP & DEPLOYMENT INSTRUCTIONS
 ================================================================================
 
 1. SYSTEM REQUIREMENTS
@@ -310,22 +261,14 @@ TABLE: AdminLogin
 
 2. OPENING & CONFIGURING IN VISUAL STUDIO
    Step 1: Open Visual Studio.
-   Step 2: Click "Open a project or solution" -> Select the folder:
-           `Hotel-Management-Project-1`
-   Step 3: Verify the database connection string in `Web.config`:
-           <connectionStrings>
-             <add name="HotelConnection" 
-                  connectionString="Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=HotelManagementDB;Integrated Security=True" 
-                  providerName="System.Data.SqlClient" />
-           </connectionStrings>
-   Step 4: Ensure the SQL Server service is running.
-   Step 5: Press `F5` or click the green "IIS Express" button on the toolbar.
-   Step 6: The default browser will launch at:
-           Public Portal : http://localhost:54858/index.aspx
-           Admin Portal  : http://localhost:54858/admin/Dashboard.aspx
+   Step 2: Click "Open a project or solution" -> Select the project root folder.
+   Step 3: Configure your database connection string in `Web.config`.
+   Step 4: Ensure the SQL Server service is active.
+   Step 5: Press `F5` or click `IIS Express` on the toolbar to launch.
+   Step 6: The web portal will open automatically in your default browser.
 
 ================================================================================
-8. TESTING & QUALITY ASSURANCE VERIFICATION
+7. TESTING & QUALITY ASSURANCE VERIFICATION
 ================================================================================
 * C# Compilation Status       : Verified 100% clean build with 0 syntax or runtime errors.
 * Dynamic DataBinding Test    : Verified ADO.NET SQL adapter filling and repeater binding.
@@ -338,6 +281,7 @@ TABLE: AdminLogin
   - Mobile Phones             : 320px - 767px (Single-column stacked responsive layout)
 * Browser Support             : Fully tested on Google Chrome, Mozilla Firefox, 
                                 Microsoft Edge, Apple Safari, and Opera.
+
 
 ================================================================================
                     (c) The Royal Palace Hotel & Resort
