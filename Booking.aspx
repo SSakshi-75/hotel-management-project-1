@@ -84,7 +84,7 @@
                                 </div>
                             </div>
 
-                            <form id="onlineBookingForm" onsubmit="handleOnlineBookingSubmit(event)">
+                            <div id="onlineBookingForm">
 
                                 <!-- 1. Stay Details -->
                                 <div class="booking-step-container">
@@ -509,7 +509,13 @@
                                         <h3 class="booking-step-title">Confirm Booking</h3>
                                     </div>
                                     <div class="text-center pt-2">
-                                        <button type="submit" id="btnConfirmBooking"
+                                        <!-- Server Error Banner -->
+                                        <div id="bookingServerErrorMessage" class="alert alert-danger d-none text-start mb-3">
+                                            <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+                                            <span id="bookingServerErrorText"></span>
+                                        </div>
+
+                                        <button type="button" id="btnConfirmBooking" onclick="handleOnlineBookingSubmit(event)"
                                             class="btn btn-confirm-booking w-100 fs-5 py-3">
                                             <i class="bi bi-shield-check me-2"></i> Confirm Booking
                                         </button>
@@ -520,7 +526,7 @@
                                     </div>
                                 </div>
 
-                            </form>
+                            </div>
 
                             <!-- Booking Confirmation Voucher (Revealed upon submit) -->
                             <div id="bookingConfirmationPass" class="d-none pt-2">

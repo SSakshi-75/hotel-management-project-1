@@ -7,6 +7,7 @@ var currentAppliedOffer = null;
 
 // Initial state starts clean without fake/default room or dates
 var bookingState = {
+    roomId: 0,
     room: '',
     ratePlan: 'Room Only',
     ratePerNight: 0,
@@ -140,6 +141,7 @@ function selectBookingRoomCard(title, price, el) {
     // IF NOT ACTIVE -> SELECT THIS CARD
     if (el) {
         el.classList.add('active');
+        bookingState.roomId = parseInt(el.getAttribute('data-roomid')) || 0;
     }
 
     currentAppliedOffer = null;
@@ -251,7 +253,11 @@ function updateBookingSummary() {
 }
 
 function handleOnlineBookingSubmit(e) {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
+
+    var errBox = document.getElementById('bookingServerErrorMessage');
+    var errText = document.getElementById('bookingServerErrorText');
+    if (errBox) errBox.classList.add('d-none');
 
     var arrInput = document.getElementById('arrivalDate');
     var depInput = document.getElementById('departureDate');
@@ -276,61 +282,132 @@ function handleOnlineBookingSubmit(e) {
         return;
     }
 
-    var guestName = document.getElementById('guestName') ? document.getElementById('guestName').value.trim() : 'Valued Guest';
-    var guestEmail = document.getElementById('guestEmail') ? document.getElementById('guestEmail').value.trim() : 'guest@example.com';
-    var guestContact = document.getElementById('guestContact') ? document.getElementById('guestContact').value.trim() : '+91 98765 43210';
+    var guestName = document.getElementById('guestName') ? document.getElementById('guestName').value.trim() : '';
+    var guestEmail = document.getElementById('guestEmail') ? document.getElementById('guestEmail').value.trim() : '';
+    var guestContact = document.getElementById('guestContact') ? document.getElementById('guestContact').value.trim() : '';
     var specialReq = document.getElementById('additionalReqs') ? document.getElementById('additionalReqs').value.trim() : '';
     var neuId = document.getElementById('guestNeuId') ? document.getElementById('guestNeuId').value.trim() : '';
 
+    if (!guestName || !guestEmail || !guestContact) {
+        alert('Please enter your complete Name, Email, and Phone Number in Step 3.');
+        if (!guestName && document.getElementById('guestName')) document.getElementById('guestName').focus();
+        else if (!guestEmail && document.getElementById('guestEmail')) document.getElementById('guestEmail').focus();
+        else if (document.getElementById('guestContact')) document.getElementById('guestContact').focus();
+        return;
+    }
+
     var roomsSel = document.getElementById('totalRooms');
     var roomsCount = roomsSel ? (parseInt(roomsSel.value) || 1) : 1;
-    var baseStay = bookingState.ratePerNight * bookingState.nights * roomsCount;
+    var baseStay = bookingState.ratePerNight * (bookingState.nights || 1) * roomsCount;
     var taxes = Math.round(baseStay * 0.18);
     var grandTotal = baseStay + taxes;
     var sym = currencySymbols[bookingState.currency] || '₹';
 
-    var refNumber = 'HM-RES-' + Math.floor(100000 + Math.random() * 900000);
+    var btnConfirm = document.getElementById('btnConfirmBooking');
+    var originalBtnHtml = btnConfirm ? btnConfirm.innerHTML : '';
+    if (btnConfirm) {
+        btnConfirm.disabled = true;
+        btnConfirm.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span> Securing Reservation...';
+    }
 
-    // Populate confirmation voucher pass
-    var confRef = document.getElementById('confRefNumber');
-    var confGuest = document.getElementById('confGuestName');
-    var confContact = document.getElementById('confGuestContact');
-    var confEmail = document.getElementById('confGuestEmail');
-    var confRoom = document.getElementById('confRoomName');
-    var confStay = document.getElementById('confStaySchedule');
-    var confGR = document.getElementById('confGuestsRooms');
-    var confReq = document.getElementById('confSpecialRequest');
-    var confBaseTax = document.getElementById('confBaseAndTax');
-    var confTot = document.getElementById('confTotalAmount');
-
+    var formData = new FormData();
+    formData.append('action', 'create_booking');
+    formData.append('roomId', bookingState.roomId || 0);
+    formData.append('roomName', bookingState.room);
+    formData.append('checkIn', arrInput.value);
+    formData.append('checkOut', depInput.value);
     var adultsSel = document.getElementById('bookingAdults');
     var childrenSel = document.getElementById('bookingChildren');
-    var guestsFormatted = formatGuestsText(adultsSel ? adultsSel.value : '2', childrenSel ? childrenSel.value : '0', roomsCount);
-    var datesFormatted = formatDisplayDate(bookingState.checkIn) + ' – ' + formatDisplayDate(bookingState.checkOut);
+    formData.append('adults', adultsSel ? adultsSel.value : '2');
+    formData.append('children', childrenSel ? childrenSel.value : '0');
+    formData.append('rooms', roomsCount);
+    formData.append('guestName', guestName);
+    formData.append('guestEmail', guestEmail);
+    formData.append('guestPhone', guestContact);
+    formData.append('specialRequests', specialReq + (neuId ? ' [NeuPass ID: ' + neuId + ']' : ''));
+    formData.append('ratePerNight', bookingState.ratePerNight);
+    formData.append('totalAmount', grandTotal);
 
-    if (confRef) confRef.textContent = refNumber;
-    if (confGuest) confGuest.textContent = guestName + (neuId ? ' (NeuPass: ' + neuId + ')' : '');
-    if (confContact) confContact.textContent = guestContact;
-    if (confEmail) confEmail.textContent = guestEmail;
-    if (confRoom) confRoom.textContent = bookingState.room;
-    if (confStay) confStay.textContent = datesFormatted + ' (' + bookingState.nights + (bookingState.nights === 1 ? ' Night)' : ' Nights)');
-    if (confGR) confGR.textContent = guestsFormatted;
-    if (confReq) confReq.textContent = specialReq || 'None';
-    if (confBaseTax) confBaseTax.textContent = sym + baseStay.toLocaleString() + ' + ' + sym + taxes.toLocaleString() + ' GST';
-    if (confTot) confTot.innerHTML = sym + grandTotal.toLocaleString();
+    fetch('Booking.aspx', {
+        method: 'POST',
+        body: formData
+    })
+    .then(function (res) { return res.json(); })
+    .then(function (data) {
+        if (btnConfirm) {
+            btnConfirm.disabled = false;
+            btnConfirm.innerHTML = originalBtnHtml;
+        }
 
-    // Hide form, reveal booking confirmation voucher pass
-    var form = document.getElementById('onlineBookingForm');
-    var pass = document.getElementById('bookingConfirmationPass');
-    if (form && pass) {
-        form.classList.add('d-none');
-        pass.classList.remove('d-none');
-        pass.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+        if (data && data.success) {
+            var refNumber = data.reference || ('HM-RES-' + Math.floor(100000 + Math.random() * 900000));
+
+            // Populate confirmation voucher pass
+            var confRef = document.getElementById('confRefNumber');
+            var confGuest = document.getElementById('confGuestName');
+            var confContact = document.getElementById('confGuestContact');
+            var confEmail = document.getElementById('confGuestEmail');
+            var confRoom = document.getElementById('confRoomName');
+            var confStay = document.getElementById('confStaySchedule');
+            var confGR = document.getElementById('confGuestsRooms');
+            var confReq = document.getElementById('confSpecialRequest');
+            var confBaseTax = document.getElementById('confBaseAndTax');
+            var confTot = document.getElementById('confTotalAmount');
+
+            var guestsFormatted = formatGuestsText(adultsSel ? adultsSel.value : '2', childrenSel ? childrenSel.value : '0', roomsCount);
+            var datesFormatted = formatDisplayDate(arrInput.value) + ' – ' + formatDisplayDate(depInput.value);
+
+            if (confRef) confRef.textContent = refNumber;
+            if (confGuest) confGuest.textContent = guestName + (neuId ? ' (NeuPass: ' + neuId + ')' : '');
+            if (confContact) confContact.textContent = guestContact;
+            if (confEmail) confEmail.textContent = guestEmail;
+            if (confRoom) confRoom.textContent = bookingState.room;
+            if (confStay) confStay.textContent = datesFormatted + ' (' + (bookingState.nights || 1) + ((bookingState.nights || 1) === 1 ? ' Night)' : ' Nights)');
+            if (confGR) confGR.textContent = guestsFormatted;
+            if (confReq) confReq.textContent = specialReq || 'None';
+            if (confBaseTax) confBaseTax.textContent = sym + baseStay.toLocaleString() + ' + ' + sym + taxes.toLocaleString() + ' GST';
+            if (confTot) confTot.innerHTML = sym + grandTotal.toLocaleString();
+
+            // Hide form, reveal booking confirmation voucher pass
+            var form = document.getElementById('onlineBookingForm');
+            var pass = document.getElementById('bookingConfirmationPass');
+            if (form && pass) {
+                form.classList.add('d-none');
+                pass.classList.remove('d-none');
+                pass.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        } else {
+            var msg = (data && data.message) ? data.message : 'Reservation could not be completed. Please try again.';
+            if (errBox && errText) {
+                errText.textContent = msg;
+                errBox.classList.remove('d-none');
+                errBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+                alert(msg);
+            }
+        }
+    })
+    .catch(function (err) {
+        if (btnConfirm) {
+            btnConfirm.disabled = false;
+            btnConfirm.innerHTML = originalBtnHtml;
+        }
+        var failMsg = 'Error contacting server: ' + err.message;
+        if (errBox && errText) {
+            errText.textContent = failMsg;
+            errBox.classList.remove('d-none');
+        } else {
+            alert(failMsg);
+        }
+    });
 }
 
 document.addEventListener("DOMContentLoaded", function () {
     var urlParams = new URLSearchParams(window.location.search);
+    var roomIdParam = urlParams.get('RoomId') || urlParams.get('roomId');
+    if (roomIdParam) {
+        bookingState.roomId = parseInt(roomIdParam) || 0;
+    }
     var offerParam = urlParams.get('offer');
     var planParam = urlParams.get('plan');
     var priceParam = urlParams.get('price');

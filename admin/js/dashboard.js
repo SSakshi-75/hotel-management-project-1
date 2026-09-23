@@ -16,25 +16,37 @@ document.addEventListener('DOMContentLoaded', function () {
 // 1. SIDEBAR TOGGLE (DESKTOP & MOBILE)
 // ==========================================
 // Global Accordion Submenu Toggle Function
-window.toggleSubmenu = function (elem) {
+window.toggleSubmenu = function (elem, evt) {
+    if (evt) {
+        if (evt.preventDefault) evt.preventDefault();
+        if (evt.stopPropagation) evt.stopPropagation();
+    }
     if (!elem) return false;
-    var parentItem = elem.closest ? elem.closest('.has-submenu') : elem.parentElement;
-    if (parentItem) {
-        var isOpen = parentItem.classList.contains('open');
-        
-        var allItems = document.querySelectorAll('.sidebar-nav-list .has-submenu');
-        for (var i = 0; i < allItems.length; i++) {
-            allItems[i].classList.remove('open');
-            var sub = allItems[i].querySelector('.sidebar-submenu');
-            if (sub) sub.style.display = 'none';
-        }
 
-        if (!isOpen) {
-            parentItem.classList.add('open');
-            var currentSub = parentItem.querySelector('.sidebar-submenu');
-            if (currentSub) currentSub.style.display = 'block';
+    var parentItem = elem.closest ? elem.closest('.has-submenu') : elem.parentElement;
+    if (!parentItem) return false;
+
+    var isOpen = parentItem.classList.contains('open');
+
+    // Close all other open submenus
+    var allItems = document.querySelectorAll('.sidebar-nav-list .has-submenu');
+    for (var i = 0; i < allItems.length; i++) {
+        if (allItems[i] !== parentItem) {
+            allItems[i].classList.remove('open');
+            var otherSub = allItems[i].querySelector('.sidebar-submenu');
+            if (otherSub) otherSub.style.display = 'none';
         }
     }
+
+    var currentSub = parentItem.querySelector('.sidebar-submenu');
+    if (isOpen) {
+        parentItem.classList.remove('open');
+        if (currentSub) currentSub.style.display = 'none';
+    } else {
+        parentItem.classList.add('open');
+        if (currentSub) currentSub.style.display = 'block';
+    }
+
     return false;
 };
 
@@ -71,15 +83,6 @@ function initSidebar() {
 
     window.addEventListener('resize', function () {
         if (window.innerWidth >= 992) closeSidebar();
-    });
-
-    document.addEventListener('click', function (e) {
-        var subToggle = e.target.closest('.submenu-toggle');
-        if (subToggle) {
-            e.preventDefault();
-            e.stopPropagation();
-            window.toggleSubmenu(subToggle);
-        }
     });
 
     highlightActiveSidebarMenu();
@@ -396,6 +399,8 @@ function highlightActiveSidebarMenu() {
                 var parentSub = link.closest('.has-submenu');
                 if (parentSub) {
                     parentSub.classList.add('open');
+                    var sub = parentSub.querySelector('.sidebar-submenu');
+                    if (sub) sub.style.display = 'block';
                 }
             }
         }
@@ -413,6 +418,11 @@ function highlightActiveSidebarMenu() {
 document.addEventListener('click', function (e) {
     var link = e.target.closest('.sidebar-nav-list .nav-link, .sidebar-submenu .submenu-link');
     if (link) {
+        // Do not mark submenu accordion toggle headers as active page links
+        if (link.classList.contains('submenu-toggle') || link.getAttribute('href') === 'javascript:void(0)') {
+            return;
+        }
+
         var page = link.getAttribute('data-page') || link.getAttribute('href');
         if (page && page !== 'javascript:void(0)') {
             sessionStorage.setItem('adminActiveMenu', page.toLowerCase());

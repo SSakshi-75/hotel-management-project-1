@@ -37,22 +37,22 @@
          3. CATEGORY FILTER TABS
          ========================================== -->
     <section class="py-4">
-        <div class="container px-4 px-lg-5">
-            <div class="offer-filter-wrapper" data-aos="fade-up" data-aos-duration="800">
-                <button type="button" class="offer-filter-btn active" onclick="filterOffers('all', this)">
-                    <i class="bi bi-grid-fill me-1"></i> All Offers
+        <div class="container px-4 px-lg-5 text-center">
+            <div class="room-filter-bar d-inline-flex" data-aos="fade-up" data-aos-duration="800">
+                <button type="button" class="room-filter-btn active" onclick="filterOffers('all', this)">
+                    All Offers
                 </button>
-                <button type="button" class="offer-filter-btn" onclick="filterOffers('stay', this)">
-                    <i class="bi bi-building me-1"></i> Stay
+                <button type="button" class="room-filter-btn" onclick="filterOffers('executive', this)">
+                    Executive
                 </button>
-                <button type="button" class="offer-filter-btn" onclick="filterOffers('dining', this)">
-                    <i class="bi bi-cup-hot-fill me-1"></i> Dining
+                <button type="button" class="room-filter-btn" onclick="filterOffers('deluxe', this)">
+                    Deluxe
                 </button>
-                <button type="button" class="offer-filter-btn" onclick="filterOffers('family', this)">
-                    <i class="bi bi-people-fill me-1"></i> Family
+                <button type="button" class="room-filter-btn" onclick="filterOffers('family', this)">
+                    Family
                 </button>
-                <button type="button" class="offer-filter-btn" onclick="filterOffers('weekend', this)">
-                    <i class="bi bi-calendar-heart me-1"></i> Weekend
+                <button type="button" class="room-filter-btn" onclick="filterOffers('presidential', this)">
+                    Penthouse &amp; Royal
                 </button>
             </div>
         </div>
@@ -65,8 +65,8 @@
         <div class="container px-4 px-lg-5">
             <div class="row g-4 justify-content-center" id="offersGridContainer">
 
-                <!-- Offer Card 1: Breakfast Included (Category: stay) -->
-                <div class="col-lg-4 col-md-6 col-12 offer-item-col" data-category="stay" data-aos="fade-up" data-aos-delay="100">
+                <!-- Offer Card 1: Breakfast Included (Category: executive deluxe) -->
+                <div class="col-lg-4 col-md-6 col-12 offer-item-col" data-category="executive deluxe" data-aos="fade-up" data-aos-delay="100">
                     <div class="special-offer-card">
                         <div class="offer-card-img-wrap">
                             <img src="images/amenity-restaurant.jpg" loading="lazy" alt="Breakfast Inclusive Offer">
@@ -103,8 +103,8 @@
                     </div>
                 </div>
 
-                <!-- Offer Card 2: Weekend Getaway (Category: weekend) -->
-                <div class="col-lg-4 col-md-6 col-12 offer-item-col" data-category="weekend" data-aos="fade-up" data-aos-delay="200">
+                <!-- Offer Card 2: Weekend Getaway (Category: deluxe executive) -->
+                <div class="col-lg-4 col-md-6 col-12 offer-item-col" data-category="deluxe executive" data-aos="fade-up" data-aos-delay="200">
                     <div class="special-offer-card">
                         <div class="offer-card-img-wrap">
                             <img src="images/amenity-pool.jpg" loading="lazy" alt="Weekend Royal Getaway">
@@ -141,8 +141,8 @@
                     </div>
                 </div>
 
-                <!-- Offer Card 3: Long Stay Offer (Category: stay) -->
-                <div class="col-lg-4 col-md-6 col-12 offer-item-col" data-category="stay" data-aos="fade-up" data-aos-delay="300">
+                <!-- Offer Card 3: Long Stay Offer (Category: executive) -->
+                <div class="col-lg-4 col-md-6 col-12 offer-item-col" data-category="executive" data-aos="fade-up" data-aos-delay="300">
                     <div class="special-offer-card">
                         <div class="offer-card-img-wrap">
                             <img src="images/room-featured-presidential.jpg" loading="lazy" alt="Long Stay Offer">
@@ -179,8 +179,8 @@
                     </div>
                 </div>
 
-                <!-- Offer Card 4: Imperial Dine & Stay (Category: dining) -->
-                <div class="col-lg-4 col-md-6 col-12 offer-item-col" data-category="dining" data-aos="fade-up" data-aos-delay="150">
+                <!-- Offer Card 4: Imperial Dine & Stay (Category: deluxe family) -->
+                <div class="col-lg-4 col-md-6 col-12 offer-item-col" data-category="deluxe family" data-aos="fade-up" data-aos-delay="150">
                     <div class="special-offer-card">
                         <div class="offer-card-img-wrap">
                             <img src="images/item1.jpg" loading="lazy" alt="Imperial Dine & Stay Package">
@@ -255,8 +255,8 @@
                     </div>
                 </div>
 
-                <!-- Offer Card 6: Romantic Celebration (Category: stay weekend) -->
-                <div class="col-lg-4 col-md-6 col-12 offer-item-col" data-category="stay weekend" data-aos="fade-up" data-aos-delay="350">
+                <!-- Offer Card 6: Romantic Celebration (Category: presidential) -->
+                <div class="col-lg-4 col-md-6 col-12 offer-item-col" data-category="presidential" data-aos="fade-up" data-aos-delay="350">
                     <div class="special-offer-card">
                         <div class="offer-card-img-wrap">
                             <img src="images/room-luxury-penthouse.jpg" loading="lazy" alt="Romantic Celebration Escape">

@@ -52,9 +52,16 @@ function switchRatesTab(tabName, btn) {
 window.switchRatesTab = switchRatesTab;
 
 /* ==========================================================================
-   2. ROOM CATEGORY FILTERING (ALL 7 BUTTONS)
+   2. ROOM CATEGORY FILTERING (ALL ROOMS, EXECUTIVE, DELUXE, FAMILY, PENTHOUSE & ROYAL)
    ========================================================================== */
 function filterBookNowRooms(category, btn) {
+    category = (category || 'all').toLowerCase();
+
+    // Backward compatibility for old specific room keys
+    if (category === 'superior-twin' || category === 'superior-king') category = 'executive';
+    if (category === 'deluxe-king' || category === 'deluxe-twin') category = 'deluxe';
+    if (category === 'luxury-suite') category = 'family';
+
     // 1. Update active pill highlight
     const pills = document.querySelectorAll('.bn-filter-pill');
     pills.forEach(pill => pill.classList.remove('active'));
@@ -66,14 +73,15 @@ function filterBookNowRooms(category, btn) {
         if (matchPill) matchPill.classList.add('active');
     }
 
-    // 2. Filter the 6 room luxury cards
+    // 2. Filter the room luxury cards
     const blocks = document.querySelectorAll('.room-card-luxury-block');
     let visibleCount = 0;
     let firstTargetBlock = null;
 
     blocks.forEach(block => {
-        const cat = block.getAttribute('data-category');
-        if (category === 'all' || cat === category) {
+        const cat = (block.getAttribute('data-category') || '').toLowerCase();
+        const catTokens = cat.split(/\s+/);
+        if (category === 'all' || catTokens.includes(category) || cat === category) {
             block.style.display = 'block';
             visibleCount++;
             if (!firstTargetBlock) firstTargetBlock = block;
@@ -88,8 +96,8 @@ function filterBookNowRooms(category, btn) {
         if (category === 'all') {
             summaryEl.textContent = `Showing ${visibleCount} available luxury rooms • 2 Adults`;
         } else {
-            const label = btn ? btn.textContent.trim() : category;
-            summaryEl.textContent = `Showing 1 luxury room (${label}) • 2 Adults`;
+            const label = btn ? btn.textContent.trim() : category.toUpperCase();
+            summaryEl.textContent = `Showing ${visibleCount} luxury ${visibleCount === 1 ? 'room' : 'rooms'} (${label}) • 2 Adults`;
         }
     }
 
@@ -97,7 +105,7 @@ function filterBookNowRooms(category, btn) {
         setTimeout(function () { AOS.refresh(); }, 50);
     }
 
-    // 4. Smooth scroll to the visible card when a specific room is selected
+    // 4. Smooth scroll to the visible card when a specific category is selected
     if (firstTargetBlock && category !== 'all') {
         const yOffset = -90;
         const y = firstTargetBlock.getBoundingClientRect().top + window.pageYOffset + yOffset;

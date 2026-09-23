@@ -79,29 +79,32 @@
 }
 
 .bn-package-pill {
-    background: #ffffff;
-    border: 1.5px solid #cbd5e1;
-    color: #475569;
-    padding: 6px 16px;
+    background: #faf8f5;
+    border: 1.5px solid rgba(184, 142, 104, 0.3);
+    color: #442305;
+    padding: 7px 16px;
     border-radius: 6px;
-    font-size: 0.82rem;
-    font-weight: 600;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
     transition: all 0.25s ease;
     cursor: pointer;
     outline: none !important;
 }
 
 .bn-package-pill:hover {
-    background: #f8f4ef;
-    color: #442305;
-    border-color: #9A724E;
+    background: #442305;
+    color: #ffffff !important;
+    border-color: #442305;
+    box-shadow: 0 4px 14px rgba(68, 35, 5, 0.28);
 }
 
 .bn-package-pill.active {
     background: linear-gradient(135deg, #442305 0%, #9A724E 100%) !important;
     color: #ffffff !important;
-    border-color: #442305 !important;
-    box-shadow: 0 4px 12px rgba(68, 35, 5, 0.25);
+    border-color: #9A724E !important;
+    box-shadow: 0 4px 14px rgba(68, 35, 5, 0.28);
 }
 
 .package-offer-card-block {
@@ -121,13 +124,15 @@
 }
 
 .bn-filter-pill {
-    background: #ffffff;
-    border: 1.5px solid #cbd5e1;
-    color: #475569;
-    padding: 6px 16px;
+    background: #faf8f5;
+    border: 1.5px solid rgba(184, 142, 104, 0.3);
+    color: #442305;
+    padding: 7px 16px;
     border-radius: 6px;
-    font-size: 0.82rem;
-    font-weight: 600;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
     transition: all 0.25s ease;
     cursor: pointer;
     outline: none !important;
@@ -139,16 +144,17 @@
 }
 
 .bn-filter-pill:hover {
-    background: #f8f4ef;
-    color: #442305;
-    border-color: #9A724E;
+    background: #442305;
+    color: #ffffff !important;
+    border-color: #442305;
+    box-shadow: 0 4px 14px rgba(68, 35, 5, 0.28);
 }
 
 .bn-filter-pill.active {
     background: linear-gradient(135deg, #442305 0%, #9A724E 100%) !important;
     color: #ffffff !important;
-    border-color: #442305 !important;
-    box-shadow: 0 4px 12px rgba(68, 35, 5, 0.25);
+    border-color: #9A724E !important;
+    box-shadow: 0 4px 14px rgba(68, 35, 5, 0.28);
 }
 
 /* 2. Room Card Main Container */

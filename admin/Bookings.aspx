@@ -49,24 +49,44 @@
             align-items: center;
             justify-content: center;
         }
+
+        .booking-kpi-card {
+            background: #ffffff;
+            border: 1px solid #eef0f3;
+            border-radius: 14px;
+            padding: 18px;
+            transition: all 0.2s ease;
+        }
+        .booking-kpi-card:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+        }
     </style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="AdminContent" Runat="Server">
     
+    <!-- Status Alert Notification -->
+    <asp:Panel ID="pnlAlert" runat="server" Visible="false">
+        <i class="bi bi-info-circle-fill fs-5 me-2"></i>
+        <div>
+            <asp:Label ID="lblAlertText" runat="server"></asp:Label>
+        </div>
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+    </asp:Panel>
+
     <!-- Page Header & Actions -->
     <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
         <div>
             <h2 class="fw-bold text-dark mb-1" style="font-family: 'Playfair Display', Georgia, serif;">Reservations &amp; Guest Stay Lifecycle</h2>
-            <p class="text-muted small mb-0">Manage guest booking journey: Search Room &rarr; Booking &rarr; Payment &rarr; Check-In &rarr; Stay &rarr; Check-Out &rarr; Completed.</p>
+            <p class="text-muted small mb-0">Live reservation ledger connected directly to SQL Server. Manage check-in, check-out, and auto-sync room availability.</p>
         </div>
         <div class="d-flex align-items-center gap-2">
-            <button type="button" class="btn-admin-primary" onclick="showAdminToast('New Reservation', 'Opening reservation wizard...', 'bi-calendar-plus text-gold')">
-                <i class="bi bi-plus-lg"></i> New Booking
-            </button>
-            <button type="button" class="btn-admin-secondary" onclick="showAdminToast('Export Report', 'Exporting bookings ledger...', 'bi-download text-primary')">
-                <i class="bi bi-download"></i> Export
-            </button>
+            <a href="Availability.aspx" class="btn btn-outline-dark btn-sm rounded-pill px-3">
+                <i class="bi bi-calendar3 me-1"></i> Room Availability
+            </a>
+            <a href="../BookNow.aspx" target="_blank" class="btn btn-dark btn-sm rounded-pill px-3">
+                <i class="bi bi-box-arrow-up-right me-1"></i> Customer Booking Portal
+            </a>
         </div>
     </div>
 
@@ -81,8 +101,8 @@
             <div class="col-md">
                 <div class="lifecycle-step-card p-2">
                     <div class="lifecycle-step-number mx-auto mb-1">1</div>
-                    <div class="fw-bold text-dark small">Register / Login</div>
-                    <span class="text-muted" style="font-size: 0.72rem;">Customer Account</span>
+                    <div class="fw-bold text-dark small">Search Dates</div>
+                    <span class="text-muted" style="font-size: 0.72rem;">Customer Portal</span>
                 </div>
             </div>
             <div class="col-auto text-muted d-none d-md-block"><i class="bi bi-arrow-right fs-5 text-gold"></i></div>
@@ -91,8 +111,8 @@
             <div class="col-md">
                 <div class="lifecycle-step-card p-2">
                     <div class="lifecycle-step-number mx-auto mb-1">2</div>
-                    <div class="fw-bold text-dark small">Search &amp; Select</div>
-                    <span class="text-muted" style="font-size: 0.72rem;">Room &amp; Suite</span>
+                    <div class="fw-bold text-dark small">Select Suite</div>
+                    <span class="text-muted" style="font-size: 0.72rem;">Capacity &amp; Rate</span>
                 </div>
             </div>
             <div class="col-auto text-muted d-none d-md-block"><i class="bi bi-arrow-right fs-5 text-gold"></i></div>
@@ -101,260 +121,221 @@
             <div class="col-md">
                 <div class="lifecycle-step-card p-2">
                     <div class="lifecycle-step-number mx-auto mb-1">3</div>
-                    <div class="fw-bold text-dark small">Dates &amp; Booking</div>
-                    <span class="text-muted" style="font-size: 0.72rem;">Check-in / Check-out</span>
+                    <div class="fw-bold text-dark small">Reservation</div>
+                    <span class="text-muted" style="font-size: 0.72rem;">Double-Check Lock</span>
                 </div>
             </div>
             <div class="col-auto text-muted d-none d-md-block"><i class="bi bi-arrow-right fs-5 text-gold"></i></div>
 
             <!-- Step 4 -->
             <div class="col-md">
-                <div class="lifecycle-step-card p-2">
-                    <div class="lifecycle-step-number mx-auto mb-1">4</div>
-                    <div class="fw-bold text-dark small">Payment</div>
-                    <span class="text-muted" style="font-size: 0.72rem;">Booking Confirmed</span>
+                <div class="lifecycle-step-card p-2 border-primary" style="background: #f0f7ff;">
+                    <div class="lifecycle-step-number mx-auto mb-1 bg-primary">4</div>
+                    <div class="fw-bold text-primary small">Check-In</div>
+                    <span class="text-muted" style="font-size: 0.72rem;">Room &rarr; Occupied</span>
                 </div>
             </div>
             <div class="col-auto text-muted d-none d-md-block"><i class="bi bi-arrow-right fs-5 text-gold"></i></div>
 
             <!-- Step 5 -->
             <div class="col-md">
-                <div class="lifecycle-step-card p-2 border-primary bg-primary-subtle">
-                    <div class="lifecycle-step-number mx-auto mb-1 bg-primary">5</div>
-                    <div class="fw-bold text-primary small">CHECK-IN</div>
-                    <span class="text-muted" style="font-size: 0.72rem;">Guest Arrives</span>
+                <div class="lifecycle-step-card p-2 border-purple" style="background: #faf5ff;">
+                    <div class="lifecycle-step-number mx-auto mb-1" style="background: #6b21a8;">5</div>
+                    <div class="fw-bold text-purple small" style="color: #6b21a8;">Check-Out</div>
+                    <span class="text-muted" style="font-size: 0.72rem;">Room &rarr; Cleaning</span>
                 </div>
             </div>
             <div class="col-auto text-muted d-none d-md-block"><i class="bi bi-arrow-right fs-5 text-gold"></i></div>
 
             <!-- Step 6 -->
             <div class="col-md">
-                <div class="lifecycle-step-card p-2 border-purple bg-purple-subtle">
-                    <div class="lifecycle-step-number mx-auto mb-1 bg-purple" style="background:#6b21a8;">6</div>
-                    <div class="fw-bold text-dark small">CHECK-OUT</div>
-                    <span class="text-muted" style="font-size: 0.72rem;">Stay Completed</span>
+                <div class="lifecycle-step-card p-2 border-success" style="background: #f0fdf4;">
+                    <div class="lifecycle-step-number mx-auto mb-1 bg-success">6</div>
+                    <div class="fw-bold text-success small">Completed</div>
+                    <span class="text-muted" style="font-size: 0.72rem;">Room &rarr; Available</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Search & Filter Bar -->
-    <div class="card border-0 shadow-sm rounded-4 p-3 mb-4 bg-white">
+    <!-- Booking Ledger KPI Row -->
+    <div class="row g-3 mb-4">
+        <div class="col-sm-6 col-xl">
+            <div class="booking-kpi-card">
+                <span class="text-muted small text-uppercase fw-semibold d-block mb-1">Total Reservations</span>
+                <h4 class="fw-bold text-dark mb-0">
+                    <asp:Label ID="lblTotalBookings" runat="server" Text="0"></asp:Label>
+                </h4>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl">
+            <div class="booking-kpi-card">
+                <span class="text-muted small text-uppercase fw-semibold d-block mb-1">Confirmed (Upcoming)</span>
+                <h4 class="fw-bold text-success mb-0">
+                    <asp:Label ID="lblConfirmedBookings" runat="server" Text="0"></asp:Label>
+                </h4>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl">
+            <div class="booking-kpi-card">
+                <span class="text-muted small text-uppercase fw-semibold d-block mb-1">In-House Guests</span>
+                <h4 class="fw-bold text-primary mb-0">
+                    <asp:Label ID="lblInHouseGuests" runat="server" Text="0"></asp:Label>
+                </h4>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl">
+            <div class="booking-kpi-card">
+                <span class="text-muted small text-uppercase fw-semibold d-block mb-1">Completed Stays</span>
+                <h4 class="fw-bold text-purple mb-0" style="color: #6b21a8;">
+                    <asp:Label ID="lblCompletedBookings" runat="server" Text="0"></asp:Label>
+                </h4>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl">
+            <div class="booking-kpi-card">
+                <span class="text-muted small text-uppercase fw-semibold d-block mb-1">Total Revenue</span>
+                <h4 class="fw-bold text-dark mb-0">
+                    <asp:Label ID="lblTotalRevenue" runat="server" Text="₹ 0"></asp:Label>
+                </h4>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter & Search Controls -->
+    <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
         <div class="row g-3 align-items-center">
-            <div class="col-12 col-md-5">
+            <div class="col-md-5">
                 <div class="input-group">
-                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-search text-muted"></i></span>
-                    <input type="text" id="bookingSearchInput" class="form-control border-start-0 bg-light" placeholder="Search by Booking ID, Guest name or Room..." onkeyup="filterBookingsTable()">
+                    <span class="input-group-text bg-white border-end-0 text-muted"><i class="bi bi-search"></i></span>
+                    <asp:TextBox ID="txtBookingSearch" runat="server" CssClass="form-control border-start-0" placeholder="Search by Guest Name, Email, Phone, Reference #, Suite..."></asp:TextBox>
                 </div>
             </div>
-            <div class="col-6 col-md-4">
-                <select class="form-select bg-light" id="bookingStatusSelect" onchange="filterBookingsTable()">
-                    <option value="">All Lifecycle Statuses</option>
-                    <option value="Confirmed">🟢 Confirmed (Awaiting Arrival)</option>
-                    <option value="Checked-In">🔵 Checked-In (In-House Stay)</option>
-                    <option value="Completed">🟣 Completed (Checked-Out)</option>
-                    <option value="Cancelled">🔴 Cancelled</option>
-                </select>
+            <div class="col-md-3">
+                <asp:DropDownList ID="ddlBookingStatus" runat="server" CssClass="form-select">
+                    <asp:ListItem Value="" Text="All Statuses"></asp:ListItem>
+                    <asp:ListItem Value="Confirmed" Text="Confirmed"></asp:ListItem>
+                    <asp:ListItem Value="Checked-In" Text="Checked-In (In-House)"></asp:ListItem>
+                    <asp:ListItem Value="Completed" Text="Completed"></asp:ListItem>
+                    <asp:ListItem Value="Cancelled" Text="Cancelled"></asp:ListItem>
+                </asp:DropDownList>
             </div>
-            <div class="col-6 col-md-3 text-end">
-                <span class="text-muted small fw-semibold">Active Bookings: <strong id="totalCountText">3 Guests</strong></span>
+            <div class="col-md-4 d-flex gap-2">
+                <asp:Button ID="btnSearch" runat="server" Text="Filter Bookings" CssClass="btn btn-dark btn-sm px-3 fw-semibold" OnClick="btnSearch_Click" />
+                <asp:Button ID="btnReset" runat="server" Text="Reset" CssClass="btn btn-outline-secondary btn-sm px-3" OnClick="btnReset_Click" />
+                <span class="text-muted small ms-auto align-self-center">
+                    <asp:Label ID="lblRecordCount" runat="server" Text=""></asp:Label>
+                </span>
             </div>
         </div>
     </div>
 
-    <!-- Bookings Table with Interactive Check-In / Check-Out Actions -->
-    <div class="card border-0 shadow-sm rounded-4 bg-white overflow-hidden mb-4">
+    <!-- Active Bookings & Stays Table -->
+    <div class="card border-0 shadow-sm rounded-4 bg-white overflow-hidden">
+        <div class="card-header bg-white py-3 px-4 border-bottom d-flex align-items-center justify-content-between">
+            <h6 class="fw-bold text-dark mb-0">
+                <i class="bi bi-journal-check me-2 text-gold"></i> Live Guest Stays &amp; Reservations Ledger
+            </h6>
+        </div>
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0" id="bookingsTable">
                 <thead class="bg-light text-muted small text-uppercase">
                     <tr>
-                        <th class="ps-4">Booking ID</th>
-                        <th>Guest Name</th>
+                        <th class="ps-4">Reference #</th>
+                        <th>Guest Details</th>
                         <th>Room Reserved</th>
-                        <th>Check-in &bull; Check-out</th>
-                        <th>Amount</th>
-                        <th>Stay Status</th>
-                        <th class="text-end pe-4">Lifecycle Actions</th>
+                        <th>Stay Schedule</th>
+                        <th>Total Folio</th>
+                        <th>Status</th>
+                        <th class="text-end pe-4" style="min-width: 170px;">Stay Actions</th>
                     </tr>
                 </thead>
                 <tbody class="border-top-0">
-                    <!-- Row 1: Confirmed -> Ready for Check-in -->
-                    <tr id="bookingRow1">
-                        <td class="ps-4">
-                            <span class="fw-bold text-dark">#HTL-98421</span>
-                            <div class="text-muted" style="font-size: 0.72rem;">Direct Reservation</div>
-                        </td>
-                        <td>
-                            <div class="fw-bold text-dark">Vikramaditya Singh</div>
-                            <div class="text-muted small">+91 98765 43210</div>
-                        </td>
-                        <td>
-                            <span class="fw-semibold text-dark">Executive Business Suite</span>
-                            <div class="text-muted small">Room #204</div>
-                        </td>
-                        <td>
-                            <div class="small fw-semibold text-dark">19 Sep 2026 &rarr; 21 Sep 2026</div>
-                            <div class="text-muted" style="font-size: 0.72rem;">2 Nights Stay</div>
-                        </td>
-                        <td>
-                            <span class="fw-bold text-dark">&#8377; 17,000</span>
-                            <div class="badge bg-success-subtle text-success border px-2 py-0.5 small" style="font-size: 0.68rem;">PAID ONLINE</div>
-                        </td>
-                        <td>
-                            <span id="statusPill1" class="badge badge-status-confirmed px-3 py-1.5 rounded-pill font-monospace small">
-                                🟢 CONFIRMED
-                            </span>
-                        </td>
-                        <td class="text-end pe-4">
-                            <div id="actionBtnWrap1" class="d-inline-flex gap-1">
-                                <button type="button" class="btn btn-sm btn-primary px-3 rounded-pill fw-bold" onclick="processCheckIn(1, 'Vikramaditya Singh', 'Room #204')">
-                                    <i class="bi bi-box-arrow-in-right me-1"></i> Check-In
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
+                    <asp:Repeater ID="rptBookings" runat="server" OnItemCommand="rptBookings_ItemCommand">
+                        <ItemTemplate>
+                            <tr>
+                                <td class="ps-4">
+                                    <span class="fw-bold text-dark font-monospace"><%# Eval("BookingReference") %></span>
+                                    <div class="text-muted" style="font-size: 0.72rem;"><%# string.Format("{0:dd MMM yyyy}", Eval("BookingDate")) %></div>
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-dark"><%# Eval("GuestName") %></div>
+                                    <div class="text-muted small"><%# Eval("GuestEmail") %> &bull; <%# Eval("GuestPhone") %></div>
+                                </td>
+                                <td>
+                                    <span class="fw-semibold text-dark"><%# Eval("RoomName") %></span>
+                                    <div class="text-muted small">Suite #<%# Eval("RoomId") %> &bull; <%# Eval("Adults") %> Adult(s)</div>
+                                </td>
+                                <td>
+                                    <div class="small fw-semibold text-dark">
+                                        <%# string.Format("{0:dd MMM}", Eval("CheckInDate")) %> &rarr; <%# string.Format("{0:dd MMM yyyy}", Eval("CheckOutDate")) %>
+                                    </div>
+                                    <div class="text-muted" style="font-size: 0.72rem;">
+                                        <%# Eval("NightsCount") %> Night(s) Stay
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="fw-bold text-dark">&#8377; <%# string.Format("{0:N0}", Eval("TotalAmount")) %></span>
+                                    <div class="badge bg-success-subtle text-success border px-2 py-0.5 small" style="font-size: 0.65rem;">SECURED</div>
+                                </td>
+                                <td>
+                                    <%# GetStatusBadgeHtml(Eval("BookingStatus")) %>
+                                </td>
+                                <td class="text-end pe-4">
+                                    <div class="d-inline-flex gap-1 align-items-center">
+                                        <!-- Check-In Button (For Confirmed / Pending) -->
+                                        <asp:LinkButton ID="btnCheckIn" runat="server" 
+                                            CommandName="CheckIn" 
+                                            CommandArgument='<%# Eval("BookingId") %>'
+                                            Visible='<%# Eval("BookingStatus").ToString() == "Confirmed" || Eval("BookingStatus").ToString() == "Pending" %>'
+                                            CssClass="btn btn-sm btn-primary px-3 rounded-pill fw-bold"
+                                            ToolTip="Check-in guest & set room to Occupied">
+                                            <i class="bi bi-box-arrow-in-right me-1"></i> Check-In
+                                        </asp:LinkButton>
 
-                    <!-- Row 2: Checked-In -> Ready for Check-out -->
-                    <tr id="bookingRow2">
-                        <td class="ps-4">
-                            <span class="fw-bold text-dark">#HTL-98418</span>
-                            <div class="text-muted" style="font-size: 0.72rem;">Direct Reservation</div>
-                        </td>
-                        <td>
-                            <div class="fw-bold text-dark">Marcus Vance</div>
-                            <div class="text-muted small">marcus@enterprise.com</div>
-                        </td>
-                        <td>
-                            <span class="fw-semibold text-dark">Royal Penthouse Haven</span>
-                            <div class="text-muted small">Room #501</div>
-                        </td>
-                        <td>
-                            <div class="small fw-semibold text-dark">18 Sep 2026 &rarr; 20 Sep 2026</div>
-                            <div class="text-muted" style="font-size: 0.72rem;">In-House Stay</div>
-                        </td>
-                        <td>
-                            <span class="fw-bold text-dark">&#8377; 37,000</span>
-                            <div class="badge bg-success-subtle text-success border px-2 py-0.5 small" style="font-size: 0.68rem;">PAID ONLINE</div>
-                        </td>
-                        <td>
-                            <span id="statusPill2" class="badge badge-status-checkedin px-3 py-1.5 rounded-pill font-monospace small">
-                                🔵 CHECKED-IN (In-House)
-                            </span>
-                        </td>
-                        <td class="text-end pe-4">
-                            <div id="actionBtnWrap2" class="d-inline-flex gap-1">
-                                <button type="button" class="btn btn-sm btn-purple text-white px-3 rounded-pill fw-bold" style="background: #6b21a8;" onclick="processCheckOut(2, 'Marcus Vance', 'Room #501')">
-                                    <i class="bi bi-box-arrow-right me-1"></i> Check-Out
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
+                                        <!-- Check-Out Button (For Checked-In) -->
+                                        <asp:LinkButton ID="btnCheckOut" runat="server" 
+                                            CommandName="CheckOut" 
+                                            CommandArgument='<%# Eval("BookingId") %>'
+                                            Visible='<%# Eval("BookingStatus").ToString() == "Checked-In" %>'
+                                            CssClass="btn btn-sm text-white px-3 rounded-pill fw-bold" 
+                                            style="background: #6b21a8;"
+                                            ToolTip="Check-out guest & send room to Cleaning">
+                                            <i class="bi bi-box-arrow-right me-1"></i> Check-Out
+                                        </asp:LinkButton>
 
-                    <!-- Row 3: Completed Stay -->
-                    <tr id="bookingRow3">
-                        <td class="ps-4">
-                            <span class="fw-bold text-dark">#HTL-98410</span>
-                            <div class="text-muted" style="font-size: 0.72rem;">Direct Reservation</div>
-                        </td>
-                        <td>
-                            <div class="fw-bold text-dark">Ananya Sharma</div>
-                            <div class="text-muted small">+91 98123 45678</div>
-                        </td>
-                        <td>
-                            <span class="fw-semibold text-dark">Garden View Deluxe Room</span>
-                            <div class="text-muted small">Room #108</div>
-                        </td>
-                        <td>
-                            <div class="small fw-semibold text-dark">16 Sep 2026 &rarr; 18 Sep 2026</div>
-                            <div class="text-muted" style="font-size: 0.72rem;">Completed Stay</div>
-                        </td>
-                        <td>
-                            <span class="fw-bold text-dark">&#8377; 13,600</span>
-                            <div class="badge bg-secondary-subtle text-secondary border px-2 py-0.5 small" style="font-size: 0.68rem;">FOLIO CLOSED</div>
-                        </td>
-                        <td>
-                            <span id="statusPill3" class="badge badge-status-completed px-3 py-1.5 rounded-pill font-monospace small">
-                                🟣 BOOKING COMPLETED
-                            </span>
-                        </td>
-                        <td class="text-end pe-4">
-                            <span class="text-muted small fw-semibold"><i class="bi bi-check-circle-fill text-success me-1"></i> Stay Finished</span>
-                        </td>
-                    </tr>
+                                        <!-- Cancel Button (For Confirmed / Pending) -->
+                                        <asp:LinkButton ID="btnCancel" runat="server" 
+                                            CommandName="CancelBooking" 
+                                            CommandArgument='<%# Eval("BookingId") %>'
+                                            Visible='<%# Eval("BookingStatus").ToString() == "Confirmed" || Eval("BookingStatus").ToString() == "Pending" %>'
+                                            CssClass="btn btn-sm btn-outline-danger px-2 rounded-pill"
+                                            OnClientClick="return confirm('Are you sure you want to cancel this reservation and free the dates?');"
+                                            ToolTip="Cancel reservation">
+                                            <i class="bi bi-x-lg"></i>
+                                        </asp:LinkButton>
+
+                                        <!-- Completed Badge -->
+                                        <%# Eval("BookingStatus").ToString() == "Completed" ? "<span class=\"text-muted small fw-semibold\"><i class=\"bi bi-check-circle-fill text-success me-1\"></i> Stay Finished</span>" : "" %>
+
+                                        <!-- Cancelled Badge -->
+                                        <%# Eval("BookingStatus").ToString() == "Cancelled" ? "<span class=\"text-muted small\"><i class=\"bi bi-x-circle text-danger me-1\"></i> Cancelled</span>" : "" %>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ItemTemplate>
+                    </asp:Repeater>
                 </tbody>
             </table>
+
+            <!-- Empty State when no records exist -->
+            <asp:Panel ID="pnlNoBookings" runat="server" Visible="false">
+                <div class="text-center text-muted py-5">
+                    <i class="bi bi-calendar3 fs-1 opacity-50 d-block mb-2 text-gold"></i>
+                    <h6 class="fw-bold text-dark mb-1">No Reservations Found</h6>
+                    <p class="small text-muted mb-0">No booking records match the specified search or filter criteria.</p>
+                </div>
+            </asp:Panel>
         </div>
     </div>
-
-    <script>
-        function filterBookingsTable() {
-            var input = document.getElementById('bookingSearchInput').value.toLowerCase();
-            var status = document.getElementById('bookingStatusSelect').value.toLowerCase();
-            var rows = document.querySelectorAll('#bookingsTable tbody tr');
-            var count = 0;
-
-            rows.forEach(function (row) {
-                var text = row.innerText.toLowerCase();
-                var matchesSearch = !input || text.includes(input);
-                var matchesStatus = !status || text.includes(status);
-                if (matchesSearch && matchesStatus) {
-                    row.style.display = '';
-                    count++;
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-
-            var countElem = document.getElementById('totalCountText');
-            if (countElem) countElem.innerText = count + ' Bookings';
-        }
-
-        function processCheckIn(rowId, guestName, roomNum) {
-            var pill = document.getElementById('statusPill' + rowId);
-            var wrap = document.getElementById('actionBtnWrap' + rowId);
-
-            if (pill) {
-                pill.className = 'badge badge-status-checkedin px-3 py-1.5 rounded-pill font-monospace small';
-                pill.innerHTML = '🔵 CHECKED-IN (In-House)';
-            }
-
-            if (wrap) {
-                wrap.innerHTML = `
-                    <button type="button" class="btn btn-sm text-white px-3 rounded-pill fw-bold" style="background: #6b21a8;" onclick="processCheckOut(${rowId}, '${guestName}', '${roomNum}')">
-                        <i class="bi bi-box-arrow-right me-1"></i> Check-Out
-                    </button>
-                `;
-            }
-
-            if (window.showAdminToast) {
-                window.showAdminToast(
-                    'Guest Checked-In!',
-                    guestName + ' checked into ' + roomNum + '. Digital Key Issued.',
-                    'bi-door-open-fill text-primary'
-                );
-            }
-        }
-
-        function processCheckOut(rowId, guestName, roomNum) {
-            var pill = document.getElementById('statusPill' + rowId);
-            var wrap = document.getElementById('actionBtnWrap' + rowId);
-
-            if (pill) {
-                pill.className = 'badge badge-status-completed px-3 py-1.5 rounded-pill font-monospace small';
-                pill.innerHTML = '🟣 BOOKING COMPLETED';
-            }
-
-            if (wrap) {
-                wrap.innerHTML = '<span class="text-muted small fw-semibold"><i class="bi bi-check-circle-fill text-success me-1"></i> Stay Finished</span>';
-            }
-
-            if (window.showAdminToast) {
-                window.showAdminToast(
-                    'Booking Completed!',
-                    guestName + ' checked out of ' + roomNum + '. Invoice archived & review invitation sent.',
-                    'bi-check-circle-fill text-success'
-                );
-            }
-        }
-    </script>
 </asp:Content>

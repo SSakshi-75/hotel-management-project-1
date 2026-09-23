@@ -6,7 +6,7 @@ using System.IO;
 using System.Web;
 using System.Web.UI;
 
-public partial class Admin_AddRoom : System.Web.UI.Page
+public partial class Admin_EditRoom : System.Web.UI.Page
 {
     private readonly string connectionString = ConfigurationManager.ConnectionStrings["HotelConnection"] != null
         ? ConfigurationManager.ConnectionStrings["HotelConnection"].ConnectionString
@@ -22,33 +22,20 @@ public partial class Admin_AddRoom : System.Web.UI.Page
             if (!string.IsNullOrEmpty(reqRoomId) && int.TryParse(reqRoomId, out roomId) && roomId > 0)
             {
                 hdnRoomId.Value = roomId.ToString();
-                LoadRoomForEdit(roomId);
+                LoadRoomData(roomId);
             }
             else
             {
-                hdnRoomId.Value = "0";
-                SetupAddMode();
+                // If no valid RoomId is provided, redirect to Manage Hotel
+                Response.Redirect("ManageHotel.aspx", true);
             }
         }
     }
 
     // ==========================================
-    // SETUP ADD MODE (BLANK FORM)
+    // 1. SELECT EXISTING DATA BY RoomID & PRE-FILL FORM
     // ==========================================
-    private void SetupAddMode()
-    {
-        lblPageTitle.InnerText = "Add New Room & Room Details";
-        lblPageSubtitle.InnerText = "Fill out room basic information and complete room detail specifications in a single unified form.";
-        lblCardHeader.InnerHtml = "<i class=\"bi bi-door-open-fill text-warning\"></i> Add New Room Form";
-        lblBadge.InnerText = "Room Entry Form";
-        btnSaveRoom.Text = "Save & Publish Room";
-        reqStarMainImg.Visible = true;
-    }
-
-    // ==========================================
-    // LOAD EXISTING ROOM DATA FOR EDIT MODE
-    // ==========================================
-    private void LoadRoomForEdit(int roomId)
+    private void LoadRoomData(int roomId)
     {
         try
         {
@@ -64,15 +51,12 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                     {
                         if (dr.Read())
                         {
-                            // 1. Set Edit Mode UI Elements
-                            lblPageTitle.InnerText = "Edit Room & Room Details";
-                            lblPageSubtitle.InnerText = "Modify room basic information and specifications. Update fields and save changes to inventory.";
-                            lblCardHeader.InnerHtml = "<i class=\"bi bi-pencil-square text-warning\"></i> Edit Room Form";
-                            lblBadge.InnerText = "Editing Room #" + roomId;
-                            btnSaveRoom.Text = "Update Room";
-                            reqStarMainImg.Visible = false; // Existing image already present
+                            // UI Badges & Links
+                            lblHeaderRoomId.InnerText = roomId.ToString();
+                            lblCardBadgeRoomId.InnerText = roomId.ToString();
+                            lnkLivePreview.HRef = ResolveUrl("~/RoomDetails.aspx?RoomId=" + roomId);
 
-                            // 2. Pre-fill Section 1: Basic Information
+                            // Section 1: Basic Information
                             txtRoomName.Value = dr["RoomName"] != DBNull.Value ? dr["RoomName"].ToString() : "";
 
                             string category = dr["RoomCategory"] != DBNull.Value ? dr["RoomCategory"].ToString().Trim() : "";
@@ -89,7 +73,7 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                             txtViewType.Value = dr["ViewType"] != DBNull.Value ? dr["ViewType"].ToString() : "";
                             txtShortDesc.Value = dr["ShortDescription"] != DBNull.Value ? dr["ShortDescription"].ToString() : "";
 
-                            // 3. Pre-select Key Amenities
+                            // Key Amenities Checkboxes
                             string keyAmenities = dr["KeyAmenities"] != DBNull.Value ? dr["KeyAmenities"].ToString() : "";
                             string[] amenityList = keyAmenities.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                             HashSet<string> amenitySet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -107,7 +91,7 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                             chkAmenity7.Checked = amenitySet.Contains("Jacuzzi");
                             chkAmenity8.Checked = amenitySet.Contains("Butler Service");
 
-                            // 4. Pre-fill Section 2: Extended Room Details
+                            // Section 2: Room Details Specification
                             txtHeaderBadge.Value = dr["HeaderBadge"] != DBNull.Value ? dr["HeaderBadge"].ToString() : "";
                             txtHeaderTitle.Value = dr["HeaderTitle"] != DBNull.Value ? dr["HeaderTitle"].ToString() : "";
                             txtHeaderSubtitle.Value = dr["HeaderSubtitle"] != DBNull.Value ? dr["HeaderSubtitle"].ToString() : "";
@@ -116,55 +100,73 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                             txtReviewQuote.Value = dr["ReviewQuote"] != DBNull.Value ? dr["ReviewQuote"].ToString() : "";
                             txtReviewAuthor.Value = dr["ReviewAuthor"] != DBNull.Value ? dr["ReviewAuthor"].ToString() : "";
 
-                            // 5. Existing Images & Previews
+                            // Existing Image Previews & Hidden Field Storage
                             string mainImg = dr["PrimaryRoomImage"] != DBNull.Value ? dr["PrimaryRoomImage"].ToString() : "";
                             hdnOldPrimaryImage.Value = mainImg;
                             if (!string.IsNullOrEmpty(mainImg))
                             {
-                                pnlCurrentMainImage.Visible = true;
                                 imgCurrentMain.Src = ResolveUrl(mainImg);
                                 lblCurrentMainPath.InnerText = Path.GetFileName(mainImg);
+                            }
+                            else
+                            {
+                                pnlCurrentMainImage.Visible = false;
                             }
 
                             string headerImg = dr["HeaderImage"] != DBNull.Value ? dr["HeaderImage"].ToString() : "";
                             hdnOldHeaderImage.Value = headerImg;
                             if (!string.IsNullOrEmpty(headerImg))
                             {
-                                pnlCurrentHeaderImage.Visible = true;
                                 imgCurrentHeader.Src = ResolveUrl(headerImg);
                                 lblCurrentHeaderPath.InnerText = Path.GetFileName(headerImg);
+                            }
+                            else
+                            {
+                                pnlCurrentHeaderImage.Visible = false;
                             }
 
                             string g1 = dr["GalleryImage1"] != DBNull.Value ? dr["GalleryImage1"].ToString() : "";
                             hdnOldGallery1.Value = g1;
                             if (!string.IsNullOrEmpty(g1))
                             {
-                                pnlCurrentGallery1.Visible = true;
                                 imgCurrentG1.Src = ResolveUrl(g1);
+                            }
+                            else
+                            {
+                                pnlCurrentGallery1.Visible = false;
                             }
 
                             string g2 = dr["GalleryImage2"] != DBNull.Value ? dr["GalleryImage2"].ToString() : "";
                             hdnOldGallery2.Value = g2;
                             if (!string.IsNullOrEmpty(g2))
                             {
-                                pnlCurrentGallery2.Visible = true;
                                 imgCurrentG2.Src = ResolveUrl(g2);
+                            }
+                            else
+                            {
+                                pnlCurrentGallery2.Visible = false;
                             }
 
                             string g3 = dr["GalleryImage3"] != DBNull.Value ? dr["GalleryImage3"].ToString() : "";
                             hdnOldGallery3.Value = g3;
                             if (!string.IsNullOrEmpty(g3))
                             {
-                                pnlCurrentGallery3.Visible = true;
                                 imgCurrentG3.Src = ResolveUrl(g3);
+                            }
+                            else
+                            {
+                                pnlCurrentGallery3.Visible = false;
                             }
 
                             string g4 = dr["GalleryImage4"] != DBNull.Value ? dr["GalleryImage4"].ToString() : "";
                             hdnOldGallery4.Value = g4;
                             if (!string.IsNullOrEmpty(g4))
                             {
-                                pnlCurrentGallery4.Visible = true;
                                 imgCurrentG4.Src = ResolveUrl(g4);
+                            }
+                            else
+                            {
+                                pnlCurrentGallery4.Visible = false;
                             }
                         }
                         else
@@ -182,18 +184,21 @@ public partial class Admin_AddRoom : System.Web.UI.Page
     }
 
     // ==========================================
-    // SAVE / UPDATE BUTTON HANDLER
+    // 2. UPDATE BUTTON HANDLER (SQL UPDATE WHERE RoomID = @RoomID)
     // ==========================================
-    protected void btnSaveRoom_Click(object sender, EventArgs e)
+    protected void btnUpdateRoom_Click(object sender, EventArgs e)
     {
         pnlErrorMessage.Visible = false;
         pnlSuccessMessage.Visible = false;
 
-        int roomId = 0;
-        int.TryParse(hdnRoomId.Value, out roomId);
-        bool isEditMode = (roomId > 0);
+        int roomId;
+        if (!int.TryParse(hdnRoomId.Value, out roomId) || roomId <= 0)
+        {
+            ShowErrorMessage("Invalid Room identifier. Cannot perform update.");
+            return;
+        }
 
-        // 1. Retrieve & Validate Form Inputs
+        // Retrieve & Validate Form Inputs
         string roomName = txtRoomName.Value.Trim();
         string roomCategory = ddlCategory.Value.Trim();
         string pricePerNight = txtPrice.Value.Trim();
@@ -212,7 +217,7 @@ public partial class Admin_AddRoom : System.Web.UI.Page
         string reviewQuote = txtReviewQuote.Value.Trim();
         string reviewAuthor = txtReviewAuthor.Value.Trim();
 
-        // Basic Validation
+        // Validation
         if (string.IsNullOrEmpty(roomName))
         {
             ShowErrorMessage("Room / Suite Title is required.");
@@ -246,9 +251,9 @@ public partial class Admin_AddRoom : System.Web.UI.Page
         string keyAmenities = string.Join(", ", selectedAmenities);
 
         // ==========================================
-        // 2. IMAGE UPLOAD & PRESERVATION LOGIC
-        // Case 1: No new file chosen -> preserve old image
-        // Case 2: New file chosen -> save file and update path
+        // 3. IMAGE PRESERVATION / UPLOAD LOGIC
+        // Case 1: No new image selected -> Keep existing image
+        // Case 2: New image uploaded -> Save new image and update URL
         // ==========================================
         string imageFolder = Server.MapPath("~/images/rooms/");
         if (!Directory.Exists(imageFolder))
@@ -264,12 +269,6 @@ public partial class Admin_AddRoom : System.Web.UI.Page
             string fileName = Guid.NewGuid().ToString("N").Substring(0, 8) + "_" + Path.GetFileName(mainImage.FileName);
             mainImage.SaveAs(Path.Combine(imageFolder, fileName));
             primaryRoomImage = "~/images/rooms/" + fileName;
-        }
-
-        if (!isEditMode && string.IsNullOrEmpty(primaryRoomImage))
-        {
-            ShowErrorMessage("Please upload a Primary Room Image for the new room listing.");
-            return;
         }
 
         // Header Image
@@ -323,200 +322,103 @@ public partial class Admin_AddRoom : System.Web.UI.Page
         }
 
         // ==========================================
-        // 3. DATABASE EXECUTION (INSERT OR UPDATE)
+        // 4. SQL UPDATE EXECUTION
         // ==========================================
         try
         {
+            string updateQuery = @"
+                UPDATE Rooms
+                SET
+                    RoomName = @RoomName,
+                    RoomCategory = @RoomCategory,
+                    PricePerNight = @PricePerNight,
+                    CategoryBadge = @CategoryBadge,
+                    Rating = @Rating,
+                    MaxGuests = @MaxGuests,
+                    RoomArea = @RoomArea,
+                    ViewType = @ViewType,
+                    PrimaryRoomImage = @PrimaryRoomImage,
+                    ShortDescription = @ShortDescription,
+                    KeyAmenities = @KeyAmenities,
+                    HeaderBadge = @HeaderBadge,
+                    HeaderTitle = @HeaderTitle,
+                    HeaderSubtitle = @HeaderSubtitle,
+                    HeaderImage = @HeaderImage,
+                    FullOverview = @FullOverview,
+                    Highlights = @Highlights,
+                    GalleryImage1 = @GalleryImage1,
+                    GalleryImage2 = @GalleryImage2,
+                    GalleryImage3 = @GalleryImage3,
+                    GalleryImage4 = @GalleryImage4,
+                    ReviewQuote = @ReviewQuote,
+                    ReviewAuthor = @ReviewAuthor
+                WHERE RoomID = @RoomID";
+
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                con.Open();
-
-                if (isEditMode)
+                using (SqlCommand cmd = new SqlCommand(updateQuery, con))
                 {
-                    // ==========================================
-                    // SQL UPDATE QUERY WITH STRICT WHERE RoomID = @RoomID
-                    // ==========================================
-                    string updateQuery = @"
-                        UPDATE Rooms
-                        SET
-                            RoomName = @RoomName,
-                            RoomCategory = @RoomCategory,
-                            PricePerNight = @PricePerNight,
-                            CategoryBadge = @CategoryBadge,
-                            Rating = @Rating,
-                            MaxGuests = @MaxGuests,
-                            RoomArea = @RoomArea,
-                            ViewType = @ViewType,
-                            PrimaryRoomImage = @PrimaryRoomImage,
-                            ShortDescription = @ShortDescription,
-                            KeyAmenities = @KeyAmenities,
-                            HeaderBadge = @HeaderBadge,
-                            HeaderTitle = @HeaderTitle,
-                            HeaderSubtitle = @HeaderSubtitle,
-                            HeaderImage = @HeaderImage,
-                            FullOverview = @FullOverview,
-                            Highlights = @Highlights,
-                            GalleryImage1 = @GalleryImage1,
-                            GalleryImage2 = @GalleryImage2,
-                            GalleryImage3 = @GalleryImage3,
-                            GalleryImage4 = @GalleryImage4,
-                            ReviewQuote = @ReviewQuote,
-                            ReviewAuthor = @ReviewAuthor
-                        WHERE RoomID = @RoomID";
+                    cmd.Parameters.AddWithValue("@RoomID", roomId);
+                    cmd.Parameters.AddWithValue("@RoomName", roomName);
+                    cmd.Parameters.AddWithValue("@RoomCategory", roomCategory);
+                    cmd.Parameters.AddWithValue("@PricePerNight", pricePerNight);
+                    cmd.Parameters.AddWithValue("@CategoryBadge", categoryBadge);
+                    cmd.Parameters.AddWithValue("@Rating", rating);
+                    cmd.Parameters.AddWithValue("@MaxGuests", maxGuests);
+                    cmd.Parameters.AddWithValue("@RoomArea", roomArea);
+                    cmd.Parameters.AddWithValue("@ViewType", viewType);
+                    cmd.Parameters.AddWithValue("@PrimaryRoomImage", primaryRoomImage);
+                    cmd.Parameters.AddWithValue("@ShortDescription", shortDescription);
+                    cmd.Parameters.AddWithValue("@KeyAmenities", keyAmenities);
+                    cmd.Parameters.AddWithValue("@HeaderBadge", headerBadge);
+                    cmd.Parameters.AddWithValue("@HeaderTitle", headerTitle);
+                    cmd.Parameters.AddWithValue("@HeaderSubtitle", headerSubtitle);
+                    cmd.Parameters.AddWithValue("@HeaderImage", headerImage);
+                    cmd.Parameters.AddWithValue("@FullOverview", fullOverview);
+                    cmd.Parameters.AddWithValue("@Highlights", highlights);
+                    cmd.Parameters.AddWithValue("@GalleryImage1", galleryImage1);
+                    cmd.Parameters.AddWithValue("@GalleryImage2", galleryImage2);
+                    cmd.Parameters.AddWithValue("@GalleryImage3", galleryImage3);
+                    cmd.Parameters.AddWithValue("@GalleryImage4", galleryImage4);
+                    cmd.Parameters.AddWithValue("@ReviewQuote", reviewQuote);
+                    cmd.Parameters.AddWithValue("@ReviewAuthor", reviewAuthor);
 
-                    using (SqlCommand cmd = new SqlCommand(updateQuery, con))
+                    con.Open();
+                    int rowsUpdated = cmd.ExecuteNonQuery();
+
+                    if (rowsUpdated > 0)
                     {
-                        cmd.Parameters.AddWithValue("@RoomID", roomId);
-                        BindCommandParameters(cmd, roomName, roomCategory, pricePerNight, categoryBadge, rating,
-                            maxGuests, roomArea, viewType, primaryRoomImage, shortDescription, keyAmenities,
-                            headerBadge, headerTitle, headerSubtitle, headerImage, fullOverview, highlights,
-                            galleryImage1, galleryImage2, galleryImage3, galleryImage4, reviewQuote, reviewAuthor);
+                        pnlSuccessMessage.Visible = true;
+                        lblSuccessDesc.InnerHtml = "The specifications and tariff for <strong>" + Server.HtmlEncode(roomName) + "</strong> have been updated in inventory. <a href=\"ManageHotel.aspx\" class=\"fw-bold text-success text-decoration-underline ms-2\">Return to Manage Hotel &rarr;</a>";
 
-                        int rowsUpdated = cmd.ExecuteNonQuery();
-
-                        if (rowsUpdated > 0)
+                        // Update hidden fields and previews
+                        hdnOldPrimaryImage.Value = primaryRoomImage;
+                        if (!string.IsNullOrEmpty(primaryRoomImage))
                         {
-                            pnlSuccessMessage.Visible = true;
-                            lblSuccessTitle.InnerText = "Room Updated Successfully!";
-                            lblSuccessDesc.InnerHtml = "The specifications and tariff for <strong>" + Server.HtmlEncode(roomName) + "</strong> have been updated in inventory. <a href=\"ManageHotel.aspx\" class=\"fw-bold text-success text-decoration-underline ms-2\">Return to Manage Hotel &rarr;</a>";
-
-                            // Refresh hidden fields and previews
-                            hdnOldPrimaryImage.Value = primaryRoomImage;
-                            if (!string.IsNullOrEmpty(primaryRoomImage))
-                            {
-                                pnlCurrentMainImage.Visible = true;
-                                imgCurrentMain.Src = ResolveUrl(primaryRoomImage);
-                                lblCurrentMainPath.InnerText = Path.GetFileName(primaryRoomImage);
-                            }
-
-                            hdnOldHeaderImage.Value = headerImage;
-                            if (!string.IsNullOrEmpty(headerImage))
-                            {
-                                pnlCurrentHeaderImage.Visible = true;
-                                imgCurrentHeader.Src = ResolveUrl(headerImage);
-                                lblCurrentHeaderPath.InnerText = Path.GetFileName(headerImage);
-                            }
+                            pnlCurrentMainImage.Visible = true;
+                            imgCurrentMain.Src = ResolveUrl(primaryRoomImage);
+                            lblCurrentMainPath.InnerText = Path.GetFileName(primaryRoomImage);
                         }
-                        else
+
+                        hdnOldHeaderImage.Value = headerImage;
+                        if (!string.IsNullOrEmpty(headerImage))
                         {
-                            ShowErrorMessage("Room could not be updated. Record not found.");
+                            pnlCurrentHeaderImage.Visible = true;
+                            imgCurrentHeader.Src = ResolveUrl(headerImage);
+                            lblCurrentHeaderPath.InnerText = Path.GetFileName(headerImage);
                         }
                     }
-                }
-                else
-                {
-                    // ==========================================
-                    // SQL INSERT QUERY FOR NEW ROOM
-                    // ==========================================
-                    string insertQuery = @"
-                        INSERT INTO Rooms
-                        (
-                            RoomName,
-                            RoomCategory,
-                            PricePerNight,
-                            CategoryBadge,
-                            Rating,
-                            MaxGuests,
-                            RoomArea,
-                            ViewType,
-                            PrimaryRoomImage,
-                            ShortDescription,
-                            KeyAmenities,
-                            HeaderBadge,
-                            HeaderTitle,
-                            HeaderSubtitle,
-                            HeaderImage,
-                            FullOverview,
-                            Highlights,
-                            GalleryImage1,
-                            GalleryImage2,
-                            GalleryImage3,
-                            GalleryImage4,
-                            ReviewQuote,
-                            ReviewAuthor
-                        )
-                        VALUES
-                        (
-                            @RoomName,
-                            @RoomCategory,
-                            @PricePerNight,
-                            @CategoryBadge,
-                            @Rating,
-                            @MaxGuests,
-                            @RoomArea,
-                            @ViewType,
-                            @PrimaryRoomImage,
-                            @ShortDescription,
-                            @KeyAmenities,
-                            @HeaderBadge,
-                            @HeaderTitle,
-                            @HeaderSubtitle,
-                            @HeaderImage,
-                            @FullOverview,
-                            @Highlights,
-                            @GalleryImage1,
-                            @GalleryImage2,
-                            @GalleryImage3,
-                            @GalleryImage4,
-                            @ReviewQuote,
-                            @ReviewAuthor
-                        )";
-
-                    using (SqlCommand cmd = new SqlCommand(insertQuery, con))
+                    else
                     {
-                        BindCommandParameters(cmd, roomName, roomCategory, pricePerNight, categoryBadge, rating,
-                            maxGuests, roomArea, viewType, primaryRoomImage, shortDescription, keyAmenities,
-                            headerBadge, headerTitle, headerSubtitle, headerImage, fullOverview, highlights,
-                            galleryImage1, galleryImage2, galleryImage3, galleryImage4, reviewQuote, reviewAuthor);
-
-                        cmd.ExecuteNonQuery();
-
-                        pnlSuccessMessage.Visible = true;
-                        lblSuccessTitle.InnerText = "Room Published Successfully!";
-                        lblSuccessDesc.InnerHtml = "The room entry and full specifications have been published. <a href=\"ManageHotel.aspx\" class=\"fw-bold text-success text-decoration-underline ms-2\">View in Manage Hotel &rarr;</a>";
+                        ShowErrorMessage("Room could not be updated. Record not found.");
                     }
                 }
             }
         }
         catch (Exception ex)
         {
-            ShowErrorMessage("Database operation failed: " + ex.Message);
+            ShowErrorMessage("Database update failed: " + ex.Message);
         }
-    }
-
-    // ==========================================
-    // HELPER: BIND PARAMETERS TO SQL COMMAND
-    // ==========================================
-    private void BindCommandParameters(SqlCommand cmd, string roomName, string roomCategory, string pricePerNight,
-        string categoryBadge, string rating, string maxGuests, string roomArea, string viewType,
-        string primaryRoomImage, string shortDescription, string keyAmenities, string headerBadge,
-        string headerTitle, string headerSubtitle, string headerImage, string fullOverview,
-        string highlights, string galleryImage1, string galleryImage2, string galleryImage3,
-        string galleryImage4, string reviewQuote, string reviewAuthor)
-    {
-        cmd.Parameters.AddWithValue("@RoomName", roomName ?? "");
-        cmd.Parameters.AddWithValue("@RoomCategory", roomCategory ?? "");
-        cmd.Parameters.AddWithValue("@PricePerNight", pricePerNight ?? "");
-        cmd.Parameters.AddWithValue("@CategoryBadge", categoryBadge ?? "");
-        cmd.Parameters.AddWithValue("@Rating", rating ?? "");
-        cmd.Parameters.AddWithValue("@MaxGuests", maxGuests ?? "");
-        cmd.Parameters.AddWithValue("@RoomArea", roomArea ?? "");
-        cmd.Parameters.AddWithValue("@ViewType", viewType ?? "");
-        cmd.Parameters.AddWithValue("@PrimaryRoomImage", primaryRoomImage ?? "");
-        cmd.Parameters.AddWithValue("@ShortDescription", shortDescription ?? "");
-        cmd.Parameters.AddWithValue("@KeyAmenities", keyAmenities ?? "");
-        cmd.Parameters.AddWithValue("@HeaderBadge", headerBadge ?? "");
-        cmd.Parameters.AddWithValue("@HeaderTitle", headerTitle ?? "");
-        cmd.Parameters.AddWithValue("@HeaderSubtitle", headerSubtitle ?? "");
-        cmd.Parameters.AddWithValue("@HeaderImage", headerImage ?? "");
-        cmd.Parameters.AddWithValue("@FullOverview", fullOverview ?? "");
-        cmd.Parameters.AddWithValue("@Highlights", highlights ?? "");
-        cmd.Parameters.AddWithValue("@GalleryImage1", galleryImage1 ?? "");
-        cmd.Parameters.AddWithValue("@GalleryImage2", galleryImage2 ?? "");
-        cmd.Parameters.AddWithValue("@GalleryImage3", galleryImage3 ?? "");
-        cmd.Parameters.AddWithValue("@GalleryImage4", galleryImage4 ?? "");
-        cmd.Parameters.AddWithValue("@ReviewQuote", reviewQuote ?? "");
-        cmd.Parameters.AddWithValue("@ReviewAuthor", reviewAuthor ?? "");
     }
 
     private void ShowErrorMessage(string message)

@@ -138,24 +138,15 @@
 
                         <div class="d-flex flex-wrap gap-2 pt-1" id="filterPillsContainer">
                             <button type="button" class="bn-filter-pill active" data-filter="all"
-                                onclick="filterBookNowRooms('all', this); return false;">All Rooms</button>
-                            <button type="button" class="bn-filter-pill" data-filter="superior-twin"
-                                onclick="filterBookNowRooms('superior-twin', this); return false;">Superior Room Twin
-                                Bed</button>
-                            <button type="button" class="bn-filter-pill" data-filter="superior-king"
-                                onclick="filterBookNowRooms('superior-king', this); return false;">Superior Room King
-                                Bed</button>
-                            <button type="button" class="bn-filter-pill" data-filter="deluxe-king"
-                                onclick="filterBookNowRooms('deluxe-king', this); return false;">Deluxe Room King
-                                Bed</button>
-                            <button type="button" class="bn-filter-pill" data-filter="deluxe-twin"
-                                onclick="filterBookNowRooms('deluxe-twin', this); return false;">Deluxe Room Twin
-                                Bed</button>
-                            <button type="button" class="bn-filter-pill" data-filter="luxury-suite"
-                                onclick="filterBookNowRooms('luxury-suite', this); return false;">Luxury Suite</button>
+                                onclick="filterBookNowRooms('all', this); return false;">ALL ROOMS</button>
+                            <button type="button" class="bn-filter-pill" data-filter="executive"
+                                onclick="filterBookNowRooms('executive', this); return false;">EXECUTIVE</button>
+                            <button type="button" class="bn-filter-pill" data-filter="deluxe"
+                                onclick="filterBookNowRooms('deluxe', this); return false;">DELUXE</button>
+                            <button type="button" class="bn-filter-pill" data-filter="family"
+                                onclick="filterBookNowRooms('family', this); return false;">FAMILY</button>
                             <button type="button" class="bn-filter-pill" data-filter="presidential"
-                                onclick="filterBookNowRooms('presidential', this); return false;">Presidential
-                                Suite</button>
+                                onclick="filterBookNowRooms('presidential', this); return false;">PENTHOUSE &amp; ROYAL</button>
                         </div>
                     </div>
 
@@ -164,7 +155,7 @@
                  ========================================== -->
 
                     <!-- ROOM CARD 1: SUPERIOR ROOM TWIN BED -->
-                    <div class="room-card-luxury-block" data-category="superior-twin" id="card_superior_twin" data-aos="fade-up">
+                    <div class="room-card-luxury-block" data-category="executive" id="card_superior_twin" data-aos="fade-up">
                         <!-- Card Top Header -->
                         <div class="row align-items-center mb-3" data-aos="fade-down" data-aos-duration="1000">
                             <div class="col-md-8">
@@ -380,7 +371,7 @@
                     </div>
 
                     <!-- ROOM CARD 2: SUPERIOR ROOM KING BED -->
-                    <div class="room-card-luxury-block" data-category="superior-king" id="card_superior_king" data-aos="fade-up">
+                    <div class="room-card-luxury-block" data-category="executive" id="card_superior_king" data-aos="fade-up">
                         <!-- Card Top Header -->
                         <div class="row align-items-center mb-3" data-aos="fade-down" data-aos-duration="1000">
                             <div class="col-md-8">
@@ -594,7 +585,7 @@
                     </div>
 
                     <!-- ROOM CARD 3: DELUXE ROOM KING BED -->
-                    <div class="room-card-luxury-block" data-category="deluxe-king" id="card_deluxe_king" data-aos="fade-up">
+                    <div class="room-card-luxury-block" data-category="deluxe" id="card_deluxe_king" data-aos="fade-up">
                         <!-- Card Top Header -->
                         <div class="row align-items-center mb-3" data-aos="fade-down" data-aos-duration="1000">
                             <div class="col-md-8">
@@ -807,7 +798,7 @@
                     </div>
 
                     <!-- ROOM CARD 4: DELUXE ROOM TWIN BED -->
-                    <div class="room-card-luxury-block" data-category="deluxe-twin" id="card_deluxe_twin" data-aos="fade-up">
+                    <div class="room-card-luxury-block" data-category="deluxe" id="card_deluxe_twin" data-aos="fade-up">
                         <!-- Card Top Header -->
                         <div class="row align-items-center mb-3" data-aos="fade-down" data-aos-duration="1000">
                             <div class="col-md-8">
@@ -1020,7 +1011,7 @@
                     </div>
 
                     <!-- ROOM CARD 5: LUXURY SUITE -->
-                    <div class="room-card-luxury-block" data-category="luxury-suite" id="card_luxury_suite" data-aos="fade-up">
+                    <div class="room-card-luxury-block" data-category="family" id="card_luxury_suite" data-aos="fade-up">
                         <!-- Card Top Header -->
                         <div class="row align-items-center mb-3" data-aos="fade-down" data-aos-duration="1000">
                             <div class="col-md-8">
