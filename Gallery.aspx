@@ -47,117 +47,22 @@
             <!-- Gallery Grid Items (Isotope Container) -->
             <div class="row g-4 isotope-container">
                 
-                <!-- Row 1 Item 1: Rooms (Col 4) -->
-                <div class="col-lg-4 col-md-6 item filter-rooms" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
-                    <div class="gallery-item-card gallery-lightbox-trigger" data-img-src="images/room-classic-double.jpg" data-title="Deluxe King Suite">
-                        <img src="images/room-classic-double.jpg" loading="lazy" alt="Deluxe King Suite" class="gallery-item-img">
-                        <div class="gallery-zoom-icon">
-                            <i class="bi bi-eye-fill"></i>
+                <asp:Repeater ID="rptPublicGallery" runat="server">
+                    <ItemTemplate>
+                        <div class='col-lg-4 col-md-6 item <%# GetFilterClass(Eval("Category")) %>' data-aos="fade-up" data-aos-duration="800">
+                            <div class="gallery-item-card gallery-lightbox-trigger" data-img-src='<%# ResolveUrl("~/" + Eval("ImageUrl")) %>' data-title='<%# Eval("Title") %>'>
+                                <img src='<%# ResolveUrl("~/" + Eval("ImageUrl")) %>' loading="lazy" alt='<%# Eval("Title") %>' class="gallery-item-img" onerror="this.src='images/room-placeholder.jpg';">
+                                <div class="gallery-zoom-icon">
+                                    <i class="bi bi-eye-fill"></i>
+                                </div>
+                                <div class="gallery-overlay-mask">
+                                    <span class="gallery-overlay-cat"><%# GetCategoryDisplayName(Eval("Category")) %></span>
+                                    <h3 class="gallery-overlay-title"><%# Eval("Title") %></h3>
+                                </div>
+                            </div>
                         </div>
-                        <div class="gallery-overlay-mask">
-                            <span class="gallery-overlay-cat">Rooms &amp; Suites</span>
-                            <h3 class="gallery-overlay-title">Deluxe King Suite</h3>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Row 1 Item 2: Amenities (Col 8 - WIDE CARD MATCHING SCREENSHOT) -->
-                <div class="col-lg-8 col-md-6 item filter-amenities" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
-                    <div class="gallery-item-card wide-card gallery-lightbox-trigger" data-img-src="images/amenity-pool.jpg" data-title="Infinity Pool & Sun Deck">
-                        <img src="images/amenity-pool.jpg" loading="lazy" alt="Infinity Pool & Sun Deck" class="gallery-item-img">
-                        <div class="gallery-zoom-icon">
-                            <i class="bi bi-eye-fill"></i>
-                        </div>
-                        <div class="gallery-overlay-mask">
-                            <span class="gallery-overlay-cat">Amenities</span>
-                            <h3 class="gallery-overlay-title">Infinity Pool &amp; Sun Deck</h3>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Row 2 Item 1: Dining (Col 4) -->
-                <div class="col-lg-4 col-md-6 item filter-dining" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
-                    <div class="gallery-item-card gallery-lightbox-trigger" data-img-src="images/amenity-restaurant.jpg" data-title="Signature Restaurant Fine Dining">
-                        <img src="images/amenity-restaurant.jpg" loading="lazy" alt="Signature Restaurant" class="gallery-item-img">
-                        <div class="gallery-zoom-icon">
-                            <i class="bi bi-eye-fill"></i>
-                        </div>
-                        <div class="gallery-overlay-mask">
-                            <span class="gallery-overlay-cat">Fine Dining</span>
-                            <h3 class="gallery-overlay-title">Signature Restaurant</h3>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Row 2 Item 2: Rooms (Col 4) -->
-                <div class="col-lg-4 col-md-6 item filter-rooms" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
-                    <div class="gallery-item-card gallery-lightbox-trigger" data-img-src="images/room-superior-king.jpg" data-title="Executive Suite Living Area">
-                        <img src="images/room-superior-king.jpg" loading="lazy" alt="Executive Suite" class="gallery-item-img">
-                        <div class="gallery-zoom-icon">
-                            <i class="bi bi-eye-fill"></i>
-                        </div>
-                        <div class="gallery-overlay-mask">
-                            <span class="gallery-overlay-cat">Rooms &amp; Suites</span>
-                            <h3 class="gallery-overlay-title">Executive Suite</h3>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Row 2 Item 3: Exterior (Col 4) -->
-                <div class="col-lg-4 col-md-6 item filter-exterior" data-aos="fade-up" data-aos-duration="800" data-aos-delay="500">
-                    <div class="gallery-item-card gallery-lightbox-trigger" data-img-src="images/gallery-1.jpg" data-title="Terrace Garden Lounge">
-                        <img src="images/gallery-1.jpg" loading="lazy" alt="Terrace Garden Lounge" class="gallery-item-img">
-                        <div class="gallery-zoom-icon">
-                            <i class="bi bi-eye-fill"></i>
-                        </div>
-                        <div class="gallery-overlay-mask">
-                            <span class="gallery-overlay-cat">Exterior &amp; Garden</span>
-                            <h3 class="gallery-overlay-title">Terrace Garden Lounge</h3>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Row 3 Item 1: Amenities (Col 4) -->
-                <div class="col-lg-4 col-md-6 item filter-amenities" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
-                    <div class="gallery-item-card gallery-lightbox-trigger" data-img-src="images/amenity-spa.jpg" data-title="Royal Spa & Wellness">
-                        <img src="images/amenity-spa.jpg" loading="lazy" alt="Royal Spa & Wellness" class="gallery-item-img">
-                        <div class="gallery-zoom-icon">
-                            <i class="bi bi-eye-fill"></i>
-                        </div>
-                        <div class="gallery-overlay-mask">
-                            <span class="gallery-overlay-cat">Amenities</span>
-                            <h3 class="gallery-overlay-title">Luxury Spa &amp; Wellness</h3>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Row 3 Item 2: Exterior (Col 4) -->
-                <div class="col-lg-4 col-md-6 item filter-exterior" data-aos="fade-up" data-aos-duration="800" data-aos-delay="700">
-                    <div class="gallery-item-card gallery-lightbox-trigger" data-img-src="images/indian-palace-hero.jpg" data-title="Heritage Palace Facade">
-                        <img src="images/indian-palace-hero.jpg" loading="lazy" alt="Heritage Palace Facade" class="gallery-item-img">
-                        <div class="gallery-zoom-icon">
-                            <i class="bi bi-eye-fill"></i>
-                        </div>
-                        <div class="gallery-overlay-mask">
-                            <span class="gallery-overlay-cat">Exterior</span>
-                            <h3 class="gallery-overlay-title">Heritage Palace Facade</h3>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Row 3 Item 3: Rooms (Col 4) -->
-                <div class="col-lg-4 col-md-6 item filter-rooms" data-aos="fade-up" data-aos-duration="800" data-aos-delay="800">
-                    <div class="gallery-item-card gallery-lightbox-trigger" data-img-src="images/room-featured-presidential.jpg" data-title="Royal Presidential Suite">
-                        <img src="images/room-featured-presidential.jpg" loading="lazy" alt="Royal Presidential Suite" class="gallery-item-img">
-                        <div class="gallery-zoom-icon">
-                            <i class="bi bi-eye-fill"></i>
-                        </div>
-                        <div class="gallery-overlay-mask">
-                            <span class="gallery-overlay-cat">Rooms &amp; Suites</span>
-                            <h3 class="gallery-overlay-title">Presidential Suite</h3>
-                        </div>
-                    </div>
-                </div>
+                    </ItemTemplate>
+                </asp:Repeater>
 
             </div>
 
