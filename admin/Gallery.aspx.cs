@@ -3,399 +3,260 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 public partial class Admin_Gallery : System.Web.UI.Page
 {
-    private readonly string connectionString = ConfigurationManager.ConnectionStrings["HotelConnection"] != null
-        ? ConfigurationManager.ConnectionStrings["HotelConnection"].ConnectionString
-        : "";
+    // ==========================================
+    // PAGE LOAD
+    // ==========================================
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        // Admin authorization check
-        if (Session["AdminUser"] == null && Session["AdminId"] == null && Session["Username"] == null)
-        {
-            // Allow session bypass for local development or redirect to login
-        }
-
         if (!IsPostBack)
         {
-            EnsureGalleryTableExists();
-            BindGallery();
-            LoadGalleryStats();
+            LoadGalleryPhotos();
         }
     }
 
+
     // ==========================================
-    // ENSURE GALLERY TABLE EXISTS & SEED IF EMPTY
+    // LOAD GALLERY PHOTOS
     // ==========================================
-    private void EnsureGalleryTableExists()
+
+    private void LoadGalleryPhotos()
     {
+        string connectionString = ConfigurationManager.ConnectionStrings["HotelConnection"] != null
+            ? ConfigurationManager.ConnectionStrings["HotelConnection"].ConnectionString
+            : "";
+
         if (string.IsNullOrEmpty(connectionString)) return;
 
-        try
+        using (SqlConnection con = new SqlConnection(connectionString))
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
+            string query = @"
+                SELECT
+                    GalleryId,
+                    PhotoTitle,
+                    Category,
+                    ImageUrl
+                FROM GalleryPhotos
+                WHERE IsActive = 1
+                ORDER BY GalleryId DESC";
+
+            using (SqlCommand cmd = new SqlCommand(query, con))
             {
                 con.Open();
-                string sql = @"
-IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Gallery')
-BEGIN
-    CREATE TABLE Gallery (
-        GalleryId INT IDENTITY(1,1) PRIMARY KEY,
-        Title NVARCHAR(200) NOT NULL,
-        Category NVARCHAR(50) NOT NULL,
-        ImageUrl NVARCHAR(500) NOT NULL,
-        CreatedDate DATETIME DEFAULT GETDATE()
-    );
-END
-
-IF (SELECT COUNT(*) FROM Gallery) = 0
-BEGIN
-    INSERT INTO Gallery (Title, Category, ImageUrl) VALUES
-    ('Deluxe King Suite', 'Rooms', 'images/room-classic-double.jpg'),
-    ('Infinity Pool & Sun Deck', 'Amenities', 'images/amenity-pool.jpg'),
-    ('Signature Restaurant', 'Dining', 'images/amenity-restaurant.jpg'),
-    ('Executive Suite', 'Rooms', 'images/room-superior-king.jpg'),
-    ('Terrace Garden Lounge', 'Exterior', 'images/gallery-1.jpg'),
-    ('Luxury Spa & Wellness', 'Amenities', 'images/amenity-spa.jpg'),
-    ('Heritage Palace Facade', 'Exterior', 'images/indian-palace-hero.jpg'),
-    ('Presidential Suite', 'Rooms', 'images/room-featured-presidential.jpg');
-END";
-                using (SqlCommand cmd = new SqlCommand(sql, con))
+                using (SqlDataReader dr = cmd.ExecuteReader())
                 {
-                    cmd.ExecuteNonQuery();
+                    rptAdminGallery.DataSource = dr;
+                    rptAdminGallery.DataBind();
                 }
             }
         }
-        catch (Exception ex)
-        {
-            ShowError("Database Initialization Error: " + ex.Message);
-        }
     }
 
+
     // ==========================================
-    // BIND GALLERY ITEMS
+    // UPLOAD GALLERY PHOTO
     // ==========================================
-    private void BindGallery()
+
+    protected void btnUploadGallery_Click(object sender, EventArgs e)
     {
-        if (string.IsNullOrEmpty(connectionString)) return;
+        string savedFilePath = "";
 
         try
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
+            if (!fileImage.HasFile)
             {
-                con.Open();
-                string query = "SELECT GalleryId, Title, Category, ImageUrl, CreatedDate FROM Gallery ";
-                string filter = ddlFilterCategory.SelectedValue;
-
-                if (!string.IsNullOrEmpty(filter) && filter != "All")
-                {
-                    query += "WHERE Category = @Category ";
-                }
-
-                query += "ORDER BY GalleryId DESC";
-
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    if (!string.IsNullOrEmpty(filter) && filter != "All")
-                    {
-                        cmd.Parameters.AddWithValue("@Category", filter);
-                    }
-
-                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
-                    {
-                        DataTable dt = new DataTable();
-                        da.Fill(dt);
-
-                        if (dt.Rows.Count > 0)
-                        {
-                            rptGallery.DataSource = dt;
-                            rptGallery.DataBind();
-                            pnlNoPhotos.Visible = false;
-                            rptGallery.Visible = true;
-                        }
-                        else
-                        {
-                            rptGallery.Visible = false;
-                            pnlNoPhotos.Visible = true;
-                        }
-                    }
-                }
+                ShowError("Please select an image file to upload.");
+                return;
             }
-        }
-        catch (Exception ex)
-        {
-            ShowError("Failed to load gallery photos: " + ex.Message);
-        }
-    }
 
-    // ==========================================
-    // LOAD GALLERY OVERVIEW STATISTICS
-    // ==========================================
-    private void LoadGalleryStats()
-    {
-        if (string.IsNullOrEmpty(connectionString)) return;
-
-        try
-        {
-            using (SqlConnection con = new SqlConnection(connectionString))
+            string photoTitle = txtPhotoTitle.Text.Trim();
+            if (string.IsNullOrEmpty(photoTitle))
             {
-                con.Open();
-                string query = @"
-SELECT 
-    COUNT(*) AS TotalCount,
-    SUM(CASE WHEN Category = 'Rooms' THEN 1 ELSE 0 END) AS RoomsCount,
-    SUM(CASE WHEN Category = 'Amenities' THEN 1 ELSE 0 END) AS AmenitiesCount,
-    SUM(CASE WHEN Category = 'Dining' THEN 1 ELSE 0 END) AS DiningCount,
-    SUM(CASE WHEN Category = 'Exterior' THEN 1 ELSE 0 END) AS ExteriorCount
-FROM Gallery";
-
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            statTotalPhotos.InnerText = Convert.ToString(reader["TotalCount"] ?? "0");
-                            statRooms.InnerText = Convert.ToString(reader["RoomsCount"] ?? "0");
-                            statAmenities.InnerText = Convert.ToString(reader["AmenitiesCount"] ?? "0");
-                            statDining.InnerText = Convert.ToString(reader["DiningCount"] ?? "0");
-                            statExterior.InnerText = Convert.ToString(reader["ExteriorCount"] ?? "0");
-                        }
-                    }
-                }
+                ShowError("Please enter a photo title.");
+                return;
             }
-        }
-        catch
-        {
-            // Silently fallback stats
-        }
-    }
 
-    // ==========================================
-    // UPLOAD NEW PHOTO BUTTON CLICK
-    // ==========================================
-    protected void btnUploadPhoto_Click(object sender, EventArgs e)
-    {
-        ClearAlerts();
+            string category = ddlCategory.SelectedValue.Trim();
+            if (string.IsNullOrEmpty(category))
+            {
+                ShowError("Please select a category.");
+                return;
+            }
 
-        string title = txtPhotoTitle.Text.Trim();
-        string category = ddlCategory.SelectedValue;
+            string extension = Path.GetExtension(fileImage.FileName).ToLower();
+            if (extension != ".jpg" && extension != ".jpeg" && extension != ".png" && extension != ".webp")
+            {
+                ShowError("Only JPG, JPEG, PNG, and WEBP image formats are allowed.");
+                return;
+            }
 
-        if (string.IsNullOrEmpty(title))
-        {
-            ShowError("Please enter a Photo Title / Caption.");
-            txtPhotoTitle.Focus();
-            return;
-        }
+            if (fileImage.PostedFile.ContentLength > 10 * 1024 * 1024)
+            {
+                ShowError("Image size must be less than 10 MB.");
+                return;
+            }
 
-        if (!fuGalleryImage.HasFile)
-        {
-            ShowError("Please choose an image file to upload.");
-            return;
-        }
-
-        string ext = Path.GetExtension(fuGalleryImage.FileName).ToLower();
-        if (ext != ".jpg" && ext != ".jpeg" && ext != ".png" && ext != ".webp")
-        {
-            ShowError("Only JPG, JPEG, PNG, and WEBP image formats are supported.");
-            return;
-        }
-
-        // Check file size (max 5 MB)
-        if (fuGalleryImage.PostedFile.ContentLength > 5 * 1024 * 1024)
-        {
-            ShowError("File size exceeds 5 MB. Please select a smaller photo.");
-            return;
-        }
-
-        try
-        {
-            // Ensure target directory exists
             string folderPath = Server.MapPath("~/images/gallery/");
             if (!Directory.Exists(folderPath))
             {
                 Directory.CreateDirectory(folderPath);
             }
 
-            // Generate unique safe filename
-            string uniqueFileName = "gallery_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + "_" + Guid.NewGuid().ToString().Substring(0, 6) + ext;
-            string savePath = Path.Combine(folderPath, uniqueFileName);
+            string fileName = Guid.NewGuid().ToString("N") + extension;
+            savedFilePath = Path.Combine(folderPath, fileName);
 
-            // Save the uploaded file
-            fuGalleryImage.SaveAs(savePath);
+            fileImage.SaveAs(savedFilePath);
 
-            string relativeDbPath = "images/gallery/" + uniqueFileName;
+            string imageUrl = "images/gallery/" + fileName;
 
-            // Insert into Database
+            string connectionString = ConfigurationManager.ConnectionStrings["HotelConnection"].ConnectionString;
+
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                con.Open();
-                string insertSql = "INSERT INTO Gallery (Title, Category, ImageUrl, CreatedDate) VALUES (@Title, @Category, @ImageUrl, GETDATE())";
-                using (SqlCommand cmd = new SqlCommand(insertSql, con))
-                {
-                    cmd.Parameters.AddWithValue("@Title", title);
-                    cmd.Parameters.AddWithValue("@Category", category);
-                    cmd.Parameters.AddWithValue("@ImageUrl", relativeDbPath);
+                string query = @"
+                    INSERT INTO GalleryPhotos
+                    (PhotoTitle, Category, ImageUrl, IsActive)
+                    VALUES
+                    (@PhotoTitle, @Category, @ImageUrl, @IsActive)";
 
-                    int rows = cmd.ExecuteNonQuery();
-                    if (rows > 0)
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.Add("@PhotoTitle", SqlDbType.NVarChar, 200).Value = photoTitle;
+                    cmd.Parameters.Add("@Category", SqlDbType.NVarChar, 50).Value = category;
+                    cmd.Parameters.Add("@ImageUrl", SqlDbType.NVarChar, 500).Value = imageUrl;
+                    cmd.Parameters.Add("@IsActive", SqlDbType.Bit).Value = true;
+
+                    con.Open();
+                    int rowsInserted = cmd.ExecuteNonQuery();
+
+                    if (rowsInserted <= 0)
                     {
-                        ShowSuccess("Photo \"" + title + "\" uploaded successfully to " + category + " category!");
-                        txtPhotoTitle.Text = "";
-                        BindGallery();
-                        LoadGalleryStats();
-                    }
-                    else
-                    {
-                        ShowError("Failed to save photo record to database.");
+                        if (File.Exists(savedFilePath))
+                        {
+                            File.Delete(savedFilePath);
+                        }
+                        ShowError("Failed to save image record into database.");
+                        return;
                     }
                 }
             }
+
+            txtPhotoTitle.Text = "";
+            ddlCategory.SelectedIndex = 0;
+            LoadGalleryPhotos();
+            ShowSuccess("Photo Uploaded Successfully!", "Gallery photo uploaded and saved successfully.");
         }
         catch (Exception ex)
         {
-            ShowError("Error uploading image: " + ex.Message);
+            if (!string.IsNullOrEmpty(savedFilePath) && File.Exists(savedFilePath))
+            {
+                try { File.Delete(savedFilePath); } catch { }
+            }
+            ShowError("Error: " + ex.Message);
         }
     }
 
-    // ==========================================
-    // REPEATER COMMAND (DELETE PHOTO)
-    // ==========================================
-    protected void rptGallery_ItemCommand(object source, RepeaterCommandEventArgs e)
-    {
-        ClearAlerts();
 
+    // ==========================================
+    // REPEATER ITEM COMMAND (DELETE PHOTO)
+    // ==========================================
+
+    protected void rptAdminGallery_ItemCommand(object source, RepeaterCommandEventArgs e)
+    {
         if (e.CommandName == "DeletePhoto")
         {
-            int galleryId;
-            if (int.TryParse(Convert.ToString(e.CommandArgument), out galleryId))
+            int galleryId = Convert.ToInt32(e.CommandArgument);
+
+            try
             {
-                DeletePhoto(galleryId);
+                string connectionString = ConfigurationManager.ConnectionStrings["HotelConnection"].ConnectionString;
+                string relativeImageUrl = "";
+
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    con.Open();
+
+                    // Step 1: Fetch ImageUrl to delete physical file
+                    string selectQuery = "SELECT ImageUrl FROM GalleryPhotos WHERE GalleryId = @GalleryId";
+                    using (SqlCommand selectCmd = new SqlCommand(selectQuery, con))
+                    {
+                        selectCmd.Parameters.AddWithValue("@GalleryId", galleryId);
+                        object result = selectCmd.ExecuteScalar();
+                        if (result != null && result != DBNull.Value)
+                        {
+                            relativeImageUrl = result.ToString();
+                        }
+                    }
+
+                    // Step 2: Delete DB record
+                    string deleteQuery = "DELETE FROM GalleryPhotos WHERE GalleryId = @GalleryId";
+                    using (SqlCommand deleteCmd = new SqlCommand(deleteQuery, con))
+                    {
+                        deleteCmd.Parameters.AddWithValue("@GalleryId", galleryId);
+                        deleteCmd.ExecuteNonQuery();
+                    }
+                }
+
+                // Step 3: Delete physical file if exists
+                if (!string.IsNullOrEmpty(relativeImageUrl))
+                {
+                    string physicalPath = Server.MapPath("~/" + relativeImageUrl);
+                    if (File.Exists(physicalPath))
+                    {
+                        try { File.Delete(physicalPath); } catch { }
+                    }
+                }
+
+                LoadGalleryPhotos();
+                ShowSuccess("Photo Deleted Successfully!", "Gallery photo deleted successfully from database and server.");
+            }
+            catch (Exception ex)
+            {
+                ShowError("Error deleting photo: " + ex.Message);
             }
         }
     }
 
-    private void DeletePhoto(int galleryId)
+
+    // ==========================================
+    // SHOW CONFIRMATION BANNERS (NO JS ALERT POPUP)
+    // ==========================================
+
+    private void ShowSuccess(string title, string message)
     {
-        try
-        {
-            string imageUrl = "";
-            string photoTitle = "";
-
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                con.Open();
-
-                // 1. Fetch ImageUrl
-                using (SqlCommand cmdSelect = new SqlCommand("SELECT Title, ImageUrl FROM Gallery WHERE GalleryId = @GalleryId", con))
-                {
-                    cmdSelect.Parameters.AddWithValue("@GalleryId", galleryId);
-                    using (SqlDataReader rdr = cmdSelect.ExecuteReader())
-                    {
-                        if (rdr.Read())
-                        {
-                            photoTitle = Convert.ToString(rdr["Title"]);
-                            imageUrl = Convert.ToString(rdr["ImageUrl"]);
-                        }
-                    }
-                }
-
-                // 2. Delete database record
-                using (SqlCommand cmdDelete = new SqlCommand("DELETE FROM Gallery WHERE GalleryId = @GalleryId", con))
-                {
-                    cmdDelete.Parameters.AddWithValue("@GalleryId", galleryId);
-                    int rows = cmdDelete.ExecuteNonQuery();
-
-                    if (rows > 0)
-                    {
-                        // 3. Delete physical file if custom uploaded
-                        if (!string.IsNullOrEmpty(imageUrl) && imageUrl.StartsWith("images/gallery/"))
-                        {
-                            try
-                            {
-                                string filePath = Server.MapPath("~/" + imageUrl);
-                                if (File.Exists(filePath))
-                                {
-                                    File.Delete(filePath);
-                                }
-                            }
-                            catch
-                            {
-                                // Ignore file deletion if locked
-                            }
-                        }
-
-                        ShowSuccess("Photo \"" + photoTitle + "\" removed from gallery successfully.");
-                        BindGallery();
-                        LoadGalleryStats();
-                    }
-                    else
-                    {
-                        ShowError("Photo record not found or could not be deleted.");
-                    }
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            ShowError("Failed to delete photo: " + ex.Message);
-        }
-    }
-
-    // ==========================================
-    // CATEGORY FILTER DROPDOWN CHANGED
-    // ==========================================
-    protected void ddlFilterCategory_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        ClearAlerts();
-        BindGallery();
-    }
-
-    // ==========================================
-    // BADGE HELPER METHOD FOR UI
-    // ==========================================
-    protected string GetCategoryBadgeClass(object category)
-    {
-        string cat = Convert.ToString(category).ToLower();
-        switch (cat)
-        {
-            case "rooms":
-                return "cat-badge-rooms";
-            case "amenities":
-                return "cat-badge-amenities";
-            case "dining":
-                return "cat-badge-dining";
-            case "exterior":
-                return "cat-badge-exterior";
-            default:
-                return "bg-secondary text-white";
-        }
-    }
-
-    // ==========================================
-    // ALERT HELPERS
-    // ==========================================
-    private void ShowError(string msg)
-    {
-        pnlErrorMessage.Visible = true;
-        lblErrorMessage.Text = msg;
-        pnlSuccessMessage.Visible = false;
-    }
-
-    private void ShowSuccess(string msg)
-    {
+        pnlErrorMessage.Visible = false;
         pnlSuccessMessage.Visible = true;
-        lblSuccessMessage.Text = msg;
-        pnlErrorMessage.Visible = false;
+        lblSuccessTitle.Text = title;
+        lblSuccessMessage.Text = message;
     }
 
-    private void ClearAlerts()
+    private void ShowError(string message)
     {
-        pnlErrorMessage.Visible = false;
         pnlSuccessMessage.Visible = false;
+        pnlErrorMessage.Visible = true;
+        lblErrorMessage.Text = message;
+    }
+
+
+    // ==========================================
+    // CATEGORY DISPLAY NAME
+    // ==========================================
+
+    public string GetCategoryDisplayName(object categoryObj)
+    {
+        if (categoryObj == null) return "";
+        string cat = categoryObj.ToString();
+        switch (cat.ToLower())
+        {
+            case "rooms": return "Rooms";
+            case "amenities": return "Amenities";
+            case "dining": return "Dining";
+            case "exterior": return "Exterior";
+            default: return cat;
+        }
     }
 }

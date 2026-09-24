@@ -191,7 +191,7 @@
                             </a>
                             <ul class="sidebar-submenu">
                                 <li class="submenu-item"><a href="javascript:void(0)" class="submenu-link" onclick="handleMenuClick('Restaurants', this)"><i class="bi bi-shop sub-icon"></i>Restaurants</a></li>
-                                <li class="submenu-item"><a href="javascript:void(0)" class="submenu-link" onclick="handleMenuClick('Menu Management', this)"><i class="bi bi-book sub-icon"></i>Menu</a></li>
+                                <li class="submenu-item"><a href="Menu.aspx" class="submenu-link"><i class="bi bi-book sub-icon"></i>Menu</a></li>
                             </ul>
                         </li>
 

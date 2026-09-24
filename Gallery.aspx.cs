@@ -2,13 +2,13 @@ using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Web.UI;
+using System.IO;
 
 public partial class Gallery : System.Web.UI.Page
 {
-    private readonly string connectionString = ConfigurationManager.ConnectionStrings["HotelConnection"] != null
-        ? ConfigurationManager.ConnectionStrings["HotelConnection"].ConnectionString
-        : "";
+    // ==========================================
+    // PAGE LOAD
+    // ==========================================
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -18,71 +18,138 @@ public partial class Gallery : System.Web.UI.Page
         }
     }
 
+
+    // ==========================================
+    // LOAD GALLERY PHOTOS
+    // ==========================================
+
     private void LoadGalleryPhotos()
     {
-        if (string.IsNullOrEmpty(connectionString)) return;
+        string connectionString =
+            ConfigurationManager
+            .ConnectionStrings["HotelConnection"]
+            .ConnectionString;
 
-        try
+        using (SqlConnection con =
+               new SqlConnection(connectionString))
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
+            string query = @"
+                SELECT
+                    GalleryId,
+                    PhotoTitle,
+                    Category,
+                    ImageUrl
+                FROM GalleryPhotos
+                WHERE IsActive = 1
+                ORDER BY GalleryId DESC";
+
+            using (SqlCommand cmd =
+                   new SqlCommand(query, con))
             {
                 con.Open();
-                string sql = "SELECT GalleryId, Title, Category, ImageUrl FROM Gallery ORDER BY GalleryId ASC";
-                using (SqlCommand cmd = new SqlCommand(sql, con))
-                {
-                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
-                    {
-                        DataTable dt = new DataTable();
-                        da.Fill(dt);
 
-                        if (dt.Rows.Count > 0)
-                        {
-                            rptPublicGallery.DataSource = dt;
-                            rptPublicGallery.DataBind();
-                        }
-                    }
+                using (SqlDataReader dr =
+                       cmd.ExecuteReader())
+                {
+                    rptPublicGallery.DataSource = dr;
+                    rptPublicGallery.DataBind();
                 }
             }
         }
-        catch
-        {
-            // Fallback gracefully without breaking public UI
-        }
     }
 
-    protected string GetFilterClass(object category)
+
+
+
+
+    // ==========================================
+    // SHOW MESSAGE
+    // ==========================================
+
+    private void ShowMessage(string message)
     {
-        string cat = Convert.ToString(category).Trim().ToLower();
-        switch (cat)
+        string safeMessage =
+            message
+            .Replace("\\", "\\\\")
+            .Replace("'", "\\'")
+            .Replace("\r", "")
+            .Replace("\n", "\\n");
+
+        ClientScript.RegisterStartupScript(
+            this.GetType(),
+            "GalleryMessage",
+            "alert('" + safeMessage + "');",
+            true
+        );
+    }
+
+
+    // ==========================================
+    // CATEGORY FILTER CLASS
+    // ==========================================
+
+    public string GetFilterClass(object categoryObj)
+    {
+        if (categoryObj == null)
+        {
+            return "";
+        }
+
+        string category =
+            categoryObj
+            .ToString()
+            .ToLower();
+
+        switch (category)
         {
             case "rooms":
                 return "filter-rooms";
+
             case "amenities":
                 return "filter-amenities";
+
             case "dining":
                 return "filter-dining";
+
             case "exterior":
                 return "filter-exterior";
+
             default:
-                return "filter-rooms";
+                return "";
         }
     }
 
-    protected string GetCategoryDisplayName(object category)
+
+    // ==========================================
+    // CATEGORY DISPLAY NAME
+    // ==========================================
+
+    public string GetCategoryDisplayName(object categoryObj)
     {
-        string cat = Convert.ToString(category).Trim().ToLower();
-        switch (cat)
+        if (categoryObj == null)
+        {
+            return "";
+        }
+
+        string category =
+            categoryObj.ToString();
+
+        switch (category.ToLower())
         {
             case "rooms":
-                return "Rooms & Suites";
+                return "Rooms";
+
             case "amenities":
                 return "Amenities";
+
             case "dining":
-                return "Fine Dining";
+                return "Dining";
+
             case "exterior":
-                return "Exterior & Garden";
+                return "Exterior";
+
             default:
-                return Convert.ToString(category);
+                return category;
         }
     }
 }

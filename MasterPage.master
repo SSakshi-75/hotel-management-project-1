@@ -51,7 +51,7 @@
     <!-- Preloader Guaranteed Dismissal Script -->
     <script src="js/master.js"></script>
 
-    <form id="form1" runat="server">
+    <form id="form1" runat="server" enctype="multipart/form-data">
 
         <!-- ==========================================
              TOP HEADER / INFO BAR
