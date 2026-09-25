@@ -138,6 +138,8 @@
                             <ul class="sidebar-submenu">
                                 <li class="submenu-item"><a href="ManageHotel.aspx" class="submenu-link"><i class="bi bi-buildings sub-icon"></i>Manage Hotel</a></li>
                                 <li class="submenu-item"><a href="AddRoom.aspx" class="submenu-link"><i class="bi bi-plus-circle sub-icon"></i>Add Room</a></li>
+                                <li class="submenu-item"><a href="ManageCategory.aspx" class="submenu-link"><i class="bi bi-collection sub-icon"></i>Manage Category</a></li>
+                                <li class="submenu-item"><a href="AddCategory.aspx" class="submenu-link"><i class="bi bi-tags sub-icon"></i>Add Category</a></li>
                                 <li class="submenu-item"><a href="Gallery.aspx" class="submenu-link"><i class="bi bi-images sub-icon"></i>Photo Gallery</a></li>
                             </ul>
                         </li>

@@ -107,6 +107,16 @@ window.selectBookingRatePlan = selectBookingRatePlan;
 
 // Step 2 Room Picker Handler (With Direct Uncheck / Toggle Support)
 function selectBookingRoomCard(title, price, el) {
+    // Support calling directly as selectBookingRoomCard(this)
+    if (title && (title.nodeType === 1 || title instanceof Element)) {
+        el = title;
+        title = el.getAttribute('data-room') || '';
+        price = el.getAttribute('data-price') || 0;
+    } else if (el && (!title || !price)) {
+        title = title || el.getAttribute('data-room') || '';
+        price = price || el.getAttribute('data-price') || 0;
+    }
+
     var wasActive = el && el.classList.contains('active');
 
     // Remove active class from all cards

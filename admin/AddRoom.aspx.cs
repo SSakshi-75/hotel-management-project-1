@@ -16,6 +16,8 @@ public partial class Admin_AddRoom : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
+            PopulateRoomCategories();
+
             string reqRoomId = Request.QueryString["RoomId"] ?? Request.QueryString["id"];
             int roomId;
 
@@ -29,6 +31,52 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                 hdnRoomId.Value = "0";
                 SetupAddMode();
             }
+        }
+    }
+
+    private void PopulateRoomCategories()
+    {
+        string selectedVal = ddlCategory.Value;
+        ddlCategory.Items.Clear();
+        ddlCategory.Items.Add(new System.Web.UI.WebControls.ListItem("Select Category", ""));
+        ddlCategory.Items[0].Attributes["disabled"] = "disabled";
+
+        string[] defaults = new string[] { "EXECUTIVE", "DELUXE", "FAMILY", "ROYAL KING", "PENTHOUSE" };
+        foreach (string d in defaults)
+        {
+            ddlCategory.Items.Add(new System.Web.UI.WebControls.ListItem(d, d));
+        }
+
+        if (!string.IsNullOrEmpty(connectionString))
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                string catSql = @"
+                    SELECT DISTINCT CategoryName AS RoomCategory FROM RoomCategories WHERE LOWER(LTRIM(RTRIM(PublishingStatus))) = 'active'
+                    ORDER BY RoomCategory";
+                using (SqlCommand cmd = new SqlCommand(catSql, con))
+                {
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            string cat = dr["RoomCategory"].ToString().Trim();
+                            if (ddlCategory.Items.FindByValue(cat) == null && ddlCategory.Items.FindByText(cat) == null)
+                            {
+                                ddlCategory.Items.Add(new System.Web.UI.WebControls.ListItem(cat, cat));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        ddlCategory.Items.Add(new System.Web.UI.WebControls.ListItem("+ Add New Category...", "__NEW__"));
+
+        if (!string.IsNullOrEmpty(selectedVal) && ddlCategory.Items.FindByValue(selectedVal) != null)
+        {
+            ddlCategory.Value = selectedVal;
         }
     }
 
@@ -76,10 +124,19 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                             txtRoomName.Value = dr["RoomName"] != DBNull.Value ? dr["RoomName"].ToString() : "";
 
                             string category = dr["RoomCategory"] != DBNull.Value ? dr["RoomCategory"].ToString().Trim() : "";
-                            if (ddlCategory.Items.FindByValue(category) != null)
+                            if (!string.IsNullOrEmpty(category))
                             {
-                                ddlCategory.Value = category;
+                                if (ddlCategory.Items.FindByValue(category) == null && ddlCategory.Items.FindByText(category) == null)
+                                {
+                                    int insertIdx = Math.Max(0, ddlCategory.Items.Count - 1);
+                                    ddlCategory.Items.Insert(insertIdx, new System.Web.UI.WebControls.ListItem(category, category));
+                                }
+                                if (ddlCategory.Items.FindByValue(category) != null)
+                                {
+                                    ddlCategory.Value = category;
+                                }
                             }
+                            txtNewCategory.Value = "";
 
                             txtPrice.Value = dr["PricePerNight"] != DBNull.Value ? dr["PricePerNight"].ToString() : "";
                             txtBadge.Value = dr["CategoryBadge"] != DBNull.Value ? dr["CategoryBadge"].ToString() : "";
@@ -88,6 +145,7 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                             txtArea.Value = dr["RoomArea"] != DBNull.Value ? dr["RoomArea"].ToString() : "";
                             txtViewType.Value = dr["ViewType"] != DBNull.Value ? dr["ViewType"].ToString() : "";
                             txtShortDesc.Value = dr["ShortDescription"] != DBNull.Value ? dr["ShortDescription"].ToString() : "";
+                            ddlIsActive.Value = (dr["IsActive"] != DBNull.Value && Convert.ToBoolean(dr["IsActive"])) ? "1" : "0";
 
                             // 3. Pre-select Key Amenities
                             string keyAmenities = dr["KeyAmenities"] != DBNull.Value ? dr["KeyAmenities"].ToString() : "";
@@ -196,6 +254,10 @@ public partial class Admin_AddRoom : System.Web.UI.Page
         // 1. Retrieve & Validate Form Inputs
         string roomName = txtRoomName.Value.Trim();
         string roomCategory = ddlCategory.Value.Trim();
+        if (roomCategory == "__NEW__" || roomCategory == "NEW" || !string.IsNullOrWhiteSpace(txtNewCategory.Value))
+        {
+            roomCategory = txtNewCategory.Value.Trim().ToUpper();
+        }
         string pricePerNight = txtPrice.Value.Trim();
         string categoryBadge = txtBadge.Value.Trim();
         string rating = txtRating.Value.Trim();
@@ -221,7 +283,7 @@ public partial class Admin_AddRoom : System.Web.UI.Page
 
         if (string.IsNullOrEmpty(roomCategory))
         {
-            ShowErrorMessage("Please select a Room Category.");
+            ShowErrorMessage("Please select or enter a Room Category.");
             return;
         }
 
@@ -361,7 +423,8 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                             GalleryImage3 = @GalleryImage3,
                             GalleryImage4 = @GalleryImage4,
                             ReviewQuote = @ReviewQuote,
-                            ReviewAuthor = @ReviewAuthor
+                            ReviewAuthor = @ReviewAuthor,
+                            IsActive = @IsActive
                         WHERE RoomID = @RoomID";
 
                     using (SqlCommand cmd = new SqlCommand(updateQuery, con))
@@ -433,7 +496,8 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                             GalleryImage3,
                             GalleryImage4,
                             ReviewQuote,
-                            ReviewAuthor
+                            ReviewAuthor,
+                            IsActive
                         )
                         VALUES
                         (
@@ -459,7 +523,8 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                             @GalleryImage3,
                             @GalleryImage4,
                             @ReviewQuote,
-                            @ReviewAuthor
+                            @ReviewAuthor,
+                            @IsActive
                         )";
 
                     using (SqlCommand cmd = new SqlCommand(insertQuery, con))
@@ -470,6 +535,10 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                             galleryImage1, galleryImage2, galleryImage3, galleryImage4, reviewQuote, reviewAuthor);
 
                         cmd.ExecuteNonQuery();
+
+                        PopulateRoomCategories();
+                        ddlCategory.Value = roomCategory;
+                        txtNewCategory.Value = "";
 
                         pnlSuccessMessage.Visible = true;
                         lblSuccessTitle.InnerText = "Room Published Successfully!";
@@ -517,6 +586,7 @@ public partial class Admin_AddRoom : System.Web.UI.Page
         cmd.Parameters.AddWithValue("@GalleryImage4", galleryImage4 ?? "");
         cmd.Parameters.AddWithValue("@ReviewQuote", reviewQuote ?? "");
         cmd.Parameters.AddWithValue("@ReviewAuthor", reviewAuthor ?? "");
+        cmd.Parameters.AddWithValue("@IsActive", ddlIsActive.Value == "1");
     }
 
     private void ShowErrorMessage(string message)

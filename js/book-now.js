@@ -55,6 +55,10 @@ window.switchRatesTab = switchRatesTab;
    2. ROOM CATEGORY FILTERING (ALL ROOMS, EXECUTIVE, DELUXE, FAMILY, PENTHOUSE & ROYAL)
    ========================================================================== */
 function filterBookNowRooms(category, btn) {
+    if (category && typeof category === 'object' && category.getAttribute) {
+        btn = category;
+        category = btn.getAttribute('data-filter') || btn.getAttribute('data-category') || 'all';
+    }
     category = (category || 'all').toLowerCase();
 
     // Backward compatibility for old specific room keys
@@ -79,9 +83,15 @@ function filterBookNowRooms(category, btn) {
     let firstTargetBlock = null;
 
     blocks.forEach(block => {
-        const cat = (block.getAttribute('data-category') || '').toLowerCase();
-        const catTokens = cat.split(/\s+/);
-        if (category === 'all' || catTokens.includes(category) || cat === category) {
+        const cat = (block.getAttribute('data-category') || '').toLowerCase().trim();
+        const catSlug = cat.replace(/\s+/g, '-');
+        const searchCategory = category.replace(/-/g, ' ').trim();
+        const isMatch = (category === 'all') ||
+                        (cat === category) ||
+                        (catSlug === category) ||
+                        (cat.length > 0 && searchCategory.length > 0 && (cat.indexOf(searchCategory) !== -1 || searchCategory.indexOf(cat) !== -1));
+
+        if (isMatch) {
             block.style.display = 'block';
             visibleCount++;
             if (!firstTargetBlock) firstTargetBlock = block;

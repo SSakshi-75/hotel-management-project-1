@@ -18,6 +18,92 @@ public partial class Booking : System.Web.UI.Page
             CreateBookingEndpoint();
             return;
         }
+
+        if (!IsPostBack)
+        {
+            LoadBookingRooms();
+        }
+    }
+
+    private void LoadBookingRooms()
+    {
+        if (string.IsNullOrEmpty(connectionString)) return;
+
+        try
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = @"
+                    SELECT
+                        RoomID,
+                        RoomName,
+                        PricePerNight,
+                        MaxGuests,
+                        RoomArea,
+                        PrimaryRoomImage
+                    FROM Rooms
+                    WHERE ISNULL(IsActive, 1) = 1
+                    ORDER BY RoomID ASC";
+
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    con.Open();
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+
+                        rptBookingRooms.DataSource = dt;
+                        rptBookingRooms.DataBind();
+
+                        rptBookingRoomSelectOptions.DataSource = dt;
+                        rptBookingRoomSelectOptions.DataBind();
+                    }
+                }
+            }
+        }
+        catch (Exception)
+        {
+        }
+    }
+
+    public string GetRoomImageUrl(object imgObj)
+    {
+        if (imgObj == null || string.IsNullOrWhiteSpace(imgObj.ToString()))
+        {
+            return ResolveUrl("~/images/room-mini-business.jpg");
+        }
+        string imgPath = imgObj.ToString().Trim();
+        if (imgPath.StartsWith("http://") || imgPath.StartsWith("https://")) return imgPath;
+        if (imgPath.StartsWith("~/")) return ResolveUrl(imgPath);
+        if (imgPath.StartsWith("/")) return ResolveUrl("~" + imgPath);
+        if (imgPath.StartsWith("images/")) return ResolveUrl("~/" + imgPath);
+        return ResolveUrl("~/images/rooms/" + imgPath);
+    }
+
+    public string GetFormattedRoomArea(object areaObj)
+    {
+        if (areaObj == null || string.IsNullOrWhiteSpace(areaObj.ToString()))
+        {
+            return "400 sq ft";
+        }
+        string area = areaObj.ToString().Trim();
+        if (area.ToLower().Contains("sq"))
+        {
+            return area;
+        }
+        return area + " sq ft";
+    }
+
+    public string GetFormattedPrice(object priceObj)
+    {
+        if (priceObj == null || priceObj == DBNull.Value) return "0";
+        decimal p;
+        if (decimal.TryParse(priceObj.ToString(), out p))
+        {
+            return p.ToString("N0");
+        }
+        return priceObj.ToString();
     }
 
     private void CreateBookingEndpoint()

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Text;
@@ -11,6 +11,7 @@ public partial class Room : System.Web.UI.Page
         if (!IsPostBack)
         {
             LoadRooms();
+            LoadCustomerCategoryFilters();
         }
     }
 
@@ -36,6 +37,7 @@ public partial class Room : System.Web.UI.Page
                 ShortDescription,
                 KeyAmenities
             FROM Rooms
+            WHERE ISNULL(IsActive, 1) = 1
             ORDER BY RoomId DESC";
 
 
@@ -56,41 +58,46 @@ public partial class Room : System.Web.UI.Page
     }
 
 
+    private void LoadCustomerCategoryFilters()
+    {
+        try
+        {
+            string connectionString =
+                ConfigurationManager.ConnectionStrings["HotelConnection"].ConnectionString;
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                string query = @"
+                    SELECT DISTINCT 
+                        CategoryName, 
+                        LOWER(REPLACE(LTRIM(RTRIM(CategoryName)), ' ', '-')) AS CategorySlug 
+                    FROM RoomCategories 
+                    WHERE LOWER(LTRIM(RTRIM(PublishingStatus))) = 'active'
+                    ORDER BY CategoryName";
+
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        rptCustomerCategories.DataSource = reader;
+                        rptCustomerCategories.DataBind();
+                    }
+                }
+            }
+        }
+        catch { }
+    }
+
+
     // ==========================================
     // CATEGORY FILTER
     // ==========================================
     protected string GetCategoryFilter(object category)
     {
+        if (category == null) return "";
         string value = Convert.ToString(category).Trim().ToLower();
-
-
-        if (value.Contains("executive"))
-        {
-            return "executive";
-        }
-
-
-        if (value.Contains("deluxe"))
-        {
-            return "deluxe";
-        }
-
-
-        if (value.Contains("family"))
-        {
-            return "family";
-        }
-
-
-        if (value.Contains("penthouse") ||
-            value.Contains("royal") ||
-            value.Contains("presidential"))
-        {
-            return "presidential";
-        }
-
-
-        return value;
+        return value.Replace(" ", "-");
     }
 
 

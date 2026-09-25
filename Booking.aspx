@@ -161,159 +161,45 @@
                                     <select class="form-select d-none" id="bookingRoomSelect"
                                         onchange="updateBookingSummary()">
                                         <option value="" disabled selected>Choose a room...</option>
-                                        <option value="8500">Executive Business Suite (&#8377; 8,500/night)</option>
-                                        <option value="6800">Garden View Deluxe Room (&#8377; 6,800/night)</option>
-                                        <option value="11500">Family Comfort Suite (&#8377; 11,500/night)</option>
-                                        <option value="14999">Classic Double Luxury Room (&#8377; 14,999/night)</option>
-                                        <option value="19999">Superior King Royal Room (&#8377; 19,999/night)</option>
-                                        <option value="95999">Royal Penthouse Haven (&#8377; 95,999/night)</option>
+                                        <asp:Repeater ID="rptBookingRoomSelectOptions" runat="server">
+                                            <ItemTemplate>
+                                                <option value='<%# Eval("PricePerNight") %>'>
+                                                    <%# Eval("RoomName") %> (&#8377; <%# GetFormattedPrice(Eval("PricePerNight")) %>/night)
+                                                </option>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
                                     </select>
 
                                     <div class="booking-room-pick-grid">
-                                        <!-- Room 1 -->
-                                        <div class="booking-room-pick-card" data-room="Executive Business Suite"
-                                            data-price="8500"
-                                            onclick="selectBookingRoomCard('Executive Business Suite', 8500, this)">
-                                            <div class="room-pick-check-icon"><i class="bi bi-check-lg"></i></div>
-                                            <div class="room-pick-img-wrap position-relative">
-                                                <img src="images/room-mini-business.jpg" alt="Executive Business Suite">
-                                            </div>
-                                            <div class="room-pick-title">Executive Business Suite</div>
-                                            <div class="room-pick-meta"><i class="bi bi-people me-1"></i> Up to 2 Guests
-                                                &bull; 480 sq ft</div>
-                                            <div
-                                                class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top">
-                                                <div class="room-pick-price">&#8377;8,500 <small>/ night</small></div>
-                                                <a href="RoomDetails.aspx?title=Executive+Business+Suite&price=8500&img=images/room-mini-business.jpg"
-                                                    target="_blank"
-                                                    class="btn btn-sm btn-outline-dark px-2 py-1 small fw-semibold"
-                                                    onclick="event.stopPropagation();" title="View full room details">
-                                                    <i class="bi bi-info-circle me-1"></i> View Details <i
-                                                        class="bi bi-box-arrow-up-right ms-1"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <!-- Room 2 -->
-                                        <div class="booking-room-pick-card" data-room="Garden View Deluxe Room"
-                                            data-price="6800"
-                                            onclick="selectBookingRoomCard('Garden View Deluxe Room', 6800, this)">
-                                            <div class="room-pick-check-icon"><i class="bi bi-check-lg"></i></div>
-                                            <div class="room-pick-img-wrap position-relative">
-                                                <img src="images/room-mini-garden.jpg" alt="Garden View Deluxe Room">
-                                            </div>
-                                            <div class="room-pick-title">Garden View Deluxe Room</div>
-                                            <div class="room-pick-meta"><i class="bi bi-people me-1"></i> Up to 2 Guests
-                                                &bull; 420 sq ft</div>
-                                            <div
-                                                class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top">
-                                                <div class="room-pick-price">&#8377;6,800 <small>/ night</small></div>
-                                                <a href="RoomDetails.aspx?title=Garden+View+Deluxe+Room&price=6800&img=images/room-mini-garden.jpg"
-                                                    target="_blank"
-                                                    class="btn btn-sm btn-outline-dark px-2 py-1 small fw-semibold"
-                                                    onclick="event.stopPropagation();" title="View full room details">
-                                                    <i class="bi bi-info-circle me-1"></i> View Details <i
-                                                        class="bi bi-box-arrow-up-right ms-1"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <!-- Room 3 -->
-                                        <div class="booking-room-pick-card" data-room="Family Comfort Suite"
-                                            data-price="11500"
-                                            onclick="selectBookingRoomCard('Family Comfort Suite', 11500, this)">
-                                            <div class="room-pick-check-icon"><i class="bi bi-check-lg"></i></div>
-                                            <div class="room-pick-img-wrap position-relative">
-                                                <img src="images/room-mini-family.jpg" alt="Family Comfort Suite">
-                                            </div>
-                                            <div class="room-pick-title">Family Comfort Suite</div>
-                                            <div class="room-pick-meta"><i class="bi bi-people me-1"></i> Up to 4 Guests
-                                                &bull; 650 sq ft</div>
-                                            <div
-                                                class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top">
-                                                <div class="room-pick-price">&#8377;11,500 <small>/ night</small></div>
-                                                <a href="RoomDetails.aspx?title=Family+Comfort+Suite&price=11500&img=images/room-mini-family.jpg"
-                                                    target="_blank"
-                                                    class="btn btn-sm btn-outline-dark px-2 py-1 small fw-semibold"
-                                                    onclick="event.stopPropagation();" title="View full room details">
-                                                    <i class="bi bi-info-circle me-1"></i> View Details <i
-                                                        class="bi bi-box-arrow-up-right ms-1"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <!-- Room 4 -->
-                                        <div class="booking-room-pick-card" data-room="Classic Double Luxury Room"
-                                            data-price="14999"
-                                            onclick="selectBookingRoomCard('Classic Double Luxury Room', 14999, this)">
-                                            <div class="room-pick-check-icon"><i class="bi bi-check-lg"></i></div>
-                                            <div class="room-pick-img-wrap position-relative">
-                                                <img src="images/room-classic-double.jpg"
-                                                    alt="Classic Double Luxury Room">
-                                            </div>
-                                            <div class="room-pick-title">Classic Double Luxury Room</div>
-                                            <div class="room-pick-meta"><i class="bi bi-people me-1"></i> Up to 3 Guests
-                                                &bull; 580 sq ft</div>
-                                            <div
-                                                class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top">
-                                                <div class="room-pick-price">&#8377;14,999 <small>/ night</small></div>
-                                                <a href="RoomDetails.aspx?title=Classic+Double+Luxury+Room&price=14999&img=images/room-classic-double.jpg"
-                                                    target="_blank"
-                                                    class="btn btn-sm btn-outline-dark px-2 py-1 small fw-semibold"
-                                                    onclick="event.stopPropagation();" title="View full room details">
-                                                    <i class="bi bi-info-circle me-1"></i> View Details <i
-                                                        class="bi bi-box-arrow-up-right ms-1"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <!-- Room 5 -->
-                                        <div class="booking-room-pick-card" data-room="Superior King Royal Room"
-                                            data-price="19999"
-                                            onclick="selectBookingRoomCard('Superior King Royal Room', 19999, this)">
-                                            <div class="room-pick-check-icon"><i class="bi bi-check-lg"></i></div>
-                                            <div class="room-pick-img-wrap position-relative">
-                                                <img src="images/room-superior-king.jpg" alt="Superior King Royal Room">
-                                            </div>
-                                            <div class="room-pick-title">Superior King Royal Room</div>
-                                            <div class="room-pick-meta"><i class="bi bi-people me-1"></i> Up to 3 Guests
-                                                &bull; 750 sq ft</div>
-                                            <div
-                                                class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top">
-                                                <div class="room-pick-price">&#8377;19,999 <small>/ night</small></div>
-                                                <a href="RoomDetails.aspx?title=Superior+King+Royal+Room&price=19999&img=images/room-superior-king.jpg"
-                                                    target="_blank"
-                                                    class="btn btn-sm btn-outline-dark px-2 py-1 small fw-semibold"
-                                                    onclick="event.stopPropagation();" title="View full room details">
-                                                    <i class="bi bi-info-circle me-1"></i> View Details <i
-                                                        class="bi bi-box-arrow-up-right ms-1"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <!-- Room 6 -->
-                                        <div class="booking-room-pick-card" data-room="Royal Penthouse Haven"
-                                            data-price="95999"
-                                            onclick="selectBookingRoomCard('Royal Penthouse Haven', 95999, this)">
-                                            <div class="room-pick-check-icon"><i class="bi bi-check-lg"></i></div>
-                                            <div class="room-pick-img-wrap position-relative">
-                                                <img src="images/room-luxury-penthouse.jpg" alt="Royal Penthouse Haven">
-                                            </div>
-                                            <div class="room-pick-title">Royal Penthouse Haven</div>
-                                            <div class="room-pick-meta"><i class="bi bi-people me-1"></i> Up to 6 Guests
-                                                &bull; 2,400 sq ft</div>
-                                            <div
-                                                class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top">
-                                                <div class="room-pick-price">&#8377;95,999 <small>/ night</small></div>
-                                                <a href="RoomDetails.aspx?title=Royal+Penthouse+Haven&price=95999&img=images/room-luxury-penthouse.jpg"
-                                                    target="_blank"
-                                                    class="btn btn-sm btn-outline-dark px-2 py-1 small fw-semibold"
-                                                    onclick="event.stopPropagation();" title="View full room details">
-                                                    <i class="bi bi-info-circle me-1"></i> View Details <i
-                                                        class="bi bi-box-arrow-up-right ms-1"></i>
-                                                </a>
-                                            </div>
-                                        </div>
+                                        <asp:Repeater ID="rptBookingRooms" runat="server">
+                                            <ItemTemplate>
+                                                <div class="booking-room-pick-card" data-room='<%# Eval("RoomName") %>'
+                                                    data-price='<%# Eval("PricePerNight") %>'
+                                                    data-roomid='<%# Eval("RoomID") %>'
+                                                    onclick="selectBookingRoomCard(this)">
+                                                    <div class="room-pick-check-icon"><i class="bi bi-check-lg"></i></div>
+                                                    <div class="room-pick-img-wrap position-relative">
+                                                        <img src='<%# GetRoomImageUrl(Eval("PrimaryRoomImage")) %>' alt='<%# Eval("RoomName") %>'
+                                                             onerror="this.src='images/room-mini-business.jpg';" />
+                                                    </div>
+                                                    <div class="room-pick-title"><%# Eval("RoomName") %></div>
+                                                    <div class="room-pick-meta">
+                                                        <i class="bi bi-people me-1"></i> Up to <%# Eval("MaxGuests") %> Guests
+                                                        &bull; <%# GetFormattedRoomArea(Eval("RoomArea")) %>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top">
+                                                        <div class="room-pick-price">&#8377;<%# GetFormattedPrice(Eval("PricePerNight")) %> <small>/ night</small></div>
+                                                        <a href='<%# "RoomDetails.aspx?RoomId=" + Eval("RoomID") %>'
+                                                            target="_blank"
+                                                            class="btn btn-sm btn-outline-dark px-2 py-1 small fw-semibold"
+                                                            onclick="event.stopPropagation();" title="View full room details">
+                                                            <i class="bi bi-info-circle me-1"></i> View Details <i
+                                                                class="bi bi-box-arrow-up-right ms-1"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
                                     </div>
 
                                     <!-- Rate Plan Selection Sub-Section -->

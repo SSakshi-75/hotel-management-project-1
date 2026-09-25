@@ -3,6 +3,10 @@
    ========================================== */
 
 function filterRooms(category, btnElement) {
+    if (category && typeof category === 'object' && category.getAttribute) {
+        btnElement = category;
+        category = btnElement.getAttribute('data-category') || btnElement.getAttribute('data-filter') || 'all';
+    }
     if (document.querySelectorAll('.room-card-luxury-block').length > 0 && typeof window.filterBookNowRooms === 'function') {
         return window.filterBookNowRooms(category, btnElement);
     }

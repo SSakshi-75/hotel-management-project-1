@@ -4,63 +4,94 @@
     <asp:Content ID="Content1" ContentPlaceHolderID="adminHead" Runat="Server">
         <meta name="description" content="Hotel Management Photo Gallery Administration">
         <link rel="stylesheet" type="text/css" href="css/addroom.css">
-        <style>
-            .gallery-thumb-img {
-                width: 75px;
-                height: 52px;
-                object-fit: cover;
-                border-radius: 8px;
-                border: 1.5px solid #cbd5e1;
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-            }
-
-            .btn-luxury-upload {
-                background: linear-gradient(135deg, #442305 0%, #6a390a 100%);
-                color: #ffffff;
-                border: 1px solid #7c440f;
-                border-radius: 12px;
-                padding: 12px 24px;
-                font-size: 0.92rem;
-                font-weight: 700;
-                letter-spacing: 0.5px;
-                box-shadow: 0 4px 14px rgba(68, 35, 5, 0.22);
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-            }
-
-            .btn-luxury-upload:hover {
-                background: linear-gradient(135deg, #5c3008 0%, #85480d 100%);
-                color: #ffffff;
-                transform: translateY(-2px);
-                box-shadow: 0 6px 20px rgba(68, 35, 5, 0.35);
-            }
-
-            .btn-luxury-upload:active {
-                transform: translateY(0);
-                box-shadow: 0 2px 8px rgba(68, 35, 5, 0.2);
-            }
-        </style>
+        <link rel="stylesheet" type="text/css" href="css/managehotel.css?v=2.0">
+        <link rel="stylesheet" type="text/css" href="css/gallery.css">
     </asp:Content>
 
     <asp:Content ID="Content2" ContentPlaceHolderID="AdminContent" Runat="Server">
 
-        <!-- Page Header & Navigation -->
-        <div class="d-flex align-items-center justify-content-between mb-4">
+        <!-- Page Header & Action Bar -->
+        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
             <div>
-                <h2 class="fw-bold text-dark mb-1" style="font-family: 'Playfair Display', Georgia, serif;">
-                    Photo Gallery Management
-                </h2>
-                <p class="text-muted small mb-0">
-                    Upload new resort photos, organize by category, and delete existing gallery images in a unified
-                    dashboard form.
-                </p>
+                <h2 class="fw-bold mb-1 manage-hotel-title">Photo Gallery Management</h2>
+                <p class="text-muted small mb-0">Overview of all resort photo galleries, category tags, guest portal
+                    publishing, and media uploads.</p>
             </div>
-            <a href="Dashboard.aspx" class="btn-admin-secondary text-decoration-none">
-                <i class="bi bi-grid-fill me-1"></i> Back to Dashboard
-            </a>
+            <div class="d-flex align-items-center flex-wrap gap-2">
+                <a href="../Gallery.aspx" target="_blank" class="btn-hotel-preview-site">
+                    <i class="bi bi-globe2"></i> Live Guest Gallery <i class="bi bi-box-arrow-up-right small"></i>
+                </a>
+                <a href="#uploadPhotoCard" class="btn-hotel-add-room">
+                    <i class="bi bi-plus-lg"></i> Upload New Photo
+                </a>
+            </div>
+        </div>
+
+        <!-- Luxury KPI Strip (Matching ManageHotel.aspx) -->
+        <div class="row g-3 mb-4">
+            <!-- Total Photos -->
+            <div class="col-6 col-lg-3">
+                <div class="hotel-kpi-card">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="kpi-label">Total Gallery Photos</span>
+                            <div class="kpi-value mt-1" id="kpiTotalPhotos" runat="server">0</div>
+                            <span class="text-muted small">Configured in Database</span>
+                        </div>
+                        <div class="kpi-icon-wrap kpi-icon-gold">
+                            <i class="bi bi-images"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Published Status -->
+            <div class="col-6 col-lg-3">
+                <div class="hotel-kpi-card">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="kpi-label">Publish Status</span>
+                            <div class="kpi-value mt-1 text-success" id="kpiLivePhotos" runat="server">0 Active</div>
+                            <span class="text-muted small">Visible on Guest Site</span>
+                        </div>
+                        <div class="kpi-icon-wrap kpi-icon-green">
+                            <i class="bi bi-broadcast"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Category -->
+            <div class="col-6 col-lg-3">
+                <div class="hotel-kpi-card">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="kpi-label">Top Category</span>
+                            <div class="kpi-value mt-1" id="kpiTopCategory" runat="server">None</div>
+                            <span class="text-muted small">Highest Photo Count</span>
+                        </div>
+                        <div class="kpi-icon-wrap kpi-icon-blue">
+                            <i class="bi bi-folder-check"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Distinct Categories -->
+            <div class="col-6 col-lg-3">
+                <div class="hotel-kpi-card">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="kpi-label">Photo Categories</span>
+                            <div class="kpi-value mt-1" id="kpiTotalCategories" runat="server">0 Categories</div>
+                            <span class="text-muted small">Rooms, Dining, Exterior...</span>
+                        </div>
+                        <div class="kpi-icon-wrap kpi-icon-purple">
+                            <i class="bi bi-stars"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- RegistrationConfirmation.aspx Style Success Confirmation Card -->
         <asp:Panel ID="pnlSuccessMessage" runat="server" Visible="false" CssClass="mb-4">
@@ -98,39 +129,15 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </asp:Panel>
 
-        <!-- Auto-Dismiss Script for Confirmation and Error Messages -->
-        <script>
-            (function () {
-                function setupAutoDismiss(elemId, delayMs) {
-                    var elem = document.getElementById(elemId);
-                    if (elem) {
-                        setTimeout(function () {
-                            elem.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                            elem.style.opacity = '0';
-                            elem.style.transform = 'translateY(-10px)';
-                            setTimeout(function () {
-                                elem.style.display = 'none';
-                            }, 600);
-                        }, delayMs);
-                    }
-                }
-                function triggerDismiss() {
-                    setupAutoDismiss('<%= pnlSuccessMessage.ClientID %>', 3500);
-                    setupAutoDismiss('<%= pnlErrorMessage.ClientID %>', 4500);
-                }
-                if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', triggerDismiss);
-                } else {
-                    triggerDismiss();
-                }
-            })();
-        </script>
+
 
         <!-- Upload Photo Form Card (Matching Executive Theme) -->
-        <div class="add-room-card mb-4">
+        <asp:HiddenField ID="hdnEditGalleryId" runat="server" Value="0" />
+        <div class="add-room-card mb-4" id="uploadPhotoCard">
             <div class="add-room-header">
                 <h4 class="mb-0 fw-bold d-flex align-items-center gap-2" style="font-size: 1.1rem;">
-                    <i class="bi bi-cloud-arrow-up-fill text-warning"></i> Upload Gallery Photo Form
+                    <i class="bi bi-cloud-arrow-up-fill text-warning"></i>
+                    <asp:Label ID="lblFormTitle" runat="server" Text="Upload Gallery Photo Form"></asp:Label>
                 </h4>
                 <span class="badge bg-white text-dark px-3 py-1.5 rounded-pill font-monospace small">
                     Upload Entry
@@ -147,96 +154,279 @@
                     </div>
 
                     <!-- Category -->
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label class="form-label-custom">Category</label>
-                        <asp:DropDownList ID="ddlCategory" runat="server" CssClass="form-select-admin w-100">
+                        <asp:DropDownList ID="ddlCategory" runat="server" CssClass="form-select-admin w-100" ClientIDMode="Static" onchange="toggleNewCategoryGallery(this);">
                             <asp:ListItem Value="Rooms">Rooms</asp:ListItem>
                             <asp:ListItem Value="Amenities">Amenities</asp:ListItem>
                             <asp:ListItem Value="Dining">Dining</asp:ListItem>
                             <asp:ListItem Value="Exterior">Exterior</asp:ListItem>
+                            <asp:ListItem Value="__NEW__">+ Add New Category...</asp:ListItem>
+                        </asp:DropDownList>
+                        <asp:TextBox ID="txtNewCategory" runat="server" ClientIDMode="Static" CssClass="form-control-admin w-100 mt-2"
+                            placeholder="Enter new category name..." style="display:none;"></asp:TextBox>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="col-md-4">
+                        <label class="form-label-custom">Publishing Status</label>
+                        <asp:DropDownList ID="ddlIsActive" runat="server" CssClass="form-select-admin w-100">
+                            <asp:ListItem Value="1" Selected="True">Active (Show in Gallery)</asp:ListItem>
+                            <asp:ListItem Value="0">Inactive (Hide from Gallery)</asp:ListItem>
                         </asp:DropDownList>
                     </div>
 
                     <!-- Select Photo -->
-                    <div class="col-md-8">
+                    <div class="col-md-4">
                         <label class="form-label-custom">Select Photo File</label>
                         <asp:FileUpload ID="fileImage" runat="server" CssClass="form-control-admin w-100" />
                         <small class="text-muted d-block mt-1">Allowed formats: JPG, JPEG, PNG, WEBP (Max size: 10
                             MB)</small>
                     </div>
 
-                    <!-- Upload Button -->
-                    <div class="col-md-4 d-flex align-items-end">
+                    <!-- Upload & Cancel Buttons -->
+                    <div class="col-md-4 d-flex align-items-end gap-2">
                         <asp:Button ID="btnUploadGallery" runat="server" Text="Upload Photo"
-                            CssClass="btn btn-luxury-upload w-100" OnClick="btnUploadGallery_Click" />
+                            CssClass="btn btn-luxury-upload flex-grow-1" OnClick="btnUploadGallery_Click" />
+                        <asp:Button ID="btnCancelEdit" runat="server" Text="Cancel Edit"
+                            CssClass="btn btn-outline-secondary rounded-3 px-3 py-2.5 fw-semibold" Visible="false"
+                            OnClick="btnCancelEdit_Click" />
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Gallery Management Table Card (Matching Executive Theme) -->
-        <div class="add-room-card">
-            <div class="add-room-header">
-                <h4 class="mb-0 fw-bold d-flex align-items-center gap-2" style="font-size: 1.1rem;">
-                    <i class="bi bi-images text-warning"></i> Uploaded Gallery Photos Directory
-                </h4>
-                <span class="badge bg-white text-dark px-3 py-1.5 rounded-pill font-monospace small">
-                    Manage Directory
-                </span>
+        <!-- Gallery Management Table Card (Matching ManageHotel Theme) -->
+        <div class="manage-hotel-card">
+
+            <!-- Header -->
+            <div class="manage-hotel-header">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-images text-warning fs-5"></i>
+                    <h4 class="mb-0">Uploaded Gallery Photos Directory</h4>
+                </div>
+                <div>
+                    <span class="header-count-pill" id="lblGalleryCountPill" runat="server">
+                        <i class="bi bi-shield-check me-1"></i> 0 Photos Active
+                    </span>
+                </div>
             </div>
 
+            <!-- Toolbar -->
+            <div class="manage-hotel-toolbar">
+                <div class="row g-3 align-items-center">
+                    <!-- Search Box -->
+                    <div class="col-12 col-md-5 col-lg-4">
+                        <div class="search-wrap-luxury">
+                            <i class="bi bi-search search-icon-luxury"></i>
+                            <input type="text" id="txtGallerySearch" class="form-control form-control-luxury-search"
+                                placeholder="Search photo title, category, ID..." onkeyup="filterGalleryTable();" />
+                        </div>
+                    </div>
+
+                    <!-- Category Filter Pills -->
+                    <div class="col-12 col-md-7 col-lg-6">
+                        <div class="d-flex align-items-center flex-wrap gap-2">
+                            <button type="button" class="filter-pill-btn active"
+                                onclick="setGalleryCategoryFilter('ALL', this); return false;">
+                                All Photos
+                            </button>
+                            <button type="button" class="filter-pill-btn"
+                                onclick="setGalleryCategoryFilter('ROOMS', this); return false;">
+                                Rooms
+                            </button>
+                            <button type="button" class="filter-pill-btn"
+                                onclick="setGalleryCategoryFilter('AMENITIES', this); return false;">
+                                Amenities
+                            </button>
+                            <button type="button" class="filter-pill-btn"
+                                onclick="setGalleryCategoryFilter('DINING', this); return false;">
+                                Dining
+                            </button>
+                            <button type="button" class="filter-pill-btn"
+                                onclick="setGalleryCategoryFilter('EXTERIOR', this); return false;">
+                                Exterior
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Bulk Delete Action -->
+                    <div class="col-12 col-lg-2 text-lg-end">
+                        <asp:Button ID="btnBulkDeletePhotos" runat="server" CssClass="btn-hotel-delete-selected"
+                            Text="Delete Selected" OnClick="btnBulkDeletePhotos_Click"
+                            OnClientClick="return confirmBulkDeletePhotos();" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- GridView -->
             <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="bg-light text-muted small text-uppercase">
-                        <tr>
-                            <th class="ps-4 py-3">Photo ID</th>
-                            <th class="py-3">Thumbnail</th>
-                            <th class="py-3">Photo Title</th>
-                            <th class="py-3">Category</th>
-                            <th class="py-3">Status</th>
-                            <th class="text-end pe-4 py-3">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="border-top-0">
-                        <asp:Repeater ID="rptAdminGallery" runat="server" OnItemCommand="rptAdminGallery_ItemCommand">
-                            <ItemTemplate>
-                                <tr>
-                                    <td class="ps-4 fw-bold text-muted">#<%# Eval("GalleryId") %>
-                                    </td>
-                                    <td>
-                                        <img src='<%# ResolveUrl("~/" + Eval("ImageUrl")) %>'
-                                            alt='<%# Eval("PhotoTitle") %>' class="gallery-thumb-img"
-                                            onerror="this.src='../images/room-placeholder.jpg';" />
-                                    </td>
-                                    <td>
-                                        <span class="fw-bold text-dark">
-                                            <%# Eval("PhotoTitle") %>
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span
-                                            class="badge bg-light text-dark border px-3 py-1.5 rounded-pill fw-semibold">
-                                            <%# GetCategoryDisplayName(Eval("Category")) %>
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span
-                                            class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1.5 rounded-pill"><i
-                                                class="bi bi-check-circle-fill me-1"></i> Active</span>
-                                    </td>
-                                    <td class="text-end pe-4">
-                                        <asp:LinkButton ID="btnDelete" runat="server" CommandName="DeletePhoto"
-                                            CommandArgument='<%# Eval("GalleryId") %>'
-                                            CssClass="btn btn-sm btn-outline-danger px-3 rounded-pill fw-semibold">
-                                            <i class="bi bi-trash me-1"></i> Delete
-                                        </asp:LinkButton>
-                                    </td>
-                                </tr>
-                            </ItemTemplate>
-                        </asp:Repeater>
-                    </tbody>
-                </table>
+                <asp:GridView ID="gvAdminGallery" runat="server" AutoGenerateColumns="false" DataKeyNames="GalleryId"
+                    ClientIDMode="Static"
+                    CssClass="table table-bordered table-hover hotel-rooms-table align-middle mb-0" GridLines="Both"
+                    UseAccessibleHeader="true" AllowPaging="true" PageSize="10" OnPreRender="gvAdminGallery_PreRender"
+                    OnPageIndexChanging="gvAdminGallery_PageIndexChanging" OnRowDataBound="gvAdminGallery_RowDataBound"
+                    OnRowCommand="gvAdminGallery_RowCommand">
+                    <Columns>
+                        <%-- SELECT CHECKBOX --%>
+                            <asp:TemplateField HeaderText="#">
+                                <HeaderTemplate>
+                                    <div class="text-center">
+                                        <asp:CheckBox ID="chkSelectAll" runat="server" CssClass="hotel-chk-custom"
+                                            onclick="toggleSelectAllPhotos(this);" ToolTip="Select All" />
+                                    </div>
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <div class="text-center">
+                                        <asp:CheckBox ID="chkPhotoSelect" runat="server"
+                                            CssClass="hotel-chk-custom photo-row-chk" />
+                                    </div>
+                                </ItemTemplate>
+                                <HeaderStyle Width="46px" />
+                            </asp:TemplateField>
+
+                            <%-- PHOTO ID --%>
+                                <asp:TemplateField HeaderText="Photo ID">
+                                    <HeaderStyle Width="90px" />
+                                    <ItemStyle CssClass="fw-bold text-muted" />
+                                    <ItemTemplate>
+                                        #<%# Eval("GalleryId") %>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <%-- THUMBNAIL PREVIEW --%>
+                                    <asp:TemplateField HeaderText="Thumbnail">
+                                        <HeaderStyle Width="100px" />
+                                        <ItemTemplate>
+                                            <div class="room-thumb-wrap">
+                                                <img src='<%# ResolveUrl("~/" + Eval("ImageUrl")) %>'
+                                                    alt='<%# Eval("PhotoTitle") %>' class="hotel-room-thumb"
+                                                    onerror="this.src='../images/room-placeholder.jpg';" />
+                                            </div>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+
+                                    <%-- PHOTO TITLE --%>
+                                        <asp:TemplateField HeaderText="Photo Title">
+                                            <ItemTemplate>
+                                                <span class="room-name-heading">
+                                                    <%# Eval("PhotoTitle") %>
+                                                </span>
+                                                <div class="room-specs-list">
+                                                    <span class="room-spec-item" title="Photo ID">
+                                                        <i class="bi bi-hash"></i> Gallery #<%# Eval("GalleryId") %>
+                                                    </span>
+                                                </div>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <%-- CATEGORY --%>
+                                            <asp:TemplateField HeaderText="Category">
+                                                <HeaderStyle Width="140px" />
+                                                <ItemTemplate>
+                                                    <span
+                                                        class="badge bg-light text-dark border px-3 py-1.5 rounded-pill fw-semibold">
+                                                        <%# GetCategoryDisplayName(Eval("Category")) %>
+                                                    </span>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <%-- STATUS --%>
+                                                <asp:TemplateField HeaderText="Status">
+                                                    <HeaderStyle Width="130px" />
+                                                    <ItemTemplate>
+                                                        <%# Convert.ToBoolean(Eval("IsActive")) 
+                                                            ? "<span class='badge-hotel-live'><span class='status-dot-pulse'></span> Active</span>" 
+                                                            : "<span class='badge bg-secondary text-white px-2.5 py-1 rounded-pill small'><i class='bi bi-eye-slash-fill me-1'></i> Inactive</span>" %>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+
+                                                <%-- ACTIONS --%>
+                                                    <asp:TemplateField HeaderText="Actions">
+                                                        <HeaderStyle Width="130px" CssClass="text-center" />
+                                                        <ItemStyle CssClass="text-center" />
+                                                        <ItemTemplate>
+                                                            <div class="hotel-table-actions justify-content-center">
+                                                                <asp:LinkButton ID="btnToggleStatus" runat="server"
+                                                                    CommandName="ToggleStatus"
+                                                                    CommandArgument='<%# Eval("GalleryId") %>'
+                                                                    CssClass="btn-action-luxury btn-edit"
+                                                                    ToolTip='<%# Convert.ToBoolean(Eval("IsActive")) ? "Deactivate Photo (Hide from Site)" : "Activate Photo (Show on Site)" %>'>
+                                                                    <i class='<%# Convert.ToBoolean(Eval("IsActive")) ? "bi bi-eye-slash-fill text-warning" : "bi bi-eye-fill text-success" %>'></i>
+                                                                </asp:LinkButton>
+                                                                <asp:LinkButton ID="btnEdit" runat="server"
+                                                                    CommandName="EditPhoto"
+                                                                    CommandArgument='<%# Eval("GalleryId") %>'
+                                                                    CssClass="btn-action-luxury btn-edit"
+                                                                    ToolTip="Edit Photo">
+                                                                    <i class="bi bi-pencil-square"></i>
+                                                                </asp:LinkButton>
+                                                                <a href='<%# ResolveUrl("~/" + Eval("ImageUrl")) %>'
+                                                                    target="_blank" class="btn-action-luxury btn-view"
+                                                                    title="View Full Image">
+                                                                    <i class="bi bi-box-arrow-up-right"></i>
+                                                                </a>
+                                                                <asp:LinkButton ID="btnDelete" runat="server"
+                                                                    CommandName="DeletePhoto"
+                                                                    CommandArgument='<%# Eval("GalleryId") %>'
+                                                                    CssClass="btn-action-luxury btn-delete"
+                                                                    ToolTip="Delete Photo"
+                                                                    OnClientClick="return confirm('Are you sure you want to delete this photo?');">
+                                                                    <i class="bi bi-trash3"></i>
+                                                                </asp:LinkButton>
+                                                            </div>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                    </Columns>
+
+                    <%-- EMPTY DATA TEMPLATE --%>
+                        <EmptyDataTemplate>
+                            <div class="empty-hotel-state">
+                                <div class="empty-hotel-icon">
+                                    <i class="bi bi-images"></i>
+                                </div>
+                                <h4 class="fw-bold text-dark mb-1">
+                                    No Gallery Photos Registered
+                                </h4>
+                                <p class="text-muted small mb-0">
+                                    Upload your first photo using the form above.
+                                </p>
+                            </div>
+                        </EmptyDataTemplate>
+
+                        <PagerStyle CssClass="hotel-grid-pager" />
+                </asp:GridView>
+            </div>
+
+            <!-- Footer -->
+            <div class="manage-hotel-footer">
+                <div>
+                    <span class="fw-semibold text-dark">Photo Gallery Management</span>
+                    <span class="mx-2 text-muted">•</span>
+                    <span class="text-muted">Real-time resort photo directory synchronization</span>
+                </div>
             </div>
         </div>
 
+        <!-- JavaScript Interactivity -->
+        <script src="js/gallery.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            function toggleNewCategoryGallery(sel) {
+                var txt = document.getElementById('txtNewCategory');
+                if (!txt) return;
+                if (sel.value === '__NEW__' || sel.value === 'NEW') {
+                    txt.style.display = 'block';
+                    txt.focus();
+                } else {
+                    txt.style.display = 'none';
+                }
+            }
+            window.addEventListener('DOMContentLoaded', function () {
+                var sel = document.getElementById('ddlCategory');
+                if (sel && (sel.value === '__NEW__' || sel.value === 'NEW')) {
+                    var txt = document.getElementById('txtNewCategory');
+                    if (txt) txt.style.display = 'block';
+                }
+            });
+        </script>
     </asp:Content>

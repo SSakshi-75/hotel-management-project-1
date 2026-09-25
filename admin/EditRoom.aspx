@@ -142,14 +142,17 @@
 
                 <div class="col-md-4">
                     <label class="form-label-custom" for="ddlCategory">Room Category Filter <span class="text-danger">*</span></label>
-                    <select id="ddlCategory" runat="server" ClientIDMode="Static" class="form-select form-select-admin">
+                    <select id="ddlCategory" runat="server" ClientIDMode="Static" class="form-select form-select-admin" onchange="toggleNewRoomCategory(this);">
                         <option value="" disabled>Select Category</option>
                         <option value="EXECUTIVE">EXECUTIVE</option>
                         <option value="DELUXE">DELUXE</option>
                         <option value="FAMILY">FAMILY</option>
                         <option value="ROYAL KING">ROYAL KING</option>
                         <option value="PENTHOUSE">PENTHOUSE</option>
+                        <option value="__NEW__">+ Add New Category...</option>
                     </select>
+                    <input type="text" id="txtNewCategory" runat="server" ClientIDMode="Static" class="form-control form-control-admin mt-2"
+                        placeholder="Enter new room category..." style="display:none;" />
                 </div>
 
                 <!-- 2. Price & Rating -->
@@ -406,4 +409,23 @@
     </div>
 
     <script src="js/addroom.js"></script>
+    <script type="text/javascript">
+        function toggleNewRoomCategory(sel) {
+            var txt = document.getElementById('txtNewCategory');
+            if (!txt) return;
+            if (sel.value === '__NEW__' || sel.value === 'NEW') {
+                txt.style.display = 'block';
+                txt.focus();
+            } else {
+                txt.style.display = 'none';
+            }
+        }
+        window.addEventListener('DOMContentLoaded', function () {
+            var sel = document.getElementById('ddlCategory');
+            if (sel && (sel.value === '__NEW__' || sel.value === 'NEW')) {
+                var txt = document.getElementById('txtNewCategory');
+                if (txt) txt.style.display = 'block';
+            }
+        });
+    </script>
 </asp:Content>

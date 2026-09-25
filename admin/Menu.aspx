@@ -192,9 +192,10 @@
              ADD NEW DISH FORM CARD
              ========================================== -->
         <div class="add-room-card mb-4">
+            <asp:HiddenField ID="hdnEditMenuItemId" runat="server" Value="0" />
             <div class="add-room-header">
                 <h4 class="mb-0 fw-bold d-flex align-items-center gap-2" style="font-size: 1.1rem;">
-                    <i class="bi bi-cup-hot-fill text-warning"></i> Add New Dining Menu Dish
+                    <i class="bi bi-cup-hot-fill text-warning"></i> <asp:Label ID="lblFormTitle" runat="server" Text="Add New Dining Menu Dish"></asp:Label>
                 </h4>
                 <span class="badge bg-white text-dark px-3 py-1.5 rounded-pill font-monospace small">
                     Database Entry
@@ -213,14 +214,17 @@
                     <!-- Category -->
                     <div class="col-md-4">
                         <label class="form-label-custom">Category <span class="text-danger">*</span></label>
-                        <asp:DropDownList ID="ddlCategory" runat="server" CssClass="form-select-admin w-100">
+                        <asp:DropDownList ID="ddlCategory" runat="server" CssClass="form-select-admin w-100" ClientIDMode="Static" onchange="toggleNewMenuCategory(this);">
                             <asp:ListItem Value="kebabs">Tandoori Starters &amp; Kebabs</asp:ListItem>
                             <asp:ListItem Value="mains">Royal Indian Curries</asp:ListItem>
                             <asp:ListItem Value="biryani">Dum Biryani &amp; Rice</asp:ListItem>
                             <asp:ListItem Value="breads">Tandoori Breads &amp; Naan</asp:ListItem>
                             <asp:ListItem Value="desserts">Traditional Mithai &amp; Desserts</asp:ListItem>
                             <asp:ListItem Value="beverages">Chai, Lassi &amp; Beverages</asp:ListItem>
+                            <asp:ListItem Value="__NEW__">+ Add New Category...</asp:ListItem>
                         </asp:DropDownList>
+                        <asp:TextBox ID="txtNewCategory" runat="server" ClientIDMode="Static" CssClass="form-control-admin w-100 mt-2"
+                            placeholder="Enter new category name..." style="display:none;"></asp:TextBox>
                     </div>
 
                     <!-- Price -->
@@ -253,6 +257,15 @@
                             placeholder="e.g. Pair with: Butter Garlic Naan"></asp:TextBox>
                     </div>
 
+                    <!-- Publishing Status -->
+                    <div class="col-md-4">
+                        <label class="form-label-custom">Publishing Status <span class="text-danger">*</span></label>
+                        <asp:DropDownList ID="ddlIsActive" runat="server" CssClass="form-select-admin w-100">
+                            <asp:ListItem Value="1" Selected="True">Active (Show in Dining Menu)</asp:ListItem>
+                            <asp:ListItem Value="0">Inactive (Hide from Dining Menu)</asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
+
                     <!-- Description -->
                     <div class="col-md-12">
                         <label class="form-label-custom">Dish Description <span class="text-danger">*</span></label>
@@ -263,13 +276,15 @@
 
                     <!-- Dish Image Upload -->
                     <div class="col-md-8">
-                        <label class="form-label-custom">Dish Image File <span class="text-danger">*</span></label>
+                        <label class="form-label-custom">Dish Image File <asp:Label ID="lblImageReq" runat="server" Text="*" CssClass="text-danger"></asp:Label></label>
                         <asp:FileUpload ID="fileDishImage" runat="server" CssClass="form-control-admin w-100" />
                         <small class="text-muted d-block mt-1">Allowed formats: JPG, JPEG, PNG, WEBP (Max size: 10 MB)</small>
                     </div>
 
                     <!-- Submit Button -->
-                    <div class="col-md-4 d-flex align-items-end">
+                    <div class="col-md-4 d-flex align-items-end gap-2">
+                        <asp:Button ID="btnCancelEdit" runat="server" Text="Cancel Edit"
+                            CssClass="btn btn-outline-secondary w-50" OnClick="btnCancelEdit_Click" Visible="false" />
                         <asp:Button ID="btnSaveMenuItem" runat="server" Text="Save Menu Dish"
                             CssClass="btn btn-luxury-save w-100" OnClick="btnSaveMenuItem_Click" />
                     </div>
@@ -372,11 +387,22 @@
                                         &#8377;<%# Convert.ToDecimal(Eval("Price")).ToString("N0") %>
                                     </td>
                                     <td>
-                                        <span class="badge bg-success-subtle text-success border border-success-subtle px-2.5 py-1 rounded-pill small">
-                                            <i class="bi bi-check-circle-fill me-1"></i> Active
-                                        </span>
+                                        <%# Convert.ToBoolean(Eval("IsActive"))
+                                            ? "<span class='badge bg-success-subtle text-success border border-success-subtle px-2.5 py-1 rounded-pill small'><i class='bi bi-check-circle-fill me-1'></i> Active</span>"
+                                            : "<span class='badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2.5 py-1 rounded-pill small'><i class='bi bi-eye-slash-fill me-1'></i> Inactive</span>" %>
                                     </td>
                                     <td class="text-end pe-4">
+                                        <asp:LinkButton ID="btnToggleStatus" runat="server" CommandName="ToggleStatusMenuItem"
+                                            CommandArgument='<%# Eval("MenuItemId") %>'
+                                            CssClass="btn btn-sm btn-outline-warning px-2.5 py-1 rounded-pill fw-semibold me-1"
+                                            ToolTip='<%# Convert.ToBoolean(Eval("IsActive")) ? "Deactivate Dish (Hide on Site)" : "Activate Dish (Show on Site)" %>'>
+                                            <i class='<%# Convert.ToBoolean(Eval("IsActive")) ? "bi bi-eye-slash" : "bi bi-eye" %>'></i> Status
+                                        </asp:LinkButton>
+                                        <asp:LinkButton ID="btnEdit" runat="server" CommandName="EditMenuItem"
+                                            CommandArgument='<%# Eval("MenuItemId") %>'
+                                            CssClass="btn btn-sm btn-outline-primary px-3 rounded-pill fw-semibold me-1">
+                                            <i class="bi bi-pencil-square me-1"></i> Edit
+                                        </asp:LinkButton>
                                         <asp:LinkButton ID="btnDelete" runat="server" CommandName="DeleteMenuItem"
                                             CommandArgument='<%# Eval("MenuItemId") %>'
                                             CssClass="btn btn-sm btn-outline-danger px-3 rounded-pill fw-semibold">
@@ -426,6 +452,25 @@
                     }
                 });
             }
+
+            function toggleNewMenuCategory(sel) {
+                var txt = document.getElementById('txtNewCategory');
+                if (!txt) return;
+                if (sel.value === '__NEW__' || sel.value === 'NEW') {
+                    txt.style.display = 'block';
+                    txt.focus();
+                } else {
+                    txt.style.display = 'none';
+                }
+            }
+
+            window.addEventListener('DOMContentLoaded', function () {
+                var sel = document.getElementById('ddlCategory');
+                if (sel && (sel.value === '__NEW__' || sel.value === 'NEW')) {
+                    var txt = document.getElementById('txtNewCategory');
+                    if (txt) txt.style.display = 'block';
+                }
+            });
         </script>
 
     </asp:Content>

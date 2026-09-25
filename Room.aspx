@@ -178,25 +178,13 @@
                             All Rooms
                         </button>
 
-
-                        <button type="button" class="room-filter-btn" onclick="filterRooms('executive', this)">
-                            Executive
-                        </button>
-
-
-                        <button type="button" class="room-filter-btn" onclick="filterRooms('deluxe', this)">
-                            Deluxe
-                        </button>
-
-
-                        <button type="button" class="room-filter-btn" onclick="filterRooms('family', this)">
-                            Family
-                        </button>
-
-
-                        <button type="button" class="room-filter-btn" onclick="filterRooms('presidential', this)">
-                            Penthouse &amp; Royal
-                        </button>
+                        <asp:Repeater ID="rptCustomerCategories" runat="server">
+                            <ItemTemplate>
+                                <button type="button" class="room-filter-btn" data-category='<%# Eval("CategorySlug") %>' onclick="filterRooms(this)">
+                                    <%# Eval("CategoryName") %>
+                                </button>
+                            </ItemTemplate>
+                        </asp:Repeater>
 
                     </div>
 

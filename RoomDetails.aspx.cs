@@ -56,17 +56,17 @@ public partial class RoomDetails : System.Web.UI.Page
 
         if (!string.IsNullOrEmpty(roomIdStr) && int.TryParse(roomIdStr, out roomId))
         {
-            query += "WHERE (RoomID = @RoomID OR Id = @RoomID)";
+            query += "WHERE (RoomID = @RoomID OR Id = @RoomID) AND ISNULL(IsActive, 1) = 1";
             hasParam = true;
         }
         else if (!string.IsNullOrEmpty(roomTitle))
         {
-            query += "WHERE (RoomName = @RoomName OR RoomName LIKE '%' + @RoomName + '%')";
+            query += "WHERE (RoomName = @RoomName OR RoomName LIKE '%' + @RoomName + '%') AND ISNULL(IsActive, 1) = 1";
             hasParam = true;
         }
         else
         {
-            query = "SELECT TOP 1 * FROM Rooms ORDER BY RoomID DESC";
+            query = "SELECT TOP 1 * FROM Rooms WHERE ISNULL(IsActive, 1) = 1 ORDER BY RoomID DESC";
         }
 
         DataTable dt = new DataTable();

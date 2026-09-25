@@ -28,7 +28,34 @@ public partial class Admin_ManageHotel : Page
 
             LoadRooms();
             LoadRoomKPI();
+            LoadCategoryFilterPills();
         }
+    }
+
+    private void LoadCategoryFilterPills()
+    {
+        try
+        {
+            using (SqlConnection con = new SqlConnection(conStr))
+            {
+                con.Open();
+                string sql = @"
+                    SELECT DISTINCT CategoryName 
+                    FROM RoomCategories 
+                    WHERE LOWER(LTRIM(RTRIM(PublishingStatus))) = 'active'
+                    ORDER BY CategoryName";
+
+                using (SqlCommand cmd = new SqlCommand(sql, con))
+                {
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        rptCategoryFilters.DataSource = dr;
+                        rptCategoryFilters.DataBind();
+                    }
+                }
+            }
+        }
+        catch { }
     }
 
     protected void grdrooms_PreRender(object sender, EventArgs e)
@@ -59,9 +86,9 @@ public partial class Admin_ManageHotel : Page
                         MaxGuests, 
                         RoomArea, 
                         ViewType, 
-                        PrimaryRoomImage 
+                        PrimaryRoomImage,
+                        ISNULL(IsActive, 1) AS IsActive
                     FROM Rooms 
-                    WHERE ISNULL(IsActive, 1) = 1
                     ORDER BY RoomID DESC";
 
                 using (SqlDataAdapter da = new SqlDataAdapter(query, con))
@@ -80,6 +107,34 @@ public partial class Admin_ManageHotel : Page
         }
     }
 
+    protected void grdrooms_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "ToggleStatus")
+        {
+            int roomId = Convert.ToInt32(e.CommandArgument);
+            try
+            {
+                using (SqlConnection con = new SqlConnection(conStr))
+                {
+                    string sql = "UPDATE Rooms SET IsActive = CASE WHEN ISNULL(IsActive, 1) = 1 THEN 0 ELSE 1 END WHERE RoomID = @RoomID";
+                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    {
+                        cmd.Parameters.AddWithValue("@RoomID", roomId);
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                LoadRooms();
+                LoadRoomKPI();
+                ShowStatusMessage("Room active status toggled successfully!", true);
+            }
+            catch (Exception ex)
+            {
+                ShowStatusMessage("Error updating room status: " + ex.Message, false);
+            }
+        }
+    }
+
     // ==========================================
     // KPI METRICS CALCULATION
     // ==========================================
@@ -91,14 +146,21 @@ public partial class Admin_ManageHotel : Page
             {
                 con.Open();
 
-                // 1. Total Rooms
+                // 1. Total & Active Rooms
+                int totalRooms = 0;
+                int activeRooms = 0;
+                using (SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Rooms", con))
+                {
+                    totalRooms = Convert.ToInt32(cmd.ExecuteScalar());
+                }
                 using (SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Rooms WHERE ISNULL(IsActive, 1) = 1", con))
                 {
-                    int totalRooms = Convert.ToInt32(cmd.ExecuteScalar());
-                    kpiTotalRooms.InnerText = totalRooms.ToString();
-                    kpiLiveRooms.InnerText = totalRooms + " Live";
-                    lblRoomCountPill.InnerHtml = "<i class=\"bi bi-shield-check me-1\"></i> " + totalRooms + (totalRooms == 1 ? " Room Active" : " Rooms Active");
+                    activeRooms = Convert.ToInt32(cmd.ExecuteScalar());
                 }
+
+                kpiTotalRooms.InnerText = totalRooms.ToString();
+                kpiLiveRooms.InnerText = activeRooms + " Active";
+                lblRoomCountPill.InnerHtml = "<i class=\"bi bi-shield-check me-1\"></i> " + activeRooms + " Active / " + totalRooms + " Total";
 
                 // 2. Average Tariff
                 using (SqlCommand cmd = new SqlCommand("SELECT PricePerNight FROM Rooms WHERE ISNULL(IsActive, 1) = 1 AND PricePerNight IS NOT NULL", con))
