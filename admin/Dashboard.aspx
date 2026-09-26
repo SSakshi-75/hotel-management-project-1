@@ -350,43 +350,65 @@
              5. REGISTERED GUESTS (ASP.NET DATABASE GRIDVIEW)
              Retains gvUsers for Dashboard.aspx.cs DataBind
              ========================================== -->
-        <div id="databaseGuestsPanel" class="dashboard-card bg-white p-4 rounded-4 shadow-sm mt-4">
-            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
-                <div>
-                    <h5 class="card-heading fw-bold text-dark mb-1 d-flex align-items-center gap-2">
-                        <i class="bi bi-people-fill text-gold"></i> Registered Guests Directory (Database)
-                    </h5>
-                    <p class="text-muted small mb-0">Live records connected to Users table in SQL Server database.</p>
+        <div id="databaseGuestsPanel" class="hotel-admin-card mt-4">
+            <div class="hotel-admin-card-header">
+                <div class="d-flex align-items-center gap-3">
+                    <h4 class="hotel-admin-card-title">
+                        <i class="bi bi-people-fill text-warning"></i> Registered Guests Directory
+                    </h4>
+                    <span class="badge bg-white text-dark px-3 py-1.5 rounded-pill font-monospace small">
+                        <i class="bi bi-database text-gold me-1"></i> Users Table
+                    </span>
                 </div>
-                <div class="d-flex align-items-center gap-2">
-                    <input type="text" id="userSearchInput" class="form-control form-control-sm"
-                        placeholder="Search guests..." onkeyup="filterRegisteredGuests()" style="max-width: 220px;" />
+                <div>
+                    <input type="text" id="userSearchInput" class="search-control-hotel"
+                        placeholder="Search guests..." onkeyup="filterRegisteredGuests()" />
                 </div>
             </div>
 
-            <div class="table-responsive">
-                <asp:GridView ID="gvUsers" runat="server" AutoGenerateColumns="False"
-                    CssClass="table table-dashboard align-middle mb-0" GridLines="None"
-                    EmptyDataText="No registered guests found in database.">
-                    <Columns>
-                        <asp:BoundField DataField="UserId" HeaderText="ID" ItemStyle-CssClass="small text-muted"
-                            HeaderStyle-CssClass="text-muted small fw-semibold" />
-                        <asp:TemplateField HeaderText="Guest Name" HeaderStyle-CssClass="text-muted small fw-semibold">
-                            <ItemTemplate>
-                                <span class="fw-semibold text-dark small">
-                                    <%# Eval("FirstName") + " " + Eval("LastName") %>
-                                </span>
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                        <asp:BoundField DataField="Email" HeaderText="Email" ItemStyle-CssClass="small text-muted"
-                            HeaderStyle-CssClass="text-muted small fw-semibold" />
-                        <asp:BoundField DataField="Phone" HeaderText="Phone" ItemStyle-CssClass="small text-muted"
-                            HeaderStyle-CssClass="text-muted small fw-semibold" />
-                        <asp:BoundField DataField="CreatedAt" HeaderText="Registered On"
-                            DataFormatString="{0:dd-MMM-yyyy hh:mm tt}" ItemStyle-CssClass="small text-muted"
-                            HeaderStyle-CssClass="text-muted small fw-semibold" />
-                    </Columns>
-                </asp:GridView>
+            <div class="p-0">
+                <div class="table-responsive">
+                    <asp:GridView ID="gvUsers" runat="server" AutoGenerateColumns="False"
+                        CssClass="table hotel-table table-hover align-middle mb-0" GridLines="None"
+                        EmptyDataText="No registered guests found in database.">
+                        <Columns>
+                            <asp:TemplateField HeaderText="User ID">
+                                <ItemTemplate>
+                                    <span class="badge bg-light text-dark border font-monospace small">#<%# Eval("UserId") %></span>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Guest Full Name">
+                                <ItemTemplate>
+                                    <div class="guest-name-text">
+                                        <i class="bi bi-person-circle text-gold me-1"></i>
+                                        <%# Eval("FirstName") + " " + Eval("LastName") %>
+                                    </div>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Email Address">
+                                <ItemTemplate>
+                                    <a href='mailto:<%# Eval("Email") %>' class="guest-email-link">
+                                        <i class="bi bi-envelope me-1"></i><%# Eval("Email") %>
+                                    </a>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Contact Phone">
+                                <ItemTemplate>
+                                    <span class="text-dark small">
+                                        <i class="bi bi-telephone text-muted me-1"></i><%# Eval("Phone") %>
+                                    </span>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Registered Date">
+                                <ItemTemplate>
+                                    <span class="small text-muted">
+                                        <i class="bi bi-calendar3 text-muted me-1"></i><%# Convert.ToDateTime(Eval("CreatedAt")).ToString("dd-MMM-yyyy hh:mm tt") %>
+                                    </span>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                        </Columns>
+                    </asp:GridView>
+                </div>
             </div>
         </div>
 
@@ -394,45 +416,70 @@
              USER LOGINS DIRECTORY (DATABASE: LOGIN TABLE)
              Shows ONLY User Logins (Keval Admin Login Nahi)
              ========================================== -->
-        <div id="databaseLoginsPanel" class="dashboard-card bg-white p-4 rounded-4 shadow-sm mt-4">
-            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
-                <div>
-                    <h5 class="card-heading fw-bold text-dark mb-1 d-flex align-items-center gap-2">
-                        <i class="bi bi-box-arrow-in-right text-success"></i> User Logins Directory (Database: Login Table)
-                    </h5>
-                    <p class="text-muted small mb-0">Live user login records connected to [Login] table in SQL Server database.</p>
+        <div id="databaseLoginsPanel" class="hotel-admin-card mt-4">
+            <div class="hotel-admin-card-header">
+                <div class="d-flex align-items-center gap-3">
+                    <h4 class="hotel-admin-card-title">
+                        <i class="bi bi-box-arrow-in-right text-warning"></i> User Logins &amp; Authentication Sessions
+                    </h4>
+                    <span class="badge bg-white text-dark px-3 py-1.5 rounded-pill font-monospace small">
+                        <i class="bi bi-shield-lock text-success me-1"></i> [Login] Table (Role: Guest)
+                    </span>
                 </div>
-                <div class="d-flex align-items-center gap-2">
-                    <input type="text" id="loginSearchInput" class="form-control form-control-sm"
-                        placeholder="Search user logins..." onkeyup="filterLoginDirectory()" style="max-width: 220px;" />
+                <div>
+                    <input type="text" id="loginSearchInput" class="search-control-hotel"
+                        placeholder="Search user logins..." onkeyup="filterLoginDirectory()" />
                 </div>
             </div>
 
-            <div class="table-responsive">
-                <asp:GridView ID="gvLogins" runat="server" AutoGenerateColumns="False"
-                    CssClass="table table-dashboard align-middle mb-0" GridLines="None"
-                    EmptyDataText="No user login records found in database.">
-                    <Columns>
-                        <asp:BoundField DataField="LoginId" HeaderText="Login ID" ItemStyle-CssClass="small text-muted"
-                            HeaderStyle-CssClass="text-muted small fw-semibold" />
-                        <asp:BoundField DataField="UserId" HeaderText="User ID" ItemStyle-CssClass="small text-muted"
-                            HeaderStyle-CssClass="text-muted small fw-semibold" />
-                        <asp:BoundField DataField="UserName" HeaderText="User Name" ItemStyle-CssClass="small fw-semibold text-dark"
-                            HeaderStyle-CssClass="text-muted small fw-semibold" />
-                        <asp:BoundField DataField="Email" HeaderText="Email" ItemStyle-CssClass="small text-muted"
-                            HeaderStyle-CssClass="text-muted small fw-semibold" />
-                        <asp:BoundField DataField="LoginTime" HeaderText="Login Date & Time"
-                            DataFormatString="{0:dd-MMM-yyyy hh:mm:ss tt}" ItemStyle-CssClass="small text-muted"
-                            HeaderStyle-CssClass="text-muted small fw-semibold" />
-                        <asp:TemplateField HeaderText="Status" HeaderStyle-CssClass="text-muted small fw-semibold">
-                            <ItemTemplate>
-                                <span class="badge bg-success-subtle text-success border border-success-subtle py-1 px-2">
-                                    <i class="bi bi-check-circle me-1"></i><%# Eval("Status") %>
-                                </span>
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                    </Columns>
-                </asp:GridView>
+            <div class="p-0">
+                <div class="table-responsive">
+                    <asp:GridView ID="gvLogins" runat="server" AutoGenerateColumns="False"
+                        CssClass="table hotel-table table-hover align-middle mb-0" GridLines="None"
+                        EmptyDataText="No user login records found in database.">
+                        <Columns>
+                            <asp:TemplateField HeaderText="Login ID">
+                                <ItemTemplate>
+                                    <span class="badge bg-light text-dark border font-monospace small">#<%# Eval("LoginId") %></span>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="User ID">
+                                <ItemTemplate>
+                                    <span class="badge bg-light text-secondary border font-monospace small">UID-<%# Eval("UserId") %></span>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Guest Username">
+                                <ItemTemplate>
+                                    <div class="guest-name-text">
+                                        <i class="bi bi-person-badge text-gold me-1"></i>
+                                        <%# Eval("UserName") %>
+                                    </div>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Registered Email">
+                                <ItemTemplate>
+                                    <a href='mailto:<%# Eval("Email") %>' class="guest-email-link">
+                                        <i class="bi bi-envelope me-1"></i><%# Eval("Email") %>
+                                    </a>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Session Timestamp">
+                                <ItemTemplate>
+                                    <span class="small text-muted">
+                                        <i class="bi bi-clock-history text-muted me-1"></i><%# Convert.ToDateTime(Eval("LoginTime")).ToString("dd-MMM-yyyy hh:mm:ss tt") %>
+                                    </span>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Session Status">
+                                <ItemTemplate>
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle py-1.5 px-2.5 rounded-pill">
+                                        <i class="bi bi-check-circle me-1"></i><%# Eval("Status") %>
+                                    </span>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                        </Columns>
+                    </asp:GridView>
+                </div>
             </div>
         </div>
 

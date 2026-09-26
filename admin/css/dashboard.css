@@ -877,3 +877,101 @@ body {
         width: 200px;
     }
 }
+
+/* ==========================================
+   HOTEL MANAGEMENT LUXURY CARDS & TABLES
+   Colors: Royal Brown (#442305), Warm Gold (#B88E68)
+   ========================================== */
+.hotel-admin-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+.hotel-admin-card-header {
+    background: linear-gradient(135deg, #442305 0%, #6a390a 100%);
+    color: #ffffff;
+    padding: 18px 26px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.hotel-admin-card-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: #ffffff;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-control-hotel {
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 0.85rem;
+    color: #ffffff !important;
+    transition: all 0.25s ease;
+    outline: none;
+    width: 220px;
+}
+
+.search-control-hotel::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.search-control-hotel:focus {
+    background-color: #ffffff;
+    color: #0f172a !important;
+    border-color: #B88E68;
+    box-shadow: 0 0 0 3px rgba(184, 142, 104, 0.25);
+}
+
+.hotel-table thead th {
+    background: #fdfaf7 !important;
+    color: #442305 !important;
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    border-bottom: 2px solid #e8decb !important;
+    padding: 14px 16px !important;
+}
+
+.hotel-table tbody td {
+    padding: 14px 16px !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    vertical-align: middle;
+}
+
+.hotel-table tbody tr:hover {
+    background-color: #fdfbf7 !important;
+}
+
+.guest-name-text {
+    color: #442305;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.guest-email-link {
+    color: #B88E68;
+    font-weight: 500;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.guest-email-link:hover {
+    color: #442305;
+    text-decoration: underline;
+}
