@@ -11,6 +11,47 @@ public partial class Dining : System.Web.UI.Page
         if (!IsPostBack)
         {
             LoadDiningMenuItems();
+            LoadMealSchedules();
+        }
+    }
+
+    private void LoadMealSchedules()
+    {
+        string connectionString = ConfigurationManager.ConnectionStrings["HotelConnection"] != null
+            ? ConfigurationManager.ConnectionStrings["HotelConnection"].ConnectionString
+            : "";
+
+        if (string.IsNullOrEmpty(connectionString)) return;
+
+        try
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = @"
+                    SELECT MealId, MealType, MealTitle, TimeSlot, Description, VenuLocation, MealIcon
+                    FROM MealSchedules
+                    ORDER BY MealId ASC";
+
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    con.Open();
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+
+                        if (dt.Rows.Count > 0)
+                        {
+                            rptMealSchedules.DataSource = dt;
+                            rptMealSchedules.DataBind();
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            // Non-blocking fallback
         }
     }
 

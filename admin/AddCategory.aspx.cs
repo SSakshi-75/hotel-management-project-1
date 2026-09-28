@@ -48,13 +48,17 @@ public partial class Admin_AddCategory : System.Web.UI.Page
                         UpdatedAt DATETIME NULL
                     );
                 END
-                ELSE
-                BEGIN
-                    -- Clean up any auto-seeded system categories so only admin explicitly inserted categories appear
-                    DELETE FROM RoomCategories 
-                    WHERE UPPER(LTRIM(RTRIM(CategoryName))) IN ('EXECUTIVE', 'DELUXE', 'FAMILY', 'PENTHOUSE', 'ROYAL KING')
-                      AND CategoryName <> 'HERITAGE SUITE';
-                END";
+
+                -- Sync any existing room categories from Rooms table into RoomCategories so all categories are visible
+                INSERT INTO RoomCategories (CategoryName, PublishingStatus, CreatedAt)
+                SELECT DISTINCT UPPER(LTRIM(RTRIM(r.RoomCategory))), 'Active', GETDATE()
+                FROM Rooms r
+                WHERE r.RoomCategory IS NOT NULL 
+                  AND LTRIM(RTRIM(r.RoomCategory)) <> ''
+                  AND NOT EXISTS (
+                      SELECT 1 FROM RoomCategories c 
+                      WHERE UPPER(LTRIM(RTRIM(c.CategoryName))) = UPPER(LTRIM(RTRIM(r.RoomCategory)))
+                  );";
 
             using (SqlCommand cmd = new SqlCommand(checkTableSql, con))
             {

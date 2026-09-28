@@ -41,17 +41,40 @@ public partial class Admin_EditRoom : System.Web.UI.Page
         ddlCategory.Items.Add(new System.Web.UI.WebControls.ListItem("Select Category", ""));
         ddlCategory.Items[0].Attributes["disabled"] = "disabled";
 
-        string[] defaults = new string[] { "EXECUTIVE", "DELUXE", "FAMILY", "ROYAL KING", "PENTHOUSE" };
-        foreach (string d in defaults)
-        {
-            ddlCategory.Items.Add(new System.Web.UI.WebControls.ListItem(d, d));
-        }
-
         if (!string.IsNullOrEmpty(connectionString))
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 con.Open();
+
+                // Auto-sync any distinct room categories from Rooms into RoomCategories
+                string syncSql = @"
+                    IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'RoomCategories')
+                    BEGIN
+                        CREATE TABLE RoomCategories (
+                            CategoryID INT IDENTITY(1,1) PRIMARY KEY,
+                            CategoryName NVARCHAR(100) NOT NULL UNIQUE,
+                            PublishingStatus NVARCHAR(50) NOT NULL DEFAULT 'Active',
+                            CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+                            UpdatedAt DATETIME NULL
+                        );
+                    END
+
+                    INSERT INTO RoomCategories (CategoryName, PublishingStatus, CreatedAt)
+                    SELECT DISTINCT UPPER(LTRIM(RTRIM(r.RoomCategory))), 'Active', GETDATE()
+                    FROM Rooms r
+                    WHERE r.RoomCategory IS NOT NULL 
+                      AND LTRIM(RTRIM(r.RoomCategory)) <> ''
+                      AND NOT EXISTS (
+                          SELECT 1 FROM RoomCategories c 
+                          WHERE UPPER(LTRIM(RTRIM(c.CategoryName))) = UPPER(LTRIM(RTRIM(r.RoomCategory)))
+                      );";
+
+                using (SqlCommand syncCmd = new SqlCommand(syncSql, con))
+                {
+                    syncCmd.ExecuteNonQuery();
+                }
+
                 string catSql = @"
                     SELECT DISTINCT CategoryName AS RoomCategory FROM RoomCategories WHERE LOWER(LTRIM(RTRIM(PublishingStatus))) = 'active'
                     ORDER BY RoomCategory";

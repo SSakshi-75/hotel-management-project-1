@@ -78,7 +78,10 @@ function filterBookNowRooms(category, btn) {
     }
 
     // 2. Filter the room luxury cards
-    const blocks = document.querySelectorAll('.room-card-luxury-block');
+    let blocks = document.querySelectorAll('.room-card-luxury-block');
+    if (blocks.length === 0) {
+        blocks = document.querySelectorAll('.room-item-col');
+    }
     let visibleCount = 0;
     let firstTargetBlock = null;
 
@@ -123,7 +126,9 @@ function filterBookNowRooms(category, btn) {
     }
 }
 window.filterBookNowRooms = filterBookNowRooms;
-window.filterRooms = filterBookNowRooms;
+if (document.querySelectorAll('.room-card-luxury-block').length > 0) {
+    window.filterRooms = filterBookNowRooms;
+}
 
 /* ==========================================================================
    3. SPECIAL OFFERS & PACKAGES FILTERING

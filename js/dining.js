@@ -20,34 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
  * @param {string} venueName - Optional restaurant name to pre-select
  */
 function openTableReservationModal(venueName) {
-    const modalEl = document.getElementById('tableReservationModal');
-    if (!modalEl) return;
-
-    // Reset view: hide voucher, show form
-    const formEl = document.getElementById('tableReservationForm');
-    const voucherEl = document.getElementById('tableConfirmationVoucher');
-    if (formEl) formEl.classList.remove('d-none');
-    if (voucherEl) voucherEl.classList.add('d-none');
-
-    // Pre-select restaurant if passed
-    if (venueName) {
-        const venueSelect = document.getElementById('reserveVenueSelect');
-        if (venueSelect) {
-            for (let i = 0; i < venueSelect.options.length; i++) {
-                if (venueSelect.options[i].value.toLowerCase().includes(venueName.toLowerCase()) ||
-                    venueName.toLowerCase().includes(venueSelect.options[i].value.toLowerCase())) {
-                    venueSelect.selectedIndex = i;
-                    break;
-                }
-            }
-        }
-    }
-
-    // Initialize or get Bootstrap 5 modal instance and display
-    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-        const modalInstance = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
-        modalInstance.show();
-    }
+    window.location.href = 'TableReservation.aspx';
 }
 
 /**

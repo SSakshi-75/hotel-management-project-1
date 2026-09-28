@@ -188,12 +188,14 @@
                         <li class="nav-item has-submenu">
                             <a href="javascript:void(0)" class="nav-link submenu-toggle" onclick="toggleSubmenu(this, event); return false;">
                                 <span class="nav-icon"><i class="bi bi-cup-hot-fill"></i></span>
-                                <span class="nav-text">Dining</span>
+                                <span class="nav-text">Dining & Restaurant</span>
                                 <i class="bi bi-chevron-right submenu-arrow"></i>
                             </a>
                             <ul class="sidebar-submenu">
-                                <li class="submenu-item"><a href="javascript:void(0)" class="submenu-link" onclick="handleMenuClick('Restaurants', this)"><i class="bi bi-shop sub-icon"></i>Restaurants</a></li>
-                                <li class="submenu-item"><a href="Menu.aspx" class="submenu-link"><i class="bi bi-book sub-icon"></i>Menu</a></li>
+                                <li class="submenu-item"><a href="RestaurantManagement.aspx" class="submenu-link"><i class="bi bi-shop sub-icon"></i>Restaurant Details</a></li>
+                                <li class="submenu-item"><a href="RestaurantTables.aspx" class="submenu-link"><i class="bi bi-grid-3x3-gap sub-icon"></i>Manage Tables</a></li>
+                                <li class="submenu-item"><a href="TableReservations.aspx" class="submenu-link"><i class="bi bi-calendar2-check sub-icon"></i>Table Reservations</a></li>
+                                <li class="submenu-item"><a href="Menu.aspx" class="submenu-link"><i class="bi bi-book sub-icon"></i>Menu Items</a></li>
                             </ul>
                         </li>
 

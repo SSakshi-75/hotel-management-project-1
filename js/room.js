@@ -10,6 +10,9 @@ function filterRooms(category, btnElement) {
     if (document.querySelectorAll('.room-card-luxury-block').length > 0 && typeof window.filterBookNowRooms === 'function') {
         return window.filterBookNowRooms(category, btnElement);
     }
+
+    category = (category || 'all').toString().toLowerCase().trim().replace(/\s+/g, '-');
+
     var buttons = document.querySelectorAll('.room-filter-btn');
     buttons.forEach(function (btn) {
         btn.classList.remove('active');
@@ -20,7 +23,16 @@ function filterRooms(category, btnElement) {
 
     var roomItems = document.querySelectorAll('.room-item-col');
     roomItems.forEach(function (item) {
-        if (category === 'all' || item.getAttribute('data-category') === category) {
+        var cat = (item.getAttribute('data-category') || '').toString().toLowerCase().trim().replace(/\s+/g, '-');
+        var searchCat = category.replace(/-/g, ' ').trim();
+        var itemCatClean = cat.replace(/-/g, ' ').trim();
+
+        var isMatch = (category === 'all' || category === '') ||
+                        (cat === category) ||
+                        (itemCatClean === searchCat) ||
+                        (itemCatClean.length > 0 && searchCat.length > 0 && (itemCatClean.indexOf(searchCat) !== -1 || searchCat.indexOf(itemCatClean) !== -1));
+
+        if (isMatch) {
             item.style.display = 'block';
             item.classList.add('filter-fade-enter');
         } else {
@@ -28,6 +40,10 @@ function filterRooms(category, btnElement) {
             item.classList.remove('filter-fade-enter');
         }
     });
+
+    if (typeof AOS !== 'undefined') {
+        setTimeout(function () { AOS.refresh(); }, 50);
+    }
 }
 
 function openBookingModal(roomName, price) {

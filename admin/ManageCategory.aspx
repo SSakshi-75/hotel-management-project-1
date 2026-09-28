@@ -178,7 +178,7 @@
         <div class="table-responsive">
             <asp:GridView ID="gvCategories" runat="server" AutoGenerateColumns="false" DataKeyNames="CategoryId"
                 ClientIDMode="Static" CssClass="table table-bordered table-hover hotel-rooms-table align-middle mb-0"
-                GridLines="Both" UseAccessibleHeader="true" AllowPaging="true" PageSize="10"
+                GridLines="Both" UseAccessibleHeader="true" AllowPaging="true" PageSize="25"
                 OnPageIndexChanging="gvCategories_PageIndexChanging" OnRowCommand="gvCategories_RowCommand"
                 EmptyDataText="No Room Categories Registered">
                 <Columns>
