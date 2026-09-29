@@ -180,11 +180,18 @@ public partial class Register : System.Web.UI.Page
 
 
                 // =================================
-                // CONFIRMATION PAGE
+                // CONFIRMATION OR RETURN TO BOOKING
                 // =================================
 
-                Response.Redirect(
-                    "RegistrationConfirmation.aspx");
+                string returnUrl = Request["returnUrl"];
+                if (!string.IsNullOrEmpty(returnUrl))
+                {
+                    Response.Redirect(returnUrl);
+                }
+                else
+                {
+                    Response.Redirect("RegistrationConfirmation.aspx");
+                }
             }
         }
     }

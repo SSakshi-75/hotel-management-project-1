@@ -60,8 +60,7 @@
                                     <h2 class="booking-form-header-title mb-0">Online Reservation</h2>
                                 </div>
                                 <span
-                                    class="badge bg-dark text-gold border border-gold px-3 py-2 small align-self-start align-self-sm-auto text-nowrap">6-Step
-                                    Reservation</span>
+                                    class="badge bg-dark text-gold border border-gold px-3 py-2 small align-self-start align-self-sm-auto text-nowrap">Online Reservation</span>
                             </div>
 
                             <!-- Promotional Offer Applied Banner -->
@@ -86,74 +85,17 @@
 
                             <div id="onlineBookingForm">
 
-                                <!-- 1. Stay Details -->
+                                <!-- Hidden inputs for booking data compatibility -->
+                                <input type="hidden" id="arrivalDate" />
+                                <input type="hidden" id="departureDate" />
+                                <input type="hidden" id="bookingAdults" value="2" />
+                                <input type="hidden" id="bookingChildren" value="0" />
+                                <input type="hidden" id="totalRooms" value="1" />
+
+                                <!-- 1. Selected Room -->
                                 <div class="booking-step-container">
                                     <div class="booking-step-header">
                                         <span class="step-num-badge">1</span>
-                                        <h3 class="booking-step-title">Stay Details</h3>
-                                    </div>
-                                    <div class="row g-3">
-                                        <!-- Check-in -->
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-semibold"><i
-                                                    class="bi bi-calendar-event me-1 text-gold"></i> Check-in Date
-                                                *</label>
-                                            <input type="date" class="form-control" id="arrivalDate" required>
-                                        </div>
-
-                                        <!-- Check-out -->
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-semibold"><i
-                                                    class="bi bi-calendar-check me-1 text-gold"></i> Check-out Date
-                                                *</label>
-                                            <input type="date" class="form-control" id="departureDate" required>
-                                        </div>
-
-                                        <!-- Adults -->
-                                        <div class="col-md-4">
-                                            <label class="form-label fw-semibold"><i
-                                                    class="bi bi-person-fill me-1 text-gold"></i> Adults *</label>
-                                            <select class="form-select" id="bookingAdults" required
-                                                onchange="updateBookingSummary()">
-                                                <option value="1">1 Adult</option>
-                                                <option value="2" selected>2 Adults</option>
-                                                <option value="3">3 Adults</option>
-                                                <option value="4">4+ Adults</option>
-                                            </select>
-                                        </div>
-
-                                        <!-- Children -->
-                                        <div class="col-md-4">
-                                            <label class="form-label fw-semibold"><i
-                                                    class="bi bi-people me-1 text-gold"></i> Children</label>
-                                            <select class="form-select" id="bookingChildren"
-                                                onchange="updateBookingSummary()">
-                                                <option value="0" selected>0 Children</option>
-                                                <option value="1">1 Child</option>
-                                                <option value="2">2 Children</option>
-                                                <option value="3">3+ Children</option>
-                                            </select>
-                                        </div>
-
-                                        <!-- Rooms -->
-                                        <div class="col-md-4">
-                                            <label class="form-label fw-semibold"><i
-                                                    class="bi bi-door-open-fill me-1 text-gold"></i> Rooms *</label>
-                                            <select class="form-select" id="totalRooms" required
-                                                onchange="updateBookingSummary()">
-                                                <option value="1" selected>1 Room</option>
-                                                <option value="2">2 Rooms</option>
-                                                <option value="3">3 Rooms</option>
-                                                <option value="4+">4+ Rooms</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- 2. Selected Room -->
-                                <div class="booking-step-container">
-                                    <div class="booking-step-header">
-                                        <span class="step-num-badge">2</span>
                                         <h3 class="booking-step-title">Selected Room</h3>
                                     </div>
 
@@ -164,7 +106,8 @@
                                         <asp:Repeater ID="rptBookingRoomSelectOptions" runat="server">
                                             <ItemTemplate>
                                                 <option value='<%# Eval("PricePerNight") %>'>
-                                                    <%# Eval("RoomName") %> (&#8377; <%# GetFormattedPrice(Eval("PricePerNight")) %>/night)
+                                                    <%# Eval("RoomName") %> (&#8377; <%#
+                                                            GetFormattedPrice(Eval("PricePerNight")) %>/night)
                                                 </option>
                                             </ItemTemplate>
                                         </asp:Repeater>
@@ -177,77 +120,46 @@
                                                     data-price='<%# Eval("PricePerNight") %>'
                                                     data-roomid='<%# Eval("RoomID") %>'
                                                     onclick="selectBookingRoomCard(this)">
-                                                    <div class="room-pick-check-icon"><i class="bi bi-check-lg"></i></div>
+                                                    <div class="room-pick-check-icon"><i class="bi bi-check-lg"></i>
+                                                    </div>
                                                     <div class="room-pick-img-wrap position-relative">
-                                                        <img src='<%# GetRoomImageUrl(Eval("PrimaryRoomImage")) %>' alt='<%# Eval("RoomName") %>'
-                                                             onerror="this.src='images/room-mini-business.jpg';" />
+                                                        <img src='<%# GetRoomImageUrl(Eval("PrimaryRoomImage")) %>'
+                                                            alt='<%# Eval("RoomName") %>'
+                                                            onerror="this.src='images/room-mini-business.jpg';" />
                                                     </div>
-                                                    <div class="room-pick-title"><%# Eval("RoomName") %></div>
+                                                    <div class="room-pick-title">
+                                                        <%# Eval("RoomName") %>
+                                                    </div>
                                                     <div class="room-pick-meta">
-                                                        <i class="bi bi-people me-1"></i> Up to <%# Eval("MaxGuests") %> Guests
-                                                        &bull; <%# GetFormattedRoomArea(Eval("RoomArea")) %>
+                                                        <i class="bi bi-people me-1"></i> Up to <%# Eval("MaxGuests") %>
+                                                            Guests
+                                                            &bull; <%# GetFormattedRoomArea(Eval("RoomArea")) %>
                                                     </div>
-                                                    <div class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top">
-                                                        <div class="room-pick-price">&#8377;<%# GetFormattedPrice(Eval("PricePerNight")) %> <small>/ night</small></div>
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top">
+                                                        <div class="room-pick-price">&#8377;<%#
+                                                                GetFormattedPrice(Eval("PricePerNight")) %> <small>/
+                                                                    night</small></div>
                                                         <a href='<%# "RoomDetails.aspx?RoomId=" + Eval("RoomID") %>'
                                                             target="_blank"
                                                             class="btn btn-sm btn-outline-dark px-2 py-1 small fw-semibold"
-                                                            onclick="event.stopPropagation();" title="View full room details">
+                                                            onclick="event.stopPropagation();"
+                                                            title="View full room details">
                                                             <i class="bi bi-info-circle me-1"></i> View Details <i
                                                                 class="bi bi-box-arrow-up-right ms-1"></i>
                                                         </a>
                                                     </div>
                                                 </div>
                                             </ItemTemplate>
-                                        </asp:Repeater>
-                                    </div>
+                                        </asp:Repeater>                                     </div>
 
-                                    <!-- Rate Plan Selection Sub-Section -->
-                                    <div class="mt-4 pt-3 border-top">
-                                        <h5 class="fw-bold font-serif mb-3" style="color: #442305;"><i class="bi bi-shield-check text-warning me-2"></i> Select Rate Plan</h5>
-                                        <div class="row g-3">
-                                            <div class="col-md-6">
-                                                <div class="rate-plan-option-card active p-3 rounded-3 border h-100" id="rateCardRoomOnly" onclick="selectBookingRatePlan('Room Only', this)" style="cursor: pointer; background: #fffdfa; border-color: #B88E68 !important;">
-                                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                                        <span class="fw-bold text-dark fs-6">Room Only</span>
-                                                        <span class="badge text-uppercase p-1 member-rate-badge" style="font-size: 0.65rem; background: #faf0e6; color: #9A724E;">MEMBER RATE</span>
-                                                    </div>
-                                                    <ul class="list-unstyled small text-muted mb-2" style="font-size: 0.78rem;">
-                                                        <li class="text-danger fw-semibold"><i class="bi bi-x-circle me-1"></i> No meals included</li>
-                                                        <li>&bull; Wi-Fi &amp; Valet Parking</li>
-                                                        <li>&bull; Pool &amp; Fitness Access</li>
-                                                    </ul>
-                                                    <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top">
-                                                        <small class="text-success fw-semibold" style="font-size: 0.73rem;"><i class="bi bi-check-circle me-1"></i> Free Cancellation (48h)</small>
-                                                        <input type="radio" name="bookingRateRadio" id="radioRateRoomOnly" value="Room Only" checked class="form-check-input">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="rate-plan-option-card p-3 rounded-3 border h-100" id="rateCardStandard" onclick="selectBookingRatePlan('Standard Rate', this)" style="cursor: pointer; background: #ffffff;">
-                                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                                        <span class="fw-bold text-dark fs-6"><i class="bi bi-crown text-warning me-1"></i> Standard Rate</span>
-                                                        <span class="badge text-uppercase p-1 member-rate-badge" style="font-size: 0.65rem; background: #faf0e6; color: #9A724E;">MEMBER RATE</span>
-                                                    </div>
-                                                    <ul class="list-unstyled small text-muted mb-2" style="font-size: 0.78rem;">
-                                                        <li class="text-success fw-semibold"><i class="bi bi-cup-hot-fill text-warning me-1"></i> Daily Buffet Breakfast Included</li>
-                                                        <li>&bull; Wi-Fi &amp; Valet Parking</li>
-                                                        <li>&bull; Pool &amp; Fitness Access</li>
-                                                    </ul>
-                                                    <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top">
-                                                        <small class="text-success fw-semibold" style="font-size: 0.73rem;"><i class="bi bi-check-circle me-1"></i> Free Cancellation (48h)</small>
-                                                        <input type="radio" name="bookingRateRadio" id="radioRateStandard" value="Standard Rate" class="form-check-input">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <input type="hidden" name="bookingRateRadio" id="radioRateRoomOnly" value="Room Only" />
                                 </div>
 
-                                <!-- 3. Guest Information -->
+                                <!-- 2. Guest Information -->
                                 <div class="booking-step-container">
                                     <div class="booking-step-header">
-                                        <span class="step-num-badge">3</span>
+                                        <span class="step-num-badge">2</span>
                                         <h3 class="booking-step-title">Guest Information</h3>
                                     </div>
                                     <div class="row g-3">
@@ -297,20 +209,20 @@
                                     </div>
                                 </div>
 
-                                <!-- 4. Booking Summary -->
+                                <!-- 3. Booking Summary -->
                                 <div class="booking-step-container">
                                     <div class="booking-step-header">
-                                        <span class="step-num-badge">4</span>
+                                        <span class="step-num-badge">3</span>
                                         <h3 class="booking-step-title">Booking Summary</h3>
                                     </div>
 
-                                    <!-- Placeholder when stay details & room not yet chosen -->
+                                    <!-- Placeholder when room not yet chosen -->
                                     <div id="bookingSummaryEmptyState" class="text-center py-4 px-3"
                                         style="background: #faf8f5; border: 1.5px dashed rgba(184, 142, 104, 0.4); border-radius: 12px;">
-                                        <i class="bi bi-calendar2-range text-gold fs-2 d-block mb-2"></i>
+                                        <i class="bi bi-door-open text-gold fs-2 d-block mb-2"></i>
                                         <h5 class="fw-bold font-serif mb-1" style="color: #442305;">Booking Summary</h5>
                                         <p class="text-muted mb-0" style="font-size: 0.95rem;">
-                                            Please select your stay details and room to see the booking summary.
+                                            Please select a room to see the booking summary.
                                         </p>
                                     </div>
 
@@ -321,7 +233,7 @@
                                                     class="bi bi-door-closed me-2 text-gold"></i>Room</span>
                                             <strong id="sumTableRoom" class="text-dark">--</strong>
                                         </div>
-                                        <div class="summary-data-row">
+                                        <div class="summary-data-row" style="display: none;">
                                             <span class="text-muted"><i
                                                     class="bi bi-shield-check me-2 text-gold"></i>Rate Plan</span>
                                             <strong id="sumTableRatePlan" class="text-dark">Room Only</strong>
@@ -343,7 +255,7 @@
                                         </div>
                                         <div class="summary-data-row">
                                             <span class="text-muted"><i class="bi bi-tag me-2 text-gold"></i>Room
-                                                Price</span>
+                                                 Price</span>
                                             <strong id="sumTablePrice" class="text-dark">--</strong>
                                         </div>
                                         <div class="summary-data-row">
@@ -358,10 +270,10 @@
                                     </div>
                                 </div>
 
-                                <!-- 5. Terms & Conditions -->
+                                <!-- 4. Terms & Conditions -->
                                 <div class="booking-step-container">
                                     <div class="booking-step-header">
-                                        <span class="step-num-badge">5</span>
+                                        <span class="step-num-badge">4</span>
                                         <h3 class="booking-step-title">Terms &amp; Conditions</h3>
                                     </div>
                                     <div class="booking-terms-box">
@@ -388,20 +300,22 @@
                                     </div>
                                 </div>
 
-                                <!-- 6. Confirm Booking -->
+                                <!-- 5. Confirm Booking -->
                                 <div class="booking-step-container">
                                     <div class="booking-step-header">
-                                        <span class="step-num-badge">6</span>
+                                        <span class="step-num-badge">5</span>
                                         <h3 class="booking-step-title">Confirm Booking</h3>
                                     </div>
                                     <div class="text-center pt-2">
                                         <!-- Server Error Banner -->
-                                        <div id="bookingServerErrorMessage" class="alert alert-danger d-none text-start mb-3">
+                                        <div id="bookingServerErrorMessage"
+                                            class="alert alert-danger d-none text-start mb-3">
                                             <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
                                             <span id="bookingServerErrorText"></span>
                                         </div>
 
-                                        <button type="button" id="btnConfirmBooking" onclick="handleOnlineBookingSubmit(event)"
+                                        <button type="button" id="btnConfirmBooking"
+                                            onclick="handleOnlineBookingSubmit(event)"
                                             class="btn btn-confirm-booking w-100 fs-5 py-3">
                                             <i class="bi bi-shield-check me-2"></i> Confirm Booking
                                         </button>

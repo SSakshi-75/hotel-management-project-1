@@ -169,6 +169,8 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                             txtViewType.Value = dr["ViewType"] != DBNull.Value ? dr["ViewType"].ToString() : "";
                             txtShortDesc.Value = dr["ShortDescription"] != DBNull.Value ? dr["ShortDescription"].ToString() : "";
                             ddlIsActive.Value = (dr["IsActive"] != DBNull.Value && Convert.ToBoolean(dr["IsActive"])) ? "1" : "0";
+                            string roomStatusVal = dr["RoomStatus"] != DBNull.Value ? dr["RoomStatus"].ToString() : "Available";
+                            ddlRoomStatus.Value = (ddlRoomStatus.Items.FindByValue(roomStatusVal) != null) ? roomStatusVal : "Available";
 
                             // 3. Pre-select Key Amenities
                             string keyAmenities = dr["KeyAmenities"] != DBNull.Value ? dr["KeyAmenities"].ToString() : "";
@@ -447,7 +449,8 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                             GalleryImage4 = @GalleryImage4,
                             ReviewQuote = @ReviewQuote,
                             ReviewAuthor = @ReviewAuthor,
-                            IsActive = @IsActive
+                            IsActive = @IsActive,
+                            RoomStatus = @RoomStatus
                         WHERE RoomID = @RoomID";
 
                     using (SqlCommand cmd = new SqlCommand(updateQuery, con))
@@ -520,7 +523,8 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                             GalleryImage4,
                             ReviewQuote,
                             ReviewAuthor,
-                            IsActive
+                            IsActive,
+                            RoomStatus
                         )
                         VALUES
                         (
@@ -547,7 +551,8 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                             @GalleryImage4,
                             @ReviewQuote,
                             @ReviewAuthor,
-                            @IsActive
+                            @IsActive,
+                            @RoomStatus
                         )";
 
                     using (SqlCommand cmd = new SqlCommand(insertQuery, con))
@@ -610,6 +615,7 @@ public partial class Admin_AddRoom : System.Web.UI.Page
         cmd.Parameters.AddWithValue("@ReviewQuote", reviewQuote ?? "");
         cmd.Parameters.AddWithValue("@ReviewAuthor", reviewAuthor ?? "");
         cmd.Parameters.AddWithValue("@IsActive", ddlIsActive.Value == "1");
+        cmd.Parameters.AddWithValue("@RoomStatus", string.IsNullOrEmpty(ddlRoomStatus.Value) ? "Available" : ddlRoomStatus.Value);
     }
 
     private void ShowErrorMessage(string message)

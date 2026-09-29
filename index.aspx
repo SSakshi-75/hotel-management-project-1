@@ -655,7 +655,7 @@
         <!-- ==========================================
              SPECIAL OFFERS & PROMOTIONS SECTION (STEP 2)
              ========================================== -->
-        <section id="special-offers" class="special-offers-section">
+        <section id="special-offers" class="special-offers-section" style="display: none !important;">
             <div class="special-offers-watermark">SPECIAL OFFERS</div>
             <div class="container px-4 px-lg-5 position-relative z-1">
 

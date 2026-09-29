@@ -181,6 +181,14 @@
                     </select>
                 </div>
 
+                <div class="col-md-4">
+                    <label class="form-label-custom" for="ddlRoomStatus">Availability Status <span class="text-danger">*</span></label>
+                    <select id="ddlRoomStatus" runat="server" ClientIDMode="Static" class="form-select form-select-admin">
+                        <option value="Available" selected="selected">Available (Green Badge)</option>
+                        <option value="Booked">Booked (Red Badge)</option>
+                    </select>
+                </div>
+
                 <!-- 4. Room Image Selection -->
                 <div class="col-12">
                     <label class="form-label-custom" for="fileMainImage">
@@ -396,7 +404,7 @@
         </div>
     </div>
 
-    <script src="js/addroom.js"></script>
+    <script src="js/addroom.js?v=2.1"></script>
     <script type="text/javascript">
         function toggleNewRoomCategory(sel) {
             var txt = document.getElementById('txtNewCategory');
@@ -413,6 +421,31 @@
             if (sel && (sel.value === '__NEW__' || sel.value === 'NEW')) {
                 var txt = document.getElementById('txtNewCategory');
                 if (txt) txt.style.display = 'block';
+            }
+
+            // Auto-dismiss success popup after 2 seconds
+            var successAlert = document.querySelector('[id$="pnlSuccessMessage"]') || document.querySelector('.alert-success');
+            if (successAlert) {
+                var closeBtn = successAlert.querySelector('.btn-close');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', function () {
+                        hideSuccessAlert(successAlert);
+                    });
+                }
+                setTimeout(function () {
+                    hideSuccessAlert(successAlert);
+                }, 2000);
+            }
+
+            function hideSuccessAlert(el) {
+                if (!el || el.dataset.dismissed === 'true') return;
+                el.dataset.dismissed = 'true';
+                el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(-8px)';
+                setTimeout(function () {
+                    el.style.display = 'none';
+                }, 400);
             }
         });
     </script>

@@ -38,3 +38,39 @@ function resetForm() {
         window.showAdminToast('Form Cleared', 'All basic room and room detail fields have been reset.', 'bi-arrow-counterclockwise text-primary');
     }
 }
+
+// Auto-dismiss success alert popup after 2 seconds
+(function () {
+    function setupPopupAutoDismiss() {
+        var successPnl = document.querySelector('[id$="pnlSuccessMessage"]') || document.querySelector('.alert-success');
+        if (successPnl) {
+            var closeBtn = successPnl.querySelector('.btn-close');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function () {
+                    dismissAlert(successPnl);
+                });
+            }
+
+            setTimeout(function () {
+                dismissAlert(successPnl);
+            }, 2000);
+        }
+    }
+
+    function dismissAlert(elem) {
+        if (!elem || elem.dataset.dismissed === 'true') return;
+        elem.dataset.dismissed = 'true';
+        elem.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+        elem.style.opacity = '0';
+        elem.style.transform = 'translateY(-8px)';
+        setTimeout(function () {
+            elem.style.display = 'none';
+        }, 400);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupPopupAutoDismiss);
+    } else {
+        setupPopupAutoDismiss();
+    }
+})();

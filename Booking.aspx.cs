@@ -13,6 +13,23 @@ public partial class Booking : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        // Enforce login/registration before booking a room
+        if (Session["UserId"] == null)
+        {
+            if (Request.HttpMethod == "POST")
+            {
+                Response.ContentType = "application/json";
+                Response.Clear();
+                Response.Write("{\"success\":false,\"message\":\"Please login or register to book a room.\"}");
+                Response.End();
+                return;
+            }
+
+            string rawUrl = Request.RawUrl ?? "Booking.aspx";
+            Response.Redirect("Login.aspx?msg=room&returnUrl=" + Server.UrlEncode(rawUrl));
+            return;
+        }
+
         if (Request.HttpMethod == "POST" && Request["action"] == "create_booking")
         {
             CreateBookingEndpoint();

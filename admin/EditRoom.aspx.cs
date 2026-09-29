@@ -152,6 +152,9 @@ public partial class Admin_EditRoom : System.Web.UI.Page
                             txtArea.Value = dr["RoomArea"] != DBNull.Value ? dr["RoomArea"].ToString() : "";
                             txtViewType.Value = dr["ViewType"] != DBNull.Value ? dr["ViewType"].ToString() : "";
                             txtShortDesc.Value = dr["ShortDescription"] != DBNull.Value ? dr["ShortDescription"].ToString() : "";
+                            ddlIsActive.Value = (dr["IsActive"] != DBNull.Value && Convert.ToBoolean(dr["IsActive"])) ? "1" : "0";
+                            string roomStatusVal = dr["RoomStatus"] != DBNull.Value ? dr["RoomStatus"].ToString() : "Available";
+                            ddlRoomStatus.Value = (ddlRoomStatus.Items.FindByValue(roomStatusVal) != null) ? roomStatusVal : "Available";
 
                             // Key Amenities Checkboxes
                             string keyAmenities = dr["KeyAmenities"] != DBNull.Value ? dr["KeyAmenities"].ToString() : "";
@@ -435,7 +438,9 @@ public partial class Admin_EditRoom : System.Web.UI.Page
                     GalleryImage3 = @GalleryImage3,
                     GalleryImage4 = @GalleryImage4,
                     ReviewQuote = @ReviewQuote,
-                    ReviewAuthor = @ReviewAuthor
+                    ReviewAuthor = @ReviewAuthor,
+                    IsActive = @IsActive,
+                    RoomStatus = @RoomStatus
                 WHERE RoomID = @RoomID";
 
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -466,6 +471,8 @@ public partial class Admin_EditRoom : System.Web.UI.Page
                     cmd.Parameters.AddWithValue("@GalleryImage4", galleryImage4);
                     cmd.Parameters.AddWithValue("@ReviewQuote", reviewQuote);
                     cmd.Parameters.AddWithValue("@ReviewAuthor", reviewAuthor);
+                    cmd.Parameters.AddWithValue("@IsActive", ddlIsActive.Value == "1");
+                    cmd.Parameters.AddWithValue("@RoomStatus", string.IsNullOrEmpty(ddlRoomStatus.Value) ? "Available" : ddlRoomStatus.Value);
 
                     con.Open();
                     int rowsUpdated = cmd.ExecuteNonQuery();

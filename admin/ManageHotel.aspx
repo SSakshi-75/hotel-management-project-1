@@ -259,6 +259,16 @@
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
 
+                                            <%-- AVAILABILITY STATUS --%>
+                                                <asp:TemplateField HeaderText="Availability">
+                                                    <ItemTemplate>
+                                                        <%# Eval("RoomStatus") != null && (Eval("RoomStatus").ToString().Equals("Booked", StringComparison.OrdinalIgnoreCase) || Eval("RoomStatus").ToString().Equals("Occupied", StringComparison.OrdinalIgnoreCase))
+                                                            ? "<span class='badge bg-danger-subtle text-danger border border-danger-subtle px-2.5 py-1 rounded-pill small fw-semibold'><i class='bi bi-x-circle-fill me-1'></i> Booked</span>"
+                                                            : "<span class='badge bg-success-subtle text-success border border-success-subtle px-2.5 py-1 rounded-pill small fw-semibold'><i class='bi bi-check-circle-fill me-1'></i> Available</span>"
+                                                            %>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+
                                                 <%-- ACTIONS --%>
                                                     <asp:TemplateField HeaderText="Actions">
                                                         <ItemTemplate>

@@ -131,7 +131,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="Dining.aspx">Dining</a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item" style="display: none;">
                                     <a class="nav-link" href="Offers.aspx">Offers</a>
                                 </li>
                                 <li class="nav-item">
@@ -208,7 +208,7 @@
                             <li><a href="About.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> About Us</a></li>
                             <li><a href="Room.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Rooms &amp; Suites</a></li>
                             <li><a href="Dining.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Dining &amp; Restaurants</a></li>
-                            <li><a href="Offers.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Special Offers</a></li>
+                            <li style="display: none;"><a href="Offers.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Special Offers</a></li>
                             <li><a href="Amenities.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Our Amenities</a></li>
                             <li><a href="Contact.aspx" class="text-decoration-none text-muted"><i class="bi bi-chevron-right small me-1" style="color: #B88E68;"></i> Contact Us</a></li>
                         </ul>

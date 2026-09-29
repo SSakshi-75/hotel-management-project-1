@@ -12,11 +12,27 @@ public partial class TableReservation : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        // Enforce login/registration before booking a table
+        if (Session["UserId"] == null)
+        {
+            string rawUrl = Request.RawUrl ?? "TableReservation.aspx";
+            Response.Redirect("Login.aspx?msg=table&returnUrl=" + Server.UrlEncode(rawUrl));
+            return;
+        }
+
         if (!IsPostBack)
         {
             if (txtResDate != null && string.IsNullOrEmpty(txtResDate.Value))
             {
                 txtResDate.Value = DateTime.Today.ToString("yyyy-MM-dd");
+            }
+            if (Session["UserName"] != null && txtCustName != null && string.IsNullOrEmpty(txtCustName.Value))
+            {
+                txtCustName.Value = Session["UserName"].ToString();
+            }
+            if (Session["UserEmail"] != null && txtCustEmail != null && string.IsNullOrEmpty(txtCustEmail.Value))
+            {
+                txtCustEmail.Value = Session["UserEmail"].ToString();
             }
             LoadAvailableTables();
         }
@@ -147,6 +163,12 @@ public partial class TableReservation : System.Web.UI.Page
     // ==========================================
     protected void btnConfirmReservation_Click(object sender, EventArgs e)
     {
+        if (Session["UserId"] == null)
+        {
+            Response.Redirect("Login.aspx?msg=table&returnUrl=TableReservation.aspx");
+            return;
+        }
+
         string tableNum = hdnSelectedTableNum != null && !string.IsNullOrEmpty(hdnSelectedTableNum.Value)
             ? hdnSelectedTableNum.Value.Trim()
             : (Request.Form["hdnSelectedTableNum"] ?? "").Trim();

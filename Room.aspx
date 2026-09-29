@@ -38,75 +38,55 @@
 
                 <form id="roomFilterForm" onsubmit="return false;">
 
-                    <div class="row g-3 align-items-end">
+                    <div class="row g-3 align-items-center">
 
                         <!-- Check-In -->
                         <div class="col-lg-3 col-md-6">
-
-                            <label class="form-label small fw-bold text-uppercase mb-1 ms-2">
-                                <i class="bi bi-calendar-check text-warning me-1"></i>
-                                Check-In Date
-                            </label>
-
-                            <input type="date" class="form-control room-input-field shadow-none fs-6">
-
+                            <div class="cin-cout-field-box">
+                                <label class="cin-cout-label" for="txtCheckIn">Check-in</label>
+                                <div class="cin-cout-input-wrap" onclick="triggerDatePicker('txtCheckIn')">
+                                    <span class="cin-cout-val" id="lblCheckInDisplay"><asp:Literal ID="litCheckIn" runat="server">Tue, 29 Sep</asp:Literal></span>
+                                    <i class="bi bi-calendar3 cin-cout-icon"></i>
+                                    <asp:TextBox ID="txtCheckIn" runat="server" CssClass="cin-cout-native-date" TextMode="Date" ClientIDMode="Static" onchange="formatDateToCustom(this, 'lblCheckInDisplay')"></asp:TextBox>
+                                </div>
+                            </div>
                         </div>
-
 
                         <!-- Check-Out -->
                         <div class="col-lg-3 col-md-6">
-
-                            <label class="form-label small fw-bold text-uppercase mb-1 ms-2">
-                                <i class="bi bi-calendar-x text-warning me-1"></i>
-                                Check-Out Date
-                            </label>
-
-                            <input type="date" class="form-control room-input-field shadow-none fs-6">
-
+                            <div class="cin-cout-field-box">
+                                <label class="cin-cout-label" for="txtCheckOut">Check-out</label>
+                                <div class="cin-cout-input-wrap" onclick="triggerDatePicker('txtCheckOut')">
+                                    <span class="cin-cout-val" id="lblCheckOutDisplay"><asp:Literal ID="litCheckOut" runat="server">Wed, 30 Sep</asp:Literal></span>
+                                    <i class="bi bi-calendar3 cin-cout-icon"></i>
+                                    <asp:TextBox ID="txtCheckOut" runat="server" CssClass="cin-cout-native-date" TextMode="Date" ClientIDMode="Static" onchange="formatDateToCustom(this, 'lblCheckOutDisplay')"></asp:TextBox>
+                                </div>
+                            </div>
                         </div>
 
-
-                        <!-- Guests & Rooms -->
+                        <!-- Guests -->
                         <div class="col-lg-3 col-md-6">
-
-                            <label class="form-label small fw-bold text-uppercase mb-1 ms-2">
-                                <i class="bi bi-people-fill text-warning me-1"></i>
-                                Guests &amp; Rooms
-                            </label>
-
-                            <select class="form-select room-input-field shadow-none fs-6">
-
-                                <option selected>
-                                    1 Adult, 1 Room
-                                </option>
-
-                                <option>
-                                    2 Adults, 1 Suite
-                                </option>
-
-                                <option>
-                                    3 Adults, 2 Rooms
-                                </option>
-
-                                <option>
-                                    Family (4+ Guests)
-                                </option>
-
-                            </select>
-
+                            <div class="cin-cout-field-box">
+                                <label class="cin-cout-label" for="ddlAdults">Guests</label>
+                                <div class="cin-cout-input-wrap">
+                                    <select id="ddlAdults" class="cin-cout-select"
+                                        onchange="if(typeof updateStaySummary==='function') updateStaySummary();">
+                                        <option value="1 Adult">1 Adult</option>
+                                        <option value="2 Adults" selected>2 Adults</option>
+                                        <option value="3 Adults">3 Adults</option>
+                                        <option value="Family (4+ Guests)">Family (4+ Guests)</option>
+                                    </select>
+                                    <i class="bi bi-chevron-down cin-cout-chevron"></i>
+                                </div>
+                            </div>
                         </div>
 
-
-                        <!-- Availability Button -->
+                        <!-- Search Button -->
                         <div class="col-lg-3 col-md-6">
-
-                            <button type="button" class="btn btn-room-search w-100 shadow-sm" onclick="scrollToRooms()">
-
-                                <i class="bi bi-search me-2"></i>
-                                Check Availability
-
+                            <button type="button" class="btn btn-cin-cout-search w-100 shadow-sm"
+                                onclick="scrollToRooms()">
+                                <i class="bi bi-search me-2"></i> Search
                             </button>
-
                         </div>
 
                     </div>
@@ -168,48 +148,131 @@
 
 
                 <!-- ==========================================
-                 CATEGORY FILTER BUTTONS
+                 ROW: SIDEBAR FILTER + ROOM LISTINGS
                  ========================================== -->
-                <div class="text-center mb-5" data-aos="fade-up">
+                <div class="row g-4">
 
-                    <div class="room-filter-bar">
+                    <!-- ==========================================
+                     LEFT SIDEBAR: FILTER BY (MATCHING SPEC)
+                     ========================================== -->
+                    <div class="col-lg-3 col-md-4 mb-4">
+                        <div class="filter-sidebar-box">
 
-                        <button type="button" class="room-filter-btn active" onclick="filterRooms('all', this)">
-                            All Rooms
-                        </button>
+                            <div class="filter-sidebar-header">
+                                <h5 class="filter-sidebar-title">Filter by:</h5>
+                                <button type="button" class="btn-filter-clear" onclick="clearAllFilters()">Clear all</button>
+                            </div>
 
-                        <asp:Repeater ID="rptCustomerCategories" runat="server">
-                            <ItemTemplate>
-                                <button type="button" class="room-filter-btn" data-category='<%# Eval("CategorySlug") %>' onclick="filterRooms(this)">
-                                    <%# Eval("CategoryName") %>
-                                </button>
-                            </ItemTemplate>
-                        </asp:Repeater>
+                            <!-- 1. Price per night -->
+                            <div class="filter-sidebar-section">
+                                <h6 class="filter-section-title">Price per night</h6>
+                                <div class="filter-options-list">
+                                    <label class="filter-check-row">
+                                        <input type="checkbox" class="form-check-input filter-price-chk" value="0-2000" onchange="applyFilters()" />
+                                        <span class="filter-check-text">Under &#8377;2,000</span>
+                                    </label>
+                                    <label class="filter-check-row">
+                                        <input type="checkbox" class="form-check-input filter-price-chk" value="2000-3000" onchange="applyFilters()" />
+                                        <span class="filter-check-text">&#8377;2,000 - &#8377;3,000</span>
+                                    </label>
+                                    <label class="filter-check-row">
+                                        <input type="checkbox" class="form-check-input filter-price-chk" value="3000-5000" onchange="applyFilters()" />
+                                        <span class="filter-check-text">&#8377;3,000 - &#8377;5,000</span>
+                                    </label>
+                                    <label class="filter-check-row">
+                                        <input type="checkbox" class="form-check-input filter-price-chk" value="5000-999999" onchange="applyFilters()" />
+                                        <span class="filter-check-text">&#8377;5,000 &amp; above</span>
+                                    </label>
+                                </div>
+                            </div>
 
+                            <!-- 2. Category -->
+                            <div class="filter-sidebar-section">
+                                <h6 class="filter-section-title">Category</h6>
+                                <div class="filter-options-list">
+                                    <asp:Repeater ID="rptCustomerCategories" runat="server">
+                                        <ItemTemplate>
+                                            <label class="filter-check-row">
+                                                <input type="checkbox" class="form-check-input filter-category-chk" value='<%# Eval("CategorySlug") %>' onchange="applyFilters()" />
+                                                <span class="filter-check-text"><%# Eval("CategoryName") %></span>
+                                            </label>
+                                        </ItemTemplate>
+                                    </asp:Repeater>
+                                </div>
+                            </div>
+
+                            <!-- 3. Rating -->
+                            <div class="filter-sidebar-section">
+                                <h6 class="filter-section-title">Rating</h6>
+                                <div class="filter-options-list">
+                                    <label class="filter-check-row">
+                                        <input type="checkbox" class="form-check-input filter-rating-chk" value="4.5" onchange="applyFilters()" />
+                                        <span class="filter-check-text"><i class="fa-solid fa-star text-warning me-1"></i> 4.5 &amp; above</span>
+                                    </label>
+                                    <label class="filter-check-row">
+                                        <input type="checkbox" class="form-check-input filter-rating-chk" value="4.0" onchange="applyFilters()" />
+                                        <span class="filter-check-text"><i class="fa-solid fa-star text-warning me-1"></i> 4.0 &amp; above</span>
+                                    </label>
+                                    <label class="filter-check-row">
+                                        <input type="checkbox" class="form-check-input filter-rating-chk" value="3.5" onchange="applyFilters()" />
+                                        <span class="filter-check-text"><i class="fa-solid fa-star text-warning me-1"></i> 3.5 &amp; above</span>
+                                    </label>
+                                    <label class="filter-check-row">
+                                        <input type="checkbox" class="form-check-input filter-rating-chk" value="3.0" onchange="applyFilters()" />
+                                        <span class="filter-check-text"><i class="fa-solid fa-star text-warning me-1"></i> 3.0 &amp; above</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Pay @ Hotel Banner -->
+                            <div class="filter-promo-banner filter-promo-green">
+                                <div class="filter-promo-icon-circle">
+                                    <i class="fa-solid fa-indian-rupee-sign"></i>
+                                </div>
+                                <div>
+                                    <div class="filter-promo-title">Pay @ hotel</div>
+                                    <div class="filter-promo-sub">available</div>
+                                </div>
+                            </div>
+
+                            <!-- Sleep & Shower Banner -->
+                            <div class="filter-promo-banner filter-promo-blue">
+                                <div class="filter-promo-blue-title">Excellent sleep &amp; shower</div>
+                                <div class="filter-promo-blue-sub">available in all luxury rooms</div>
+                                <div class="filter-promo-icons-row">
+                                    <span class="promo-mini-icon"><i class="fa-solid fa-wifi"></i></span>
+                                    <span class="promo-mini-icon"><i class="fa-solid fa-tv"></i></span>
+                                    <span class="promo-mini-icon"><i class="fa-solid fa-wind"></i></span>
+                                    <span class="promo-mini-icon"><i class="fa-solid fa-shower"></i></span>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
 
-                </div>
+                    <!-- ==========================================
+                     RIGHT: ROOM LISTINGS
+                     ========================================== -->
+                    <div class="col-lg-9 col-md-8">
+
+                        <div class="row g-4" id="roomsContainer">
 
 
-                <!-- ==========================================
-                 DYNAMIC ROOM CARDS
-                 ========================================== -->
-                <div class="row g-4" id="roomsContainer">
+                            <!-- ======================================
+                             REPEATER START
+                             ====================================== -->
+                            <asp:Repeater ID="rptRooms" runat="server">
+
+                                <ItemTemplate>
 
 
-                    <!-- ======================================
-                     REPEATER START
-                     ====================================== -->
-                    <asp:Repeater ID="rptRooms" runat="server">
-
-                        <ItemTemplate>
-
-
-                            <!-- ==================================
-                             ONE DYNAMIC ROOM CARD
-                             ================================== -->
-                            <div class="col-lg-4 col-md-6 room-item-col"
-                                data-category='<%# GetCategoryFilter(Eval("RoomCategory")) %>' data-aos="fade-up">
+                                    <!-- ==================================
+                                     ONE DYNAMIC ROOM CARD
+                                     ================================== -->
+                                    <div class="col-12 room-item-col"
+                                        data-category='<%# GetCategoryFilter(Eval("RoomCategory")) %>'
+                                        data-price='<%# Eval("PricePerNight") %>'
+                                        data-rating='<%# Eval("Rating") %>' data-aos="fade-up">
 
 
                                 <div class="room-card-full">
@@ -276,13 +339,7 @@
                                             </div>
 
 
-                                            <span class="badge-verified">
-
-                                                <i class="bi bi-shield-check text-success me-1"></i>
-
-                                                Verified
-
-                                            </span>
+                                            <%# GetRoomAvailabilityBadge(Eval("RoomStatus")) %>
 
                                         </div>
 
@@ -314,8 +371,10 @@
 
                                                 <i class="bi bi-people-fill"></i>
 
-                                                <%# Eval("MaxGuests") %>
-                                                    Guests
+                                                <%# Eval("MaxGuests") !=null &&
+                                                    Eval("MaxGuests").ToString().IndexOf("Guest",
+                                                    StringComparison.OrdinalIgnoreCase)>= 0 ? Eval("MaxGuests") :
+                                                    Eval("MaxGuests") + " Guests" %>
 
                                             </span>
 
@@ -388,6 +447,19 @@
                      REPEATER END
                      ====================================== -->
 
+                        </div>
+
+                        <!-- No Rooms Found Message -->
+                        <div id="noRoomsFilterMsg" class="text-center py-5 bg-white rounded-4 shadow-sm border mt-3" style="display:none;">
+                            <i class="fa-solid fa-hotel text-muted fs-1 mb-3"></i>
+                            <h5 class="text-secondary fw-semibold">No rooms match your selected filters</h5>
+                            <p class="text-muted small">Try changing or clearing some filters to see available rooms.</p>
+                            <button type="button" class="btn btn-outline-dark btn-sm rounded-pill px-4 mt-2" onclick="clearAllFilters()">
+                                Reset Filters
+                            </button>
+                        </div>
+
+                    </div>
 
                 </div>
 

@@ -20,6 +20,24 @@ public partial class Login : System.Web.UI.Page
             txtPassword.Attributes["value"] = string.Empty;
             txtPassword.Attributes["autocomplete"] = "new-password";
             txtEmail.Attributes["autocomplete"] = "off";
+
+            string msg = Request["msg"];
+            if (msg == "room")
+            {
+                lblMessage.Text = "<i class='bi bi-info-circle-fill me-1'></i> Please sign in or register to book a room.";
+                lblMessage.CssClass = "alert alert-warning d-block small fw-bold py-2 mb-3";
+            }
+            else if (msg == "table")
+            {
+                lblMessage.Text = "<i class='bi bi-info-circle-fill me-1'></i> Please sign in or register to book a table.";
+                lblMessage.CssClass = "alert alert-warning d-block small fw-bold py-2 mb-3";
+            }
+
+            string returnUrl = Request["returnUrl"];
+            if (!string.IsNullOrEmpty(returnUrl) && lnkRegister != null)
+            {
+                lnkRegister.NavigateUrl = "~/Register.aspx?returnUrl=" + Server.UrlEncode(returnUrl);
+            }
         }
     }
 
@@ -237,10 +255,18 @@ public partial class Login : System.Web.UI.Page
 
 
                             // ==========================================
-                            // CONFIRMATION PAGE (LIKE REGISTER)
+                            // REDIRECT (RETURN URL OR CONFIRMATION)
                             // ==========================================
 
-                            Response.Redirect("LoginConfirmation.aspx");
+                            string returnUrl = Request["returnUrl"];
+                            if (!string.IsNullOrEmpty(returnUrl))
+                            {
+                                Response.Redirect(returnUrl);
+                            }
+                            else
+                            {
+                                Response.Redirect("LoginConfirmation.aspx");
+                            }
                         }
 
 

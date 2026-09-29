@@ -2,6 +2,97 @@
    ROOM PAGE INTERACTIVE JAVASCRIPT LOGIC
    ========================================== */
 
+/* ==========================================
+   SIDEBAR ROOM FILTER (PRICE, CATEGORY, RATING)
+   ========================================== */
+
+function applyFilters() {
+    var selectedPrices = [];
+    document.querySelectorAll('.filter-price-chk:checked').forEach(function (chk) {
+        selectedPrices.push(chk.value);
+    });
+
+    var selectedCategories = [];
+    document.querySelectorAll('.filter-category-chk:checked').forEach(function (chk) {
+        selectedCategories.push(chk.value.toLowerCase().trim().replace(/\s+/g, '-'));
+    });
+
+    var selectedRatings = [];
+    document.querySelectorAll('.filter-rating-chk:checked').forEach(function (chk) {
+        var val = parseFloat(chk.value);
+        if (!isNaN(val)) selectedRatings.push(val);
+    });
+
+    var roomItems = document.querySelectorAll('.room-item-col');
+    var visibleCount = 0;
+
+    roomItems.forEach(function (item) {
+        var price = parseFloat(item.getAttribute('data-price') || '0');
+        var rating = parseFloat(item.getAttribute('data-rating') || '0');
+        var cat = (item.getAttribute('data-category') || '').toLowerCase().trim().replace(/\s+/g, '-');
+
+        // 1. Price Matching
+        var priceMatch = (selectedPrices.length === 0);
+        if (!priceMatch) {
+            for (var i = 0; i < selectedPrices.length; i++) {
+                var range = selectedPrices[i].split('-');
+                var min = parseFloat(range[0]);
+                var max = parseFloat(range[1]);
+                if (price >= min && price <= max) {
+                    priceMatch = true;
+                    break;
+                }
+            }
+        }
+
+        // 2. Category Matching
+        var categoryMatch = (selectedCategories.length === 0);
+        if (!categoryMatch) {
+            for (var j = 0; j < selectedCategories.length; j++) {
+                var c = selectedCategories[j];
+                if (cat === c || cat.indexOf(c) !== -1 || c.indexOf(cat) !== -1) {
+                    categoryMatch = true;
+                    break;
+                }
+            }
+        }
+
+        // 3. Rating Matching
+        var ratingMatch = (selectedRatings.length === 0);
+        if (!ratingMatch) {
+            var minSelectedRating = Math.min.apply(null, selectedRatings);
+            if (rating >= minSelectedRating) {
+                ratingMatch = true;
+            }
+        }
+
+        if (priceMatch && categoryMatch && ratingMatch) {
+            item.style.display = 'block';
+            item.classList.add('filter-fade-enter');
+            visibleCount++;
+        } else {
+            item.style.display = 'none';
+            item.classList.remove('filter-fade-enter');
+        }
+    });
+
+    var noRoomsMsg = document.getElementById('noRoomsFilterMsg');
+    if (noRoomsMsg) {
+        noRoomsMsg.style.display = (visibleCount === 0) ? 'block' : 'none';
+    }
+
+    if (typeof AOS !== 'undefined') {
+        setTimeout(function () { AOS.refresh(); }, 50);
+    }
+}
+
+function clearAllFilters() {
+    document.querySelectorAll('.filter-price-chk, .filter-category-chk, .filter-rating-chk').forEach(function (chk) {
+        chk.checked = false;
+    });
+    applyFilters();
+}
+
 function filterRooms(category, btnElement) {
     if (category && typeof category === 'object' && category.getAttribute) {
         btnElement = category;
@@ -13,33 +104,25 @@ function filterRooms(category, btnElement) {
 
     category = (category || 'all').toString().toLowerCase().trim().replace(/\s+/g, '-');
 
-    var buttons = document.querySelectorAll('.room-filter-btn');
-    buttons.forEach(function (btn) {
-        btn.classList.remove('active');
-    });
-    if (btnElement) {
-        btnElement.classList.add('active');
+    if (category === 'all') {
+        clearAllFilters();
+        return;
     }
 
-    var roomItems = document.querySelectorAll('.room-item-col');
-    roomItems.forEach(function (item) {
-        var cat = (item.getAttribute('data-category') || '').toString().toLowerCase().trim().replace(/\s+/g, '-');
-        var searchCat = category.replace(/-/g, ' ').trim();
-        var itemCatClean = cat.replace(/-/g, ' ').trim();
-
-        var isMatch = (category === 'all' || category === '') ||
-                        (cat === category) ||
-                        (itemCatClean === searchCat) ||
-                        (itemCatClean.length > 0 && searchCat.length > 0 && (itemCatClean.indexOf(searchCat) !== -1 || searchCat.indexOf(itemCatClean) !== -1));
-
-        if (isMatch) {
-            item.style.display = 'block';
-            item.classList.add('filter-fade-enter');
-        } else {
-            item.style.display = 'none';
-            item.classList.remove('filter-fade-enter');
-        }
-    });
+    var chks = document.querySelectorAll('.filter-category-chk');
+    if (chks.length > 0) {
+        chks.forEach(function (chk) {
+            chk.checked = (chk.value.toLowerCase().replace(/\s+/g, '-') === category);
+        });
+        applyFilters();
+    } else {
+        var roomItems = document.querySelectorAll('.room-item-col');
+        roomItems.forEach(function (item) {
+            var cat = (item.getAttribute('data-category') || '').toString().toLowerCase().trim().replace(/\s+/g, '-');
+            var isMatch = (category === 'all' || category === '') || (cat === category);
+            item.style.display = isMatch ? 'block' : 'none';
+        });
+    }
 
     if (typeof AOS !== 'undefined') {
         setTimeout(function () { AOS.refresh(); }, 50);
@@ -77,6 +160,31 @@ function scrollToRooms() {
    ========================================== */
 var selectedRoomData = null;
 
+function triggerDatePicker(inputId) {
+    var el = document.getElementById(inputId);
+    if (el) {
+        if (typeof el.showPicker === 'function') {
+            try { el.showPicker(); return; } catch (e) {}
+        }
+        el.focus();
+        el.click();
+    }
+}
+
+function formatDateToCustom(input, displayId) {
+    if (!input || !input.value) return;
+    var parts = input.value.split('-');
+    if (parts.length === 3) {
+        var d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+        var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var formatted = days[d.getDay()] + ', ' + d.getDate() + ' ' + months[d.getMonth()];
+        var el = document.getElementById(displayId);
+        if (el) el.innerText = formatted;
+    }
+    if (typeof updateStaySummary === 'function') updateStaySummary();
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     initDefaultDates();
 });
@@ -91,6 +199,9 @@ function initDefaultDates() {
 
     if (cin && !cin.value) cin.valueAsDate = today;
     if (cout && !cout.value) cout.valueAsDate = tomorrow;
+
+    if (cin && cin.value) formatDateToCustom(cin, 'lblCheckInDisplay');
+    if (cout && cout.value) formatDateToCustom(cout, 'lblCheckOutDisplay');
 
     updateStaySummary();
 }

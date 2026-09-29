@@ -10,6 +10,14 @@ public partial class Room : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
+            DateTime today = DateTime.Today;
+
+            txtCheckIn.Text = today.ToString("yyyy-MM-dd");
+            txtCheckOut.Text = today.AddDays(1).ToString("yyyy-MM-dd");
+
+            litCheckIn.Text = today.ToString("ddd, d MMM", System.Globalization.CultureInfo.InvariantCulture);
+            litCheckOut.Text = today.AddDays(1).ToString("ddd, d MMM", System.Globalization.CultureInfo.InvariantCulture);
+
             LoadRooms();
             LoadCustomerCategoryFilters();
         }
@@ -35,7 +43,8 @@ public partial class Room : System.Web.UI.Page
                 ViewType,
                 PrimaryRoomImage,
                 ShortDescription,
-                KeyAmenities
+                KeyAmenities,
+                ISNULL(RoomStatus, 'Available') AS RoomStatus
             FROM Rooms
             WHERE ISNULL(IsActive, 1) = 1
             ORDER BY RoomId DESC";
@@ -55,6 +64,17 @@ public partial class Room : System.Web.UI.Page
                 }
             }
         }
+    }
+
+    public string GetRoomAvailabilityBadge(object statusObj)
+    {
+        string status = statusObj != null ? statusObj.ToString().Trim() : "Available";
+        if (status.Equals("Booked", StringComparison.OrdinalIgnoreCase) ||
+            status.Equals("Occupied", StringComparison.OrdinalIgnoreCase))
+        {
+            return "<span class=\"badge-room-booked\"><i class=\"bi bi-x-circle-fill text-danger me-1\"></i> Booked</span>";
+        }
+        return "<span class=\"badge-room-avail\"><i class=\"bi bi-check-circle-fill text-success me-1\"></i> Available</span>";
     }
 
 

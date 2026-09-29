@@ -111,7 +111,7 @@
                                     </div>
 
                                     <div data-aos="fade-up" data-aos-delay="600">
-                                        <a href='BookNow.aspx?RoomId=<%# Eval("RoomId") %>&room=<%# HttpUtility.UrlEncode(Convert.ToString(Eval("RoomName"))) %>&price=<%# Eval("PricePerNight") %>'
+                                        <a href='Booking.aspx?RoomId=<%# Eval("RoomId") %>&room=<%# HttpUtility.UrlEncode(Convert.ToString(Eval("RoomName"))) %>&price=<%# Eval("PricePerNight") %>'
                                             class="btn btn-book-now">
                                             <i class="bi bi-calendar-check me-2"></i> Book Now
                                         </a>

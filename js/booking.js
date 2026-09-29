@@ -272,16 +272,20 @@ function handleOnlineBookingSubmit(e) {
     var arrInput = document.getElementById('arrivalDate');
     var depInput = document.getElementById('departureDate');
     if (!arrInput || !arrInput.value || !depInput || !depInput.value) {
-        alert('Please select your Check-in and Check-out dates in Step 1.');
-        if (arrInput && !arrInput.value) arrInput.focus();
-        else if (depInput) depInput.focus();
-        return;
+        var today = new Date();
+        var tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        var fmt = function (d) { return d.toISOString().split("T")[0]; };
+        if (arrInput && !arrInput.value) arrInput.value = fmt(today);
+        if (depInput && !depInput.value) depInput.value = fmt(tomorrow);
+        bookingState.checkIn = arrInput ? arrInput.value : fmt(today);
+        bookingState.checkOut = depInput ? depInput.value : fmt(tomorrow);
     }
 
     if (!bookingState.room || bookingState.ratePerNight <= 0) {
-        alert('Please select a room in Step 2 to proceed.');
-        var step2 = document.querySelector('.booking-room-pick-grid');
-        if (step2) step2.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        alert('Please select a room in Step 1 to proceed.');
+        var step1 = document.querySelector('.booking-room-pick-grid');
+        if (step1) step1.scrollIntoView({ behavior: 'smooth', block: 'center' });
         return;
     }
 
@@ -299,7 +303,7 @@ function handleOnlineBookingSubmit(e) {
     var neuId = document.getElementById('guestNeuId') ? document.getElementById('guestNeuId').value.trim() : '';
 
     if (!guestName || !guestEmail || !guestContact) {
-        alert('Please enter your complete Name, Email, and Phone Number in Step 3.');
+        alert('Please enter your complete Name, Email, and Phone Number in Step 2.');
         if (!guestName && document.getElementById('guestName')) document.getElementById('guestName').focus();
         else if (!guestEmail && document.getElementById('guestEmail')) document.getElementById('guestEmail').focus();
         else if (document.getElementById('guestContact')) document.getElementById('guestContact').focus();
@@ -444,14 +448,21 @@ document.addEventListener("DOMContentLoaded", function () {
         arrInput.min = fmt(today);
         depInput.min = fmt(tomorrow);
 
-        // Pre-fill ONLY if passed in URL params (from Check Availability)
+        // Pre-fill if passed in URL params or default to today/tomorrow
         if (checkInParam) {
             arrInput.value = checkInParam;
             bookingState.checkIn = checkInParam;
+        } else if (!arrInput.value) {
+            arrInput.value = fmt(today);
+            bookingState.checkIn = fmt(today);
         }
+
         if (checkOutParam) {
             depInput.value = checkOutParam;
             bookingState.checkOut = checkOutParam;
+        } else if (!depInput.value) {
+            depInput.value = fmt(tomorrow);
+            bookingState.checkOut = fmt(tomorrow);
         }
 
         arrInput.addEventListener("change", function () {

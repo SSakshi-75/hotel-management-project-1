@@ -8,10 +8,14 @@ public partial class BookNow : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack)
+        string query = Request.Url != null ? Request.Url.Query : "";
+        if (Session["UserId"] == null)
         {
-            LoadCategoryFilterPills();
+            Response.Redirect("Login.aspx?msg=room&returnUrl=" + Server.UrlEncode("Booking.aspx" + query));
+            return;
         }
+
+        Response.Redirect("Booking.aspx" + query);
     }
 
     private void LoadCategoryFilterPills()

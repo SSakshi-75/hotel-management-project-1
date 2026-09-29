@@ -87,7 +87,8 @@ public partial class Admin_ManageHotel : Page
                         RoomArea, 
                         ViewType, 
                         PrimaryRoomImage,
-                        ISNULL(IsActive, 1) AS IsActive
+                        ISNULL(IsActive, 1) AS IsActive,
+                        ISNULL(RoomStatus, 'Available') AS RoomStatus
                     FROM Rooms 
                     ORDER BY RoomID DESC";
 

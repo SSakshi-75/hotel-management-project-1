@@ -60,6 +60,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (bookNowBtn && roomName) {
         var q = '?room=' + encodeURIComponent(roomName);
         if (roomPrice) q += '&price=' + encodeURIComponent(roomPrice);
-        bookNowBtn.href = 'BookNow.aspx' + q;
+        bookNowBtn.href = 'Booking.aspx' + q;
     }
 });
