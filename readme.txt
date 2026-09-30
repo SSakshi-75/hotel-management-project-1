@@ -1,289 +1,359 @@
 ================================================================================
-                    THE ROYAL PALACE HOTEL & RESORT
-       Enterprise Hotel Management & Reservation System (ASP.NET & C#)
+                      THE ROYAL PALACE HOTEL & RESORT
+        Enterprise Hotel Management & Reservation System (ASP.NET & C#)
 ================================================================================
 
 1. PROJECT OVERVIEW
 --------------------------------------------------------------------------------
-The Royal Palace Hotel Management System is an enterprise-grade, full-stack 
-hospitality web application designed and built using ASP.NET Web Forms (C#) 
-and Microsoft SQL Server. 
+The Royal Palace Hotel Management System is a comprehensive, enterprise-grade,
+full-stack hospitality platform engineered using ASP.NET Web Forms (C#) and
+Microsoft SQL Server.
 
-The platform delivers an opulent, luxury guest-facing portal with seamless 
-online room discovery, detailed suite specifications, dynamic photo galleries, 
-and reservation management, backed by a comprehensive Executive Admin Portal 
-for managing rooms, galleries, reservations, guest inquiries, and operations.
+The system delivers an opulent, luxury guest-facing experience coupled with an
+executive administrative suite for end-to-end hotel operations, live room
+availability synchronization, guest stay lifecycle management, fine dining table
+reservations, and verified guest portfolios.
 
 Key System Highlights:
-* Bespoke Royal Heritage UI: Premium Mahogany (#442305) and Warm Gold (#B88E68 / #9A724E) 
-  color palette with Playfair Display, Cormorant Upright, and Plus Jakarta Sans typography.
-* Dynamic Data-Driven Architecture: Seamless ADO.NET database binding with parameterized 
-  queries for rooms, pricing, amenities, galleries, and reviews.
-* Granular Single-Room Details Engine: High-performance ASP.NET Repeater dynamically 
-  rendering exact room specifications, 5-photo interactive gallery, verified guest review 
-  highlight box, and categorized luxury amenity cards based on URL parameters.
-* End-to-End Room Management: Dedicated Admin Room Publishing Engine supporting image 
-  uploads, rate configuration, specs, and real-time database updates.
-* Multi-Step Booking & Calculations: Automated nightly calculation with 18% GST tax, 
-  special add-on packages, and verified inquiry modals.
-* Enterprise Security: 100% Parameterized SQL queries preventing SQL Injection, 
-  secure session handling, cryptographic password protection, and HTML sanitization.
-* Fully Responsive Design: Pixel-perfect cross-device layouts for mobile, tablet, 
-  laptop, and 4K desktop screens using Bootstrap 5 and customized CSS.
+* Bespoke Royal Heritage UI:
+  Signature Royal Mahogany Brown (#442305) and Warm Gold (#B88E68 / #9A724E) 
+  executive theme with Playfair Display, Cormorant Upright, and Plus Jakarta Sans.
+* Real-Time Database Synchronization:
+  Live SQL Server data binding with 100% parameterized ADO.NET queries across
+  rooms, reservations, dining tables, categories, and customer profiles.
+* Unified Room Availability & Inventory Engine:
+  Live visual matrix tracking operational states: Available, Occupied (In-House),
+  Cleaning (Housekeeping), Maintenance, and Blocked (VIP Hold), alongside date
+  range search and automatic reservation overlap detection.
+* End-to-End Guest Stay Lifecycle Ledger:
+  Automated lifecycle tracking from Search -> Suite Selection -> Double-Check Lock
+  -> Actual Check-In (auto-sets Room to Occupied) -> Check-Out (auto-sends Room to
+  Cleaning) -> Completed.
+* Granular Single-Room Specifications Engine:
+  High-performance ASP.NET repeater rendering rich suite details, 5-photo
+  interactive switcher gallery, highlight box, categorized amenities, and direct
+  reservation deep-linking.
+* Customer Account & Session Management:
+  Complete guest registration, secure authentication, dynamic personalized master
+  navigation with user greeting, and dedicated one-click Customer Logout.
+* Dining & Restaurant Management:
+  Multi-table reservation engine with capacity controls, menu catalogs, and
+  guest reservation tracking.
+* Zero-Tolerance Enterprise Security:
+  100% Parameterized SQL queries to eliminate SQL injection, segregated session
+  privileges, output encoding against XSS, and zero credential leakage.
 
 ================================================================================
 2. TECHNOLOGY STACK
 ================================================================================
-Backend Framework       : ASP.NET Web Forms (.NET Framework 4.8.1 / C#)
+Backend Framework       : ASP.NET Web Forms (.NET Framework 4.8 / 4.8.1, C#)
 Architecture Pattern    : Code-Behind (ASPX + C#), Modular Master Pages
-Database Management     : Microsoft SQL Server (LocalDB / Express / Enterprise)
+Database Engine         : Microsoft SQL Server (LocalDB / Express / Enterprise)
 Data Access Layer       : ADO.NET (SqlConnection, SqlCommand, SqlDataAdapter, DataTable)
-Frontend Core           : HTML5, CSS3, JavaScript (ES6+)
-CSS & UI Architecture   : Bootstrap 5.3.2, Custom Modular CSS, Flexbox & CSS Grid
-Typography & Icons      : Google Fonts (Playfair Display, Cormorant Upright, Plus Jakarta Sans),
-                          Bootstrap Icons (1.11.3), Font Awesome 6.5.1
-Animations & Effects    : AOS (Animate on Scroll), Swiper.js, CSS Keyframe Transitions
-Server Environment      : Microsoft IIS / IIS Express, ASP.NET Web Application Server
+Frontend Architecture   : HTML5, CSS3, JavaScript (Vanilla ES6+)
+Styling & Design System : Bootstrap 5.3.2, Custom Luxury CSS (style.css, managehotel.css)
+Typography              : Google Fonts (Playfair Display, Cormorant Upright, Plus Jakarta Sans)
+Iconography             : Bootstrap Icons (v1.11.3), Font Awesome (v6.5.1)
+Server Environment      : Microsoft IIS 10+ / IIS Express
 
 ================================================================================
-3. PROJECT ARCHITECTURE & FILE DIRECTORY MAP
+3. SYSTEM ARCHITECTURE & COMPLETE DIRECTORY MAP
 ================================================================================
 Hotel-Management-Project-1/
 │
-├── MasterPage.master          # Public Master Page (Header, Nav, Footer, Modals)
-├── MasterPage.master.cs       # Public Master Page Code-Behind
-├── Web.config                 # Database Connection Configuration & Runtime Settings
-├── style.css                  # Master Brand Theme & Component Stylesheet (8,000+ lines)
-├── readme.txt                 # Master Project Technical Documentation
+├── MasterPage.master             # Public Master Page (Header, Nav, Auth State, Footer)
+├── MasterPage.master.cs          # Public Master Code-Behind (Session & User State Logic)
+├── Logout.aspx                   # Dedicated Customer Logout Gateway
+├── Logout.aspx.cs                # Session Destruction & Clean Redirect Logic
+├── Web.config                    # Application Settings & Database Configuration
+├── style.css                     # Public Master Luxury Stylesheet
+├── readme.txt                    # Project Technical Documentation
 │
 ├── PUBLIC GUEST PORTAL (FRONTEND)
-│   ├── index.aspx             # Resort Homepage: Hero Slider, Highlights, Quick Booking
-│   ├── index.aspx.cs          # Homepage Server Logic
-│   ├── Room.aspx              # Room Listing Catalog: Category Filter & Dynamic Room Cards
-│   ├── Room.aspx.cs           # Database Query & DataBinding for Room Cards
-│   ├── RoomDetails.aspx       # Single Suite Specifications, Gallery & Booking Page
-│   ├── RoomDetails.aspx.cs    # Suite Details Controller & Helper Renderers
-│   ├── Booking.aspx           # Multi-Room Reservation & Pricing Overview
-│   ├── Booking.aspx.cs        # Booking Page Server Logic
-│   ├── BookNow.aspx           # Step-by-Step Checkout, Guest Details & Confirmation
-│   ├── BookNow.aspx.cs        # Final Reservation Processing
-│   ├── Dining.aspx            # Gourmet Fine Dining, Menus & Table Reservations
-│   ├── Dining.aspx.cs         # Dining Page Controller
-│   ├── Amenities.aspx         # Resort Spa, Infinity Pool & Concierge Services
-│   ├── Amenities.aspx.cs      # Amenities Page Controller
-│   ├── Offers.aspx            # Seasonal Packages, Member Discounts & Promo Codes
-│   ├── Offers.aspx.cs         # Offers Controller
-│   ├── OfferDetails.aspx      # Detailed Promo Offer Breakdown
-│   ├── OfferDetails.aspx.cs   # Offer Details Controller
-│   ├── About.aspx             # Hotel Heritage, History, Leadership & Awards
-│   ├── About.aspx.cs          # About Us Controller
-│   ├── Location.aspx          # Interactive Map, Nearby Attractions & Directions
-│   ├── Location.aspx.cs       # Location Controller
-│   ├── Gallery.aspx           # Resort Photo & Video Showcase Gallery
-│   ├── Gallery.aspx.cs        # Gallery Controller
-│   ├── Contact.aspx           # Inquiry Contact Form, Reception & Concierge Desk
-│   ├── Contact.aspx.cs        # Contact Submission Handler
-│   ├── Login.aspx             # Guest User Authentication Portal
-│   ├── Login.aspx.cs          # Authentication & Session Initiation
-│   ├── LoginConfirmation.aspx # Post-Authentication Redirect & Greeting
-│   ├── Register.aspx          # New Guest Account Registration & Validation
-│   ├── Register.aspx.cs       # Password Hashing & User Insertion Logic
+│   ├── index.aspx                # Resort Landing Page: Hero Showcase, Quick Booking Bar
+│   ├── index.aspx.cs             # Homepage Data & Highlights Controller
+│   ├── Room.aspx                 # Suite Catalog: Dynamic Category Filters & Room Cards
+│   ├── Room.aspx.cs              # Database-Driven Inventory Loader
+│   ├── RoomDetails.aspx          # Deep Suite Specifications, Interactive 5-Photo Gallery
+│   ├── RoomDetails.aspx.cs       # Suite Details Controller & Custom Renderers
+│   ├── Booking.aspx              # Multi-Room Reservation & Pricing Overview
+│   ├── Booking.aspx.cs           # Booking Server Calculations
+│   ├── BookNow.aspx              # Step-by-Step Checkout, Guest Details & Confirmation
+│   ├── BookNow.aspx.cs           # Reservation SQL Insertion & Double-Check Lock
+│   ├── Dining.aspx               # Gourmet Dining Showcase & Table Reservations
+│   ├── Dining.aspx.cs            # Dining Server Controller
+│   ├── Amenities.aspx            # Luxury Spa, Infinity Pool, Concierge & Fitness
+│   ├── Amenities.aspx.cs         # Amenities Controller
+│   ├── Offers.aspx               # Seasonal Packages, Member Privileges & Promos
+│   ├── Offers.aspx.cs            # Offers Catalog Controller
+│   ├── OfferDetails.aspx         # Offer Package Breakdown & Validity Rules
+│   ├── OfferDetails.aspx.cs      # Offer Details Controller
+│   ├── About.aspx                # Resort Heritage, Royal Architecture, Leadership & Awards
+│   ├── About.aspx.cs             # About Us Controller
+│   ├── Location.aspx             # Maps, Travel Distances, Airport Transfers & Directions
+│   ├── Location.aspx.cs          # Location Controller
+│   ├── Gallery.aspx              # Visual Media Showcase & Filterable Photo Grid
+│   ├── Gallery.aspx.cs           # Gallery Controller
+│   ├── Contact.aspx              # Inquiries, Concierge Desk & Contact Form
+│   ├── Contact.aspx.cs           # Inquiry Submission Handler
+│   ├── Login.aspx                # Customer Authentication Gateway
+│   ├── Login.aspx.cs             # Verification & Customer Session Initiation
+│   ├── LoginConfirmation.aspx    # Post-Login Welcome Screen
+│   ├── Register.aspx             # Customer Registration Portal
+│   ├── Register.aspx.cs          # Account Creation & Data Validation
 │   ├── RegistrationConfirmation.aspx # Registration Success Screen
-│   ├── Privacy.aspx           # Privacy Policy & Data Security Compliance
-│   └── Terms.aspx             # Terms of Service & Cancellation Policies
+│   ├── Privacy.aspx              # Privacy Policy & Data Security Compliance
+│   └── Terms.aspx                # Terms of Service, Cancellation & Refund Policies
 │
-├── ADMIN EXECUTIVE MANAGEMENT PORTAL
+├── EXECUTIVE ADMIN PORTAL
 │   └── admin/
-│       ├── AdminMaster.master # Unified Executive Admin Layout with Sidebar & Topbar
-│       ├── AdminMaster.master.cs # Admin Master Navigation State Controller
-│       ├── Dashboard.aspx     # Operational Metrics (Revenue, Occupancy, Bookings, Trends)
-│       ├── Dashboard.aspx.cs  # Metrics Aggregation & Dynamic Analytics Loader
-│       ├── Rooms.aspx         # Hotel Room Inventory Catalog & Management View
-│       ├── Rooms.aspx.cs      # Admin Room Management Operations
-│       ├── AddRoom.aspx       # Unified Add Room & Suite Specification Form
-│       ├── AddRoom.aspx.cs    # Room Publishing Controller & Multi-Image Upload Engine
-│       ├── ManageRoomDetails.aspx # Room Details Page Customizer (Galleries, Policies)
-│       ├── ManageRoomDetails.aspx.cs # Room Details Configuration Controller
-│       ├── Login.aspx         # Secure Administrative Access Gateway
-│       ├── Login.aspx.cs      # Role-Based Verification & Admin Session Security
+│       ├── AdminMaster.master    # Executive Layout: Collapsible Sidebar & Topbar
+│       ├── AdminMaster.master.cs # Navigation Active-State & Notification Engine
+│       ├── Dashboard.aspx        # Executive Command: KPI Metrics & Performance Analytics
+│       ├── Dashboard.aspx.cs     # Real-Time Operational Analytics Aggregator
+│       ├── ManageHotel.aspx      # Gold Standard Suite Management & Grid View
+│       ├── ManageHotel.aspx.cs   # Suite Catalog Operations & Category Binding
+│       ├── Availability.aspx     # Room Availability & Operational Inventory Matrix
+│       ├── Availability.aspx.cs  # Housekeeping Status & Date Overlap Inspection
+│       ├── Bookings.aspx         # Reservations & Guest Stay Lifecycle Ledger
+│       ├── Bookings.aspx.cs      # Check-In, Check-Out & Cancel Automation Handlers
+│       ├── Rooms.aspx            # Room Inventory Overview & Operations
+│       ├── Rooms.aspx.cs         # Room Directory Controller
+│       ├── AddRoom.aspx          # Comprehensive Room Publishing & Multi-Image Upload
+│       ├── AddRoom.aspx.cs       # Suite Creation & Image Pipeline Controller
+│       ├── EditRoom.aspx         # Suite Specification & Amenity Editor
+│       ├── EditRoom.aspx.cs      # Suite Update Controller
+│       ├── DeleteRoom.aspx       # Safe Deletion Guard & Reference Checker
+│       ├── DeleteRoom.aspx.cs    # Suite Removal Controller
+│       ├── ManageCategory.aspx   # Room Categories Overview & Management
+│       ├── ManageCategory.aspx.cs# Category Controller
+│       ├── AddCategory.aspx      # Category Creator Form
+│       ├── AddCategory.aspx.cs   # Category Creation Controller
+│       ├── Gallery.aspx          # Admin Media & Gallery Assets Manager
+│       ├── Gallery.aspx.cs       # Gallery Management Controller
+│       ├── RestaurantManagement.aspx # Dining Details & Operating Hours
+│       ├── RestaurantManagement.aspx.cs # Restaurant Controller
+│       ├── RestaurantTables.aspx # Table Inventory & Seating Layout
+│       ├── RestaurantTables.aspx.cs # Table Setup Controller
+│       ├── TableReservations.aspx# Table Booking Ledger & Guest Requests
+│       ├── TableReservations.aspx.cs # Table Reservation Controller
+│       ├── Menu.aspx             # Restaurant Menu Catalog & Pricing
+│       ├── Menu.aspx.cs          # Menu Controller
+│       ├── Offers.aspx           # Promotional Deals & Validity Controls
+│       ├── Offers.aspx.cs        # Admin Offers Controller
+│       ├── Packages.aspx         # Bundled Holiday Packages Manager
+│       ├── Packages.aspx.cs      # Packages Controller
+│       ├── RoomRates.aspx        # Tariff Adjustments & Dynamic Pricing
+│       ├── RoomRates.aspx.cs     # Rate Management Controller
+│       ├── Users.aspx            # Registered Customer Directory & Records
+│       ├── Users.aspx.cs         # Customer Management Controller
+│       ├── Reviews.aspx          # Verified Guest Feedback & Moderation
+│       ├── Reviews.aspx.cs       # Reviews Controller
+│       ├── Enquiries.aspx        # General Inquiries & Contact Submissions
+│       ├── Enquiries.aspx.cs     # Inquiry Management Controller
+│       ├── Settings.aspx         # Hotel System Preferences & Brand Controls
+│       ├── Settings.aspx.cs      # Settings Controller
+│       ├── Login.aspx            # Administrative Access Gateway
+│       ├── Login.aspx.cs         # Admin Authentication & Credential Verification
 │       ├── css/
-│       │   ├── dashboard.css  # Admin Dashboard & Metric Cards Design
-│       │   └── addroom.css    # Admin Form & Image Slot Layout System
+│       │   ├── managehotel.css   # Executive Royal Brown/Gold Luxury Theme Standard
+│       │   ├── dashboard.css     # KPI Metrics & Chart Containers
+│       │   ├── addroom.css       # Form Controls & Image Upload Slots
+│       │   └── login.css         # Admin Login Interface
 │       └── js/
-│           ├── dashboard.js   # Analytics Charts (Chart.js) & Live Stat Counters
-│           ├── addroom.js     # Form Validation, Image Preview & Slot Handlers
-│           └── login.js       # Admin Security Validation Script
+│           ├── dashboard.js      # Sidebar Toggles, Charts & Live Clocks
+│           └── addroom.js        # Multi-Image Preview & Form Validation
 │
-└── ASSETS, MEDIA & LIBRARIES
-    ├── images/                # High-Res Logos, Hero Banners, Food & Resort Photos
-    │   └── rooms/             # Admin-Uploaded Primary & Gallery Suite Photos
-    ├── css/                   # Sub-stylesheets & Third-Party CSS Frameworks
-    └── js/                    # Client-Side Helpers, Gallery Lightbox & Date Handlers
-        ├── room.js            # Room Filter Tab Switcher & Dynamic Navigation
-        └── room-details.js    # Gallery Photo Swap, Inquiry Modal & Book Now Sync
+└── ASSETS, MEDIA & SCRIPTS
+    ├── images/                   # High-Res Brand Logos, Banners & Dining Photography
+    │   └── rooms/                # Dynamic Primary & Gallery Suite Uploads
+    ├── css/                      # Public Modular CSS & Icons
+    └── js/                       # Client Helpers & UI Scripts
+        ├── room.js               # Category Filter Tab Switcher
+        ├── room-details.js       # Smooth Gallery Image Swapper & Modal Handlers
+        └── booking.js            # Live Date Picker & Folio Calculator
 
 ================================================================================
-4. DETAILED FUNCTIONAL MODULES
+4. DETAILED FUNCTIONAL MODULES & FEATURES
 ================================================================================
 
-MODULE 1: ROOMS CATALOG & CATEGORY FILTERING (Room.aspx)
 --------------------------------------------------------------------------------
-* Data-Driven Repeater: Automatically loads active inventory from SQL Server `Rooms` 
-  table ordered by newest additions.
-* Category Filtering: Instant filtering across suites and rooms:
-  - All Accommodations
-  - Executive Suites
-  - Deluxe Rooms
-  - Family Suites
-  - Royal King Chambers
-  - Penthouse Havens
-* Responsive Room Cards: Displays primary suite image, category badge, room title, 
-  nightly tariff (formatted with currency symbol), guest capacity, area in m², 
-  scenic view type, and key amenity checkmarks.
-* Dynamic Deep-Linking: Every room card features a "View Details" button automatically 
-  mapped to `RoomDetails.aspx?RoomId={ID}` to open the exact suite's specifications.
-
-MODULE 2: SUITE SPECIFICATIONS & DETAILS ENGINE (RoomDetails.aspx)
+MODULE 1: PUBLIC ROOM CATALOG & DYNAMIC FILTERING (Room.aspx)
 --------------------------------------------------------------------------------
-* Single-Room Precision Loading: Code-behind securely reads `RoomId` (or fallback 
-  title parameters) and loads only the requested room via ADO.NET `SqlDataAdapter`.
-* Hero Header Banner: Dynamic luxury banner showcasing top category badge, bespoke hero 
-  title, curated subtitle tagline, and interactive breadcrumb navigation.
-* Overview & Specifications:
-  - Main primary high-res room image with category badge overlay.
-  - Guest rating score with dynamic 5-star / half-star icon calculation.
-  - Key specifications grid: Max Guests, Room Area, and View Type.
-  - Price per night badge with live "Book Now" routing.
-* Luxury 5-Image Gallery Grid:
-  - 1 Primary Large Feature Photo on the left (height: 360px).
-  - 4 High-Resolution Thumbnails on the right in a 2x2 grid (Photo Slots 1 to 4).
-  - Interactive Gallery Switcher: Clicking any thumbnail instantly swaps it with the 
-    main viewport smoothly without page reload (`swapGallery(this)`).
-* Room Overview & Highlight Card:
-  - Multi-paragraph rich overview text formatted with luxury line spacing.
-  - Highlight Box (`.highlight-box`): Soft gradient background, 1px gold border, 
-    circular golden star icon, "Premium Experience" header, quoted guest testimonial, 
-    and verified guest author attribution.
-* Categorized 4-Column Luxury Amenities:
-  - Four distinct amenity cards matching resort theme (`.amenity-category`):
-    1. Sleeping   : King emperor bed, Egyptian cotton linens, Memory foam pillows, Blackout drapes
-    2. Technology : High-speed Wi-Fi, 55" 4K Smart OLED TV, Bluetooth soundbar, USB-C hub
-    3. Comfort    : Touch climate control, Gourmet mini bar, Coffee machine, Electronic safe
-    4. Bathroom   : Italian marble bath, Rain glass shower, Luxury toiletries, Bathrobes & slippers
-* Tabbed Information System:
-  - Tab 1: Policies (Check-in 2:00 PM, Check-out 11:00 AM, 24-hr Free Cancellation)
-  - Tab 2: Location & Attractions (Diplomatic Enclave, Airport Transfer, Metro)
-  - Tab 3: Dedicated Services (24/7 Royal Concierge, Fine In-Room Dining, Housekeeping)
-* Enhance Your Stay Add-ons:
-  - Royal Gourmet Breakfast Package
-  - Luxury Thermal Spa & Hydrotherapy Access
-  - VIP Sedan Airport Transfer
-* Quick Booking Inquiry Modal:
-  - Client-side validated popup form for instant guest check-in/check-out inquiry.
+* Data-Driven Repeater: Automatically streams all active suites from SQL Server
+  `Rooms` table ordered by publication date.
+* Category Tabs: Seamless switching across All Accommodations, Executive Suites,
+  Deluxe Rooms, Family Suites, Royal King Chambers, and Penthouse Havens.
+* Rich Suite Cards: Displays primary suite image, category badge, suite name,
+  per-night tariff in INR, maximum guest capacity, area in m², view orientation,
+  and checkmark amenities.
+* Deep Linking: "View Details" button automatically routes guests directly to
+  `RoomDetails.aspx?RoomId={ID}`.
 
-MODULE 3: ADMIN ADD ROOM & SPECIFICATION PUBLISHING (admin/AddRoom.aspx)
 --------------------------------------------------------------------------------
-* Unified Administration Form: Allows administrators to publish both basic listing 
-  data and full room detail page specifications in a single operation:
-  - Section 1: Basic Information
-    * Room/Suite Title
-    * Room Category Filter (Dropdown)
-    * Price Per Night in INR
-    * Category Badge Tag (e.g. EXECUTIVE, DELUXE)
-    * Rating Score (e.g. 4.9 out of 5.0)
-    * Guest Capacity, Room Size (m²), and View Type
-    * Primary Listing Image (File Upload)
-    * Short Card Description
-    * Key Amenity Checkbox Pills
-  - Section 2: Extended Room Details
-    * Top Banner Badge Text
-    * Page Hero Title & Subtitle Tagline
-    * Featured Header Image (File Upload)
-    * Detailed Room Overview (Long-form description)
-    * Suite Highlights (Comma-separated highlights)
-    * 4 Photo Gallery Upload Slots (Main, Bedding, Bathroom, Balcony)
-    * Featured Guest Review Quote & Author Details
-* Automated Asset Pipeline: Validates, saves, and links uploaded files to `~/images/rooms/`.
-* Secure Database Execution: Parameterized SQL INSERT transaction populates the `Rooms` 
-  table with unique auto-increment sequence identifiers.
-* Admin Feedback Panel: Instant alert banner confirming publication success.
+MODULE 2: SINGLE SUITE SPECIFICATIONS ENGINE (RoomDetails.aspx)
+--------------------------------------------------------------------------------
+* Precision Loading: Reads `RoomId` via QueryString and loads specific suite data
+  using parameterized ADO.NET SQL adapter.
+* Luxury 5-Image Gallery:
+  - 1 Primary Large Feature Viewport on the left (360px height).
+  - 4 High-Resolution Thumbnails on the right in a 2x2 grid.
+  - Interactive Swap: Clicking any thumbnail instantly swaps it into the main
+    viewport smoothly without reloading the page (`swapGallery(this)`).
+* Highlight Testimonial Box: Soft gradient card, 1px gold border, circular gold
+  star icon, "Premium Experience" badge, quoted review, and verified guest author.
+* Categorized 4-Column Amenities:
+  1. Sleeping   : King bed, Egyptian cotton linens, memory foam pillows, drapes.
+  2. Technology : High-speed Wi-Fi, 55" 4K Smart OLED TV, Bluetooth soundbar.
+  3. Comfort    : Touch climate control, gourmet minibar, coffee machine, safe.
+  4. Bathroom   : Italian marble bath, rain glass shower, luxury bathrobes.
+* Stay Policies & Enhance Your Stay: Check-in/out times, free cancellation terms,
+  breakfast package add-ons, and quick booking inquiry modal.
 
-MODULE 4: EXECUTIVE DASHBOARD & ADMIN PORTAL (admin/Dashboard.aspx)
 --------------------------------------------------------------------------------
-* KPI Metrics: Real-time calculation of Total Bookings, Monthly Revenue, Occupancy Rate, 
-  and Total Registered Guests.
-* Live Interactive Charts: Chart.js integrations rendering monthly revenue trends and 
-  occupancy percentage distributions.
-* Recent Reservations Table: Tabular breakdown of latest guest bookings with live status 
-  badges (Confirmed, Pending, Cancelled) and quick action controls.
-* Responsive Sidebar: Multi-level collapsible menu system with brand logo header.
+MODULE 3: CUSTOMER AUTHENTICATION & DYNAMIC HEADER (Login.aspx, Logout.aspx)
+--------------------------------------------------------------------------------
+* Guest Login & Registration: Validates guest credentials, initializes secure
+  `Session["UserEmail"]` and `Session["UserName"]`.
+* Personalized Header State: When logged in, [MasterPage.master] dynamically:
+  - Replaces "Login" button with customer greeting (e.g. "Hi, Sakshi").
+  - Displays direct "My Bookings" button.
+  - Displays dedicated "Logout" button.
+* Dedicated Logout Handler: [Logout.aspx] cleanly flushes session keys, abandons
+  the session, clears authentication cookies, and returns the guest to the homepage.
 
-MODULE 5: GUEST BOOKING ENGINE & CHECKOUT (Booking.aspx & BookNow.aspx)
 --------------------------------------------------------------------------------
-* Dynamic Date Picker & Night Calculator: Real-time calculation of total nights 
-  between check-in and check-out.
-* Live Price Summary: Automatically calculates Subtotal = (Nights x Tariff) + Add-ons.
-* GST Tax Calculator: Automatically computes standard 18% hospitality tax.
-* Guest Details Capture: Full Name, Email, Phone, Special Requests, and Room Preferences.
-* Secure Payment Gateway Simulation: Card, UPI, Net Banking, and Pay-At-Hotel modes.
+MODULE 4: EXECUTIVE ADMIN MASTER & THEME (admin/AdminMaster.master)
+--------------------------------------------------------------------------------
+* Unified Executive Layout: Fixed responsive sidebar, branded header with
+  gold accents, live date/time display, and breadcrumbs.
+* Navigation Menu Structure:
+  - Dashboard
+  - Hotel Management (Manage Hotel, Add Room, Manage Category, Add Category, Gallery)
+  - Reservations (All Bookings, New Booking, Check-in / Out)
+  - Rates & Availability (Room Rates, Room Availability)
+  - Offers & Packages (Offers, Packages)
+  - Dining & Restaurant (Restaurant Details, Manage Tables, Table Reservations, Menu)
+  - Customers (Registered Users)
+  - Reviews (Guest Feedback)
+  - Enquiries (Contact Submissions)
+  - Settings (System Preferences)
+* Matching Royal Brown & Gold Theme: All admin pages standardized using
+  `managehotel.css` with Playfair Display titles, gradient cards, and gold accents.
+
+--------------------------------------------------------------------------------
+MODULE 5: ROOM AVAILABILITY & INVENTORY MATRIX (admin/Availability.aspx)
+--------------------------------------------------------------------------------
+* Luxury KPI Overview:
+  1. Total Suites & Rooms : Total rooms configured in SQL database.
+  2. Available            : Rooms currently ready for incoming guests.
+  3. Occupied (In-House)  : Rooms with currently checked-in guests.
+  4. Cleaning             : Rooms undergoing housekeeping turnover.
+  5. Maintenance / Blocked: Rooms placed on maintenance or VIP admin hold.
+* Date Range Inspection Toolbar:
+  Allows staff to enter Target Check-In and Target Check-Out dates to evaluate
+  future inventory and detect booking overlaps in real-time.
+* Inventory Ledger & Status Controls:
+  Displays room preview, specs, category, tariff, capacity, Current Status,
+  Date Availability, and one-click lifecycle buttons:
+  - [Available]   : Marks room as clean and ready for occupancy.
+  - [Cleaning]    : Sends room to housekeeping queue.
+  - [Maintenance] : Places room on out-of-order maintenance hold.
+  - [Block]       : Locks room under administrative VIP block.
+
+--------------------------------------------------------------------------------
+MODULE 6: RESERVATIONS & GUEST STAY LIFECYCLE (admin/Bookings.aspx)
+--------------------------------------------------------------------------------
+* Automated 6-Step Lifecycle Progress Flow:
+  [1. Search Dates] -> [2. Select Suite] -> [3. Reservation] ->
+  [4. Check-In]     -> [5. Check-Out]    -> [6. Completed]
+* Executive KPI Summary:
+  - Total Reservations   : All-time reservation ledger count.
+  - Confirmed (Upcoming) : Bookings secured and awaiting guest arrival.
+  - In-House Guests      : Currently checked-in guests residing in suites.
+  - Completed Stays      : Successfully completed and billed stays.
+  - Total Revenue        : Gross secured revenue in INR.
+* Search & Status Filter:
+  Instant filtering across guest names, email, phone, reference numbers, suite
+  names, and booking statuses (Confirmed, Checked-In, Completed, Cancelled).
+* Automated Stay Actions:
+  - Actual Check-In  : Advances booking to 'Checked-In' and automatically sets
+                       the assigned room status in SQL Server to 'Occupied'.
+  - Check-Out        : Advances booking to 'Completed' and automatically updates
+                       the room status to 'Cleaning' for housekeeping turnover.
+  - Cancel Booking   : Cancels reservation, confirms cancellation, and releases
+                       the room back to 'Available'.
+
+--------------------------------------------------------------------------------
+MODULE 7: SUITE PUBLISHING & EDITING ENGINE (admin/AddRoom.aspx, EditRoom.aspx)
+--------------------------------------------------------------------------------
+* Comprehensive Suite Form: Basic room metadata, pricing, capacity, dimensions,
+  view orientation, amenities, extended descriptions, and highlights.
+* Multi-Slot Image Upload Pipeline:
+  - Slot 1: Primary Listing Image (Card Thumbnail)
+  - Slot 2: Hero Header Banner
+  - Slots 3-6: 4 High-Resolution Gallery Photos (Bedding, Bath, Living, Balcony)
+* Automated File Processing: Validates extensions, assigns GUID-based secure
+  filenames, and persists files into `~/images/rooms/`.
 
 ================================================================================
-5. SECURITY & DATA PROTECTION STANDARDS
+5. SECURITY & DATA PRIVACY ARCHITECTURE
 ================================================================================
-* SQL Injection Prevention:
-  All database interactions in C# code-behind files strictly utilize parameterized 
-  `SqlCommand` parameters (`cmd.Parameters.AddWithValue` / `cmd.Parameters.Add`). 
-  No dynamic string concatenation is allowed in queries.
-* Password Protection:
-  Credentials are never stored in plain text. Secure cryptographic hashing algorithms 
-  are applied before insertion or verification.
-* Session Hardening:
-  Guest and Admin sessions are strictly segregated into isolated session keys 
-  (`Session["UserEmail"]`, `Session["AdminUser"]`), preventing privilege escalation.
-* Output Encoding:
-  Dynamic database strings rendered into HTML are encoded using `HttpUtility.HtmlEncode` 
-  to eliminate Cross-Site Scripting (XSS) risks.
-* Credential Privacy:
-  All production credentials, database passwords, and private connection strings are 
-  kept confidential and protected inside configuration boundaries.
+* Parameterized SQL Execution:
+  100% of all database commands utilize `SqlParameter` objects with explicit
+  type declarations. Dynamic SQL string concatenation is strictly prohibited,
+  providing complete immunity against SQL injection vulnerabilities.
+* Segregated Role Sessions:
+  Customer sessions (`Session["UserEmail"]`, `Session["UserName"]`) and Admin
+  sessions are completely isolated, preventing privilege escalation.
+* Output Encoding & XSS Prevention:
+  All user-supplied and database-rendered text elements are rendered using
+  ASP.NET server controls or encoded via `HttpUtility.HtmlEncode`.
+* Zero Credential Leakage:
+  All sensitive credentials, database connection strings, passwords, and
+  administrative authentication keys are kept strictly protected within server
+  configurations and are never hard-coded or exposed in public documentation.
 
 ================================================================================
-6. SETUP & DEPLOYMENT INSTRUCTIONS
+6. LOCAL SETUP & RUNNING INSTRUCTIONS
 ================================================================================
+1. PREREQUISITES
+   * Microsoft Windows 10 / 11 / Windows Server
+   * Microsoft Visual Studio 2019 or Visual Studio 2022
+   * ASP.NET and Web Development Workload
+   * .NET Framework 4.8 / 4.8.1
+   * Microsoft SQL Server (LocalDB / Express / Enterprise)
+   * IIS Express or Local IIS Web Server
 
-1. SYSTEM REQUIREMENTS
-   * OS: Windows 10 / 11 / Windows Server 2019+
-   * IDE: Microsoft Visual Studio 2019 or Visual Studio 2022
-   * Workload: "ASP.NET and web development"
-   * Runtime: .NET Framework 4.8 / 4.8.1
-   * Database: Microsoft SQL Server (LocalDB / Express / Enterprise)
-   * Web Server: IIS 10+ or IIS Express (bundled with Visual Studio)
-
-2. OPENING & CONFIGURING IN VISUAL STUDIO
+2. HOW TO LAUNCH
    Step 1: Open Visual Studio.
-   Step 2: Click "Open a project or solution" -> Select the project root folder.
-   Step 3: Configure your database connection string in `Web.config`.
-   Step 4: Ensure the SQL Server service is active.
-   Step 5: Press `F5` or click `IIS Express` on the toolbar to launch.
-   Step 6: The web portal will open automatically in your default browser.
+   Step 2: Choose "Open a Web Site" or "Open Folder" and select the root directory:
+           `Hotel-Management-Project-1/`
+   Step 3: Ensure your local SQL Server instance is running with `HotelManagementDB`.
+   Step 4: Verify connection settings in `Web.config`:
+           <connectionStrings>
+             <add name="HotelConnection" 
+                  connectionString="Server=(LocalDB)\MSSQLLocalDB;Database=HotelManagementDB;Integrated Security=True;" 
+                  providerName="System.Data.SqlClient" />
+           </connectionStrings>
+   Step 5: Press [F5] or click [IIS Express] in the top toolbar.
+   Step 6: Access Public Portal: http://localhost:8088/index.aspx
+           Access Admin Portal : http://localhost:8088/admin/Dashboard.aspx
 
 ================================================================================
-7. TESTING & QUALITY ASSURANCE VERIFICATION
+7. QUALITY ASSURANCE & VERIFICATION STATUS
 ================================================================================
-* C# Compilation Status       : Verified 100% clean build with 0 syntax or runtime errors.
-* Dynamic DataBinding Test    : Verified ADO.NET SQL adapter filling and repeater binding.
-* End-to-End Suite Publishing : Verified room creation via Admin, database storage, 
-                                and client-side dynamic rendering on RoomDetails.aspx.
-* Responsive Breakpoints      : 
-  - Extra Large Screens       : 1400px+ (Full container grid, expanded gallery)
-  - Desktops & Laptops        : 992px - 1200px (Side-by-side room specs & cards)
-  - Tablets & iPads           : 768px - 991px (Adaptive flex columns, touch galleries)
-  - Mobile Phones             : 320px - 767px (Single-column stacked responsive layout)
-* Browser Support             : Fully tested on Google Chrome, Mozilla Firefox, 
-                                Microsoft Edge, Apple Safari, and Opera.
-
+* ASP.NET Compilation Status : 100% Clean Build verified via `aspnet_compiler.exe`
+                               (Exited with Code 0 - 0 Errors).
+* Runtime Server Validation  : Verified HTTP 200 OK across public and admin pages
+                               via active IIS Express service.
+* UI & Responsiveness Checks :
+  - Mobile Phones  (320px - 767px)  : Single-column responsive layout, touch menus.
+  - Tablets & iPads(768px - 1024px) : 2-column adaptive layouts, collapsible sidebars.
+  - Desktop Displays(1025px - 1920px): Full luxury multi-column grid layouts.
+* Cross-Browser Compatibility: Google Chrome, Mozilla Firefox, Microsoft Edge, Safari.
 
 ================================================================================
-                    (c) The Royal Palace Hotel & Resort
-          Enterprise Hospitality System - All Rights Reserved
+                 (c) THE ROYAL PALACE HOTEL & RESORT
+        Enterprise Hospitality Web Platform - All Rights Reserved
 ================================================================================
