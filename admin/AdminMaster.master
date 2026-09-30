@@ -167,7 +167,7 @@
                             </a>
                             <ul class="sidebar-submenu">
                                 <li class="submenu-item"><a href="RoomRates.aspx" class="submenu-link"><i class="bi bi-tag sub-icon"></i>Room Rates</a></li>
-                                <li class="submenu-item"><a href="Availability.aspx" class="submenu-link"><i class="bi bi-calendar3 sub-icon"></i>Availability</a></li>
+                                <li class="submenu-item"><a href="Availability.aspx" class="submenu-link"><i class="bi bi-calendar3 sub-icon"></i>Room Availability</a></li>
                             </ul>
                         </li>
 

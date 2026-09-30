@@ -55,11 +55,20 @@ document.addEventListener("DOMContentLoaded", function () {
         if (galleryMainPhoto) galleryMainPhoto.src = roomImg;
     }
 
-    // Update Book Now button to pass room and price to BookNow.aspx
+    // Update Book Now button to preserve room, price, dates, and guests
     var bookNowBtn = document.querySelector('.btn-book-now');
-    if (bookNowBtn && roomName) {
-        var q = '?room=' + encodeURIComponent(roomName);
-        if (roomPrice) q += '&price=' + encodeURIComponent(roomPrice);
-        bookNowBtn.href = 'Booking.aspx' + q;
+    if (bookNowBtn) {
+        try {
+            var curHref = bookNowBtn.getAttribute('href') || 'Booking.aspx';
+            var btnUrl = new URL(curHref, window.location.origin);
+            var keys = ['RoomId', 'roomId', 'room', 'title', 'price', 'checkIn', 'checkOut', 'adults', 'guests'];
+            keys.forEach(function (k) {
+                var v = urlParams.get(k);
+                if (v && !btnUrl.searchParams.has(k)) {
+                    btnUrl.searchParams.set(k, v);
+                }
+            });
+            bookNowBtn.href = btnUrl.pathname.replace(/^\//, '') + btnUrl.search;
+        } catch (ex) { }
     }
 });

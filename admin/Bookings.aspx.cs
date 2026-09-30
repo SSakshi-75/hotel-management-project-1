@@ -13,6 +13,25 @@ public partial class Admin_Bookings : Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        string action = (Request["action"] ?? "").ToLowerInvariant();
+        string idStr = Request["id"] ?? Request["bookingId"];
+        int bookingId;
+        if (!string.IsNullOrEmpty(action) && int.TryParse(idStr, out bookingId))
+        {
+            if (action == "checkin")
+            {
+                ExecuteCheckIn(bookingId);
+            }
+            else if (action == "checkout")
+            {
+                ExecuteCheckOut(bookingId);
+            }
+            else if (action == "cancel")
+            {
+                ExecuteCancelBooking(bookingId);
+            }
+        }
+
         if (!IsPostBack)
         {
             LoadBookingMetrics();

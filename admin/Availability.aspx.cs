@@ -233,23 +233,78 @@ public partial class Admin_Availability : Page
         return ResolveUrl("~/images/" + img);
     }
 
+    public string FormatRoomArea(object areaObj)
+    {
+        if (areaObj == null || areaObj == DBNull.Value || string.IsNullOrWhiteSpace(areaObj.ToString()))
+        {
+            return "35 m²";
+        }
+        string area = areaObj.ToString().Trim();
+        if (area.IndexOf("m²", StringComparison.OrdinalIgnoreCase) >= 0 || area.IndexOf("sq", StringComparison.OrdinalIgnoreCase) >= 0)
+        {
+            return area;
+        }
+        return area + " m²";
+    }
+
+    public string FormatCapacity(object guestObj)
+    {
+        if (guestObj == null || guestObj == DBNull.Value || string.IsNullOrWhiteSpace(guestObj.ToString()))
+        {
+            return "2 Guests";
+        }
+        string val = guestObj.ToString().Trim();
+        // Remove duplicate "Guests" like "1 Guests Guests" or "3 Guests Guests"
+        val = System.Text.RegularExpressions.Regex.Replace(val, @"(?i)\s*guests?\s*guests?", " Guests");
+        if (val.IndexOf("guest", StringComparison.OrdinalIgnoreCase) >= 0)
+        {
+            return System.Text.RegularExpressions.Regex.Replace(val, @"(\d+)([A-Za-z]+)", "$1 $2");
+        }
+        return val == "1" ? "1 Guest" : val + " Guests";
+    }
+
+    public string GetCategoryBadgeHtml(object catObj)
+    {
+        string cat = catObj != null ? catObj.ToString().Trim() : "Standard";
+        string catLower = cat.ToLower();
+        if (catLower.Contains("deluxe"))
+        {
+            return "<span class=\"badge-category-deluxe\">" + Server.HtmlEncode(cat) + "</span>";
+        }
+        else if (catLower.Contains("penthouse"))
+        {
+            return "<span class=\"badge-category-penthouse\">" + Server.HtmlEncode(cat) + "</span>";
+        }
+        else if (catLower.Contains("family"))
+        {
+            return "<span class=\"badge-category-family\">" + Server.HtmlEncode(cat) + "</span>";
+        }
+        else if (catLower.Contains("heritage") || catLower.Contains("suite"))
+        {
+            return "<span class=\"badge-category-deluxe\" style=\"background:#eff6ff; color:#2563eb; border-color:#bfdbfe;\">" + Server.HtmlEncode(cat) + "</span>";
+        }
+        return "<span class=\"badge-category-executive\">" + Server.HtmlEncode(cat) + "</span>";
+    }
+
     public string GetStatusBadgeHtml(object statusObj)
     {
-        string status = statusObj != null ? statusObj.ToString() : "Available";
+        string status = statusObj != null ? statusObj.ToString().Trim() : "Available";
         switch (status.ToLower())
         {
             case "available":
-                return "<span class=\"badge bg-success-subtle text-success border border-success-subtle px-2 py-1\"><i class=\"bi bi-check-circle-fill me-1\"></i> Available</span>";
+                return "<span class=\"badge bg-success-subtle text-success border border-success-subtle px-2.5 py-1 rounded-pill small fw-semibold\"><i class=\"bi bi-check-circle-fill me-1\"></i> Available</span>";
             case "occupied":
-                return "<span class=\"badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1\"><i class=\"bi bi-person-fill me-1\"></i> Occupied</span>";
+                return "<span class=\"badge bg-primary-subtle text-primary border border-primary-subtle px-2.5 py-1 rounded-pill small fw-semibold\"><i class=\"bi bi-person-fill me-1\"></i> Occupied</span>";
+            case "booked":
+                return "<span class=\"badge bg-danger-subtle text-danger border border-danger-subtle px-2.5 py-1 rounded-pill small fw-semibold\"><i class=\"bi bi-x-circle-fill me-1\"></i> Booked</span>";
             case "cleaning":
-                return "<span class=\"badge bg-warning-subtle text-dark border border-warning px-2 py-1\"><i class=\"bi bi-brush-fill me-1 text-warning\"></i> Cleaning</span>";
+                return "<span class=\"badge bg-warning-subtle text-dark border border-warning-subtle px-2.5 py-1 rounded-pill small fw-semibold\"><i class=\"bi bi-brush-fill me-1 text-warning\"></i> Cleaning</span>";
             case "maintenance":
-                return "<span class=\"badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1\"><i class=\"bi bi-tools me-1\"></i> Maintenance</span>";
+                return "<span class=\"badge bg-danger-subtle text-danger border border-danger-subtle px-2.5 py-1 rounded-pill small fw-semibold\"><i class=\"bi bi-tools me-1\"></i> Maintenance</span>";
             case "blocked":
-                return "<span class=\"badge bg-dark text-white px-2 py-1\"><i class=\"bi bi-slash-circle me-1\"></i> Blocked</span>";
+                return "<span class=\"badge bg-dark-subtle text-dark border border-dark-subtle px-2.5 py-1 rounded-pill small fw-semibold\"><i class=\"bi bi-slash-circle me-1\"></i> Blocked</span>";
             default:
-                return "<span class=\"badge bg-secondary px-2 py-1\">" + status + "</span>";
+                return "<span class=\"badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2.5 py-1 rounded-pill small fw-semibold\">" + Server.HtmlEncode(status) + "</span>";
         }
     }
 
@@ -261,19 +316,19 @@ public partial class Admin_Availability : Page
             int.TryParse(overlapCountObj.ToString(), out count);
         }
 
-        string masterStatus = statusObj != null ? statusObj.ToString().ToLower() : "available";
+        string masterStatus = statusObj != null ? statusObj.ToString().ToLower().Trim() : "available";
 
         if (masterStatus == "maintenance" || masterStatus == "blocked" || masterStatus == "inactive")
         {
-            return "<span class=\"badge bg-danger text-white\"><i class=\"bi bi-x-octagon-fill me-1\"></i> Out of Service</span>";
+            return "<span class=\"badge bg-danger-subtle text-danger border border-danger-subtle px-2.5 py-1 rounded-pill small fw-semibold\"><i class=\"bi bi-x-octagon-fill me-1\"></i> Out of Service</span>";
         }
 
         if (count > 0)
         {
-            return "<span class=\"badge bg-danger-subtle text-danger border border-danger-subtle\"><i class=\"bi bi-calendar-x-fill me-1\"></i> Booked For Dates</span>";
+            return "<span class=\"badge bg-danger-subtle text-danger border border-danger-subtle px-2.5 py-1 rounded-pill small fw-semibold\"><i class=\"bi bi-calendar-x-fill me-1\"></i> Booked For Dates</span>";
         }
 
-        return "<span class=\"badge bg-success-subtle text-success border border-success-subtle\"><i class=\"bi bi-check2-circle me-1\"></i> Free For Dates</span>";
+        return "<span class=\"badge bg-success-subtle text-success border border-success-subtle px-2.5 py-1 rounded-pill small fw-semibold\"><i class=\"bi bi-check2-circle me-1\"></i> Free For Dates</span>";
     }
 
     private void ShowAlert(string message, string type)

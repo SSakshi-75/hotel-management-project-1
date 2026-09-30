@@ -13,23 +13,6 @@ public partial class Booking : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        // Enforce login/registration before booking a room
-        if (Session["UserId"] == null)
-        {
-            if (Request.HttpMethod == "POST")
-            {
-                Response.ContentType = "application/json";
-                Response.Clear();
-                Response.Write("{\"success\":false,\"message\":\"Please login or register to book a room.\"}");
-                Response.End();
-                return;
-            }
-
-            string rawUrl = Request.RawUrl ?? "Booking.aspx";
-            Response.Redirect("Login.aspx?msg=room&returnUrl=" + Server.UrlEncode(rawUrl));
-            return;
-        }
-
         if (Request.HttpMethod == "POST" && Request["action"] == "create_booking")
         {
             CreateBookingEndpoint();
@@ -318,14 +301,32 @@ public partial class Booking : System.Web.UI.Page
                         // 3. Generate unique Booking Reference
                         string bookingRef = "HM-RES-" + DateTime.Now.ToString("yyMMdd") + new Random().Next(1000, 9999).ToString();
 
-                        object userId = DBNull.Value;
-                        if (Session["UserId"] != null)
+                        int userId;
+
+                        if (Session["UserId"] == null)
                         {
-                            int uid;
-                            if (int.TryParse(Session["UserId"].ToString(), out uid))
-                            {
-                                userId = uid;
-                            }
+                            tran.Rollback();
+
+                            SendJsonResponse(
+                                false,
+                                "Please login before making a booking.",
+                                ""
+                            );
+
+                            return;
+                        }
+
+                        if (!int.TryParse(Session["UserId"].ToString(), out userId) || userId <= 0)
+                        {
+                            tran.Rollback();
+
+                            SendJsonResponse(
+                                false,
+                                "Invalid user account. Please login again.",
+                                ""
+                            );
+
+                            return;
                         }
 
                         // 4. Insert booking record
@@ -365,18 +366,29 @@ public partial class Booking : System.Web.UI.Page
                         tran.Commit();
 
                         SendJsonResponse(true, "Reservation successfully confirmed!", bookingRef);
+                        return;
+                    }
+                    catch (System.Threading.ThreadAbortException)
+                    {
+                        return;
                     }
                     catch (Exception exInner)
                     {
                         try { tran.Rollback(); } catch { }
                         SendJsonResponse(false, "Booking error: " + exInner.Message, "");
+                        return;
                     }
                 }
             }
         }
+        catch (System.Threading.ThreadAbortException)
+        {
+            return;
+        }
         catch (Exception ex)
         {
             SendJsonResponse(false, "System error: " + ex.Message, "");
+            return;
         }
     }
 
@@ -389,7 +401,11 @@ public partial class Booking : System.Web.UI.Page
             HttpUtility.JavaScriptStringEncode(reference ?? "")
         );
 
+        Response.Clear();
+        Response.ContentType = "application/json";
         Response.Write(json);
-        Response.End();
+        Response.Flush();
+        Response.SuppressContent = true;
+        HttpContext.Current.ApplicationInstance.CompleteRequest();
     }
 }

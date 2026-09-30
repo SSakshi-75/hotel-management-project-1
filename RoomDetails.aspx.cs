@@ -379,4 +379,29 @@ public partial class RoomDetails : System.Web.UI.Page
 
         return html.ToString();
     }
+
+    // ==========================================
+    // GET BOOK NOW URL (Preserves RoomId, RoomName, Price, checkIn, checkOut, adults)
+    // ==========================================
+    public string GetBookNowUrl(object roomId, object roomName, object price)
+    {
+        string rId = roomId != null ? roomId.ToString() : "";
+        string rName = roomName != null ? roomName.ToString() : "";
+        string rPrice = price != null ? price.ToString() : "";
+
+        string url = string.Format("Booking.aspx?RoomId={0}&room={1}&price={2}",
+            rId,
+            HttpUtility.UrlEncode(rName),
+            rPrice);
+
+        string checkIn = Request.QueryString["checkIn"];
+        string checkOut = Request.QueryString["checkOut"];
+        string adults = Request.QueryString["adults"] ?? Request.QueryString["guests"];
+
+        if (!string.IsNullOrEmpty(checkIn)) url += "&checkIn=" + HttpUtility.UrlEncode(checkIn);
+        if (!string.IsNullOrEmpty(checkOut)) url += "&checkOut=" + HttpUtility.UrlEncode(checkOut);
+        if (!string.IsNullOrEmpty(adults)) url += "&adults=" + HttpUtility.UrlEncode(adults);
+
+        return url;
+    }
 }

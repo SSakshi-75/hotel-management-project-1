@@ -327,3 +327,20 @@ function scrollToRoomsList() {
     if (el) el.scrollIntoView({ behavior: 'smooth' });
 }
 
+// Preserve checkIn, checkOut, and adults on Room Select clicks
+document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.btn-room-book');
+    if (btn && btn.href && btn.href.indexOf('RoomDetails.aspx') !== -1) {
+        var cin = document.getElementById('txtCheckIn') ? document.getElementById('txtCheckIn').value : '';
+        var cout = document.getElementById('txtCheckOut') ? document.getElementById('txtCheckOut').value : '';
+        var adults = document.getElementById('ddlAdults') ? document.getElementById('ddlAdults').value : '';
+        try {
+            var url = new URL(btn.href, window.location.origin);
+            if (cin && !url.searchParams.has('checkIn')) url.searchParams.set('checkIn', cin);
+            if (cout && !url.searchParams.has('checkOut')) url.searchParams.set('checkOut', cout);
+            if (adults && !url.searchParams.has('adults')) url.searchParams.set('adults', adults);
+            btn.href = url.pathname.replace(/^\//, '') + url.search;
+        } catch (ex) { }
+    }
+});
+

@@ -503,11 +503,20 @@ document.addEventListener("DOMContentLoaded", function () {
         roomsInput.addEventListener('change', updateBookingSummary);
     }
 
-    // Pre-select room if passed via URL parameters (from Available Rooms / BOOK NOW)
-    if (roomParam || priceParam) {
+    // Pre-select room if passed via URL parameters (from RoomDetails / BOOK NOW)
+    if (roomIdParam || roomParam || priceParam) {
         var roomCards = document.querySelectorAll('.booking-room-pick-card');
         var matchedCard = null;
-        if (roomParam) {
+
+        if (roomIdParam) {
+            roomCards.forEach(function (card) {
+                if (card.getAttribute('data-roomid') === roomIdParam) {
+                    matchedCard = card;
+                }
+            });
+        }
+
+        if (!matchedCard && roomParam) {
             var rLower = roomParam.toLowerCase();
             roomCards.forEach(function (card) {
                 var cRoom = (card.getAttribute('data-room') || '').toLowerCase();
@@ -515,7 +524,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     matchedCard = card;
                 }
             });
-        } else if (priceParam) {
+        }
+
+        if (!matchedCard && priceParam) {
             roomCards.forEach(function (card) {
                 if (card.getAttribute('data-price') === priceParam) {
                     matchedCard = card;
@@ -526,12 +537,27 @@ document.addEventListener("DOMContentLoaded", function () {
         if (matchedCard) {
             roomCards.forEach(function (c) { c.classList.remove('active'); });
             matchedCard.classList.add('active');
+            bookingState.roomId = parseInt(matchedCard.getAttribute('data-roomid')) || parseInt(roomIdParam) || 0;
             bookingState.room = matchedCard.getAttribute('data-room');
-            bookingState.ratePerNight = parseInt(matchedCard.getAttribute('data-price')) || 0;
+            var baseP = parseInt(matchedCard.getAttribute('data-price')) || parseInt(priceParam) || 0;
+            bookingState.baseRoomPrice = baseP;
+            bookingState.ratePerNight = baseP;
+
+            // Keep hidden select in sync
+            var select = document.getElementById('bookingRoomSelect');
+            if (select) {
+                for (var i = 0; i < select.options.length; i++) {
+                    if (select.options[i].text.indexOf(bookingState.room) !== -1 || select.options[i].value == baseP) {
+                        select.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
         } else if (roomParam) {
-            // In case room passed is custom like "Deluxe King Suite"
+            bookingState.roomId = parseInt(roomIdParam) || 0;
             bookingState.room = roomParam;
-            bookingState.ratePerNight = parseInt(priceParam) || 9000;
+            bookingState.baseRoomPrice = parseInt(priceParam) || 0;
+            bookingState.ratePerNight = bookingState.baseRoomPrice;
         }
     }
 

@@ -32,6 +32,11 @@ public partial class Login : System.Web.UI.Page
                 lblMessage.Text = "<i class='bi bi-info-circle-fill me-1'></i> Please sign in or register to book a table.";
                 lblMessage.CssClass = "alert alert-warning d-block small fw-bold py-2 mb-3";
             }
+            else if (msg == "logout")
+            {
+                lblMessage.Text = "<i class='bi bi-check-circle-fill me-1'></i> You have been successfully logged out.";
+                lblMessage.CssClass = "alert alert-success d-block small fw-bold py-2 mb-3";
+            }
 
             string returnUrl = Request["returnUrl"];
             if (!string.IsNullOrEmpty(returnUrl) && lnkRegister != null)
