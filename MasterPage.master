@@ -23,13 +23,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
 
-    <!-- Google Fonts -->
+    <!-- Preconnect to Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Upright:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 
     <!-- Custom Main Stylesheet -->
-    <link rel="stylesheet" type="text/css" href="style.css?v=4.2">
+    <link rel="stylesheet" type="text/css" href="style.css?v=4.3">
 
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
@@ -79,10 +79,10 @@
                     <!-- Social Links & Concierge Badge -->
                     <div class="d-flex align-items-center gap-3">
                         <div class="d-flex gap-2">
-                            <a href="#" class="text-white hover-warning px-1" title="Facebook"><i class="bi bi-facebook"></i></a>
-                            <a href="#" class="text-white hover-warning px-1" title="Instagram"><i class="bi bi-instagram"></i></a>
-                            <a href="#" class="text-white hover-warning px-1" title="Twitter"><i class="bi bi-twitter-x"></i></a>
-                            <a href="#" class="text-white hover-warning px-1" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" class="text-white hover-warning px-1" title="Facebook"><i class="bi bi-facebook"></i></a>
+                            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="text-white hover-warning px-1" title="Instagram"><i class="bi bi-instagram"></i></a>
+                            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="text-white hover-warning px-1" title="Twitter"><i class="bi bi-twitter-x"></i></a>
+                            <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" class="text-white hover-warning px-1" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
                         </div>
                         <span class="text-secondary d-none d-sm-inline">|</span>
                         <span class="badge bg-warning text-dark fw-bold d-none d-sm-inline">24/7 Concierge</span>
@@ -101,7 +101,7 @@
                     
                     <!-- Brand Logo Only -->
                     <a class="navbar-brand p-0" href="index.aspx">
-                        <img src="images/logo.png" alt="Hotel Management Logo" class="main-logo-img img-fluid" onerror="this.onerror=null; this.src='images/main-logo.png';">
+                        <img src="images/logo.webp" alt="Hotel Management Logo" class="main-logo-img img-fluid" width="170" height="85" fetchpriority="high" onerror="this.onerror=null; this.src='images/logo.png';">
                     </a>
 
                     <!-- Mobile Toggler -->
@@ -113,7 +113,7 @@
                     <div class="offcanvas offcanvas-end" tabindex="-1" id="mobileNavbar" aria-labelledby="mobileNavbarLabel">
                         
                         <div class="offcanvas-header border-bottom">
-                            <img src="images/logo.png" alt="Hotel Management Logo" style="height: 50px; width: auto;" onerror="this.onerror=null; this.src='images/main-logo.png';">
+                            <img src="images/logo.webp" alt="Hotel Management Logo" style="height: 50px; width: auto;" onerror="this.onerror=null; this.src='images/logo.png';">
                             <button type="button" class="btn-close shadow-none" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
 
@@ -213,17 +213,17 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="footer-brand mb-3">
                             <a href="index.aspx">
-                                <img src="images/logo.png" alt="Hotel Management Logo" style="height: 85px; width: auto; object-fit: contain; mix-blend-mode: multiply;" onerror="this.onerror=null; this.src='images/main-logo.png';">
+                                <img src="images/logo.webp" alt="Hotel Management Logo" style="height: 85px; width: auto; object-fit: contain; mix-blend-mode: multiply;" width="170" height="85" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='images/logo.png';">
                             </a>
                         </div>
                         <p class="pe-lg-4 text-muted" style="line-height: 1.7;">
                             Hotel Management is a benchmark of luxury, tranquility, and world-class Indian hospitality. Experience handcrafted suites, opulent fine dining, and serene spa facilities.
                         </p>
                         <div class="d-flex gap-3 mt-4">
-                            <a href="#" class="footer-social-icon" title="Facebook"><i class="bi bi-facebook"></i></a>
-                            <a href="#" class="footer-social-icon" title="Instagram"><i class="bi bi-instagram"></i></a>
-                            <a href="#" class="footer-social-icon" title="Twitter"><i class="bi bi-twitter-x"></i></a>
-                            <a href="#" class="footer-social-icon" title="YouTube"><i class="bi bi-youtube"></i></a>
+                            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" class="footer-social-icon" title="Facebook"><i class="bi bi-facebook"></i></a>
+                            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="footer-social-icon" title="Instagram"><i class="bi bi-instagram"></i></a>
+                            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="footer-social-icon" title="Twitter"><i class="bi bi-twitter-x"></i></a>
+                            <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" class="footer-social-icon" title="YouTube"><i class="bi bi-youtube"></i></a>
                         </div>
                     </div>
 

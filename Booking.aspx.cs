@@ -13,6 +13,24 @@ public partial class Booking : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        // Enforce customer login/registration before booking a room
+        bool isCustomerLoggedIn = Session["UserId"] != null &&
+                                  Session["AdminId"] == null &&
+                                  (Session["IsAdmin"] == null || !(bool)Session["IsAdmin"]);
+
+        if (!isCustomerLoggedIn)
+        {
+            if (Request.HttpMethod == "POST" && Request["action"] == "create_booking")
+            {
+                SendJsonResponse(false, "Please sign in or register to book a room.", "LOGIN_REQUIRED");
+                return;
+            }
+
+            string rawUrl = Request.RawUrl ?? "Booking.aspx";
+            Response.Redirect("Login.aspx?msg=room&returnUrl=" + Server.UrlEncode(rawUrl));
+            return;
+        }
+
         if (Request.HttpMethod == "POST" && Request["action"] == "create_booking")
         {
             CreateBookingEndpoint();
@@ -303,13 +321,17 @@ public partial class Booking : System.Web.UI.Page
 
                         int userId;
 
-                        if (Session["UserId"] == null)
+                        bool isCustomerLoggedIn = Session["UserId"] != null &&
+                                                  Session["AdminId"] == null &&
+                                                  (Session["IsAdmin"] == null || !(bool)Session["IsAdmin"]);
+
+                        if (!isCustomerLoggedIn)
                         {
                             tran.Rollback();
 
                             SendJsonResponse(
                                 false,
-                                "Please login before making a booking.",
+                                "Please sign in or register to book a room.",
                                 ""
                             );
 

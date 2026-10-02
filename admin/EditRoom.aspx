@@ -473,49 +473,5 @@
             </div>
         </div>
 
-        <script src="js/addroom.js?v=2.1"></script>
-        <script type="text/javascript">
-            function toggleNewRoomCategory(sel) {
-                var txt = document.getElementById('txtNewCategory');
-                if (!txt) return;
-                if (sel.value === '__NEW__' || sel.value === 'NEW') {
-                    txt.style.display = 'block';
-                    txt.focus();
-                } else {
-                    txt.style.display = 'none';
-                }
-            }
-            window.addEventListener('DOMContentLoaded', function () {
-                var sel = document.getElementById('ddlCategory');
-                if (sel && (sel.value === '__NEW__' || sel.value === 'NEW')) {
-                    var txt = document.getElementById('txtNewCategory');
-                    if (txt) txt.style.display = 'block';
-                }
-
-                // Auto-dismiss success popup after 2 seconds
-                var successAlert = document.querySelector('[id$="pnlSuccessMessage"]') || document.querySelector('.alert-success');
-                if (successAlert) {
-                    var closeBtn = successAlert.querySelector('.btn-close');
-                    if (closeBtn) {
-                        closeBtn.addEventListener('click', function () {
-                            hideSuccessAlert(successAlert);
-                        });
-                    }
-                    setTimeout(function () {
-                        hideSuccessAlert(successAlert);
-                    }, 2000);
-                }
-
-                function hideSuccessAlert(el) {
-                    if (!el || el.dataset.dismissed === 'true') return;
-                    el.dataset.dismissed = 'true';
-                    el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-                    el.style.opacity = '0';
-                    el.style.transform = 'translateY(-8px)';
-                    setTimeout(function () {
-                        el.style.display = 'none';
-                    }, 400);
-                }
-            });
-        </script>
+        <script src="js/addroom.js"></script>
     </asp:Content>

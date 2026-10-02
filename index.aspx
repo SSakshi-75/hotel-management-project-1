@@ -13,7 +13,7 @@
 
             <!-- Real Hero Image Element (Full width & height) -->
             <div class="hero-img-overlay-wrapper">
-                <img src="images/hero-bg-luxury.jpg" loading="lazy" alt="Luxury Hotel Room"
+                <img src="images/hero-bg-luxury.jpg" fetchpriority="high" decoding="async" alt="Luxury Hotel Room"
                     class="hero-banner-img img-fluid">
                 <div class="hero-img-gradient-overlay"></div>
             </div>
@@ -215,173 +215,101 @@
                 <!-- 2-Column Grid (Left: Featured Suite | Right: 3 Stacked Rooms) -->
                 <div class="row g-4 g-lg-5 align-items-stretch">
 
-                    <!-- Left Column: Featured Grand Presidential Suite Card -->
+                    <!-- Left Column: Featured Room Card -->
                     <div class="col-lg-7" data-aos="fade-right" data-aos-duration="1000">
-                        <div class="featured-suite-card">
+                        <asp:Repeater ID="rptFeaturedRoom" runat="server">
+                            <ItemTemplate>
+                                <div class="featured-suite-card">
 
-                            <!-- Top Image with Badges -->
-                            <div class="featured-suite-img-wrap">
-                                <img src="images/room-featured-presidential.jpg" loading="lazy"
-                                    alt="Grand Presidential Suite" class="img-fluid">
-                                <span class="badge-presidential-pill">PRESIDENTIAL</span>
-                                <div class="suite-overlay-pills">
-                                    <span class="suite-overlay-pill">
-                                        <i class="bi bi-people-fill"></i> 6 Guests
-                                    </span>
-                                    <span class="suite-overlay-pill">
-                                        <i class="bi bi-house-door-fill"></i> 180m²
-                                    </span>
-                                    <span class="suite-overlay-pill">
-                                        <i class="bi bi-geo-alt-fill"></i> Top Floor
-                                    </span>
-                                </div>
-                            </div>
-
-                            <!-- Body -->
-                            <div class="featured-suite-body">
-                                <div class="suite-title-row">
-                                    <h3 class="suite-title">Grand Presidential Suite</h3>
-                                    <div class="suite-rating-box">
-                                        <div class="suite-rating-stars">
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
+                                    <!-- Top Image with Badges -->
+                                    <div class="featured-suite-img-wrap">
+                                        <img src='<%# GetRoomImage(Eval("PrimaryRoomImage")) %>' loading="lazy"
+                                            alt='<%# Eval("RoomName") %>' class="img-fluid"
+                                            onerror="this.onerror=null; this.src='images/room-featured-presidential.jpg';">
+                                        <span class="badge-presidential-pill" style="color: #442305 !important; font-weight: 800;"><%# GetBadgeText(Eval("CategoryBadge"), Eval("RoomCategory")) %></span>
+                                        <div class="suite-overlay-pills">
+                                            <span class="suite-overlay-pill">
+                                                <i class="bi bi-people-fill"></i> <%# Eval("MaxGuests") %>
+                                            </span>
+                                            <span class="suite-overlay-pill">
+                                                <i class="bi bi-house-door-fill"></i> <%# Eval("RoomArea") %>
+                                            </span>
+                                            <span class="suite-overlay-pill">
+                                                <i class="bi bi-geo-alt-fill"></i> <%# string.IsNullOrEmpty(Convert.ToString(Eval("ViewType"))) ? "City View" : Eval("ViewType") %>
+                                            </span>
                                         </div>
-                                        <div class="suite-rating-text">5.0 Excellence</div>
                                     </div>
-                                </div>
 
-                                <p class="suite-desc">
-                                    Indulge in unmatched opulence with panoramic city skyline views, private jacuzzi
-                                    terrace, master king bedroom, handcrafted marble interiors, and 24/7 dedicated
-                                    butler service.
-                                </p>
+                                    <!-- Body -->
+                                    <div class="featured-suite-body">
+                                        <div class="suite-title-row">
+                                            <h3 class="suite-title"><%# Eval("RoomName") %></h3>
+                                            <div class="suite-rating-box">
+                                                <div class="suite-rating-stars">
+                                                    <%# RenderRatingStars(Eval("Rating")) %>
+                                                </div>
+                                                <div class="suite-rating-text"><%# Eval("Rating") %> Excellence</div>
+                                            </div>
+                                        </div>
 
-                                <div class="suite-amenities-row">
-                                    <span class="suite-amenity-item">
-                                        <i class="bi bi-wifi"></i> Premium WiFi
-                                    </span>
-                                    <span class="suite-amenity-item">
-                                        <i class="bi bi-tv"></i> Smart TV
-                                    </span>
-                                    <span class="suite-amenity-item">
-                                        <i class="bi bi-cup-hot"></i> Coffee Bar
-                                    </span>
-                                    <span class="suite-amenity-item">
-                                        <i class="bi bi-snow"></i> Climate Control
-                                    </span>
-                                </div>
+                                        <p class="suite-desc">
+                                            <%# Eval("ShortDescription") %>
+                                        </p>
 
-                                <div class="suite-price-action-row">
-                                    <div class="suite-price-wrap">
-                                        <span class="currency">&#8377;</span>
-                                        <span class="amount">18,500</span>
-                                        <span class="period">/ night</span>
+                                        <div class="suite-amenities-row">
+                                            <%# RenderFeaturedAmenities(Eval("KeyAmenities")) %>
+                                        </div>
+
+                                        <div class="suite-price-action-row">
+                                            <div class="suite-price-wrap">
+                                                <span class="currency">&#8377;</span>
+                                                <span class="amount"><%# Eval("PricePerNight", "{0:N0}") %></span>
+                                                <span class="period">/ night</span>
+                                            </div>
+                                            <a href='<%# "RoomDetails.aspx?RoomId=" + Eval("RoomID") %>'
+                                                class="btn btn-reserve-suite">
+                                                <span>Reserve Suite</span>
+                                                <i class="fa-solid fa-arrow-right"></i>
+                                            </a>
+                                        </div>
                                     </div>
-                                    <a href="RoomDetails.aspx?title=Grand+Presidential+Suite&price=18500&img=images/room-featured-presidential.jpg"
-                                        class="btn btn-reserve-suite">
-                                        <span>Reserve Suite</span>
-                                        <i class="fa-solid fa-arrow-right"></i>
-                                    </a>
-                                </div>
-                            </div>
 
-                        </div>
+                                </div>
+                            </ItemTemplate>
+                        </asp:Repeater>
                     </div>
 
                     <!-- Right Column: 3 Stacked Horizontal Room Cards (Staggered Animation) -->
                     <div class="col-lg-5 d-flex flex-column justify-content-between">
-
-                        <!-- Mini Room 1: Executive Business Room -->
-                        <div class="mini-room-card" data-aos="fade-left" data-aos-duration="800" data-aos-delay="100">
-                            <div class="mini-room-img-wrap">
-                                <img src="images/room-mini-business.jpg" loading="lazy" alt="Executive Business Room">
-                            </div>
-                            <div class="mini-room-body">
-                                <div>
-                                    <h4 class="mini-room-title">Executive Business Room</h4>
-                                    <p class="mini-room-desc">
-                                        Designed for modern business executives, featuring an ergonomic workstation,
-                                        high-speed Wi-Fi, premium king bedding, and lounge access.
-                                    </p>
-                                    <div class="mini-room-tags">
-                                        <span><i class="bi bi-briefcase"></i> Work Space</span>
-                                        <span><i class="bi bi-building"></i> City Views</span>
+                        <asp:Repeater ID="rptMiniRooms" runat="server">
+                            <ItemTemplate>
+                                <div class="mini-room-card" data-aos="fade-left" data-aos-duration="800" data-aos-delay='<%# (Container.ItemIndex + 1) * 150 %>'>
+                                    <div class="mini-room-img-wrap">
+                                        <img src='<%# GetRoomImage(Eval("PrimaryRoomImage")) %>' loading="lazy" alt='<%# Eval("RoomName") %>'
+                                            onerror="this.onerror=null; this.src='images/room-mini-business.jpg';">
+                                    </div>
+                                    <div class="mini-room-body">
+                                        <div>
+                                            <h4 class="mini-room-title"><%# Eval("RoomName") %></h4>
+                                            <p class="mini-room-desc">
+                                                <%# Eval("ShortDescription") %>
+                                            </p>
+                                            <div class="mini-room-tags">
+                                                <%# RenderMiniTags(Eval("ViewType"), Eval("KeyAmenities"), Eval("MaxGuests")) %>
+                                            </div>
+                                        </div>
+                                        <div class="mini-room-footer">
+                                            <div class="mini-room-price"><span class="currency">&#8377;</span><%# Eval("PricePerNight", "{0:N0}") %> <small>/ night</small></div>
+                                            <a href='<%# "RoomDetails.aspx?RoomId=" + Eval("RoomID") %>'
+                                                class="btn btn-book-mini">
+                                                <span>Book</span>
+                                                <i class="fa-solid fa-arrow-right" style="font-size: 0.72rem;"></i>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="mini-room-footer">
-                                    <div class="mini-room-price"><span class="currency">&#8377;</span>8,500 <small>/
-                                            night</small></div>
-                                    <a href="RoomDetails.aspx?title=Executive+Business+Suite&price=8500&img=images/room-mini-business.jpg"
-                                        class="btn btn-book-mini">
-                                        <span>Book</span>
-                                        <i class="fa-solid fa-arrow-right" style="font-size: 0.72rem;"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Mini Room 2: Garden View Deluxe -->
-                        <div class="mini-room-card" data-aos="fade-left" data-aos-duration="800" data-aos-delay="250">
-                            <div class="mini-room-img-wrap">
-                                <img src="images/room-mini-garden.jpg" loading="lazy" alt="Garden View Deluxe">
-                            </div>
-                            <div class="mini-room-body">
-                                <div>
-                                    <h4 class="mini-room-title">Garden View Deluxe</h4>
-                                    <p class="mini-room-desc">
-                                        Surround yourself with tranquil tropical greenery, featuring a private sun
-                                        terrace, soothing natural ambiance, and plush king bedding.
-                                    </p>
-                                    <div class="mini-room-tags">
-                                        <span><i class="bi bi-tree"></i> Garden View</span>
-                                        <span><i class="bi bi-door-open"></i> Private Terrace</span>
-                                    </div>
-                                </div>
-                                <div class="mini-room-footer">
-                                    <div class="mini-room-price"><span class="currency">&#8377;</span>6,800 <small>/
-                                            night</small></div>
-                                    <a href="RoomDetails.aspx?title=Garden+View+Deluxe+Room&price=6800&img=images/room-mini-garden.jpg"
-                                        class="btn btn-book-mini">
-                                        <span>Book</span>
-                                        <i class="fa-solid fa-arrow-right" style="font-size: 0.72rem;"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Mini Room 3: Family Comfort Suite -->
-                        <div class="mini-room-card" data-aos="fade-left" data-aos-duration="800" data-aos-delay="400">
-                            <div class="mini-room-img-wrap">
-                                <img src="images/room-mini-family.jpg" loading="lazy" alt="Family Comfort Suite">
-                            </div>
-                            <div class="mini-room-body">
-                                <div>
-                                    <h4 class="mini-room-title">Family Comfort Suite</h4>
-                                    <p class="mini-room-desc">
-                                        Spacious multi-room luxury suite perfect for family stays, equipped with a
-                                        dedicated children's area, lounge space, and luxury bath amenities.
-                                    </p>
-                                    <div class="mini-room-tags">
-                                        <span><i class="bi bi-people"></i> Family Space</span>
-                                        <span><i class="bi bi-controller"></i> Kids Area</span>
-                                    </div>
-                                </div>
-                                <div class="mini-room-footer">
-                                    <div class="mini-room-price"><span class="currency">&#8377;</span>11,500
-                                        <small>/ night</small>
-                                    </div>
-                                    <a href="RoomDetails.aspx?title=Family+Comfort+Suite&price=11500&img=images/room-mini-family.jpg"
-                                        class="btn btn-book-mini">
-                                        <span>Book</span>
-                                        <i class="fa-solid fa-arrow-right" style="font-size: 0.72rem;"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
+                            </ItemTemplate>
+                        </asp:Repeater>
                     </div>
 
                 </div>
@@ -389,133 +317,9 @@
             </div>
         </section>
 
-        <!-- ==========================================
-             FEATURED ACCOMMODATIONS GRID SECTION (MATCHING SCREENSHOT)
-             ========================================== -->
-        <section id="accommodations-grid" class="accommodations-grid-section">
-            <div class="container-fluid px-4 px-lg-5">
-
-                <div class="row g-4 justify-content-center">
-
-                    <!-- Card 1: Classic Double -->
-                    <div class="col-lg-3 col-md-6 col-12" data-aos="fade-up" data-aos-duration="800"
-                        data-aos-delay="100">
-                        <div class="accommodations-card">
-                            <div class="accommodations-card-img-wrap">
-                                <img src="images/room-classic-double.jpg" loading="lazy" alt="Classic Double Room">
-                                <a href="Room.aspx" class="accommodations-card-overlay" title="Quick View Room">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                            </div>
-                            <div class="accommodations-card-body">
-                                <div>
-                                    <h3 class="accommodations-card-title">Classic Double</h3>
-                                    <div class="accommodations-card-price">
-                                        <span>&#8377;14,999</span><span class="period">/night</span>
-                                    </div>
-                                </div>
-                                <div class="accommodations-card-icons">
-                                    <i class="bi bi-wifi" title="High-Speed Wi-Fi"></i>
-                                    <i class="bi bi-tv" title="Smart TV"></i>
-                                    <i class="bi bi-telephone" title="Direct Phone"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 2: Superior King -->
-                    <div class="col-lg-3 col-md-6 col-12" data-aos="fade-up" data-aos-duration="800"
-                        data-aos-delay="200">
-                        <div class="accommodations-card">
-                            <div class="accommodations-card-img-wrap">
-                                <img src="images/room-superior-king.jpg" loading="lazy" alt="Superior King Room">
-                                <a href="Room.aspx" class="accommodations-card-overlay" title="Quick View Room">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                            </div>
-                            <div class="accommodations-card-body">
-                                <div>
-                                    <h3 class="accommodations-card-title">Superior King</h3>
-                                    <div class="accommodations-card-price">
-                                        <span>&#8377;19,999</span><span class="period">/night</span>
-                                    </div>
-                                </div>
-                                <div class="accommodations-card-icons">
-                                    <i class="bi bi-wifi" title="High-Speed Wi-Fi"></i>
-                                    <i class="bi bi-cup-hot" title="Coffee Maker"></i>
-                                    <i class="bi bi-snow" title="Air Conditioning"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 3: Premium Ocean View -->
-                    <div class="col-lg-3 col-md-6 col-12" data-aos="fade-up" data-aos-duration="800"
-                        data-aos-delay="300">
-                        <div class="accommodations-card">
-                            <div class="accommodations-card-img-wrap">
-                                <img src="images/room-ocean-view.jpg" loading="lazy" alt="Premium Ocean View Room">
-                                <a href="Room.aspx" class="accommodations-card-overlay" title="Quick View Room">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                            </div>
-                            <div class="accommodations-card-body">
-                                <div>
-                                    <h3 class="accommodations-card-title">Premium Ocean View</h3>
-                                    <div class="accommodations-card-price">
-                                        <span>&#8377;28,999</span><span class="period">/night</span>
-                                    </div>
-                                </div>
-                                <div class="accommodations-card-icons">
-                                    <i class="bi bi-water" title="Ocean View & Pool Access"></i>
-                                    <i class="bi bi-door-open" title="Private Balcony"></i>
-                                    <i class="bi bi-lightbulb" title="Ambient Lighting"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 4: Luxury Penthouse -->
-                    <div class="col-lg-3 col-md-6 col-12" data-aos="fade-up" data-aos-duration="800"
-                        data-aos-delay="400">
-                        <div class="accommodations-card">
-                            <div class="accommodations-card-img-wrap">
-                                <img src="images/room-luxury-penthouse.jpg" loading="lazy" alt="Luxury Penthouse Room">
-                                <a href="Room.aspx" class="accommodations-card-overlay" title="Quick View Room">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                            </div>
-                            <div class="accommodations-card-body">
-                                <div>
-                                    <h3 class="accommodations-card-title">Luxury Penthouse</h3>
-                                    <div class="accommodations-card-price">
-                                        <span>&#8377;95,999</span><span class="period">/night</span>
-                                    </div>
-                                </div>
-                                <div class="accommodations-card-icons">
-                                    <i class="bi bi-star" title="5-Star Rating"></i>
-                                    <i class="bi bi-house-door" title="Penthouse Suite"></i>
-                                    <i class="bi bi-gem" title="VIP Amenities"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- Bottom Link matching screenshot -->
-                <div class="text-center mt-5" data-aos="fade-up" data-aos-delay="500">
-                    <a href="Room.aspx" class="btn-explore-accommodations">
-                        <span>Explore All Accommodations</span>
-                        <i class="bi bi-arrow-right"></i>
-                    </a>
-                </div>
-
-            </div>
-        </section>
 
         <!-- ==========================================
-             SIGNATURE DINING SHOWCASE SECTION (TAJ HOTELS INSPIRED)
+             SIGNATURE DINING SHOWCASE SECTION (THE ROYAL KITCHEN)
              ========================================== -->
         <section id="dining-showcase" class="py-5" style="background-color: #faf8f5;">
             <div class="container-fluid px-4 px-lg-5 py-4">
@@ -530,120 +334,84 @@
                         </span>
                     </div>
                     <h2 class="welcome-title-anim mb-2">
-                        Signature Dining &amp; <span class="welcome-title-gold">Culinary Journeys</span>
+                        Hotel Signature Restaurant: <span class="welcome-title-gold">The Royal Kitchen</span>
                     </h2>
                     <div class="welcome-decor-line">
                         <div class="line"></div>
                         <div class="diamond"><i class="fa-solid fa-gem"></i></div>
                         <div class="line right"></div>
                     </div>
-                    <p class="text-muted mx-auto mt-3" style="max-width: 680px; font-size: 0.95rem; line-height: 1.7;">
-                        From royal slow-cooked Awadhi delicacies at The Royal Zafran to artisanal world gastronomy at The Emperor's Pavilion, savor a gastronomic legacy crafted with timeless passion.
+                    <p class="text-muted mx-auto mt-3" style="max-width: 720px; font-size: 0.95rem; line-height: 1.7;">
+                        Hotel's premier fine dining destination offering authentic Awadhi dum-pukht, royal Indian curries, kebabs, and international gourmet cuisine.
                     </p>
                 </div>
 
-                <!-- 3 Dining Venue Cards Grid -->
-                <div class="row g-4 justify-content-center">
-
-                    <!-- Venue 1: The Royal Zafran -->
-                    <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
-                        <div class="dining-venue-card shadow-sm h-100">
-                            <div class="dining-venue-img-wrap">
-                                <img src="images/dining-royal-zafran.jpg" loading="lazy" alt="The Royal Zafran" class="dining-venue-img">
-                                <span class="dining-venue-badge">
-                                    <i class="bi bi-award-fill text-warning me-1"></i> Indian Fine Dining
-                                </span>
-                            </div>
-                            <div class="p-4 d-flex flex-column justify-content-between flex-grow-1">
-                                <div>
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <span class="badge bg-gold-subtle text-warning-dark text-uppercase small fw-bold">Dinner 07:00 PM - 11:30 PM</span>
-                                        <span class="text-muted small"><i class="bi bi-star-fill text-warning"></i> 4.9 (420+)</span>
+                <!-- Single Restaurant Showcase Card: The Royal Kitchen (Matching Dining.aspx) -->
+                <div class="row justify-content-center">
+                    <div class="col-xl-11 col-12" data-aos="fade-up" data-aos-duration="900">
+                        <div class="dining-venue-card shadow-sm overflow-hidden" style="border: 1px solid rgba(184, 142, 104, 0.28);">
+                            <div class="row g-0 align-items-center">
+                                <!-- Image Column -->
+                                <div class="col-lg-6">
+                                    <div class="dining-venue-img-wrap" style="height: 100%; min-height: 380px;">
+                                        <picture>
+                                            <source srcset="images/dining-royal-zafran.webp" type="image/webp">
+                                            <img src="images/dining-royal-zafran.jpg" alt="The Royal Kitchen Fine Dining" class="dining-venue-img" style="height: 100%; width: 100%; object-fit: cover;" loading="lazy" decoding="async">
+                                        </picture>
+                                        <span class="dining-venue-badge">
+                                            <i class="bi bi-crown me-1 text-warning"></i>Fine Dining &bull; Indian, Mughlai &amp; Continental
+                                        </span>
                                     </div>
-                                    <h4 class="font-serif fw-bold mb-2" style="color: #442305;">The Royal Zafran</h4>
-                                    <p class="text-muted small mb-3" style="line-height: 1.6;">
-                                        Regal Awadhi flavors, slow-cooked royal potli curries, fragrant biryanis, and master-crafted tandoori delicacies under crystal chandeliers.
-                                    </p>
                                 </div>
-                                <div class="pt-3 border-top d-flex justify-content-between align-items-center">
-                                    <span class="fw-bold small" style="color: #B88E68;">Avg. &#8377;3,200 for two</span>
-                                    <a href="Dining.aspx" class="btn btn-sm btn-outline-dark px-3 py-1 fw-semibold rounded-pill">
-                                        View Venue <i class="bi bi-arrow-right ms-1"></i>
-                                    </a>
+                                <!-- Content Column -->
+                                <div class="col-lg-6">
+                                    <div class="p-4 p-md-5">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <span class="badge bg-gold-subtle text-warning-dark text-uppercase small fw-bold">Exclusive Hotel Restaurant</span>
+                                            <span class="text-muted small"><i class="bi bi-geo-alt me-1 text-gold"></i>Ground Floor, Garden Wing</span>
+                                        </div>
+                                        <h3 class="font-serif fw-bold display-6 mb-2" style="color: #442305;">The Royal Kitchen</h3>
+                                        <p class="text-muted mb-4 leading-relaxed" style="font-size: 0.95rem; line-height: 1.7;">
+                                            An iconic fine-dining sanctuary celebrating regal culinary creations. Dine beneath ornate marble arches and crystal chandeliers while savouring slow-cooked Galouti kebabs, Dal Royal, artisanal tandoori breads, and aromatic Dum Biryanis crafted by master chefs.
+                                        </p>
+
+                                        <div class="row g-3 mb-4 small text-muted">
+                                            <div class="col-sm-6">
+                                                <div class="p-3 bg-light rounded-3 border">
+                                                    <strong class="d-block text-dark mb-1"><i class="bi bi-clock me-1 text-gold"></i>Operating Hours:</strong>
+                                                    <span>11:00 AM &ndash; 11:00 PM (Daily)</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="p-3 bg-light rounded-3 border">
+                                                    <strong class="d-block text-dark mb-1"><i class="bi bi-person-badge me-1 text-gold"></i>Seating &amp; Ambience:</strong>
+                                                    <span>Capacity: 90 Guests &bull; 2 Private Salons</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex gap-3 flex-wrap">
+                                            <a href="TableReservation.aspx" class="btn btn-navbar-theme px-4 py-2.5 fw-bold">
+                                                <i class="bi bi-calendar2-check me-1"></i>Reserve Your Table
+                                            </a>
+                                            <a href="Dining.aspx#menuShowcase" class="btn btn-outline-dark px-4 py-2.5 fw-bold">
+                                                <i class="bi bi-journal-text me-1"></i>View Chef's Menu
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Venue 2: The Emperor's Pavilion -->
-                    <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-duration="800" data-aos-delay="250">
-                        <div class="dining-venue-card shadow-sm h-100">
-                            <div class="dining-venue-img-wrap">
-                                <img src="images/amenity-restaurant.jpg" loading="lazy" alt="The Emperor's Pavilion" class="dining-venue-img">
-                                <span class="dining-venue-badge">
-                                    <i class="bi bi-globe me-1"></i> All-Day World Dining
-                                </span>
-                            </div>
-                            <div class="p-4 d-flex flex-column justify-content-between flex-grow-1">
-                                <div>
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <span class="badge bg-gold-subtle text-warning-dark text-uppercase small fw-bold">Open 24 Hours</span>
-                                        <span class="text-muted small"><i class="bi bi-star-fill text-warning"></i> 4.8 (580+)</span>
-                                    </div>
-                                    <h4 class="font-serif fw-bold mb-2" style="color: #442305;">The Emperor's Pavilion</h4>
-                                    <p class="text-muted small mb-3" style="line-height: 1.6;">
-                                        An extravagant multi-cuisine experience with live teppanyaki counters, stone-baked artisanal pizzas, and a signature Sunday royal brunch.
-                                    </p>
-                                </div>
-                                <div class="pt-3 border-top d-flex justify-content-between align-items-center">
-                                    <span class="fw-bold small" style="color: #B88E68;">Avg. &#8377;2,400 for two</span>
-                                    <a href="Dining.aspx" class="btn btn-sm btn-outline-dark px-3 py-1 fw-semibold rounded-pill">
-                                        View Venue <i class="bi bi-arrow-right ms-1"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Venue 3: Chanakya Lounge & Bar -->
-                    <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
-                        <div class="dining-venue-card shadow-sm h-100">
-                            <div class="dining-venue-img-wrap">
-                                <img src="images/dining-lounge-bar.jpg" loading="lazy" alt="Chanakya Lounge & Bar" class="dining-venue-img">
-                                <span class="dining-venue-badge">
-                                    <i class="bi bi-cup-straw me-1"></i> Cocktails &amp; High Tea
-                                </span>
-                            </div>
-                            <div class="p-4 d-flex flex-column justify-content-between flex-grow-1">
-                                <div>
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <span class="badge bg-gold-subtle text-warning-dark text-uppercase small fw-bold">11:00 AM - 01:00 AM</span>
-                                        <span class="text-muted small"><i class="bi bi-star-fill text-warning"></i> 4.9 (310+)</span>
-                                    </div>
-                                    <h4 class="font-serif fw-bold mb-2" style="color: #442305;">Chanakya Lounge &amp; Bar</h4>
-                                    <p class="text-muted small mb-3" style="line-height: 1.6;">
-                                        Bespoke botanical mixology, international single malts, and English afternoon high tea served in plush velvet and brass armchairs.
-                                    </p>
-                                </div>
-                                <div class="pt-3 border-top d-flex justify-content-between align-items-center">
-                                    <span class="fw-bold small" style="color: #B88E68;">Avg. &#8377;1,800 for two</span>
-                                    <a href="Dining.aspx" class="btn btn-sm btn-outline-dark px-3 py-1 fw-semibold rounded-pill">
-                                        View Venue <i class="bi bi-arrow-right ms-1"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
 
                 <!-- Bottom CTA Buttons -->
                 <div class="d-flex flex-wrap justify-content-center gap-3 mt-5" data-aos="fade-up" data-aos-delay="300">
                     <a href="Dining.aspx" class="btn-welcome-about">
-                        <span>Explore Dining &amp; Menus</span>
+                        <span>Explore Full Dining &amp; Menus</span>
                         <i class="bi bi-arrow-right"></i>
                     </a>
-                    <a href="Dining.aspx" class="btn btn-outline-dark px-4 py-3 rounded-pill fw-bold text-uppercase letter-spacing-1 small shadow-sm d-inline-flex align-items-center gap-2">
+                    <a href="TableReservation.aspx" class="btn btn-outline-dark px-4 py-3 rounded-pill fw-bold text-uppercase letter-spacing-1 small shadow-sm d-inline-flex align-items-center gap-2">
                         <i class="bi bi-calendar2-check text-gold"></i>
                         <span>Reserve A Table</span>
                     </a>
@@ -815,9 +583,8 @@
         <section id="testimonials-grid" class="testimonials-section">
             <div class="container px-4 px-lg-5">
 
-                <!-- Section Header with Watermark & Luxury Website Styling -->
+                <!-- Section Header with Luxury Website Styling -->
                 <div class="text-center mb-5 position-relative" data-aos="fade-down" data-aos-duration="1000">
-                    <div class="testimonials-watermark">TESTIMONIALS</div>
                     <div class="mb-2">
                         <span class="welcome-subtitle-anim">
                             <i class="fa-solid fa-sparkles text-champagne-gold" style="font-size: 0.8rem;"></i>
@@ -991,7 +758,7 @@
                         <!-- Set 1 (Original 5 Images) -->
                         <div class="gallery-card-item">
                             <img src="images/gallery-1.jpg" loading="lazy" alt="Luxury Hotel Suite Lounge">
-                            <a href="javascript:void(0);" class="gallery-card-overlay gallery-lightbox-trigger"
+                            <a href="images/gallery-1.jpg" class="gallery-card-overlay gallery-lightbox-trigger"
                                 data-img-src="images/gallery-1.jpg" data-title="Luxury Hotel Suite Lounge"
                                 title="Click to View Full Size">
                                 <i class="bi bi-eye"></i>
@@ -999,7 +766,7 @@
                         </div>
                         <div class="gallery-card-item">
                             <img src="images/gallery-2.jpg" loading="lazy" alt="Fine Dining Breakfast Service">
-                            <a href="javascript:void(0);" class="gallery-card-overlay gallery-lightbox-trigger"
+                            <a href="images/gallery-2.jpg" class="gallery-card-overlay gallery-lightbox-trigger"
                                 data-img-src="images/gallery-2.jpg" data-title="Fine Dining Gourmet Breakfast Service"
                                 title="Click to View Full Size">
                                 <i class="bi bi-eye"></i>
@@ -1007,7 +774,7 @@
                         </div>
                         <div class="gallery-card-item">
                             <img src="images/gallery-3.jpg" loading="lazy" alt="Sky Lounge Panoramic Bar">
-                            <a href="javascript:void(0);" class="gallery-card-overlay gallery-lightbox-trigger"
+                            <a href="images/gallery-3.jpg" class="gallery-card-overlay gallery-lightbox-trigger"
                                 data-img-src="images/gallery-3.jpg"
                                 data-title="Sky Lounge &amp; Executive Panoramic Bar" title="Click to View Full Size">
                                 <i class="bi bi-eye"></i>
@@ -1015,7 +782,7 @@
                         </div>
                         <div class="gallery-card-item">
                             <img src="images/gallery-4.jpg" loading="lazy" alt="Night Courtyard Architecture">
-                            <a href="javascript:void(0);" class="gallery-card-overlay gallery-lightbox-trigger"
+                            <a href="images/gallery-4.jpg" class="gallery-card-overlay gallery-lightbox-trigger"
                                 data-img-src="images/gallery-4.jpg"
                                 data-title="Illuminated Night Courtyard &amp; Royal Palace Architecture"
                                 title="Click to View Full Size">
@@ -1024,7 +791,7 @@
                         </div>
                         <div class="gallery-card-item">
                             <img src="images/gallery-5.jpg" loading="lazy" alt="Infinity Pool Villa Resort">
-                            <a href="javascript:void(0);" class="gallery-card-overlay gallery-lightbox-trigger"
+                            <a href="images/gallery-5.jpg" class="gallery-card-overlay gallery-lightbox-trigger"
                                 data-img-src="images/gallery-5.jpg"
                                 data-title="Infinity Heated Swimming Pool &amp; Luxury Villa Deck"
                                 title="Click to View Full Size">
@@ -1035,7 +802,7 @@
                         <!-- Set 2 (Duplicated 5 Images for Seamless Infinite Loop) -->
                         <div class="gallery-card-item">
                             <img src="images/gallery-1.jpg" loading="lazy" alt="Luxury Hotel Suite Lounge">
-                            <a href="javascript:void(0);" class="gallery-card-overlay gallery-lightbox-trigger"
+                            <a href="images/gallery-1.jpg" class="gallery-card-overlay gallery-lightbox-trigger"
                                 data-img-src="images/gallery-1.jpg" data-title="Luxury Hotel Suite Lounge"
                                 title="Click to View Full Size">
                                 <i class="bi bi-eye"></i>
@@ -1043,7 +810,7 @@
                         </div>
                         <div class="gallery-card-item">
                             <img src="images/gallery-2.jpg" loading="lazy" alt="Fine Dining Breakfast Service">
-                            <a href="javascript:void(0);" class="gallery-card-overlay gallery-lightbox-trigger"
+                            <a href="images/gallery-2.jpg" class="gallery-card-overlay gallery-lightbox-trigger"
                                 data-img-src="images/gallery-2.jpg" data-title="Fine Dining Gourmet Breakfast Service"
                                 title="Click to View Full Size">
                                 <i class="bi bi-eye"></i>
@@ -1051,7 +818,7 @@
                         </div>
                         <div class="gallery-card-item">
                             <img src="images/gallery-3.jpg" loading="lazy" alt="Sky Lounge Panoramic Bar">
-                            <a href="javascript:void(0);" class="gallery-card-overlay gallery-lightbox-trigger"
+                            <a href="images/gallery-3.jpg" class="gallery-card-overlay gallery-lightbox-trigger"
                                 data-img-src="images/gallery-3.jpg"
                                 data-title="Sky Lounge &amp; Executive Panoramic Bar" title="Click to View Full Size">
                                 <i class="bi bi-eye"></i>
@@ -1059,7 +826,7 @@
                         </div>
                         <div class="gallery-card-item">
                             <img src="images/gallery-4.jpg" loading="lazy" alt="Night Courtyard Architecture">
-                            <a href="javascript:void(0);" class="gallery-card-overlay gallery-lightbox-trigger"
+                            <a href="images/gallery-4.jpg" class="gallery-card-overlay gallery-lightbox-trigger"
                                 data-img-src="images/gallery-4.jpg"
                                 data-title="Illuminated Night Courtyard &amp; Royal Palace Architecture"
                                 title="Click to View Full Size">
@@ -1068,7 +835,7 @@
                         </div>
                         <div class="gallery-card-item">
                             <img src="images/gallery-5.jpg" loading="lazy" alt="Infinity Pool Villa Resort">
-                            <a href="javascript:void(0);" class="gallery-card-overlay gallery-lightbox-trigger"
+                            <a href="images/gallery-5.jpg" class="gallery-card-overlay gallery-lightbox-trigger"
                                 data-img-src="images/gallery-5.jpg"
                                 data-title="Infinity Heated Swimming Pool &amp; Luxury Villa Deck"
                                 title="Click to View Full Size">

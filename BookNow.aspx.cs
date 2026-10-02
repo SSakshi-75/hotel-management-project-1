@@ -9,7 +9,11 @@ public partial class BookNow : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         string query = Request.Url != null ? Request.Url.Query : "";
-        if (Session["UserId"] == null)
+        bool isCustomerLoggedIn = Session["UserId"] != null &&
+                                  Session["AdminId"] == null &&
+                                  (Session["IsAdmin"] == null || !(bool)Session["IsAdmin"]);
+
+        if (!isCustomerLoggedIn)
         {
             Response.Redirect("Login.aspx?msg=room&returnUrl=" + Server.UrlEncode("Booking.aspx" + query));
             return;

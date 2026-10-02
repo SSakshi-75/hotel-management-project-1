@@ -39,8 +39,11 @@ public partial class Admin_Login : System.Web.UI.Page
                             {
                                 HttpContext.Current.Session["AdminId"] = dr["AdminId"];
                                 HttpContext.Current.Session["AdminEmail"] = dr["Email"].ToString();
-                                HttpContext.Current.Session["UserName"] = "Administrator";
+                                HttpContext.Current.Session["AdminName"] = "Administrator";
                                 HttpContext.Current.Session["IsAdmin"] = true;
+                                HttpContext.Current.Session.Remove("UserId");
+                                HttpContext.Current.Session.Remove("UserName");
+                                HttpContext.Current.Session.Remove("UserEmail");
                                 return "SUCCESS";
                             }
                             else

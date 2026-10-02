@@ -53,7 +53,18 @@ function confirmBulkDeletePhotos() {
     return confirm('Are you sure you want to permanently delete ' + checked.length + ' selected photo(s)?');
 }
 
-// Auto-Dismiss Script for Confirmation and Error Messages
+function toggleNewCategoryGallery(sel) {
+    var txt = document.getElementById('txtNewCategory') || document.querySelector('[id$="txtNewCategory"]');
+    if (!txt) return;
+    if (sel.value === '__NEW__' || sel.value === 'NEW') {
+        txt.style.display = 'block';
+        txt.focus();
+    } else {
+        txt.style.display = 'none';
+    }
+}
+
+// Auto-Dismiss Script for Confirmation and Error Messages & Category initialize
 (function () {
     function setupAutoDismiss(elemId, delayMs) {
         var elem = document.getElementById(elemId);
@@ -68,15 +79,23 @@ function confirmBulkDeletePhotos() {
             }, delayMs);
         }
     }
-    function triggerDismiss() {
+
+    function initPage() {
+        var sel = document.getElementById('ddlCategory') || document.querySelector('[id$="ddlCategory"]');
+        if (sel && (sel.value === '__NEW__' || sel.value === 'NEW')) {
+            var txt = document.getElementById('txtNewCategory') || document.querySelector('[id$="txtNewCategory"]');
+            if (txt) txt.style.display = 'block';
+        }
+
         var successPnl = document.querySelector('[id$="pnlSuccessMessage"]');
         var errorPnl = document.querySelector('[id$="pnlErrorMessage"]');
         if (successPnl) setupAutoDismiss(successPnl.id, 3500);
         if (errorPnl) setupAutoDismiss(errorPnl.id, 4500);
     }
+
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', triggerDismiss);
+        document.addEventListener('DOMContentLoaded', initPage);
     } else {
-        triggerDismiss();
+        initPage();
     }
 })();

@@ -13,13 +13,16 @@
             }, 400);
         }
     }
-    if (document.readyState === 'complete') {
-        setTimeout(dismissPreloader, 400);
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        setTimeout(dismissPreloader, 250);
     } else {
-        window.addEventListener('load', function () {
-            setTimeout(dismissPreloader, 500);
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(dismissPreloader, 300);
         });
-        setTimeout(dismissPreloader, 1500);
+        window.addEventListener('load', function () {
+            dismissPreloader();
+        });
+        setTimeout(dismissPreloader, 600);
     }
 })();
 

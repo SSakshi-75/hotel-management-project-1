@@ -9,12 +9,19 @@ public partial class MasterPage : System.Web.UI.MasterPage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Session["UserId"] != null)
+        // Segregate customer and admin sessions:
+        // The public website header must only display genuine logged-in customers/guests, NOT administrators.
+        bool isAdminSession = Session["AdminId"] != null || 
+                              (Session["IsAdmin"] != null && (bool)Session["IsAdmin"]);
+
+        string userName = Session["UserName"] != null ? Session["UserName"].ToString().Trim() : "";
+        bool isAdministratorName = string.Equals(userName, "Administrator", StringComparison.OrdinalIgnoreCase);
+
+        if (Session["UserId"] != null && !isAdminSession && !isAdministratorName)
         {
             phLoggedOut.Visible = false;
             phLoggedIn.Visible = true;
 
-            string userName = Session["UserName"] != null ? Session["UserName"].ToString().Trim() : "Customer";
             if (string.IsNullOrEmpty(userName))
             {
                 userName = "Customer";

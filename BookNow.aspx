@@ -93,7 +93,7 @@
                     <div class="d-flex align-items-center gap-2 text-dark small">
                         <i class="bi bi-patch-check-fill text-warning fs-5"></i>
                         <span><strong>Best Rate Guaranteed</strong> When You Book Direct With Us.</span>
-                        <a href="javascript:void(0)" class="text-decoration-underline fw-bold text-dark ms-1">Learn
+                        <a href="Terms.aspx" class="text-decoration-underline fw-bold text-dark ms-1">Learn
                             More</a>
                     </div>
                     <div class="small text-muted">

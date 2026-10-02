@@ -13,7 +13,11 @@ public partial class TableReservation : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         // Enforce login/registration before booking a table
-        if (Session["UserId"] == null)
+        bool isCustomerLoggedIn = Session["UserId"] != null &&
+                                  Session["AdminId"] == null &&
+                                  (Session["IsAdmin"] == null || !(bool)Session["IsAdmin"]);
+
+        if (!isCustomerLoggedIn)
         {
             string rawUrl = Request.RawUrl ?? "TableReservation.aspx";
             Response.Redirect("Login.aspx?msg=table&returnUrl=" + Server.UrlEncode(rawUrl));
@@ -26,14 +30,10 @@ public partial class TableReservation : System.Web.UI.Page
             {
                 txtResDate.Value = DateTime.Today.ToString("yyyy-MM-dd");
             }
-            if (Session["UserName"] != null && txtCustName != null && string.IsNullOrEmpty(txtCustName.Value))
-            {
-                txtCustName.Value = Session["UserName"].ToString();
-            }
-            if (Session["UserEmail"] != null && txtCustEmail != null && string.IsNullOrEmpty(txtCustEmail.Value))
-            {
-                txtCustEmail.Value = Session["UserEmail"].ToString();
-            }
+            if (txtCustName != null) txtCustName.Value = "";
+            if (txtCustPhone != null) txtCustPhone.Value = "";
+            if (txtCustEmail != null) txtCustEmail.Value = "";
+            if (txtSpecialRequest != null) txtSpecialRequest.Value = "";
             LoadAvailableTables();
         }
     }
@@ -163,7 +163,11 @@ public partial class TableReservation : System.Web.UI.Page
     // ==========================================
     protected void btnConfirmReservation_Click(object sender, EventArgs e)
     {
-        if (Session["UserId"] == null)
+        bool isCustomerLoggedIn = Session["UserId"] != null &&
+                                  Session["AdminId"] == null &&
+                                  (Session["IsAdmin"] == null || !(bool)Session["IsAdmin"]);
+
+        if (!isCustomerLoggedIn)
         {
             Response.Redirect("Login.aspx?msg=table&returnUrl=TableReservation.aspx");
             return;

@@ -341,21 +341,22 @@
                                         <label class="form-label fw-semibold text-dark"><i
                                                 class="bi bi-person-fill text-gold me-1"></i> Full Name *</label>
                                         <input type="text" id="txtCustName" runat="server" clientidmode="Static"
-                                            class="form-control rounded-3 shadow-none" placeholder="e.g. Rahul Sharma"
-                                            required="required" />
+                                            class="form-control rounded-3 shadow-none" placeholder="Enter your full name"
+                                            autocomplete="off" value="" required="required" />
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label fw-semibold text-dark"><i
                                                 class="bi bi-telephone-fill text-gold me-1"></i> Mobile Number *</label>
                                         <input type="tel" id="txtCustPhone" runat="server" clientidmode="Static"
-                                            class="form-control rounded-3 shadow-none" placeholder="+91 98765 43210"
-                                            required="required" />
+                                            class="form-control rounded-3 shadow-none" placeholder="Enter 10-digit mobile number"
+                                            autocomplete="off" value="" required="required" />
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label fw-semibold text-dark"><i
                                                 class="bi bi-envelope-fill text-gold me-1"></i> Email Address</label>
                                         <input type="email" id="txtCustEmail" runat="server" clientidmode="Static"
-                                            class="form-control rounded-3 shadow-none" placeholder="name@example.com" />
+                                            class="form-control rounded-3 shadow-none" placeholder="Enter email address (optional)"
+                                            autocomplete="off" value="" />
                                     </div>
                                     <div class="col-12">
                                         <label class="form-label fw-semibold text-dark"><i
@@ -363,7 +364,7 @@
                                             (Optional)</label>
                                         <textarea id="txtSpecialRequest" runat="server" clientidmode="Static"
                                             class="form-control rounded-3 shadow-none" rows="2"
-                                            placeholder="e.g. Birthday cake arrangement, anniversary dinner, high chair required, window seat preference..."></textarea>
+                                            placeholder="Any special requests or dining preferences..." autocomplete="off"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -524,6 +525,17 @@
                 }
                 return true;
             }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                var cName = document.getElementById('txtCustName');
+                var cPhone = document.getElementById('txtCustPhone');
+                var cEmail = document.getElementById('txtCustEmail');
+                var cReq = document.getElementById('txtSpecialRequest');
+                if (cName) cName.value = '';
+                if (cPhone) cPhone.value = '';
+                if (cEmail) cEmail.value = '';
+                if (cReq) cReq.value = '';
+            });
         </script>
 
     </asp:Content>

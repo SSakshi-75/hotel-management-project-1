@@ -10,7 +10,7 @@
          1. HERO BANNER SECTION WITH ANIMATED HEADING & BREADCRUMB
          ========================================== -->
     <section class="amenities-compact-hero text-white"
-        style="background: linear-gradient(rgba(44, 23, 5, 0.75), rgba(44, 23, 5, 0.85)), url('images/dining-royal-zafran.jpg') center/cover no-repeat;">
+        style="background: linear-gradient(rgba(44, 23, 5, 0.75), rgba(44, 23, 5, 0.85)), url('images/dining-royal-zafran.webp') center/cover no-repeat;">
         <div class="container py-4 position-relative z-2" data-aos="fade-down" data-aos-duration="1000">
             <div
                 class="d-flex flex-column flex-md-row align-items-center justify-content-between text-center text-md-start">

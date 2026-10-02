@@ -410,23 +410,4 @@
 
         <!-- JavaScript Interactivity -->
         <script src="js/gallery.js" type="text/javascript"></script>
-        <script type="text/javascript">
-            function toggleNewCategoryGallery(sel) {
-                var txt = document.getElementById('txtNewCategory');
-                if (!txt) return;
-                if (sel.value === '__NEW__' || sel.value === 'NEW') {
-                    txt.style.display = 'block';
-                    txt.focus();
-                } else {
-                    txt.style.display = 'none';
-                }
-            }
-            window.addEventListener('DOMContentLoaded', function () {
-                var sel = document.getElementById('ddlCategory');
-                if (sel && (sel.value === '__NEW__' || sel.value === 'NEW')) {
-                    var txt = document.getElementById('txtNewCategory');
-                    if (txt) txt.style.display = 'block';
-                }
-            });
-        </script>
     </asp:Content>

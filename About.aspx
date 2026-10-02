@@ -337,9 +337,9 @@
                                 <h3 class="team-profile-name">Rahul Singh</h3>
                                 <p class="team-profile-role">Chief Executive Officer</p>
                                 <div class="team-social-bar">
-                                    <a href="#" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
-                                    <a href="#" title="Twitter"><i class="bi bi-twitter-x"></i></a>
-                                    <a href="#" title="Email"><i class="bi bi-envelope-fill"></i></a>
+                                    <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" title="Twitter"><i class="bi bi-twitter-x"></i></a>
+                                    <a href="mailto:info@hotelmanagement.com" title="Email"><i class="bi bi-envelope-fill"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -355,9 +355,9 @@
                                 <h3 class="team-profile-name">Priya Singhania</h3>
                                 <p class="team-profile-role">General Manager</p>
                                 <div class="team-social-bar">
-                                    <a href="#" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
-                                    <a href="#" title="Instagram"><i class="bi bi-instagram"></i></a>
-                                    <a href="#" title="Email"><i class="bi bi-envelope-fill"></i></a>
+                                    <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                                    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" title="Instagram"><i class="bi bi-instagram"></i></a>
+                                    <a href="mailto:info@hotelmanagement.com" title="Email"><i class="bi bi-envelope-fill"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -373,9 +373,9 @@
                                 <h3 class="team-profile-name">Rajesh Sharma</h3>
                                 <p class="team-profile-role">Executive Master Chef</p>
                                 <div class="team-social-bar">
-                                    <a href="#" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
-                                    <a href="#" title="Facebook"><i class="bi bi-facebook"></i></a>
-                                    <a href="#" title="Email"><i class="bi bi-envelope-fill"></i></a>
+                                    <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                                    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" title="Facebook"><i class="bi bi-facebook"></i></a>
+                                    <a href="mailto:info@hotelmanagement.com" title="Email"><i class="bi bi-envelope-fill"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -391,9 +391,9 @@
                                 <h3 class="team-profile-name">Ananya Verma</h3>
                                 <p class="team-profile-role">Director of Guest Experience</p>
                                 <div class="team-social-bar">
-                                    <a href="#" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
-                                    <a href="#" title="Instagram"><i class="bi bi-instagram"></i></a>
-                                    <a href="#" title="Email"><i class="bi bi-envelope-fill"></i></a>
+                                    <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                                    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" title="Instagram"><i class="bi bi-instagram"></i></a>
+                                    <a href="mailto:info@hotelmanagement.com" title="Email"><i class="bi bi-envelope-fill"></i></a>
                                 </div>
                             </div>
                         </div>

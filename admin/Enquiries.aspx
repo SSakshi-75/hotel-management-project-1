@@ -599,32 +599,5 @@
     </div>
 
     <!-- Client-side Real-time Preview Script -->
-    <script>
-        function updateCardLivePreview() {
-            var txtLoc = document.getElementById('<%= txtCardLocation.ClientID %>');
-            var txtPh = document.getElementById('<%= txtCardPhone.ClientID %>');
-            var txtEm = document.getElementById('<%= txtCardEmail.ClientID %>');
-
-            var prevLoc = document.getElementById('cardPreviewLocation');
-            var prevPh = document.getElementById('cardPreviewPhone');
-            var prevEm = document.getElementById('cardPreviewEmail');
-
-            if (txtLoc && prevLoc) {
-                var locVal = txtLoc.value.trim();
-                prevLoc.innerText = locVal;
-            }
-
-            if (txtPh && prevPh) {
-                var phVal = txtPh.value.trim();
-                prevPh.innerText = phVal;
-            }
-
-            if (txtEm && prevEm) {
-                var emVal = txtEm.value.trim();
-                prevEm.innerText = emVal;
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', updateCardLivePreview);
-    </script>
+    <script src="js/enquiries.js"></script>
 </asp:Content>

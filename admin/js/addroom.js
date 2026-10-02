@@ -1,3 +1,8 @@
+/**
+ * Add / Edit Room Admin Page JavaScript
+ * Location: admin/js/addroom.js
+ */
+
 function previewUploadedImage(fileInput, targetInputId, previewImgId) {
     if (fileInput.files && fileInput.files[0]) {
         var file = fileInput.files[0];
@@ -39,9 +44,26 @@ function resetForm() {
     }
 }
 
-// Auto-dismiss success alert popup after 2 seconds
+function toggleNewRoomCategory(sel) {
+    var txt = document.getElementById('txtNewCategory') || document.querySelector('[id$="txtNewCategory"]');
+    if (!txt) return;
+    if (sel.value === '__NEW__' || sel.value === 'NEW') {
+        txt.style.display = 'block';
+        txt.focus();
+    } else {
+        txt.style.display = 'none';
+    }
+}
+
+// Auto-dismiss success alert popup after 2 seconds & Category initialize
 (function () {
-    function setupPopupAutoDismiss() {
+    function setupPage() {
+        var sel = document.getElementById('ddlCategory') || document.querySelector('[id$="ddlCategory"]');
+        if (sel && (sel.value === '__NEW__' || sel.value === 'NEW')) {
+            var txt = document.getElementById('txtNewCategory') || document.querySelector('[id$="txtNewCategory"]');
+            if (txt) txt.style.display = 'block';
+        }
+
         var successPnl = document.querySelector('[id$="pnlSuccessMessage"]') || document.querySelector('.alert-success');
         if (successPnl) {
             var closeBtn = successPnl.querySelector('.btn-close');
@@ -69,8 +91,8 @@ function resetForm() {
     }
 
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', setupPopupAutoDismiss);
+        document.addEventListener('DOMContentLoaded', setupPage);
     } else {
-        setupPopupAutoDismiss();
+        setupPage();
     }
 })();

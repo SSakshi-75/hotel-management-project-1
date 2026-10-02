@@ -87,24 +87,5 @@
             </div>
         </div>
 
-        <script>
-            function filterRoomsTable() {
-                var input = document.getElementById('roomSearchInput').value.toLowerCase();
-                var status = document.getElementById('statusFilterSelect').value.toLowerCase();
-                var rows = document.querySelectorAll('#roomsTable tbody tr');
-
-                rows.forEach(function (row) {
-                    var text = row.innerText.toLowerCase();
-                    var matchesSearch = text.includes(input);
-                    var matchesStatus = !status || text.includes(status);
-                    row.style.display = (matchesSearch && matchesStatus) ? '' : 'none';
-                });
-            }
-
-            function confirmDeleteRoom(roomName) {
-                if (confirm('Are you sure you want to delete "' + roomName + '"?')) {
-                    showAdminToast('Room Removed', roomName + ' deleted successfully.', 'bi-trash text-danger');
-                }
-            }
-        </script>
+        <script src="js/rooms.js"></script>
     </asp:Content>

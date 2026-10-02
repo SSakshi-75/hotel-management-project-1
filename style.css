@@ -102,6 +102,8 @@ CSS STRUCTURE:
 
 html {
   box-sizing: border-box;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 
@@ -114,6 +116,16 @@ body {
   color: var(--dark-color);
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
+  position: relative;
+}
+
+#form1 {
+  overflow-x: clip;
+  max-width: 100%;
+  width: 100%;
 }
 
 p {
@@ -2266,10 +2278,10 @@ iconify-icon.quote {
   position: absolute;
   top: 20px;
   left: 20px;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  color: #0f172a;
+  color: #442305 !important;
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 1.5px;
@@ -2277,6 +2289,7 @@ iconify-icon.quote {
   padding: 6px 18px;
   border-radius: 30px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+  z-index: 2;
 }
 
 .suite-overlay-pills {
@@ -6280,6 +6293,59 @@ video {
   }
 }
 
+/* ==========================================
+   GLOBAL MOBILE OVERFLOW & RESPONSIVE FIXES
+   ========================================== */
+@media (max-width: 991.98px) {
+
+  html,
+  body {
+    overflow-x: hidden !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  #form1,
+  main,
+  header,
+  footer,
+  section,
+  .hero-full-width-wrapper {
+    max-width: 100% !important;
+    overflow-x: clip;
+  }
+
+  /* Prevent AOS horizontal translation from expanding viewport */
+  [data-aos="fade-left"],
+  [data-aos="fade-right"],
+  [data-aos*="-left"],
+  [data-aos*="-right"] {
+    transform: none !important;
+  }
+
+  /* Room card image & footer flexbox mobile constraints */
+  .room-card-full-img {
+    min-width: 0 !important;
+  }
+
+  .room-card-full-footer {
+    flex-wrap: wrap;
+  }
+
+  .room-search-box {
+    max-width: 100% !important;
+    width: 100% !important;
+    overflow: hidden;
+  }
+
+  /* Prevent row bleed when row has w-100 or mx-auto */
+  .row.w-100,
+  .row.mx-auto {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
 @media (max-width: 767.98px) {
 
   .container,
@@ -7310,16 +7376,20 @@ input[type="checkbox"].auth-checkbox {
 
 .badge-presidential-pill {
   position: absolute;
-  top: 14px;
-  left: 14px;
-  color: #ffffff;
-  font-size: 0.68rem;
+  top: 20px;
+  left: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #442305 !important;
+  font-size: 0.78rem;
   font-weight: 800;
-  letter-spacing: 1.2px;
-  padding: 4px 12px;
-  border-radius: 20px;
+  letter-spacing: 1.5px;
+  padding: 6px 18px;
+  border-radius: 30px;
   text-transform: uppercase;
-  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+  z-index: 2;
 }
 
 .room-photo-count-badge {

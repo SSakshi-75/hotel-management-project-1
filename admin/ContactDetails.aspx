@@ -327,42 +327,5 @@
         </div>
 
         <!-- Client-side Real-time Preview Script -->
-        <script>
-            function updateLivePreview() {
-                var txtLoc = document.getElementById('<%= txtLocationAddress.ClientID %>');
-                var txtPh = document.getElementById('<%= txtPhoneNumber.ClientID %>');
-                var txtEm = document.getElementById('<%= txtContactEmail.ClientID %>');
-
-                var prevLoc = document.getElementById('livePreviewLocation');
-                var prevPh = document.getElementById('livePreviewPhone');
-                var prevEm = document.getElementById('livePreviewEmail');
-
-                if (txtLoc && prevLoc) {
-                    var locVal = txtLoc.value.trim();
-                    prevLoc.innerText = locVal;
-                }
-
-                if (txtPh && prevPh) {
-                    var phVal = txtPh.value.trim();
-                    prevPh.innerText = phVal;
-                }
-
-                if (txtEm && prevEm) {
-                    var emVal = txtEm.value.trim();
-                    prevEm.innerText = emVal;
-                }
-            }
-
-            function setDefaultLocation() {
-                var txtLoc = document.getElementById('<%= txtLocationAddress.ClientID %>');
-                if (txtLoc) {
-                    txtLoc.value = "Diplomatic Enclave, Chanakyapuri, New Delhi 110021, India";
-                    updateLivePreview();
-                }
-            }
-
-            document.addEventListener('DOMContentLoaded', function () {
-                updateLivePreview();
-            });
-        </script>
+        <script src="js/contactdetails.js"></script>
     </asp:Content>

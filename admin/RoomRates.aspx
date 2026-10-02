@@ -71,18 +71,5 @@
         </div>
     </div>
 
-    <script>
-        function filterRatesTable() {
-            var input = document.getElementById('ratesSearchInput').value.toLowerCase();
-            var plan = document.getElementById('planFilterSelect').value.toLowerCase();
-            var rows = document.querySelectorAll('#ratesTable tbody tr');
-
-            rows.forEach(function (row) {
-                var text = row.innerText.toLowerCase();
-                var matchesSearch = text.includes(input);
-                var matchesPlan = !plan || text.includes(plan);
-                row.style.display = (matchesSearch && matchesPlan) ? '' : 'none';
-            });
-        }
-    </script>
+    <script src="js/roomrates.js"></script>
 </asp:Content>

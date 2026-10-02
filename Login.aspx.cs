@@ -258,6 +258,11 @@ public partial class Login : System.Web.UI.Page
                             Session["UserEmail"] =
                                 userEmail;
 
+                            Session.Remove("AdminId");
+                            Session.Remove("AdminEmail");
+                            Session.Remove("AdminName");
+                            Session.Remove("IsAdmin");
+
 
                             // ==========================================
                             // REDIRECT (RETURN URL OR CONFIRMATION)
@@ -326,8 +331,11 @@ public partial class Login : System.Web.UI.Page
                                     {
                                         Session["AdminId"] = adminId;
                                         Session["AdminEmail"] = adminEmail;
-                                        Session["UserName"] = "Administrator";
+                                        Session["AdminName"] = "Administrator";
                                         Session["IsAdmin"] = true;
+                                        Session.Remove("UserId");
+                                        Session.Remove("UserName");
+                                        Session.Remove("UserEmail");
                                         Response.Redirect("~/admin/Dashboard.aspx");
                                         return;
                                     }

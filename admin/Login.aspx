@@ -60,8 +60,8 @@
                             <!-- Header -->
                             <div class="card-header-luxury">
                                 <a href="../index.aspx" title="Hotel Management" class="d-inline-block">
-                                    <img src="../images/logo.png" alt="Hotel Logo" class="card-logo"
-                                        onerror="this.onerror=null; this.src='../images/main-logo.png';">
+                                    <img src="../images/logo.webp" alt="Hotel Logo" class="card-logo"
+                                        onerror="this.onerror=null; this.src='../images/logo.png';">
                                 </a>
                                 <div>
                                     <span class="security-badge">

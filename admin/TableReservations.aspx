@@ -3,45 +3,23 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="adminHead" Runat="Server">
     <meta name="description" content="Manage Table Reservations for The Royal Kitchen - Single Hotel Restaurant" />
+    <link rel="stylesheet" type="text/css" href="css/managehotel.css?v=2.0" />
     <style>
-        .res-card-table {
-            background: #ffffff;
-            border-radius: 16px;
-            border: 1px solid rgba(0,0,0,0.08);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            overflow: hidden;
-        }
-        .filter-pill-btn {
-            border: 1px solid #cbd5e1;
-            background: #ffffff;
-            color: #475569;
-            font-weight: 600;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            transition: all 0.2s ease;
-        }
-        .filter-pill-btn.active, .filter-pill-btn:hover {
+        .res-status-pending { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; font-weight: 700; padding: 4px 12px; border-radius: 20px; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 4px; }
+        .res-status-confirmed { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; font-weight: 700; padding: 4px 12px; border-radius: 20px; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 4px; }
+        .res-status-seated { background: #e0e7ff; color: #3730a3; border: 1px solid #c7d2fe; font-weight: 700; padding: 4px 12px; border-radius: 20px; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 4px; }
+        .res-status-completed { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; font-weight: 700; padding: 4px 12px; border-radius: 20px; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 4px; }
+        .res-status-cancelled { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; font-weight: 700; padding: 4px 12px; border-radius: 20px; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 4px; }
+        
+        .table-num-badge {
             background: #442305;
             color: #ffffff;
-            border-color: #442305;
-        }
-        .res-status-pending { background: #fef3c7; color: #92400e; font-weight: 700; padding: 4px 12px; border-radius: 20px; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 4px; }
-        .res-status-confirmed { background: #dbeafe; color: #1e40af; font-weight: 700; padding: 4px 12px; border-radius: 20px; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 4px; }
-        .res-status-seated { background: #e0e7ff; color: #3730a3; font-weight: 700; padding: 4px 12px; border-radius: 20px; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 4px; }
-        .res-status-completed { background: #d1fae5; color: #065f46; font-weight: 700; padding: 4px 12px; border-radius: 20px; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 4px; }
-        .res-status-cancelled { background: #fee2e2; color: #991b1b; font-weight: 700; padding: 4px 12px; border-radius: 20px; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 4px; }
-        
-        .kpi-res-card {
-            background: #ffffff;
-            border-radius: 14px;
-            padding: 16px 20px;
-            border: 1px solid rgba(0,0,0,0.07);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            transition: transform 0.2s ease;
-        }
-        .kpi-res-card:hover {
-            transform: translateY(-2px);
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-family: 'Playfair Display', Georgia, serif;
+            letter-spacing: 0.5px;
+            display: inline-block;
         }
     </style>
 </asp:Content>
@@ -54,7 +32,7 @@
         <span id="confirmationToastMsg">Updated successfully</span>
     </div>
 
-    <!-- Header Bar -->
+    <!-- Page Header & Action Bar matching ManageHotel & Bookings -->
     <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
         <div>
             <nav aria-label="breadcrumb" class="mb-1">
@@ -64,15 +42,15 @@
                     <li class="breadcrumb-item active text-dark fw-semibold" aria-current="page">Table Reservations</li>
                 </ol>
             </nav>
-            <h2 class="fw-bold mb-1 text-dark" style="font-family: 'Playfair Display', Georgia, serif;">Table Reservations Dashboard</h2>
+            <h2 class="fw-bold mb-1 manage-hotel-title">Table Reservations Dashboard</h2>
             <p class="text-muted small mb-0">Overview and status workflow of table reservations for <strong>The Royal Kitchen</strong>.</p>
         </div>
-        <div class="d-flex align-items-center gap-2">
-            <a href="../TableReservation.aspx" target="_blank" class="btn btn-outline-secondary px-3 py-2 rounded-3 fw-semibold small">
-                <i class="bi bi-plus-circle me-1"></i> New Table Reservation
+        <div class="d-flex align-items-center flex-wrap gap-2">
+            <a href="RestaurantTables.aspx" class="btn-hotel-preview-site">
+                <i class="bi bi-grid-3x3-gap"></i> Manage Tables
             </a>
-            <a href="RestaurantTables.aspx" class="btn btn-dark px-3 py-2 rounded-3 fw-semibold small">
-                <i class="bi bi-grid-3x3-gap me-1"></i> Manage Tables
+            <a href="../TableReservation.aspx" target="_blank" class="btn-hotel-add-room">
+                <i class="bi bi-plus-circle"></i> New Table Reservation
             </a>
         </div>
     </div>
@@ -89,135 +67,222 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </asp:Panel>
 
-    <!-- KPI STRIP -->
+    <!-- Luxury KPI Strip matching ManageHotel & Bookings -->
     <div class="row g-3 mb-4">
-        <div class="col-6 col-lg-2">
-            <div class="kpi-res-card">
-                <span class="text-muted small font-monospace d-block">TOTAL</span>
-                <h3 class="fw-bold text-dark mb-0 mt-1"><asp:Label ID="lblTotalCount" runat="server" Text="0"></asp:Label></h3>
-            </div>
-        </div>
-        <div class="col-6 col-lg-2">
-            <div class="kpi-res-card">
-                <span class="text-muted small font-monospace d-block">PENDING</span>
-                <h3 class="fw-bold text-warning mb-0 mt-1"><asp:Label ID="lblPendingCount" runat="server" Text="0"></asp:Label></h3>
-            </div>
-        </div>
-        <div class="col-6 col-lg-2">
-            <div class="kpi-res-card">
-                <span class="text-muted small font-monospace d-block">CONFIRMED</span>
-                <h3 class="fw-bold text-primary mb-0 mt-1"><asp:Label ID="lblConfirmedCount" runat="server" Text="0"></asp:Label></h3>
-            </div>
-        </div>
-        <div class="col-6 col-lg-2">
-            <div class="kpi-res-card">
-                <span class="text-muted small font-monospace d-block">SEATED</span>
-                <h3 class="fw-bold mb-0 mt-1" style="color: #4338ca;"><asp:Label ID="lblSeatedCount" runat="server" Text="0"></asp:Label></h3>
-            </div>
-        </div>
-        <div class="col-6 col-lg-2">
-            <div class="kpi-res-card">
-                <span class="text-muted small font-monospace d-block">COMPLETED</span>
-                <h3 class="fw-bold text-success mb-0 mt-1"><asp:Label ID="lblCompletedCount" runat="server" Text="0"></asp:Label></h3>
-            </div>
-        </div>
-        <div class="col-6 col-lg-2">
-            <div class="kpi-res-card">
-                <span class="text-muted small font-monospace d-block">CANCELLED</span>
-                <h3 class="fw-bold text-danger mb-0 mt-1"><asp:Label ID="lblCancelledCount" runat="server" Text="0"></asp:Label></h3>
-            </div>
-        </div>
-    </div>
-
-    <!-- FILTER BAR & SEARCH -->
-    <div class="res-card-table p-3 mb-4">
-        <div class="row g-3 align-items-center">
-            
-            <!-- Status Filter Pills -->
-            <div class="col-12 col-lg-8 d-flex flex-wrap gap-2">
-                <button type="button" class="filter-pill-btn active" onclick="filterResStatus('All', this)">All (<asp:Literal ID="litFilterAll" runat="server" Text="0" />)</button>
-                <button type="button" class="filter-pill-btn" onclick="filterResStatus('Pending', this)">Pending (<asp:Literal ID="litFilterPending" runat="server" Text="0" />)</button>
-                <button type="button" class="filter-pill-btn" onclick="filterResStatus('Confirmed', this)">Confirmed (<asp:Literal ID="litFilterConfirmed" runat="server" Text="0" />)</button>
-                <button type="button" class="filter-pill-btn" onclick="filterResStatus('Seated', this)">Seated (<asp:Literal ID="litFilterSeated" runat="server" Text="0" />)</button>
-                <button type="button" class="filter-pill-btn" onclick="filterResStatus('Completed', this)">Completed (<asp:Literal ID="litFilterCompleted" runat="server" Text="0" />)</button>
-                <button type="button" class="filter-pill-btn" onclick="filterResStatus('Cancelled', this)">Cancelled (<asp:Literal ID="litFilterCancelled" runat="server" Text="0" />)</button>
-            </div>
-
-            <!-- Search Box -->
-            <div class="col-12 col-lg-4">
-                <div class="input-group">
-                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-search text-muted"></i></span>
-                    <input type="text" id="txtSearchReservation" class="form-control border-start-0 bg-light shadow-none"
-                        placeholder="Search code, customer, phone, table..." onkeyup="searchReservationsTable();" />
+        <!-- Total -->
+        <div class="col-6 col-md-4 col-xl-2">
+            <div class="hotel-kpi-card h-100">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="kpi-label">Total</span>
+                        <div class="kpi-value mt-1">
+                            <asp:Label ID="lblTotalCount" runat="server" Text="0"></asp:Label>
+                        </div>
+                        <span class="text-muted small">All Reservations</span>
+                    </div>
+                    <div class="kpi-icon-wrap kpi-icon-gold">
+                        <i class="bi bi-journal-text"></i>
+                    </div>
                 </div>
             </div>
+        </div>
 
+        <!-- Pending -->
+        <div class="col-6 col-md-4 col-xl-2">
+            <div class="hotel-kpi-card h-100">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="kpi-label">Pending</span>
+                        <div class="kpi-value mt-1 text-warning">
+                            <asp:Label ID="lblPendingCount" runat="server" Text="0"></asp:Label>
+                        </div>
+                        <span class="text-muted small">Awaiting Review</span>
+                    </div>
+                    <div class="kpi-icon-wrap" style="background: #fffbeb; color: #b45309; border: 1px solid #fde68a;">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirmed -->
+        <div class="col-6 col-md-4 col-xl-2">
+            <div class="hotel-kpi-card h-100">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="kpi-label">Confirmed</span>
+                        <div class="kpi-value mt-1 text-primary">
+                            <asp:Label ID="lblConfirmedCount" runat="server" Text="0"></asp:Label>
+                        </div>
+                        <span class="text-muted small">Awaiting Seating</span>
+                    </div>
+                    <div class="kpi-icon-wrap kpi-icon-blue">
+                        <i class="bi bi-check2-circle"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seated -->
+        <div class="col-6 col-md-4 col-xl-2">
+            <div class="hotel-kpi-card h-100">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="kpi-label">Seated</span>
+                        <div class="kpi-value mt-1" style="color: #7c3aed;">
+                            <asp:Label ID="lblSeatedCount" runat="server" Text="0"></asp:Label>
+                        </div>
+                        <span class="text-muted small">Currently Dining</span>
+                    </div>
+                    <div class="kpi-icon-wrap kpi-icon-purple">
+                        <i class="bi bi-person-check-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Completed -->
+        <div class="col-6 col-md-4 col-xl-2">
+            <div class="hotel-kpi-card h-100">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="kpi-label">Completed</span>
+                        <div class="kpi-value mt-1 text-success">
+                            <asp:Label ID="lblCompletedCount" runat="server" Text="0"></asp:Label>
+                        </div>
+                        <span class="text-muted small">Dining Finished</span>
+                    </div>
+                    <div class="kpi-icon-wrap kpi-icon-green">
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cancelled -->
+        <div class="col-6 col-md-4 col-xl-2">
+            <div class="hotel-kpi-card h-100">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="kpi-label">Cancelled</span>
+                        <div class="kpi-value mt-1 text-danger">
+                            <asp:Label ID="lblCancelledCount" runat="server" Text="0"></asp:Label>
+                        </div>
+                        <span class="text-muted small">Void / Cancelled</span>
+                    </div>
+                    <div class="kpi-icon-wrap" style="background: #fee2e2; color: #dc2626; border: 1px solid #fecaca;">
+                        <i class="bi bi-x-circle-fill"></i>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- DATA TABLE -->
-    <div class="res-card-table">
+    <!-- Master Reservations Card matching ManageHotel & Bookings design -->
+    <div class="manage-hotel-card">
+
+        <!-- Header: Royal Brown / Gold Gradient Bar -->
+        <div class="manage-hotel-header">
+            <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-cup-hot-fill text-warning fs-5"></i>
+                <h4 class="mb-0">Table Reservations Ledger</h4>
+            </div>
+            <div>
+                <span class="header-count-pill">
+                    <i class="bi bi-shield-check me-1"></i>
+                    All Live Bookings
+                </span>
+            </div>
+        </div>
+
+        <!-- Filter & Search Toolbar matching ManageHotel -->
+        <div class="manage-hotel-toolbar">
+            <div class="row align-items-center g-3">
+                <!-- Status Filter Pills -->
+                <div class="col-12 col-xl-7 d-flex flex-wrap align-items-center gap-2">
+                    <button type="button" class="filter-pill-btn active" onclick="filterResStatus('All', this); return false;">All (<asp:Literal ID="litFilterAll" runat="server" Text="0" />)</button>
+                    <button type="button" class="filter-pill-btn" onclick="filterResStatus('Pending', this); return false;">Pending (<asp:Literal ID="litFilterPending" runat="server" Text="0" />)</button>
+                    <button type="button" class="filter-pill-btn" onclick="filterResStatus('Confirmed', this); return false;">Confirmed (<asp:Literal ID="litFilterConfirmed" runat="server" Text="0" />)</button>
+                    <button type="button" class="filter-pill-btn" onclick="filterResStatus('Seated', this); return false;">Seated (<asp:Literal ID="litFilterSeated" runat="server" Text="0" />)</button>
+                    <button type="button" class="filter-pill-btn" onclick="filterResStatus('Completed', this); return false;">Completed (<asp:Literal ID="litFilterCompleted" runat="server" Text="0" />)</button>
+                    <button type="button" class="filter-pill-btn" onclick="filterResStatus('Cancelled', this); return false;">Cancelled (<asp:Literal ID="litFilterCancelled" runat="server" Text="0" />)</button>
+                </div>
+
+                <!-- Search Box -->
+                <div class="col-12 col-xl-5">
+                    <div class="search-wrap-luxury">
+                        <i class="bi bi-search search-icon-luxury"></i>
+                        <input type="text" id="txtSearchReservation" class="form-control form-control-luxury-search w-100"
+                            placeholder="Search code, customer name, phone, table..." onkeyup="searchReservationsTable();" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Table with explicit gridlines matching hotel-rooms-table -->
         <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0" id="tblReservations">
-                <thead class="table-dark">
+            <table class="table table-bordered table-hover hotel-rooms-table align-middle mb-0" id="tblReservations">
+                <thead>
                     <tr>
-                        <th>Booking Code</th>
+                        <th class="ps-4">Booking Code</th>
                         <th>Customer Details</th>
                         <th>Date &amp; Time</th>
-                        <th>Guests</th>
-                        <th>Assigned Table</th>
-                        <th>Status</th>
-                        <th class="text-center">Action</th>
+                        <th class="text-center">Guests</th>
+                        <th class="text-center">Assigned Table</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-end pe-4" style="min-width: 170px;">Reservation Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <asp:Repeater ID="rptReservations" runat="server" OnItemCommand="rptReservations_ItemCommand">
                         <ItemTemplate>
                             <tr data-status='<%# Eval("Status") %>'>
-                                <td>
-                                    <span class="font-monospace fw-bold text-primary"><%# Eval("BookingCode") %></span>
+                                <td class="ps-4">
+                                    <span class="font-monospace fw-bold" style="color: #442305;"><%# Eval("BookingCode") %></span>
                                 </td>
                                 <td>
                                     <div class="fw-bold text-dark"><%# Eval("CustomerName") %></div>
                                     <small class="text-muted"><%# Eval("CustomerPhone") %><%# Eval("CustomerEmail") != DBNull.Value && !string.IsNullOrEmpty(Eval("CustomerEmail").ToString()) ? " &bull; " + Eval("CustomerEmail") : "" %></small>
                                 </td>
                                 <td>
-                                    <div class="fw-semibold"><%# Eval("ReservationDate", "{0:dd MMM yyyy}") %></div>
+                                    <div class="fw-semibold text-dark"><%# Eval("ReservationDate", "{0:dd MMM yyyy}") %></div>
                                     <small class="text-muted"><i class="bi bi-clock me-1"></i> <%# Eval("TimeSlot") %></small>
                                 </td>
-                                <td>
-                                    <span class="badge bg-light text-dark border"><%# Eval("GuestCount") %> Guests</span>
-                                </td>
-                                <td>
-                                    <span class="fw-bold text-dark">Table <%# Eval("TableNumber") %></span>
-                                </td>
-                                <td>
-                                    <%# GetStatusBadge(Eval("Status") != null ? Eval("Status").ToString() : "") %>
+                                <td class="text-center">
+                                    <span class="badge" style="background: #fdf6ee; color: #85480d; border: 1px solid #fed7aa; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
+                                        <i class="bi bi-people-fill me-1"></i><%# Eval("GuestCount") %> Guests
+                                    </span>
                                 </td>
                                 <td class="text-center">
-                                    <div class="d-inline-flex align-items-center gap-1">
-                                        <asp:LinkButton ID="btnConfirm" runat="server" CssClass="btn btn-sm btn-success px-2 py-1 small"
+                                    <span class="table-num-badge">Table <%# Eval("TableNumber") %></span>
+                                </td>
+                                <td class="text-center">
+                                    <%# GetStatusBadge(Eval("Status") != null ? Eval("Status").ToString() : "") %>
+                                </td>
+                                <td class="text-end pe-4">
+                                    <div class="d-inline-flex align-items-center gap-1 justify-content-end">
+                                        <asp:LinkButton ID="btnConfirm" runat="server" CssClass="btn btn-sm btn-success px-2 py-1 small rounded-2"
                                             CommandName="ConfirmRes" CommandArgument='<%# Eval("ReservationId") %>'
                                             Visible='<%# Eval("Status").ToString().ToLower() == "pending" %>' ToolTip="Confirm Reservation">
                                             Confirm
                                         </asp:LinkButton>
-                                        <asp:LinkButton ID="btnSeat" runat="server" CssClass="btn btn-sm btn-primary px-2 py-1 small"
+                                        <asp:LinkButton ID="btnSeat" runat="server" CssClass="btn btn-sm btn-primary px-2 py-1 small rounded-2"
                                             CommandName="SeatRes" CommandArgument='<%# Eval("ReservationId") %>'
                                             Visible='<%# Eval("Status").ToString().ToLower() == "confirmed" %>' ToolTip="Mark Seated">
                                             Mark Seated
                                         </asp:LinkButton>
-                                        <asp:LinkButton ID="btnComplete" runat="server" CssClass="btn btn-sm btn-success px-2 py-1 small"
+                                        <asp:LinkButton ID="btnComplete" runat="server" CssClass="btn btn-sm btn-success px-2 py-1 small rounded-2"
                                             CommandName="CompleteRes" CommandArgument='<%# Eval("ReservationId") %>'
                                             Visible='<%# Eval("Status").ToString().ToLower() == "seated" %>' ToolTip="Complete Dining">
                                             Complete Dining
                                         </asp:LinkButton>
-                                        <asp:LinkButton ID="btnCancel" runat="server" CssClass="btn btn-sm btn-outline-danger px-2 py-1 small"
+                                        <asp:LinkButton ID="btnCancel" runat="server" CssClass="btn btn-sm btn-outline-danger px-2 py-1 small rounded-2"
                                             CommandName="CancelRes" CommandArgument='<%# Eval("ReservationId") %>'
                                             Visible='<%# Eval("Status").ToString().ToLower() == "pending" || Eval("Status").ToString().ToLower() == "confirmed" %>'
                                             OnClientClick="return confirm('Are you sure you want to cancel this reservation?');" ToolTip="Cancel Reservation">
                                             Cancel
                                         </asp:LinkButton>
-                                        <asp:LinkButton ID="btnDelete" runat="server" CssClass="btn btn-sm btn-outline-secondary px-2 py-1 small"
+                                        <asp:LinkButton ID="btnDelete" runat="server" CssClass="btn btn-sm btn-outline-secondary px-2 py-1 small rounded-2"
                                             CommandName="DeleteRes" CommandArgument='<%# Eval("ReservationId") %>'
                                             OnClientClick="return confirm('Are you sure you want to delete this reservation record?');" ToolTip="Delete Record">
                                             <i class="bi bi-trash"></i>
@@ -242,70 +307,6 @@
     </div>
 
     <!-- JAVASCRIPT LOGIC & CONFIRMATION SCRIPT -->
-    <script type="text/javascript">
-        function filterResStatus(status, btnElem) {
-            var buttons = document.querySelectorAll('.filter-pill-btn');
-            buttons.forEach(function (b) { b.classList.remove('active'); });
-            if (btnElem) btnElem.classList.add('active');
-
-            var rows = document.querySelectorAll('#tblReservations tbody tr[data-status]');
-            rows.forEach(function (row) {
-                var rowStatus = row.getAttribute('data-status');
-                if (status === 'All' || rowStatus === status) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        }
-
-        function searchReservationsTable() {
-            var filter = document.getElementById('txtSearchReservation').value.toLowerCase().trim();
-            var rows = document.querySelectorAll('#tblReservations tbody tr[data-status]');
-            rows.forEach(function (row) {
-                var text = row.textContent.toLowerCase();
-                if (filter === '' || text.indexOf(filter) !== -1) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        }
-
-        function showConfirmation(message) {
-            var toast = document.getElementById('confirmationToast');
-            var msgElem = document.getElementById('confirmationToastMsg');
-            if (toast) {
-                if (msgElem && message) msgElem.textContent = message;
-                toast.style.display = 'flex';
-                toast.style.opacity = '0';
-                toast.style.transform = 'translate(-50%, -20px)';
-                setTimeout(function () {
-                    toast.style.opacity = '1';
-                    toast.style.transform = 'translate(-50%, 0)';
-                }, 10);
-                setTimeout(function () {
-                    toast.style.opacity = '0';
-                    toast.style.transform = 'translate(-50%, -20px)';
-                    setTimeout(function () {
-                        toast.style.display = 'none';
-                    }, 350);
-                }, 2000);
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            var pnl = document.getElementById('<%= pnlStatusMsg.ClientID %>');
-            if (pnl) {
-                setTimeout(function () {
-                    pnl.style.transition = 'opacity 0.4s ease';
-                    pnl.style.opacity = '0';
-                    setTimeout(function () {
-                        pnl.style.display = 'none';
-                    }, 400);
-                }, 2000);
-            }
-        });
-    </script>
+    <script src="js/tablereservations.js"></script>
 
 </asp:Content>
