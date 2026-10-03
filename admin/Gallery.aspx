@@ -352,7 +352,7 @@
                                                                     CommandArgument='<%# Eval("GalleryId") %>'
                                                                     CssClass="btn-action-luxury btn-edit"
                                                                     ToolTip='<%# Convert.ToBoolean(Eval("IsActive")) ? "Deactivate Photo (Hide from Site)" : "Activate Photo (Show on Site)" %>'>
-                                                                    <i class='<%# Convert.ToBoolean(Eval("IsActive")) ? "bi bi-eye-slash-fill text-warning" : "bi bi-eye-fill text-success" %>'></i>
+                                                                    <i class='<%# Convert.ToBoolean(Eval("IsActive")) ? "bi bi-eye-fill text-success" : "bi bi-eye-slash-fill text-warning" %>'></i>
                                                                 </asp:LinkButton>
                                                                 <asp:LinkButton ID="btnEdit" runat="server"
                                                                     CommandName="EditPhoto"

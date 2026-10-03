@@ -279,7 +279,7 @@
                                                                     CssClass="btn-action-luxury btn-edit"
                                                                     ToolTip='<%# Convert.ToBoolean(Eval("IsActive")) ? "Deactivate Room (Hide on Site)" : "Activate Room (Publish on Site)" %>'>
                                                                     <i
-                                                                        class='<%# Convert.ToBoolean(Eval("IsActive")) ? "bi bi-eye-slash-fill text-warning" : "bi bi-eye-fill text-success" %>'></i>
+                                                                        class='<%# Convert.ToBoolean(Eval("IsActive")) ? "bi bi-eye-fill text-success" : "bi bi-eye-slash-fill text-warning" %>'></i>
                                                                 </asp:LinkButton>
                                                                 <a href='<%# "EditRoom.aspx?RoomId=" + Eval("RoomID") %>'
                                                                     class="btn-action-luxury btn-edit"

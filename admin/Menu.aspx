@@ -369,7 +369,7 @@
                                             CommandArgument='<%# Eval("MenuItemId") %>'
                                             CssClass="btn btn-sm btn-outline-warning px-2.5 py-1 rounded-pill fw-semibold me-1"
                                             ToolTip='<%# Convert.ToBoolean(Eval("IsActive")) ? "Deactivate Dish (Hide on Site)" : "Activate Dish (Show on Site)" %>'>
-                                            <i class='<%# Convert.ToBoolean(Eval("IsActive")) ? "bi bi-eye-slash" : "bi bi-eye" %>'></i> Status
+                                            <i class='<%# Convert.ToBoolean(Eval("IsActive")) ? "bi bi-eye" : "bi bi-eye-slash" %>'></i> Status
                                         </asp:LinkButton>
                                         <asp:LinkButton ID="btnEdit" runat="server" CommandName="EditMenuItem"
                                             CommandArgument='<%# Eval("MenuItemId") %>'

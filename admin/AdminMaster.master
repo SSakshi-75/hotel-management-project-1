@@ -114,7 +114,7 @@
                             </ul>
                         </li>
 
-                        <!-- Offers & Packages Accordion -->
+                        <%-- Offers & Packages Accordion (Temporarily Hidden)
                         <li class="nav-item has-submenu">
                             <a href="javascript:void(0)" class="nav-link submenu-toggle" onclick="toggleSubmenu(this, event); return false;">
                                 <span class="nav-icon"><i class="bi bi-gift-fill"></i></span>
@@ -126,6 +126,7 @@
                                 <li class="submenu-item"><a href="Packages.aspx" class="submenu-link"><i class="bi bi-box-seam sub-icon"></i>Packages</a></li>
                             </ul>
                         </li>
+                        --%>
 
                         <!-- Dining Accordion -->
                         <li class="nav-item has-submenu">

@@ -242,7 +242,7 @@
                                 <asp:LinkButton ID="btnToggleStatus" runat="server" CommandName="ToggleStatus"
                                     CommandArgument='<%# Eval("CategoryId") %>' CssClass="btn-action-luxury btn-edit"
                                     ToolTip='<%# Convert.ToBoolean(Eval("IsActive")) ? "Deactivate Category" : "Activate Category" %>'>
-                                    <i class='<%# Convert.ToBoolean(Eval("IsActive")) ? "bi bi-eye-slash-fill text-warning" : "bi bi-eye-fill text-success" %>'></i>
+                                    <i class='<%# Convert.ToBoolean(Eval("IsActive")) ? "bi bi-eye-fill text-success" : "bi bi-eye-slash-fill text-warning" %>'></i>
                                 </asp:LinkButton>
 
                                 <%-- Edit (Redirects to AddCategory.aspx?CategoryId=...) --%>
