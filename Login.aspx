@@ -211,32 +211,7 @@
 
 
 
-                                <!-- ==========================================
-                                 DIVIDER
-                                 ========================================== -->
 
-                                <div class="auth-divider">
-
-                                    <span>or continue with
-                                    </span>
-
-                                </div>
-
-
-
-                                <!-- ==========================================
-                                 GOOGLE LOGIN
-                                 ========================================== -->
-
-                                <div class="mb-4">
-
-
-                                    <asp:Button ID="btnGoogleLogin" runat="server" Text="Continue with Google"
-                                        CssClass="btn auth-btn-google w-100"
-                                        OnClientClick="alert('Google Login functionality coming soon!'); return false;" />
-
-
-                                </div>
 
 
 

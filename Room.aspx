@@ -1,465 +1,503 @@
 <%@ Page Title="Rooms & Suites | Hotel Management" Language="C#" MasterPageFile="~/MasterPage.master"
     AutoEventWireup="true" CodeFile="Room.aspx.cs" Inherits="Room" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-</asp:Content>
+    <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+    </asp:Content>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
-    <!-- ==========================================
+        <!-- ==========================================
          1. COMPACT ROOM HERO BANNER SECTION
          ========================================== -->
-    <section class="room-compact-hero text-white text-center">
-        <div class="container py-2 position-relative z-2" data-aos="fade-down" data-aos-duration="1000">
+        <section class="room-compact-hero text-white text-center">
+            <div class="container py-2 position-relative z-2" data-aos="fade-down" data-aos-duration="1000">
 
-            <span class="about-intro-badge mb-2 d-inline-block py-1 px-3">
-                <i class="bi bi-stars me-1 text-warning"></i>
-                5-Star Royal Accommodations
-            </span>
-
-            <h1 class="display-4 font-serif fw-bold text-white mb-2">Our Rooms &amp; Suites
-            </h1>
-
-            <p class="text-champagne-gold fs-5 mb-0 font-serif">
-                Handcrafted Sanctuaries Of Serenity, Elegance &amp; Royalty
-            </p>
-
-        </div>
-    </section>
-
-
-    <!-- ==========================================
-         2. CHECK-IN & CHECK-OUT SEARCH CARD STRIP
-         ========================================== -->
-    <div class="container px-3 px-md-5 room-search-wrapper mb-5">
-
-        <div class="room-search-box" data-aos="fade-up" data-aos-delay="100">
-
-            <form id="roomFilterForm" onsubmit="return false;">
-
-                <div class="row g-3 align-items-center">
-
-                    <!-- Check-In -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="cin-cout-field-box">
-                            <label class="cin-cout-label" for="txtCheckIn">Check-in</label>
-                            <div class="cin-cout-input-wrap" onclick="triggerDatePicker('txtCheckIn')">
-                                <span class="cin-cout-val" id="lblCheckInDisplay">
-                                    <asp:Literal ID="litCheckIn" runat="server">Tue, 29 Sep</asp:Literal></span>
-                                <i class="bi bi-calendar3 cin-cout-icon"></i>
-                                <asp:TextBox ID="txtCheckIn" runat="server" CssClass="cin-cout-native-date" TextMode="Date" ClientIDMode="Static" onchange="formatDateToCustom(this, 'lblCheckInDisplay')"></asp:TextBox>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Check-Out -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="cin-cout-field-box">
-                            <label class="cin-cout-label" for="txtCheckOut">Check-out</label>
-                            <div class="cin-cout-input-wrap" onclick="triggerDatePicker('txtCheckOut')">
-                                <span class="cin-cout-val" id="lblCheckOutDisplay">
-                                    <asp:Literal ID="litCheckOut" runat="server">Wed, 30 Sep</asp:Literal></span>
-                                <i class="bi bi-calendar3 cin-cout-icon"></i>
-                                <asp:TextBox ID="txtCheckOut" runat="server" CssClass="cin-cout-native-date" TextMode="Date" ClientIDMode="Static" onchange="formatDateToCustom(this, 'lblCheckOutDisplay')"></asp:TextBox>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Guests -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="cin-cout-field-box">
-                            <label class="cin-cout-label" for="ddlAdults">Guests</label>
-                            <div class="cin-cout-input-wrap">
-                                <select id="ddlAdults" class="cin-cout-select"
-                                    onchange="if(typeof updateStaySummary==='function') updateStaySummary();">
-                                    <option value="1 Adult">1 Adult</option>
-                                    <option value="2 Adults" selected>2 Adults</option>
-                                    <option value="3 Adults">3 Adults</option>
-                                    <option value="Family (4+ Guests)">Family (4+ Guests)</option>
-                                </select>
-                                <i class="bi bi-chevron-down cin-cout-chevron"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Search Button -->
-                    <div class="col-lg-3 col-md-6">
-                        <asp:LinkButton
-                            ID="btnSearch"
-                            runat="server"
-                            CssClass="btn btn-cin-cout-search w-100 shadow-sm"
-                            OnClick="btnSearch_Click">
-                           <i class="bi bi-search me-2"></i> Search
-                        </asp:LinkButton>
-                    </div>
-
-                </div>
-
-            </form>
-
-        </div>
-
-    </div>
-
-
-    <!-- ==========================================
-         3. DYNAMIC ROOM CARDS SECTION
-         ========================================== -->
-    <section id="all-rooms-grid" class="py-4 bg-light">
-
-        <div class="container-fluid px-4 px-lg-5 py-2">
-
-
-            <!-- ==========================================
-                 SECTION TITLE
-                 ========================================== -->
-            <div class="text-center mb-4" data-aos="fade-down">
-
-                <span class="welcome-subtitle-anim">
-
-                    <i class="fa-solid fa-sparkles text-champagne-gold" style="font-size: 0.8rem;"></i>
-
-                    Featured Accommodations
-
-                        <i class="fa-solid fa-sparkles text-champagne-gold" style="font-size: 0.8rem;"></i>
-
+                <span class="about-intro-badge mb-2 d-inline-block py-1 px-3">
+                    <i class="bi bi-stars me-1 text-warning"></i>
+                    5-Star Royal Accommodations
                 </span>
 
+                <h1 class="display-4 font-serif fw-bold text-white mb-2">Our Rooms &amp; Suites
+                </h1>
 
-                <h2 class="welcome-title-anim mb-3">Choose Your
-                        <span class="welcome-title-gold">Luxury Room
-                        </span>
+                <p class="text-champagne-gold fs-5 mb-0 font-serif">
+                    Handcrafted Sanctuaries Of Serenity, Elegance &amp; Royalty
+                </p>
 
-                </h2>
+            </div>
+        </section>
 
 
-                <div class="welcome-decor-line">
+        <!-- ==========================================
+         2. CHECK-IN & CHECK-OUT SEARCH CARD STRIP
+         ========================================== -->
+        <div class="container px-3 px-md-5 room-search-wrapper mb-5">
 
-                    <div class="line"></div>
+            <div class="room-search-box" data-aos="fade-up" data-aos-delay="100">
 
-                    <div class="diamond">
-                        <i class="fa-solid fa-gem"></i>
+                <div id="roomFilterForm">
+
+                    <div class="row g-3 align-items-center">
+
+                        <!-- Check-In -->
+                        <div class="col-lg-3 col-md-6">
+                            <div class="cin-cout-field-box">
+                                <label class="cin-cout-label" for="txtCheckIn">Check-in</label>
+                                <div class="cin-cout-input-wrap" onclick="triggerDatePicker('txtCheckIn')">
+                                    <span class="cin-cout-val" id="lblCheckInDisplay">
+                                        <asp:Literal ID="litCheckIn" runat="server">Tue, 29 Sep</asp:Literal>
+                                    </span>
+                                    <i class="bi bi-calendar3 cin-cout-icon"></i>
+                                    <asp:TextBox ID="txtCheckIn" runat="server" CssClass="cin-cout-native-date"
+                                        TextMode="Date" ClientIDMode="Static"
+                                        onchange="formatDateToCustom(this, 'lblCheckInDisplay')"></asp:TextBox>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Check-Out -->
+                        <div class="col-lg-3 col-md-6">
+                            <div class="cin-cout-field-box">
+                                <label class="cin-cout-label" for="txtCheckOut">Check-out</label>
+                                <div class="cin-cout-input-wrap" onclick="triggerDatePicker('txtCheckOut')">
+                                    <span class="cin-cout-val" id="lblCheckOutDisplay">
+                                        <asp:Literal ID="litCheckOut" runat="server">Wed, 30 Sep</asp:Literal>
+                                    </span>
+                                    <i class="bi bi-calendar3 cin-cout-icon"></i>
+                                    <asp:TextBox ID="txtCheckOut" runat="server" CssClass="cin-cout-native-date"
+                                        TextMode="Date" ClientIDMode="Static"
+                                        onchange="formatDateToCustom(this, 'lblCheckOutDisplay')"></asp:TextBox>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Guests -->
+                        <div class="col-lg-3 col-md-6">
+                            <div class="cin-cout-field-box">
+                                <label class="cin-cout-label" for="ddlAdults">Guests</label>
+                                <div class="cin-cout-input-wrap">
+                                    <select id="ddlAdults" class="cin-cout-select"
+                                        onchange="if(typeof updateStaySummary==='function') updateStaySummary();">
+                                        <option value="1 Adult">1 Adult</option>
+                                        <option value="2 Adults" selected>2 Adults</option>
+                                        <option value="3 Adults">3 Adults</option>
+                                        <option value="Family (4+ Guests)">Family (4+ Guests)</option>
+                                    </select>
+                                    <i class="bi bi-chevron-down cin-cout-chevron"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Search Button -->
+                        <div class="col-lg-3 col-md-6">
+                            <asp:LinkButton ID="btnSearch" runat="server"
+                                CssClass="btn btn-cin-cout-search w-100 shadow-sm" OnClick="btnSearch_Click">
+                                <i class="bi bi-search me-2"></i> Search
+                            </asp:LinkButton>
+                        </div>
+
                     </div>
-
-                    <div class="line right"></div>
 
                 </div>
 
             </div>
 
+        </div>
 
-            <!-- ==========================================
-                 ROW: SIDEBAR FILTER + ROOM LISTINGS
-                 ========================================== -->
-            <div class="row g-4">
+
+        <!-- ==========================================
+         3. DYNAMIC ROOM CARDS SECTION
+         ========================================== -->
+        <section id="all-rooms-grid" class="py-4 bg-light">
+
+            <div class="container-fluid px-4 px-lg-5 py-2">
+
 
                 <!-- ==========================================
-                     LEFT SIDEBAR: FILTER BY (MATCHING SPEC)
-                     ========================================== -->
-                <div class="col-lg-3 col-md-4 mb-4">
-                    <div class="filter-sidebar-box">
+                 SECTION TITLE
+                 ========================================== -->
+                <div class="text-center mb-4" data-aos="fade-down">
 
-                        <div class="filter-sidebar-header">
-                            <h5 class="filter-sidebar-title">Filter by:</h5>
-                            <button type="button" class="btn-filter-clear" onclick="clearAllFilters()">Clear all</button>
+                    <span class="welcome-subtitle-anim">
+
+                        <i class="fa-solid fa-sparkles text-champagne-gold" style="font-size: 0.8rem;"></i>
+
+                        Featured Accommodations
+
+                        <i class="fa-solid fa-sparkles text-champagne-gold" style="font-size: 0.8rem;"></i>
+
+                    </span>
+
+
+                    <h2 class="welcome-title-anim mb-3">Choose Your
+                        <span class="welcome-title-gold">Luxury Room
+                        </span>
+
+                    </h2>
+
+
+                    <div class="welcome-decor-line">
+
+                        <div class="line"></div>
+
+                        <div class="diamond">
+                            <i class="fa-solid fa-gem"></i>
                         </div>
 
-                        <!-- 1. Price per night -->
-                        <div class="filter-sidebar-section">
-                            <h6 class="filter-section-title">Price per night</h6>
-                            <div class="filter-options-list">
-                                <label class="filter-check-row">
-                                    <input type="checkbox" class="form-check-input filter-price-chk" value="0-2000" onchange="applyFilters()" />
-                                    <span class="filter-check-text">Under &#8377;2,000</span>
-                                </label>
-                                <label class="filter-check-row">
-                                    <input type="checkbox" class="form-check-input filter-price-chk" value="2000-3000" onchange="applyFilters()" />
-                                    <span class="filter-check-text">&#8377;2,000 - &#8377;3,000</span>
-                                </label>
-                                <label class="filter-check-row">
-                                    <input type="checkbox" class="form-check-input filter-price-chk" value="3000-5000" onchange="applyFilters()" />
-                                    <span class="filter-check-text">&#8377;3,000 - &#8377;5,000</span>
-                                </label>
-                                <label class="filter-check-row">
-                                    <input type="checkbox" class="form-check-input filter-price-chk" value="5000-999999" onchange="applyFilters()" />
-                                    <span class="filter-check-text">&#8377;5,000 &amp; above</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- 2. Category -->
-                        <div class="filter-sidebar-section">
-                            <h6 class="filter-section-title">Category</h6>
-                            <div class="filter-options-list">
-                                <asp:Repeater ID="rptCustomerCategories" runat="server">
-                                    <ItemTemplate>
-                                        <label class="filter-check-row">
-                                            <input type="checkbox" class="form-check-input filter-category-chk" value='<%# Eval("CategorySlug") %>' onchange="applyFilters()" />
-                                            <span class="filter-check-text"><%# Eval("CategoryName") %></span>
-                                        </label>
-                                    </ItemTemplate>
-                                </asp:Repeater>
-                            </div>
-                        </div>
-
-                        <!-- 3. Rating -->
-                        <div class="filter-sidebar-section">
-                            <h6 class="filter-section-title">Rating</h6>
-                            <div class="filter-options-list">
-                                <label class="filter-check-row">
-                                    <input type="checkbox" class="form-check-input filter-rating-chk" value="4.5" onchange="applyFilters()" />
-                                    <span class="filter-check-text"><i class="fa-solid fa-star text-warning me-1"></i>4.5 &amp; above</span>
-                                </label>
-                                <label class="filter-check-row">
-                                    <input type="checkbox" class="form-check-input filter-rating-chk" value="4.0" onchange="applyFilters()" />
-                                    <span class="filter-check-text"><i class="fa-solid fa-star text-warning me-1"></i>4.0 &amp; above</span>
-                                </label>
-                                <label class="filter-check-row">
-                                    <input type="checkbox" class="form-check-input filter-rating-chk" value="3.5" onchange="applyFilters()" />
-                                    <span class="filter-check-text"><i class="fa-solid fa-star text-warning me-1"></i>3.5 &amp; above</span>
-                                </label>
-                                <label class="filter-check-row">
-                                    <input type="checkbox" class="form-check-input filter-rating-chk" value="3.0" onchange="applyFilters()" />
-                                    <span class="filter-check-text"><i class="fa-solid fa-star text-warning me-1"></i>3.0 &amp; above</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- Pay @ Hotel Banner -->
-                        <div class="filter-promo-banner filter-promo-green">
-                            <div class="filter-promo-icon-circle">
-                                <i class="fa-solid fa-indian-rupee-sign"></i>
-                            </div>
-                            <div>
-                                <div class="filter-promo-title">Pay @ hotel</div>
-                                <div class="filter-promo-sub">available</div>
-                            </div>
-                        </div>
-
-                        <!-- Sleep & Shower Banner -->
-                        <div class="filter-promo-banner filter-promo-blue">
-                            <div class="filter-promo-blue-title">Excellent sleep &amp; shower</div>
-                            <div class="filter-promo-blue-sub">available in all luxury rooms</div>
-                            <div class="filter-promo-icons-row">
-                                <span class="promo-mini-icon"><i class="fa-solid fa-wifi"></i></span>
-                                <span class="promo-mini-icon"><i class="fa-solid fa-tv"></i></span>
-                                <span class="promo-mini-icon"><i class="fa-solid fa-wind"></i></span>
-                                <span class="promo-mini-icon"><i class="fa-solid fa-shower"></i></span>
-                            </div>
-                        </div>
+                        <div class="line right"></div>
 
                     </div>
+
                 </div>
 
+
                 <!-- ==========================================
+                 ROW: SIDEBAR FILTER + ROOM LISTINGS
+                 ========================================== -->
+                <div class="row g-4">
+
+                    <!-- ==========================================
+                     LEFT SIDEBAR: FILTER BY (MATCHING SPEC)
+                     ========================================== -->
+                    <div class="col-lg-3 col-md-4 mb-4">
+                        <div class="filter-sidebar-box">
+
+                            <div class="filter-sidebar-header">
+                                <h5 class="filter-sidebar-title">Filter by:</h5>
+                                <button type="button" class="btn-filter-clear" onclick="clearAllFilters()">Clear
+                                    all</button>
+                            </div>
+
+                            <!-- 1. Price per night -->
+                            <div class="filter-sidebar-section">
+                                <h6 class="filter-section-title">Price per night</h6>
+                                <div class="filter-options-list">
+                                    <label class="filter-check-row">
+                                        <input type="checkbox" class="form-check-input filter-price-chk" value="0-2000"
+                                            onchange="applyFilters()" />
+                                        <span class="filter-check-text">Under &#8377;2,000</span>
+                                    </label>
+                                    <label class="filter-check-row">
+                                        <input type="checkbox" class="form-check-input filter-price-chk"
+                                            value="2000-3000" onchange="applyFilters()" />
+                                        <span class="filter-check-text">&#8377;2,000 - &#8377;3,000</span>
+                                    </label>
+                                    <label class="filter-check-row">
+                                        <input type="checkbox" class="form-check-input filter-price-chk"
+                                            value="3000-5000" onchange="applyFilters()" />
+                                        <span class="filter-check-text">&#8377;3,000 - &#8377;5,000</span>
+                                    </label>
+                                    <label class="filter-check-row">
+                                        <input type="checkbox" class="form-check-input filter-price-chk"
+                                            value="5000-999999" onchange="applyFilters()" />
+                                        <span class="filter-check-text">&#8377;5,000 &amp; above</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- 2. Category -->
+                            <div class="filter-sidebar-section">
+                                <h6 class="filter-section-title">Category</h6>
+                                <div class="filter-options-list">
+                                    <asp:Repeater ID="rptCustomerCategories" runat="server">
+                                        <ItemTemplate>
+                                            <label class="filter-check-row">
+                                                <input type="checkbox" class="form-check-input filter-category-chk"
+                                                    value='<%# Eval("CategorySlug") %>' onchange="applyFilters()" />
+                                                <span class="filter-check-text">
+                                                    <%# Eval("CategoryName") %>
+                                                </span>
+                                            </label>
+                                        </ItemTemplate>
+                                    </asp:Repeater>
+                                </div>
+                            </div>
+
+                            <!-- 3. Rating -->
+                            <div class="filter-sidebar-section">
+                                <h6 class="filter-section-title">Rating</h6>
+                                <div class="filter-options-list">
+                                    <label class="filter-check-row">
+                                        <input type="checkbox" id="chkRating45" class="form-check-input filter-rating-chk" value="4.5"
+                                            onchange="applyFilters()" onclick="applyFilters()" />
+                                        <span class="filter-check-text"><i
+                                                class="fa-solid fa-star text-warning me-1"></i>4.5 &amp; above</span>
+                                    </label>
+                                    <label class="filter-check-row">
+                                        <input type="checkbox" id="chkRating40" class="form-check-input filter-rating-chk" value="4.0"
+                                            onchange="applyFilters()" onclick="applyFilters()" />
+                                        <span class="filter-check-text"><i
+                                                class="fa-solid fa-star text-warning me-1"></i>4.0 &amp; above</span>
+                                    </label>
+                                    <label class="filter-check-row">
+                                        <input type="checkbox" id="chkRating35" class="form-check-input filter-rating-chk" value="3.5"
+                                            onchange="applyFilters()" onclick="applyFilters()" />
+                                        <span class="filter-check-text"><i
+                                                class="fa-solid fa-star text-warning me-1"></i>3.5 &amp; above</span>
+                                    </label>
+                                    <label class="filter-check-row">
+                                        <input type="checkbox" id="chkRating30" class="form-check-input filter-rating-chk" value="3.0"
+                                            onchange="applyFilters()" onclick="applyFilters()" />
+                                        <span class="filter-check-text"><i
+                                                class="fa-solid fa-star text-warning me-1"></i>3.0 &amp; above</span>
+                                    </label>
+                                </div>
+                            </div>
+
+
+                            <!-- Sleep & Shower Banner -->
+                            <div class="filter-promo-banner filter-promo-blue">
+                                <div class="filter-promo-blue-title">Excellent sleep &amp; shower</div>
+                                <div class="filter-promo-blue-sub">available in all luxury rooms</div>
+                                <div class="filter-promo-icons-row">
+                                    <span class="promo-mini-icon"><i class="fa-solid fa-wifi"></i></span>
+                                    <span class="promo-mini-icon"><i class="fa-solid fa-tv"></i></span>
+                                    <span class="promo-mini-icon"><i class="fa-solid fa-wind"></i></span>
+                                    <span class="promo-mini-icon"><i class="fa-solid fa-shower"></i></span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- ==========================================
                      RIGHT: ROOM LISTINGS
                      ========================================== -->
-                <div class="col-lg-9 col-md-8">
+                    <div class="col-lg-9 col-md-8">
 
-                    <div class="row g-4" id="roomsContainer">
+                        <div class="row g-4" id="roomsContainer">
 
 
-                        <!-- ======================================
+                            <!-- ======================================
                              REPEATER START
                              ====================================== -->
-                        <asp:Repeater ID="rptRooms" runat="server">
+                            <asp:Repeater ID="rptRooms" runat="server">
 
-                            <ItemTemplate>
+                                <ItemTemplate>
 
 
-                                <!-- ==================================
+                                    <!-- ==================================
                                      ONE DYNAMIC ROOM CARD
                                      ================================== -->
-                                <div class="col-12 room-item-col"
-                                    data-category='<%# GetCategoryFilter(Eval("RoomCategory")) %>'
-                                    data-price='<%# Eval("PricePerNight") %>'
-                                    data-rating='<%# Eval("Rating") %>' data-aos="fade-up">
+                                    <div class="col-12 room-item-col"
+                                        data-category='<%# GetCategoryFilter(Eval("RoomCategory")) %>'
+                                        data-price='<%# Eval("PricePerNight") %>' data-rating='<%# Eval("Rating") %>'
+                                        data-aos="fade-up">
 
 
-                                    <div class="room-card-full">
+                                        <div class="room-card-full">
 
 
-                                        <!-- ==================================
+                                            <!-- ==================================
                                      ROOM IMAGE
                                      ================================== -->
-                                        <div class="room-card-full-img">
+                                            <div class="room-card-full-img">
 
-                                            <img src='<%# GetRoomImage(Eval("PrimaryRoomImage")) %>' loading="lazy"
-                                                alt='<%# Eval("RoomName") %>' />
-
-
-                                            <!-- Category Badge -->
-                                            <span class="room-card-tag">
-
-                                                <i class="fa-solid fa-crown me-1 text-warning"></i>
-
-                                                <%# Eval("CategoryBadge") %>
-
-                                            </span>
+                                                <img src='<%# GetRoomImage(Eval("PrimaryRoomImage")) %>' loading="lazy"
+                                                    alt='<%# Eval("RoomName") %>' />
 
 
-                                            <!-- Price -->
-                                            <div class="room-card-price-tag">
+                                                <!-- Category Badge -->
+                                                <span class="room-card-tag">
 
-                                                <span class="currency">&#8377;
+                                                    <i class="fa-solid fa-crown me-1 text-warning"></i>
+
+                                                    <%# Eval("CategoryBadge") %>
+
                                                 </span>
 
-                                                <%# Eval("PricePerNight", "{0:N0}" ) %>
 
-                                                <small>/ night
-                                                </small>
+                                                <!-- Price -->
+                                                <div class="room-card-price-tag">
+
+                                                    <span class="currency">&#8377;
+                                                    </span>
+
+                                                    <%# Eval("PricePerNight", "{0:N0}" ) %>
+
+                                                        <small>/ night
+                                                        </small>
+
+                                                </div>
 
                                             </div>
 
-                                        </div>
 
-
-                                        <!-- ==================================
+                                            <!-- ==================================
                                      ROOM CARD BODY
                                      ================================== -->
-                                        <div class="room-card-full-body">
+                                            <div class="room-card-full-body">
 
 
-                                            <!-- Rating -->
-                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                <!-- Rating -->
+                                                <div class="d-flex justify-content-between align-items-center mb-1">
 
-                                                <div class="room-card-stars">
+                                                    <div class="room-card-stars">
 
-                                                    <i class="fa-solid fa-star text-warning"></i>
-                                                    <i class="fa-solid fa-star text-warning"></i>
-                                                    <i class="fa-solid fa-star text-warning"></i>
-                                                    <i class="fa-solid fa-star text-warning"></i>
-                                                    <i class="fa-solid fa-star text-warning"></i>
+                                                        <i class="fa-solid fa-star text-warning"></i>
+                                                        <i class="fa-solid fa-star text-warning"></i>
+                                                        <i class="fa-solid fa-star text-warning"></i>
+                                                        <i class="fa-solid fa-star text-warning"></i>
+                                                        <i class="fa-solid fa-star text-warning"></i>
 
-                                                    <span class="rating-num ms-1">(<%# Eval("Rating") %>)
+                                                        <span class="rating-num ms-1">(<%# Eval("Rating") %>)
+                                                        </span>
+
+                                                    </div>
+
+
+                                                    <%# GetRoomAvailabilityBadge(Eval("RoomStatus")) %>
+                                                </div>
+
+
+                                                <!-- Room Name -->
+                                                <h3 class="room-card-full-title">
+
+                                                    <%# Eval("RoomName") %>
+
+                                                </h3>
+
+
+                                                <!-- Short Description -->
+                                                <p class="room-card-full-desc">
+
+                                                    <%# Eval("ShortDescription") %>
+                                                </p>
+
+
+                                                <!-- ==================================
+                                         ROOM SPECIFICATIONS
+                                         ================================== -->
+                                                <div class="room-specs-grid">
+
+
+                                                    <!-- Guests -->
+                                                    <span class="room-spec-pill">
+
+                                                        <i class="bi bi-people-fill"></i>
+
+                                                        <%# Eval("MaxGuests") !=null &&
+                                                            Eval("MaxGuests").ToString().IndexOf("Guest",
+                                                            StringComparison.OrdinalIgnoreCase)>= 0 ? Eval("MaxGuests")
+                                                            :
+                                                            Eval("MaxGuests") + " Guests" %>
+
                                                     </span>
+
+
+                                                    <!-- Area -->
+                                                    <span class="room-spec-pill">
+
+                                                        <i class="bi bi-aspect-ratio-fill"></i>
+
+                                                        <%# Eval("RoomArea") %>
+
+                                                    </span>
+
+
+                                                    <!-- View -->
+                                                    <span class="room-spec-pill">
+
+                                                        <i class="bi bi-building"></i>
+
+                                                        <%# Eval("ViewType") %>
+
+                                                    </span>
+
 
                                                 </div>
 
 
-                                                <%# GetRoomAvailabilityBadge(Eval("RoomStatus")) %>
-                                            </div>
-
-
-                                            <!-- Room Name -->
-                                            <h3 class="room-card-full-title">
-
-                                                <%# Eval("RoomName") %>
-
-                                            </h3>
-
-
-                                            <!-- Short Description -->
-                                            <p class="room-card-full-desc">
-
-                                                <%# Eval("ShortDescription") %>
-                                            </p>
-
-
-                                            <!-- ==================================
-                                         ROOM SPECIFICATIONS
-                                         ================================== -->
-                                            <div class="room-specs-grid">
-
-
-                                                <!-- Guests -->
-                                                <span class="room-spec-pill">
-
-                                                    <i class="bi bi-people-fill"></i>
-
-                                                    <%# Eval("MaxGuests") !=null &&
-                                                    Eval("MaxGuests").ToString().IndexOf("Guest",
-                                                    StringComparison.OrdinalIgnoreCase)>= 0 ? Eval("MaxGuests") :
-                                                    Eval("MaxGuests") + " Guests" %>
-
-                                                </span>
-
-
-                                                <!-- Area -->
-                                                <span class="room-spec-pill">
-
-                                                    <i class="bi bi-aspect-ratio-fill"></i>
-
-                                                    <%# Eval("RoomArea") %>
-
-                                                </span>
-
-
-                                                <!-- View -->
-                                                <span class="room-spec-pill">
-
-                                                    <i class="bi bi-building"></i>
-
-                                                    <%# Eval("ViewType") %>
-
-                                                </span>
-
-
-                                            </div>
-
-
-                                            <!-- ==================================
+                                                <!-- ==================================
                                          DYNAMIC AMENITIES
                                          ================================== -->
-                                            <div class="room-amenities-list">
+                                                <div class="room-amenities-list">
 
-                                                <%# FormatAmenities(Eval("KeyAmenities")) %>
-                                            </div>
+                                                    <%# FormatAmenities(Eval("KeyAmenities")) %>
+                                                </div>
 
 
-                                            <!-- ==================================
+                                                <!-- ==================================
                                          VIEW DETAILS
                                          ================================== -->
-                                            <div class="room-card-full-footer justify-content-end">
+                                                <div class="room-card-full-footer justify-content-end">
 
 
-                                                <a href='<%# GetRoomSelectUrl(Eval("RoomID")) %>'
-                                                    class="btn btn-room-book text-decoration-none">
+                                                    <a href='<%# GetRoomSelectUrl(Eval("RoomID")) %>'
+                                                        class="btn btn-room-book text-decoration-none">
 
-                                                    <span>Select Room
-                                                    </span>
+                                                        <span>Select Room
+                                                        </span>
 
-                                                    <i class="fa-solid fa-arrow-right ms-2 fs-7"></i>
+                                                        <i class="fa-solid fa-arrow-right ms-2 fs-7"></i>
 
-                                                </a>
+                                                    </a>
+
+
+                                                </div>
 
 
                                             </div>
-
 
                                         </div>
 
                                     </div>
 
-                                </div>
 
+                                </ItemTemplate>
 
-                            </ItemTemplate>
-
-                        </asp:Repeater>
-                        <!-- ======================================
+                            </asp:Repeater>
+                            <!-- ======================================
                      REPEATER END
                      ====================================== -->
 
-                    </div>
+                        </div>
 
-                    <!-- No Rooms Found Message -->
-                    <div id="noRoomsFilterMsg" class="text-center py-5 bg-white rounded-4 shadow-sm border mt-3" style="display: none;">
-                        <i class="fa-solid fa-hotel text-muted fs-1 mb-3"></i>
-                        <h5 class="text-secondary fw-semibold">No rooms match your selected filters</h5>
-                        <p class="text-muted small">Try changing or clearing some filters to see available rooms.</p>
-                        <button type="button" class="btn btn-outline-dark btn-sm rounded-pill px-4 mt-2" onclick="clearAllFilters()">
-                            Reset Filters
-                        </button>
+                        <!-- No Rooms Found Message -->
+                        <div id="noRoomsFilterMsg" class="text-center py-5 bg-white rounded-4 shadow-sm border mt-3"
+                            style="display: none;">
+                            <i class="fa-solid fa-hotel text-muted fs-1 mb-3"></i>
+                            <h5 class="text-secondary fw-semibold">No rooms match your selected filters</h5>
+                            <p class="text-muted small">Try changing or clearing some filters to see available rooms.
+                            </p>
+                            <button type="button" class="btn btn-outline-dark btn-sm rounded-pill px-4 mt-2"
+                                onclick="clearAllFilters()">
+                                Reset Filters
+                            </button>
+                        </div>
+
                     </div>
 
                 </div>
 
             </div>
 
-        </div>
+        </section>
 
-    </section>
+        <!-- Inline Filter Script Auto-Binder for Real-Time Responsiveness -->
+        <script>
+            (function () {
+                function initRoomFilters() {
+                    if (typeof applyFilters === 'function') {
+                        document.querySelectorAll('.filter-rating-chk, .filter-price-chk, .filter-category-chk').forEach(function (chk) {
+                            chk.removeEventListener('change', applyFilters);
+                            chk.addEventListener('change', applyFilters);
+                            chk.removeEventListener('click', triggerFilterDebounce);
+                            chk.addEventListener('click', triggerFilterDebounce);
+                        });
+                    }
+                }
+                function triggerFilterDebounce() {
+                    setTimeout(function () {
+                        if (typeof applyFilters === 'function') applyFilters();
+                    }, 20);
+                }
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', initRoomFilters);
+                } else {
+                    initRoomFilters();
+                }
+            })();
+        </script>
 
-
-</asp:Content>
+    </asp:Content>

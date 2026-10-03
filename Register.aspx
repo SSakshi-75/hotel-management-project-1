@@ -265,26 +265,7 @@
                                     Text="CREATE ACCOUNT" OnClick="btnRegister_Click" />
 
 
-                                <!-- Divider -->
-                                <div class="auth-divider">
-                                    <span>or sign up with</span>
-                                </div>
 
-
-                                <!-- Google Signup -->
-                                <div class="mb-4">
-
-                                    <button type="button"
-                                        class="btn auth-btn-google w-100 d-flex align-items-center justify-content-center gap-2"
-                                        onclick="alert('Google Sign-up functionality coming soon!');">
-
-                                        <!-- Aapka existing Google SVG yahan same rahega -->
-
-                                        <span>Sign up with Google</span>
-
-                                    </button>
-
-                                </div>
 
 
                                 <!-- Login Link -->

@@ -216,8 +216,8 @@ body {
     transition: transform 0.25s ease, color 0.25s ease;
 }
 
-.sidebar-nav-list .nav-item.open > .submenu-toggle .submenu-arrow,
-.sidebar-nav-list .has-submenu.open > .submenu-toggle .submenu-arrow {
+.sidebar-nav-list .nav-item.open>.submenu-toggle .submenu-arrow,
+.sidebar-nav-list .has-submenu.open>.submenu-toggle .submenu-arrow {
     transform: rotate(90deg) !important;
     color: #ffffff !important;
 }
@@ -229,8 +229,8 @@ body {
     display: none;
 }
 
-.sidebar-nav-list .nav-item.open > .sidebar-submenu,
-.sidebar-nav-list .has-submenu.open > .sidebar-submenu {
+.sidebar-nav-list .nav-item.open>.sidebar-submenu,
+.sidebar-nav-list .has-submenu.open>.sidebar-submenu {
     display: block !important;
 }
 
@@ -945,12 +945,14 @@ body {
     letter-spacing: 0.5px !important;
     border-bottom: 2px solid #e8decb !important;
     padding: 14px 16px !important;
+    white-space: nowrap !important;
 }
 
 .hotel-table tbody td {
     padding: 14px 16px !important;
     border-bottom: 1px solid #f1f5f9 !important;
     vertical-align: middle;
+    white-space: nowrap !important;
 }
 
 .hotel-table tbody tr:hover {
@@ -961,6 +963,7 @@ body {
     color: #442305;
     font-weight: 700;
     font-size: 0.95rem;
+    white-space: nowrap;
 }
 
 .guest-email-link {
@@ -969,9 +972,283 @@ body {
     font-size: 0.85rem;
     text-decoration: none;
     transition: color 0.2s ease;
+    white-space: nowrap;
 }
 
 .guest-email-link:hover {
     color: #442305;
     text-decoration: underline;
+}
+
+/* ==========================================
+   TABLE RESPONSIVENESS & TOUCH SCROLL
+   ========================================== */
+.hotel-admin-card .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+}
+
+.hotel-table {
+    min-width: 680px !important;
+    width: 100%;
+}
+
+#gvUsers.hotel-table {
+    min-width: 680px !important;
+}
+
+#gvLogins.hotel-table {
+    min-width: 760px !important;
+}
+
+.table-dashboard {
+    min-width: 520px !important;
+    width: 100%;
+}
+
+.table-dashboard th,
+.table-dashboard td {
+    white-space: nowrap !important;
+}
+
+/* Custom Scrollbar for Data Tables on Mobile / Webkit */
+.table-responsive::-webkit-scrollbar {
+    height: 6px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: #f8fafc;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* ==========================================
+   MOBILE & TABLET RESPONSIVE SYSTEM
+   ========================================== */
+@media (max-width: 991.98px) {
+    .admin-sidebar {
+        transform: translateX(-100%);
+    }
+
+    .admin-sidebar.open {
+        transform: translateX(0);
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .admin-main-container {
+        margin-left: 0;
+    }
+
+    .topbar-search-box {
+        width: 180px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .admin-topbar {
+        padding: 0 14px !important;
+        height: 60px !important;
+    }
+
+    /* Hide global search bar on mobile headers so logo & actions fit smoothly */
+    .topbar-search-box {
+        display: none !important;
+    }
+
+    .topbar-left {
+        gap: 10px !important;
+    }
+
+    .topbar-right {
+        gap: 8px !important;
+    }
+
+    .topbar-icon-btn {
+        width: 34px !important;
+        height: 34px !important;
+        font-size: 0.88rem !important;
+    }
+
+    .avatar-circle {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 0.8rem !important;
+    }
+
+    .admin-content-body {
+        padding: 14px 12px !important;
+    }
+
+    .dashboard-card {
+        padding: 16px !important;
+        border-radius: 16px !important;
+    }
+
+    /* Card Header Mobile Stacking */
+    .hotel-admin-card {
+        border-radius: 16px !important;
+        margin-bottom: 18px !important;
+    }
+
+    .hotel-admin-card-header {
+        padding: 14px 16px !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+    }
+
+    .hotel-admin-card-header>div:first-child {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px !important;
+    }
+
+    .hotel-admin-card-title {
+        font-size: 1.02rem !important;
+    }
+
+    .hotel-admin-card-header .badge {
+        font-size: 0.72rem !important;
+        padding: 4px 8px !important;
+    }
+
+    .search-control-hotel {
+        width: 100% !important;
+        font-size: 0.85rem !important;
+        padding: 8px 14px !important;
+    }
+
+    .hotel-table thead th {
+        padding: 11px 12px !important;
+        font-size: 0.75rem !important;
+    }
+
+    .hotel-table tbody td {
+        padding: 11px 12px !important;
+        font-size: 0.82rem !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .admin-content-body {
+        padding: 10px 8px !important;
+    }
+
+    /* Top KPI Cards (Compact 2-Column Grid on Mobile) */
+    .kpi-card {
+        padding: 12px 10px !important;
+        border-radius: 14px !important;
+    }
+
+    .kpi-card .kpi-icon-circle {
+        width: 32px !important;
+        height: 32px !important;
+    }
+
+    .kpi-card .kpi-icon-circle i {
+        font-size: 0.95rem !important;
+    }
+
+    .kpi-card .badge {
+        font-size: 0.65rem !important;
+        padding: 2px 5px !important;
+    }
+
+    .kpi-card .text-muted.small.fw-semibold {
+        font-size: 0.74rem !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .kpi-card .fs-4 {
+        font-size: 1.15rem !important;
+        margin: 2px 0 !important;
+    }
+
+    .kpi-card .text-muted.small:last-child {
+        font-size: 0.68rem !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Donut chart legend on mobile - Horizontal clean layout */
+    .donut-legend-wrap {
+        flex-direction: row !important;
+        justify-content: space-around !important;
+        gap: 8px !important;
+        background: #f8fafc;
+        padding: 10px 12px !important;
+        border-radius: 12px !important;
+        border: 1px solid #edf2f7;
+    }
+
+    .donut-legend-wrap>div {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 2px !important;
+        text-align: center;
+    }
+
+    .donut-legend-wrap>div span.small {
+        font-size: 0.72rem !important;
+    }
+
+    .donut-legend-wrap>div span.fw-bold {
+        font-size: 0.85rem !important;
+    }
+
+    /* Quick Action tiles */
+    .action-tile {
+        min-height: 74px !important;
+        padding: 10px 6px !important;
+    }
+
+    .action-tile .tile-icon {
+        margin-bottom: 3px !important;
+    }
+
+    .action-tile .tile-icon i {
+        font-size: 1.15rem !important;
+    }
+
+    .action-tile .tile-title {
+        font-size: 0.76rem !important;
+    }
+
+    /* Chart height on small mobile */
+    .chart-container-area {
+        height: 190px !important;
+    }
+
+    /* Banner alert */
+    #loginSuccessBanner {
+        padding: 10px 12px !important;
+        border-radius: 12px !important;
+    }
+
+    #loginSuccessBanner strong {
+        font-size: 0.88rem !important;
+    }
+
+    #loginSuccessBanner span.small {
+        font-size: 0.75rem !important;
+    }
+
+    /* Footer */
+    .admin-footer {
+        padding: 12px 10px !important;
+        text-align: center;
+    }
 }

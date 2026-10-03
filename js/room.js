@@ -9,12 +9,12 @@
 function applyFilters() {
     var selectedPrices = [];
     document.querySelectorAll('.filter-price-chk:checked').forEach(function (chk) {
-        selectedPrices.push(chk.value);
+        if (chk.value) selectedPrices.push(chk.value);
     });
 
     var selectedCategories = [];
     document.querySelectorAll('.filter-category-chk:checked').forEach(function (chk) {
-        selectedCategories.push(chk.value.toLowerCase().trim().replace(/\s+/g, '-'));
+        if (chk.value) selectedCategories.push(chk.value.toLowerCase().trim().replace(/\s+/g, '-'));
     });
 
     var selectedRatings = [];
@@ -28,7 +28,20 @@ function applyFilters() {
 
     roomItems.forEach(function (item) {
         var price = parseFloat(item.getAttribute('data-price') || '0');
-        var rating = parseFloat(item.getAttribute('data-rating') || '0');
+        
+        // Robust Rating Extraction
+        var rawRating = (item.getAttribute('data-rating') || '').toString().trim();
+        var ratingMatchNum = rawRating.match(/[\d\.]+/);
+        var rating = ratingMatchNum ? parseFloat(ratingMatchNum[0]) : 0;
+        if (rating <= 0) {
+            var numEl = item.querySelector('.rating-num');
+            if (numEl) {
+                var sMatch = numEl.textContent.match(/[\d\.]+/);
+                if (sMatch) rating = parseFloat(sMatch[0]);
+            }
+        }
+        if (!rating || isNaN(rating)) rating = 4.8;
+
         var cat = (item.getAttribute('data-category') || '').toLowerCase().trim().replace(/\s+/g, '-');
 
         // 1. Price Matching
@@ -58,17 +71,35 @@ function applyFilters() {
         }
 
         // 3. Rating Matching
+        // Supports both single threshold and tiered checkbox selection:
+        // - "4.5 & above": rating >= 4.5
+        // - "4.0 & above": if 4.5 not selected, filters 4.0 <= rating < 4.5; if 4.5 selected, filters rating >= 4.0
+        // - "3.5 & above": if 4.0 not selected, filters 3.5 <= rating < 4.0; if 4.0 selected, filters rating >= 3.5
+        // - "3.0 & above": if 3.5 not selected, filters 3.0 <= rating < 3.5; if 3.5 selected, filters rating >= 3.0
         var ratingMatch = (selectedRatings.length === 0);
         if (!ratingMatch) {
-            var minSelectedRating = Math.min.apply(null, selectedRatings);
-            if (rating >= minSelectedRating) {
-                ratingMatch = true;
+            for (var rIdx = 0; rIdx < selectedRatings.length; rIdx++) {
+                var rVal = selectedRatings[rIdx];
+                if (rVal === 4.5 && rating >= 4.5) {
+                    ratingMatch = true;
+                    break;
+                } else if (rVal === 4.0 && rating >= 4.0 && (selectedRatings.indexOf(4.5) !== -1 ? true : rating < 4.5)) {
+                    ratingMatch = true;
+                    break;
+                } else if (rVal === 3.5 && rating >= 3.5 && (selectedRatings.indexOf(4.0) !== -1 ? true : rating < 4.0)) {
+                    ratingMatch = true;
+                    break;
+                } else if (rVal === 3.0 && rating >= 3.0 && (selectedRatings.indexOf(3.5) !== -1 ? true : rating < 3.5)) {
+                    ratingMatch = true;
+                    break;
+                }
             }
         }
 
         if (priceMatch && categoryMatch && ratingMatch) {
             item.style.display = 'block';
             item.classList.add('filter-fade-enter');
+            item.classList.add('aos-animate');
             visibleCount++;
         } else {
             item.style.display = 'none';
@@ -82,7 +113,13 @@ function applyFilters() {
     }
 
     if (typeof AOS !== 'undefined') {
-        setTimeout(function () { AOS.refresh(); }, 50);
+        setTimeout(function () {
+            if (typeof AOS.refreshHard === 'function') {
+                AOS.refreshHard();
+            } else if (typeof AOS.refresh === 'function') {
+                AOS.refresh();
+            }
+        }, 50);
     }
 }
 
@@ -92,6 +129,28 @@ function clearAllFilters() {
     });
     applyFilters();
 }
+
+function bindRoomFilters() {
+    document.querySelectorAll('.filter-price-chk, .filter-category-chk, .filter-rating-chk').forEach(function (chk) {
+        chk.removeEventListener('change', applyFilters);
+        chk.addEventListener('change', applyFilters);
+        chk.removeEventListener('click', applyFiltersDebounced);
+        chk.addEventListener('click', applyFiltersDebounced);
+    });
+}
+
+function applyFiltersDebounced() {
+    setTimeout(applyFilters, 10);
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindRoomFilters);
+} else {
+    bindRoomFilters();
+}
+
+window.applyFilters = applyFilters;
+window.clearAllFilters = clearAllFilters;
 
 function filterRooms(category, btnElement) {
     if (category && typeof category === 'object' && category.getAttribute) {
@@ -164,7 +223,7 @@ function triggerDatePicker(inputId) {
     var el = document.getElementById(inputId);
     if (el) {
         if (typeof el.showPicker === 'function') {
-            try { el.showPicker(); return; } catch (e) {}
+            try { el.showPicker(); return; } catch (e) { }
         }
         el.focus();
         el.click();

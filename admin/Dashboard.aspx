@@ -33,7 +33,7 @@
         <div class="row g-3 mb-4">
 
             <!-- Card 1: Today's Revenue -->
-            <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+            <div class="col-6 col-sm-6 col-lg-4 col-xl-2">
                 <div class="kpi-card bg-white p-3 rounded-4 shadow-sm h-100 border">
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <div class="kpi-icon-circle bg-amber-subtle text-warning-dark">
@@ -48,7 +48,7 @@
             </div>
 
             <!-- Card 2: Room Occupancy -->
-            <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+            <div class="col-6 col-sm-6 col-lg-4 col-xl-2">
                 <div class="kpi-card bg-white p-3 rounded-4 shadow-sm h-100 border">
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <div class="kpi-icon-circle bg-blue-subtle text-primary">
@@ -63,7 +63,7 @@
             </div>
 
             <!-- Card 3: Active Bookings -->
-            <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+            <div class="col-6 col-sm-6 col-lg-4 col-xl-2">
                 <div class="kpi-card bg-white p-3 rounded-4 shadow-sm h-100 border">
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <div class="kpi-icon-circle bg-green-subtle text-success">
@@ -78,7 +78,7 @@
             </div>
 
             <!-- Card 4: Available Rooms -->
-            <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+            <div class="col-6 col-sm-6 col-lg-4 col-xl-2">
                 <div class="kpi-card bg-white p-3 rounded-4 shadow-sm h-100 border">
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <div class="kpi-icon-circle bg-purple-subtle text-purple">
@@ -93,7 +93,7 @@
             </div>
 
             <!-- Card 5: Check-ins Today -->
-            <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+            <div class="col-6 col-sm-6 col-lg-4 col-xl-2">
                 <div class="kpi-card bg-white p-3 rounded-4 shadow-sm h-100 border">
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <div class="kpi-icon-circle bg-blue-subtle text-info">
@@ -108,7 +108,7 @@
             </div>
 
             <!-- Card 6: Check-outs Today -->
-            <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+            <div class="col-6 col-sm-6 col-lg-4 col-xl-2">
                 <div class="kpi-card bg-white p-3 rounded-4 shadow-sm h-100 border">
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <div class="kpi-icon-circle bg-amber-subtle text-danger">
@@ -119,18 +119,6 @@
                     <div class="text-muted small fw-semibold">Check-outs Today</div>
                     <div class="fs-4 fw-bold text-dark my-1">0</div>
                     <div class="text-muted small">0 Pending</div>
-                </div>
-            </div>
-
-        </div>
-
-                    <div class="kpi-sub-detail text-muted small mb-2">
-                        &#8377; 0.00 Today's Earnings
-                    </div>
-
-                    <div class="kpi-trend-pill text-muted small fw-semibold">
-                        <i class="bi bi-dash fs-6"></i> 0.0% <span class="fw-normal text-muted">from last week</span>
-                    </div>
                 </div>
             </div>
 
@@ -178,7 +166,7 @@
 
                     <div class="row align-items-center h-100 py-2">
                         <!-- Donut Graphic Column -->
-                        <div class="col-7 position-relative">
+                        <div class="col-12 col-sm-7 position-relative">
                             <div style="height: 180px;" class="d-flex align-items-center justify-content-center">
                                 <canvas id="roomStatusDonutChart"></canvas>
                             </div>
@@ -190,7 +178,7 @@
                         </div>
 
                         <!-- Legend Column -->
-                        <div class="col-5">
+                        <div class="col-12 col-sm-5 mt-3 mt-sm-0">
                             <div class="donut-legend-wrap d-flex flex-column gap-3">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <span class="d-flex align-items-center gap-2 small text-dark">
@@ -361,8 +349,8 @@
                     </span>
                 </div>
                 <div>
-                    <input type="text" id="userSearchInput" class="search-control-hotel"
-                        placeholder="Search guests..." onkeyup="filterRegisteredGuests()" />
+                    <input type="text" id="userSearchInput" class="search-control-hotel" placeholder="Search guests..."
+                        onkeyup="filterRegisteredGuests()" />
                 </div>
             </div>
 
@@ -374,7 +362,8 @@
                         <Columns>
                             <asp:TemplateField HeaderText="User ID">
                                 <ItemTemplate>
-                                    <span class="badge bg-light text-dark border font-monospace small">#<%# Eval("UserId") %></span>
+                                    <span class="badge bg-light text-dark border font-monospace small">#<%#
+                                            Eval("UserId") %></span>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Guest Full Name">
@@ -388,21 +377,24 @@
                             <asp:TemplateField HeaderText="Email Address">
                                 <ItemTemplate>
                                     <a href='mailto:<%# Eval("Email") %>' class="guest-email-link">
-                                        <i class="bi bi-envelope me-1"></i><%# Eval("Email") %>
+                                        <i class="bi bi-envelope me-1"></i>
+                                        <%# Eval("Email") %>
                                     </a>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Contact Phone">
                                 <ItemTemplate>
                                     <span class="text-dark small">
-                                        <i class="bi bi-telephone text-muted me-1"></i><%# Eval("Phone") %>
+                                        <i class="bi bi-telephone text-muted me-1"></i>
+                                        <%# Eval("Phone") %>
                                     </span>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Registered Date">
                                 <ItemTemplate>
                                     <span class="small text-muted">
-                                        <i class="bi bi-calendar3 text-muted me-1"></i><%# Convert.ToDateTime(Eval("CreatedAt")).ToString("dd-MMM-yyyy hh:mm tt") %>
+                                        <i class="bi bi-calendar3 text-muted me-1"></i>
+                                        <%# Convert.ToDateTime(Eval("CreatedAt")).ToString("dd-MMM-yyyy hh:mm tt") %>
                                     </span>
                                 </ItemTemplate>
                             </asp:TemplateField>
@@ -440,12 +432,14 @@
                         <Columns>
                             <asp:TemplateField HeaderText="Login ID">
                                 <ItemTemplate>
-                                    <span class="badge bg-light text-dark border font-monospace small">#<%# Eval("LoginId") %></span>
+                                    <span class="badge bg-light text-dark border font-monospace small">#<%#
+                                            Eval("LoginId") %></span>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="User ID">
                                 <ItemTemplate>
-                                    <span class="badge bg-light text-secondary border font-monospace small">UID-<%# Eval("UserId") %></span>
+                                    <span class="badge bg-light text-secondary border font-monospace small">UID-<%#
+                                            Eval("UserId") %></span>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Guest Username">
@@ -459,21 +453,25 @@
                             <asp:TemplateField HeaderText="Registered Email">
                                 <ItemTemplate>
                                     <a href='mailto:<%# Eval("Email") %>' class="guest-email-link">
-                                        <i class="bi bi-envelope me-1"></i><%# Eval("Email") %>
+                                        <i class="bi bi-envelope me-1"></i>
+                                        <%# Eval("Email") %>
                                     </a>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Session Timestamp">
                                 <ItemTemplate>
                                     <span class="small text-muted">
-                                        <i class="bi bi-clock-history text-muted me-1"></i><%# Convert.ToDateTime(Eval("LoginTime")).ToString("dd-MMM-yyyy hh:mm:ss tt") %>
+                                        <i class="bi bi-clock-history text-muted me-1"></i>
+                                        <%# Convert.ToDateTime(Eval("LoginTime")).ToString("dd-MMM-yyyy hh:mm:ss tt") %>
                                     </span>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Session Status">
                                 <ItemTemplate>
-                                    <span class="badge bg-success-subtle text-success border border-success-subtle py-1.5 px-2.5 rounded-pill">
-                                        <i class="bi bi-check-circle me-1"></i><%# Eval("Status") %>
+                                    <span
+                                        class="badge bg-success-subtle text-success border border-success-subtle py-1.5 px-2.5 rounded-pill">
+                                        <i class="bi bi-check-circle me-1"></i>
+                                        <%# Eval("Status") %>
                                     </span>
                                 </ItemTemplate>
                             </asp:TemplateField>

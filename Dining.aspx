@@ -49,7 +49,7 @@
                             <span
                                 class="badge bg-gold-subtle text-warning-dark text-uppercase small fw-bold mb-1">Executive
                                     Master Chef</span>
-                            <h5 class="font-serif mb-0 fw-bold">Chef Sanjeev Kapoor Signature Recipes</h5>
+                            <h5 class="font-serif mb-0 fw-bold text-white" style="color: #ffffff !important;">Chef Sanjeev Kapoor Signature Recipes</h5>
                             <small class="text-white-50">30+ Years of Royal Awadhi &amp; Global Culinary Art</small>
                         </div>
                     </div>
@@ -151,7 +151,7 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="p-4 p-md-5">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
                                 <span class="badge bg-gold-subtle text-warning-dark text-uppercase small fw-bold">Exclusive Hotel Restaurant</span>
                                 <span class="text-muted small"><i class="bi bi-geo-alt me-1 text-gold"></i>Hotel Ground Floor, Garden Wing</span>
                             </div>
@@ -359,7 +359,7 @@
                 <div class="modal-body p-4 bg-white">
 
                     <!-- Table Booking Form -->
-                    <form id="tableReservationForm" onsubmit="handleTableReservationSubmit(event)">
+                    <div id="tableReservationForm">
 
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
@@ -482,11 +482,11 @@
                             <button type="button" class="btn btn-outline-dark px-4 py-2"
                                 data-bs-dismiss="modal">
                                 Cancel</button>
-                            <button type="submit" class="btn btn-navbar-theme px-4 py-2 fw-bold">
+                            <button type="button" onclick="handleTableReservationSubmit(event)" class="btn btn-navbar-theme px-4 py-2 fw-bold">
                                 <i class="bi bi-check-circle me-1"></i>Confirm Table Reservation
                             </button>
                         </div>
-                    </form>
+                    </div>
 
                     <!-- Table Confirmation Voucher (Revealed upon submit) -->
                     <div id="tableConfirmationVoucher" class="d-none text-center p-4 rounded-3 border"

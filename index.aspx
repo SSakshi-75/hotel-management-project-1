@@ -353,10 +353,10 @@
                             <div class="row g-0 align-items-center">
                                 <!-- Image Column -->
                                 <div class="col-lg-6">
-                                    <div class="dining-venue-img-wrap" style="height: 100%; min-height: 380px;">
-                                        <picture>
+                                    <div class="dining-venue-img-wrap">
+                                        <picture class="w-100 h-100 d-block">
                                             <source srcset="images/dining-royal-zafran.webp" type="image/webp">
-                                            <img src="images/dining-royal-zafran.jpg" alt="The Royal Kitchen Fine Dining" class="dining-venue-img" style="height: 100%; width: 100%; object-fit: cover;" loading="lazy" decoding="async">
+                                            <img src="images/dining-royal-zafran.jpg" alt="The Royal Kitchen Fine Dining" class="dining-venue-img" loading="lazy" decoding="async">
                                         </picture>
                                         <span class="dining-venue-badge">
                                             <i class="bi bi-crown me-1 text-warning"></i>Fine Dining &bull; Indian, Mughlai &amp; Continental
@@ -366,7 +366,7 @@
                                 <!-- Content Column -->
                                 <div class="col-lg-6">
                                     <div class="p-4 p-md-5">
-                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
                                             <span class="badge bg-gold-subtle text-warning-dark text-uppercase small fw-bold">Exclusive Hotel Restaurant</span>
                                             <span class="text-muted small"><i class="bi bi-geo-alt me-1 text-gold"></i>Ground Floor, Garden Wing</span>
                                         </div>
@@ -855,23 +855,28 @@
             </div>
         </section>
 
-        <!-- Gallery Lightbox Modal (Matching Website Theme) -->
-        <div class="modal fade" id="galleryLightboxModal" tabindex="-1" aria-labelledby="galleryLightboxModalLabel"
+        <!-- Gallery Lightbox Modal (Matching Luxury Website Theme) -->
+        <div class="modal fade" id="galleryLightboxModal" tabindex="-1" aria-labelledby="galleryModalCaption"
             aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content bg-transparent border-0">
-                    <div class="modal-body p-0 text-center position-relative">
-                        <button type="button"
-                            class="btn-close btn-close-white position-absolute top-0 end-0 m-3 z-3 shadow-sm"
-                            data-bs-dismiss="modal" aria-label="Close"
-                            style="background-color: rgba(68, 35, 5, 0.85); padding: 12px; border-radius: 50%; border: 1.5px solid #9A724E; opacity: 1;"></button>
-                        <img id="galleryModalPreviewImg" src="" alt="Gallery Preview"
-                            class="img-fluid rounded-4 shadow-luxury"
-                            style="max-height: 82vh; width: auto; object-fit: contain; border: 2px solid #9A724E; box-shadow: 0 20px 50px rgba(0,0,0,0.6);">
-                        <div id="galleryModalCaption"
-                            class="text-white mt-3 fs-5 font-serif fw-bold text-center px-3 py-2 rounded-3 d-inline-block"
-                            style="background: rgba(44, 23, 5, 0.85); border: 1px solid rgba(154, 114, 78, 0.4); backdrop-filter: blur(4px);">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0">
+                    <!-- Top Header: Title at TOP + Close Button -->
+                    <div class="modal-header d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-2 pe-3">
+                            <i class="bi bi-camera text-gold fs-5"></i>
+                            <h5 class="modal-title font-serif mb-0 fs-5 fw-semibold" id="galleryModalCaption">
+                                Photo Preview
+                            </h5>
                         </div>
+                        <button type="button" class="btn-close btn-close-white shadow-none" data-bs-dismiss="modal"
+                            aria-label="Close">
+                        </button>
+                    </div>
+
+                    <!-- Modal Image -->
+                    <div class="modal-body text-center p-2 p-md-3">
+                        <img id="galleryModalPreviewImg" src="" alt="Gallery Preview"
+                            class="img-fluid rounded-3">
                     </div>
                 </div>
             </div>

@@ -142,11 +142,13 @@
                                                                     night</small></div>
                                                         <a href='<%# "RoomDetails.aspx?RoomId=" + Eval("RoomID") %>'
                                                             target="_blank"
-                                                            class="btn btn-sm btn-outline-dark px-2 py-1 small fw-semibold"
+                                                            class="btn btn-outline-dark rounded-pill d-inline-flex align-items-center"
+                                                            style="font-size: 0.8rem; padding: 4px 14px; border-radius: 50px !important; line-height: 1.4; white-space: nowrap;"
                                                             onclick="event.stopPropagation();"
                                                             title="View full room details">
-                                                            <i class="bi bi-info-circle me-1"></i> View Details <i
-                                                                class="bi bi-box-arrow-up-right ms-1"></i>
+                                                            <i class="bi bi-info-circle me-1" style="font-size: 0.82rem;"></i>
+                                                            <span>View Details</span>
+                                                            <i class="bi bi-box-arrow-up-right ms-1" style="font-size: 0.72rem;"></i>
                                                         </a>
                                                     </div>
                                                 </div>
