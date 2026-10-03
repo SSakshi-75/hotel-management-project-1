@@ -566,3 +566,37 @@
     margin-bottom: 16px;
     border: 1px solid #f9ebd9;
 }
+
+/* ==========================================================================
+   MANAGE HOTEL MOBILE RESPONSIVE RULES
+   Strictly scoped to <= 767.98px and <= 575.98px
+   ========================================================================== */
+@media (max-width: 767.98px) {
+    .manage-hotel-footer {
+        padding: 12px 14px !important;
+        flex-direction: column !important;
+        gap: 8px !important;
+        text-align: center !important;
+    }
+
+    .room-thumb-wrap {
+        width: 50px !important;
+        height: 38px !important;
+    }
+
+    .hotel-room-thumb {
+        width: 50px !important;
+        height: 38px !important;
+    }
+
+    .empty-hotel-state {
+        padding: 36px 14px !important;
+    }
+
+    .empty-hotel-icon {
+        width: 54px !important;
+        height: 54px !important;
+        font-size: 1.6rem !important;
+    }
+}
+

@@ -98,3 +98,28 @@
     border-color: #B88E68;
     background: #fffdfa;
 }
+
+/* ==========================================================================
+   ADD & EDIT ROOM MOBILE RESPONSIVE RULES
+   Strictly scoped to <= 767.98px and <= 575.98px
+   ========================================================================== */
+@media (max-width: 767.98px) {
+    .current-image-preview-box {
+        padding: 8px 10px !important;
+        gap: 8px !important;
+    }
+
+    .current-image-thumb {
+        width: 55px !important;
+        height: 40px !important;
+    }
+
+    .amenity-category-box {
+        padding: 12px 10px !important;
+    }
+
+    .amenity-category-title {
+        font-size: 0.9rem !important;
+    }
+}
+

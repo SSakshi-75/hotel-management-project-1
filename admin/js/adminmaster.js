@@ -61,3 +61,53 @@ document.addEventListener('click', function (e) {
         });
     }
 });
+
+// Client-side instant Mobile Sidebar Toggle (No full postback reload)
+document.addEventListener('DOMContentLoaded', function () {
+    var sidebar = document.getElementById('adminSidebar');
+    var overlay = document.getElementById('sidebarOverlay');
+    var toggleBtn = document.getElementById('btnSidebarToggle');
+    var closeBtn = document.getElementById('btnSidebarClose');
+
+    function openMobileSidebar(e) {
+        if (e) {
+            if (e.preventDefault) e.preventDefault();
+            if (e.stopPropagation) e.stopPropagation();
+        }
+        if (sidebar) sidebar.classList.add('open');
+        if (overlay) overlay.classList.add('active');
+        document.body.style.overflow = window.innerWidth < 992 ? 'hidden' : '';
+        return false;
+    }
+
+    function closeMobileSidebar(e) {
+        if (e) {
+            if (e.preventDefault) e.preventDefault();
+            if (e.stopPropagation) e.stopPropagation();
+        }
+        if (sidebar) sidebar.classList.remove('open');
+        if (overlay) overlay.classList.remove('active');
+        document.body.style.overflow = '';
+        return false;
+    }
+
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', function (e) {
+            if (sidebar && sidebar.classList.contains('open')) {
+                closeMobileSidebar(e);
+            } else {
+                openMobileSidebar(e);
+            }
+        });
+    }
+
+    if (closeBtn) closeBtn.addEventListener('click', closeMobileSidebar);
+    if (overlay) overlay.addEventListener('click', closeMobileSidebar);
+
+    window.addEventListener('resize', function () {
+        if (window.innerWidth >= 992) {
+            closeMobileSidebar();
+        }
+    });
+});
+
