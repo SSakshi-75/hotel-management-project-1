@@ -67,6 +67,13 @@ body {
     display: block;
 }
 
+@media (min-width: 992px) {
+    .admin-sidebar-overlay,
+    .admin-sidebar-overlay.active {
+        display: none !important;
+    }
+}
+
 /* ==========================================
    SIDEBAR (LIGHT EXECUTIVE THEME)
    ========================================== */

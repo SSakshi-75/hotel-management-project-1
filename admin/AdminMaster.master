@@ -35,15 +35,15 @@
 <body class="admin-body">
     <form id="adminForm" runat="server" enctype="multipart/form-data">
 
-        <!-- Mobile Sidebar Backdrop Overlay -->
-        <div id="sidebarOverlay" class="admin-sidebar-overlay"></div>
+        <!-- Mobile Sidebar Backdrop Overlay (ASP.NET Server Control) -->
+        <asp:LinkButton ID="sidebarOverlay" runat="server" ClientIDMode="Static" CssClass="admin-sidebar-overlay" OnClick="btnSidebarClose_Click" CausesValidation="false" aria-label="Close Overlay"></asp:LinkButton>
 
         <div class="admin-layout-wrapper">
 
             <!-- ==========================================
-                 MODERN LIGHT ADMIN SIDEBAR
+                 MODERN LIGHT ADMIN SIDEBAR (ASP.NET Server Control)
                  ========================================== -->
-            <aside id="adminSidebar" class="admin-sidebar">
+            <aside id="adminSidebar" runat="server" ClientIDMode="Static" class="admin-sidebar">
 
                 <!-- Sidebar Brand Header -->
                 <div class="sidebar-brand-box py-3 px-3">
@@ -54,9 +54,9 @@
                             onerror="this.onerror=null; this.src='../images/logo.png';"
                             style="max-height: 75px; max-width: 195px; width: 100%; object-fit: contain;">
                     </a>
-                    <button type="button" id="sidebarCloseBtn" class="sidebar-close-btn d-lg-none" aria-label="Close Sidebar">
+                    <asp:LinkButton ID="btnSidebarClose" runat="server" ClientIDMode="Static" CssClass="sidebar-close-btn d-lg-none" OnClick="btnSidebarClose_Click" CausesValidation="false" aria-label="Close Sidebar">
                         <i class="bi bi-x-lg"></i>
-                    </button>
+                    </asp:LinkButton>
                 </div>
 
                 <!-- Sidebar Navigation Menu -->
@@ -214,10 +214,10 @@
                 <!-- Modern Clean Topbar -->
                 <header class="admin-topbar">
                     <div class="topbar-left d-flex align-items-center gap-3">
-                        <!-- Mobile Hamburger Button -->
-                        <button type="button" id="sidebarToggleBtn" class="topbar-toggle-btn" aria-label="Toggle Navigation">
+                        <!-- Mobile Hamburger Button (ASP.NET Server Control) -->
+                        <asp:LinkButton ID="btnSidebarToggle" runat="server" ClientIDMode="Static" CssClass="topbar-toggle-btn text-dark text-decoration-none" OnClick="btnSidebarToggle_Click" CausesValidation="false" aria-label="Toggle Navigation">
                             <i class="bi bi-list fs-4"></i>
-                        </button>
+                        </asp:LinkButton>
 
                         <!-- Mobile Brand Logo -->
                         <a href="Dashboard.aspx" class="d-lg-none me-2">
