@@ -197,17 +197,6 @@
                                             <textarea class="form-control" id="additionalReqs" rows="3"
                                                 placeholder="Please specify any special requests (e.g. high floor, airport transfer, quiet room, late check-in)..."></textarea>
                                         </div>
-
-                                        <!-- NeuPass ID (Optional) -->
-                                        <div class="col-md-12">
-                                            <label class="form-label d-flex justify-content-between align-items-center">
-                                                <span><i class="bi bi-stars text-warning me-1"></i> Tata Neu / NeuPass
-                                                    Member ID (Optional)</span>
-                                                <small class="text-gold">Earn NeuCoins on this stay</small>
-                                            </label>
-                                            <input type="text" class="form-control text-uppercase" id="guestNeuId"
-                                                placeholder="Enter NeuPass ID (e.g. NEU-892182)">
-                                        </div>
                                     </div>
                                 </div>
 
