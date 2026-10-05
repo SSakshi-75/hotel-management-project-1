@@ -63,7 +63,7 @@
         <asp:HiddenField ID="hdnOldGallery4" runat="server" />
 
         <!-- Page Header & Navigation -->
-        <div class="d-flex align-items-center justify-content-between mb-4">
+        <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 mb-4">
             <div>
                 <div class="d-flex align-items-center gap-2 mb-1">
                     <h2 class="fw-bold text-dark mb-0" style="font-family: 'Playfair Display', Georgia, serif;">
@@ -224,7 +224,9 @@
                         <select id="ddlRoomStatus" runat="server" ClientIDMode="Static"
                             class="form-select form-select-admin">
                             <option value="Available" selected="selected">Available (Green Badge)</option>
-                            <option value="Booked">Booked (Red Badge)</option>
+                            <option value="Maintenance">Maintenance (Orange Badge)</option>
+                            <option value="Blocked">Blocked (Red Badge)</option>
+                            <option value="Cleaning">Cleaning (Blue Badge)</option>
                         </select>
                     </div>
 
@@ -309,7 +311,7 @@
                  SECTION 2: ROOM DETAILS SPECIFICATION FORM
                  ========================================== -->
                     <div class="col-12 pt-4 border-top">
-                        <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 mb-3">
                             <div>
                                 <h5 class="fw-bold text-dark mb-1 d-flex align-items-center gap-2"
                                     style="font-size: 1.05rem; font-family: 'Playfair Display', Georgia, serif;">
@@ -461,8 +463,8 @@
                 </div>
 
                 <!-- Form Action Footer Buttons -->
-                <div class="d-flex align-items-center justify-content-between pt-4 mt-4 border-top">
-                    <a href="ManageHotel.aspx" class="btn-admin-secondary">
+                <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3 pt-4 mt-4 border-top">
+                    <a href="ManageHotel.aspx" class="btn-admin-secondary w-100 w-md-auto text-center">
                         <i class="bi bi-arrow-left"></i> Cancel &amp; Back
                     </a>
                     <div class="d-flex align-items-center gap-2">

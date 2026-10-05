@@ -13,7 +13,7 @@
     <asp:HiddenField ID="hdnCategoryId" runat="server" Value="0" />
 
     <!-- Page Header & Navigation matching AddRoom.aspx -->
-    <div class="d-flex align-items-center justify-content-between mb-4">
+    <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 mb-4">
         <div>
             <nav aria-label="breadcrumb" class="mb-1">
                 <ol class="breadcrumb small text-muted mb-0">
@@ -112,8 +112,8 @@
             <asp:TextBox ID="txtDescription" runat="server" ClientIDMode="Static" style="display:none;"></asp:TextBox>
 
             <!-- Form Action Footer Buttons matching AddRoom.aspx -->
-            <div class="d-flex align-items-center justify-content-between pt-4 mt-4 border-top">
-                <button type="button" class="btn-admin-secondary" onclick="resetCategoryForm()">
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3 pt-4 mt-4 border-top">
+                <button type="button" class="btn-admin-secondary w-100 w-md-auto" onclick="resetCategoryForm()">
                     <i class="bi bi-arrow-counterclockwise"></i> Clear Form
                 </button>
                 <div class="d-flex align-items-center gap-2">

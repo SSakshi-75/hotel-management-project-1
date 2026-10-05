@@ -97,6 +97,8 @@
         .form-control-hotel-grouped {
             border-radius: 0 10px 10px 0 !important;
             border-left: none !important;
+            flex: 1 1 auto;
+            width: 1%;
         }
 
         /* Buttons matching Hotel Management Theme */
@@ -388,7 +390,7 @@
                             <label class="form-label-hotel">
                                 <i class="bi bi-telephone text-primary"></i> Card 2: Phone Number <span class="text-danger">*</span>
                             </label>
-                            <div class="input-group">
+                            <div class="input-group flex-nowrap">
                                 <span class="input-group-hotel-addon">
                                     <i class="bi bi-telephone"></i>
                                 </span>
@@ -405,7 +407,7 @@
                             <label class="form-label-hotel">
                                 <i class="bi bi-envelope text-warning"></i> Card 2: Contact Email <span class="text-danger">*</span>
                             </label>
-                            <div class="input-group">
+                            <div class="input-group flex-nowrap">
                                 <span class="input-group-hotel-addon">
                                     <i class="bi bi-envelope"></i>
                                 </span>

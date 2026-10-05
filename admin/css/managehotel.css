@@ -388,6 +388,8 @@
     font-size: 0.76rem;
     letter-spacing: 0.3px;
     text-transform: uppercase;
+    display: inline-block;
+    white-space: nowrap;
 }
 
 .badge-category-penthouse {
@@ -400,6 +402,8 @@
     font-size: 0.76rem;
     letter-spacing: 0.3px;
     text-transform: uppercase;
+    display: inline-block;
+    white-space: nowrap;
 }
 
 .badge-category-family {
@@ -412,6 +416,8 @@
     font-size: 0.76rem;
     letter-spacing: 0.3px;
     text-transform: uppercase;
+    display: inline-block;
+    white-space: nowrap;
 }
 
 .badge-category-executive {
@@ -424,6 +430,8 @@
     font-size: 0.76rem;
     letter-spacing: 0.3px;
     text-transform: uppercase;
+    display: inline-block;
+    white-space: nowrap;
 }
 
 /* Tariff / Rate per Night */
@@ -598,5 +606,10 @@
         height: 54px !important;
         font-size: 1.6rem !important;
     }
+    
+    .manage-hotel-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
 }
-

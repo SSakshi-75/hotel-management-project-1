@@ -34,6 +34,29 @@ public partial class Admin_Bookings : Page
 
         if (!IsPostBack)
         {
+            if (Request.QueryString["status"] != null)
+            {
+                string status = Request.QueryString["status"].ToString().Trim();
+                
+                if (status.Equals("Confirmed", StringComparison.OrdinalIgnoreCase))
+                {
+                    lblPageTitle.InnerHtml = "New Bookings";
+                }
+                else if (status.Equals("Checked-In", StringComparison.OrdinalIgnoreCase))
+                {
+                    lblPageTitle.InnerHtml = "Check-In / Out Details";
+                }
+
+                foreach (ListItem li in ddlBookingStatus.Items)
+                {
+                    if (li.Value.Equals(status, StringComparison.OrdinalIgnoreCase))
+                    {
+                        ddlBookingStatus.ClearSelection();
+                        li.Selected = true;
+                        break;
+                    }
+                }
+            }
             LoadBookingMetrics();
             BindBookings();
         }
@@ -89,6 +112,11 @@ public partial class Admin_Bookings : Page
         {
             string searchTerm = txtBookingSearch.Text.Trim();
             string statusFilter = ddlBookingStatus.SelectedValue;
+
+            if (!IsPostBack && Request.QueryString["status"] != null)
+            {
+                statusFilter = Request.QueryString["status"].ToString().Trim();
+            }
 
             using (SqlConnection con = new SqlConnection(connectionString))
             {
@@ -302,7 +330,7 @@ public partial class Admin_Bookings : Page
                     UPDATE Rooms 
                     SET RoomStatus = 'Available' 
                     WHERE RoomID = (SELECT RoomId FROM Bookings WHERE BookingId = @BookingId)
-                      AND RoomStatus = 'Occupied';";
+                      AND RoomStatus IN ('Occupied', 'Booked');";
 
                 using (SqlCommand cmd = new SqlCommand(sql, con))
                 {

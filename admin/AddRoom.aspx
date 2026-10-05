@@ -49,7 +49,7 @@
         <asp:HiddenField ID="hdnOldGallery4" runat="server" />
 
         <!-- Page Header & Navigation -->
-        <div class="d-flex align-items-center justify-content-between mb-4">
+        <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 mb-4">
             <div>
                 <h2 id="lblPageTitle" runat="server" class="fw-bold text-dark mb-1"
                     style="font-family: 'Playfair Display', Georgia, serif;">
@@ -202,7 +202,9 @@
                         <select id="ddlRoomStatus" runat="server" ClientIDMode="Static"
                             class="form-select form-select-admin">
                             <option value="Available" selected="selected">Available (Green Badge)</option>
-                            <option value="Booked">Booked (Red Badge)</option>
+                            <option value="Maintenance">Maintenance (Orange Badge)</option>
+                            <option value="Blocked">Blocked (Red Badge)</option>
+                            <option value="Cleaning">Cleaning (Blue Badge)</option>
                         </select>
                     </div>
 
@@ -289,7 +291,7 @@
                  SECTION 2: ROOM DETAILS SPECIFICATION FORM
                  ========================================== -->
                     <div class="col-12 pt-4 border-top">
-                        <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 mb-3">
                             <div>
                                 <h5 class="fw-bold text-dark mb-1 d-flex align-items-center gap-2"
                                     style="font-size: 1.05rem; font-family: 'Playfair Display', Georgia, serif;">
@@ -442,8 +444,8 @@
                 </div>
 
                 <!-- Form Action Footer Buttons -->
-                <div class="d-flex align-items-center justify-content-between pt-4 mt-4 border-top">
-                    <button type="button" class="btn-admin-secondary" onclick="resetForm()">
+                <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3 pt-4 mt-4 border-top">
+                    <button type="button" class="btn-admin-secondary w-100 w-md-auto" onclick="resetForm()">
                         <i class="bi bi-arrow-counterclockwise"></i> Clear Form
                     </button>
                     <div class="d-flex align-items-center gap-2">

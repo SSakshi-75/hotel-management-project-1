@@ -27,8 +27,16 @@
     <!-- Custom Admin Dashboard CSS -->
     <link rel="stylesheet" type="text/css" href="css/dashboard.css?v=4.0">
 
-    <script src="js/adminmaster.js"></script>
+    <!-- jQuery -->
+    <script src="../Scripts/jquery-1.6.4.min.js"></script>
 
+    <!-- SignalR -->
+    <script src="../Scripts/jquery.signalR-2.4.3.min.js"></script>
+
+    <!-- SignalR generated Hub proxy -->
+    <script src="../signalr/hubs"></script>
+
+    <script src="js/adminmaster.js"></script>
     <asp:ContentPlaceHolder ID="adminHead" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -43,7 +51,7 @@
             <!-- ==========================================
                  MODERN LIGHT ADMIN SIDEBAR (ASP.NET Server Control)
                  ========================================== -->
-            <aside id="adminSidebar" runat="server" ClientIDMode="Static" class="admin-sidebar">
+            <aside id="adminSidebar" runat="server" clientidmode="Static" class="admin-sidebar">
 
                 <!-- Sidebar Brand Header -->
                 <div class="sidebar-brand-box py-3 px-3">
@@ -51,11 +59,17 @@
                         <img src="../images/logo.webp"
                             alt="Hotel Management Logo"
                             class="admin-sidebar-logo"
-                            onerror="this.onerror=null; this.src='../images/logo.png';"
                             style="max-height: 75px; max-width: 195px; width: 100%; object-fit: contain;">
                     </a>
-                    <asp:LinkButton ID="btnSidebarClose" runat="server" ClientIDMode="Static" CssClass="sidebar-close-btn d-lg-none" OnClick="btnSidebarClose_Click" CausesValidation="false" aria-label="Close Sidebar">
-                        <i class="bi bi-x-lg"></i>
+
+                    <asp:LinkButton ID="btnSidebarClose"
+                        runat="server"
+                        ClientIDMode="Static"
+                        CssClass="sidebar-close-btn d-lg-none"
+                        OnClick="btnSidebarClose_Click"
+                        CausesValidation="false"
+                        aria-label="Close Sidebar">
+                   <i class="bi bi-x-lg"></i>
                     </asp:LinkButton>
                 </div>
 
@@ -96,8 +110,8 @@
                             </a>
                             <ul class="sidebar-submenu">
                                 <li class="submenu-item"><a href="Bookings.aspx" class="submenu-link"><i class="bi bi-journal-bookmark sub-icon"></i>All Bookings</a></li>
-                                <li class="submenu-item"><a href="javascript:void(0)" class="submenu-link" onclick="handleMenuClick('New Booking', this)"><i class="bi bi-calendar-plus sub-icon"></i>New Booking</a></li>
-                                <li class="submenu-item"><a href="javascript:void(0)" class="submenu-link" onclick="handleMenuClick('Check-in / Check-out', this)"><i class="bi bi-arrow-left-right sub-icon"></i>Check-in / Out</a></li>
+                                <li class="submenu-item"><a href="Bookings.aspx?status=Confirmed" class="submenu-link"><i class="bi bi-calendar-plus sub-icon"></i>New Booking</a></li>
+                                <li class="submenu-item"><a href="Bookings.aspx?status=Checked-In" class="submenu-link"><i class="bi bi-arrow-left-right sub-icon"></i>Check-in / Out</a></li>
                             </ul>
                         </li>
 
@@ -237,23 +251,69 @@
                     <!-- Topbar Right Actions -->
                     <div class="topbar-right d-flex align-items-center gap-3">
 
+
                         <!-- Notifications Bell -->
                         <div class="dropdown">
-                            <button class="topbar-icon-btn position-relative" type="button" id="notifDropdown" data-bs-toggle="dropdown" aria-expanded="false" title="Notifications">
+
+                            <!-- Bell Button -->
+                            <button class="topbar-icon-btn position-relative"
+                                type="button"
+                                id="notifDropdown"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                                title="Notifications">
+
                                 <i class="bi bi-bell"></i>
-                                <span class="notif-badge-pill d-none">0</span>
+
+                                <!-- Notification Count -->
+                                <span id="notifBadge"
+                                    class="notif-badge-pill d-none">0
+                                </span>
+
                             </button>
-                            <div class="dropdown-menu dropdown-menu-end shadow-sm p-0 notif-menu" aria-labelledby="notifDropdown">
+
+
+                            <!-- Notification Dropdown -->
+                            <div class="dropdown-menu dropdown-menu-end shadow-sm p-0 notif-menu"
+                                aria-labelledby="notifDropdown"
+                                style="width: 360px; max-height: 450px; overflow-y: auto;">
+
+                                <!-- Notification Header -->
                                 <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
-                                    <h6 class="mb-0 fw-bold small text-dark">Notifications</h6>
-                                    <span class="badge bg-secondary">0 New</span>
+
+                                    <h6 class="mb-0 fw-bold small text-dark">Notifications
+                                    </h6>
+
+                                    <span id="notifCountText"
+                                        class="badge bg-secondary">0 New
+                                    </span>
+
                                 </div>
-                                <div class="p-4 text-center text-muted">
-                                    <i class="bi bi-bell-slash text-muted fs-3 d-block mb-2 opacity-50"></i>
-                                    <div class="small fw-semibold text-dark">No New Notifications</div>
-                                    <span class="text-muted" style="font-size: 0.72rem;">All systems operational</span>
+
+
+                                <!-- Dynamic Notifications -->
+                                <div id="notificationList">
+
+                                    <!-- No Notifications -->
+                                    <div id="noNotifications"
+                                        class="p-4 text-center text-muted">
+
+                                        <i class="bi bi-bell-slash text-muted fs-3 d-block mb-2 opacity-50"></i>
+
+                                        <div class="small fw-semibold text-dark">
+                                            No New Notifications
+                                        </div>
+
+                                        <span class="text-muted"
+                                            style="font-size: 0.72rem;">All systems operational
+                                        </span>
+
+                                    </div>
+
                                 </div>
+
                             </div>
+
                         </div>
 
                         <!-- Fullscreen Toggle Button -->
@@ -319,6 +379,11 @@
 
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- jQuery & SignalR for Real-time Notifications -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="../signalr/hubs"></script>
 
     <!-- Custom Admin Dashboard JS -->
     <script src="js/dashboard.js?v=3.0"></script>

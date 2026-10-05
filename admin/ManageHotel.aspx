@@ -43,7 +43,7 @@
             <!-- Total Rooms -->
             <div class="col-6 col-lg-3">
                 <div class="hotel-kpi-card">
-                    <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2">
                         <div>
                             <span class="kpi-label">Total Suites &amp; Rooms</span>
                             <div class="kpi-value mt-1" id="kpiTotalRooms" runat="server">0</div>
@@ -59,7 +59,7 @@
             <!-- Published & Live -->
             <div class="col-6 col-lg-3">
                 <div class="hotel-kpi-card">
-                    <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2">
                         <div>
                             <span class="kpi-label">Publish Status</span>
                             <div class="kpi-value mt-1 text-success" id="kpiLiveRooms" runat="server">0 Live</div>
@@ -75,7 +75,7 @@
             <!-- Average Tariff -->
             <div class="col-6 col-lg-3">
                 <div class="hotel-kpi-card">
-                    <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2">
                         <div>
                             <span class="kpi-label">Average Tariff</span>
                             <div class="kpi-value mt-1" id="kpiAvgTariff" runat="server">₹ 0</div>
@@ -91,7 +91,7 @@
             <!-- Distinct Categories -->
             <div class="col-6 col-lg-3">
                 <div class="hotel-kpi-card">
-                    <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2">
                         <div>
                             <span class="kpi-label">Room Categories</span>
                             <div class="kpi-value mt-1" id="kpiTotalCategories" runat="server">0 Tiers</div>
@@ -262,10 +262,7 @@
                                             <%-- AVAILABILITY STATUS --%>
                                                 <asp:TemplateField HeaderText="Availability">
                                                     <ItemTemplate>
-                                                        <%# Eval("RoomStatus") != null && (Eval("RoomStatus").ToString().Equals("Booked", StringComparison.OrdinalIgnoreCase) || Eval("RoomStatus").ToString().Equals("Occupied", StringComparison.OrdinalIgnoreCase))
-                                                            ? "<span class='badge bg-danger-subtle text-danger border border-danger-subtle px-2.5 py-1 rounded-pill small fw-semibold'><i class='bi bi-x-circle-fill me-1'></i> Booked</span>"
-                                                            : "<span class='badge bg-success-subtle text-success border border-success-subtle px-2.5 py-1 rounded-pill small fw-semibold'><i class='bi bi-check-circle-fill me-1'></i> Available</span>"
-                                                            %>
+                                                        <%# GetStatusBadge(Eval("RoomStatus")) %>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
 

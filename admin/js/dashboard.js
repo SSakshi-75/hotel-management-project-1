@@ -369,11 +369,17 @@ function checkLoginConfirmation() {
 function highlightActiveSidebarMenu() {
     var path = (window.location.pathname + window.location.search).toLowerCase();
     var href = window.location.href.toLowerCase();
-    var links = document.querySelectorAll('.sidebar-nav-list .nav-link, .sidebar-submenu .submenu-link');
+    var linksNodeList = document.querySelectorAll('.sidebar-nav-list .nav-link, .sidebar-submenu .submenu-link');
+    var links = Array.from(linksNodeList);
     var activeMatched = false;
 
     // Clear active class on all links first
     links.forEach(function (l) { l.classList.remove('active'); });
+
+    // Sort links by href length descending so specific query string links match first
+    links.sort(function(a, b) {
+        return (b.getAttribute('href') || '').length - (a.getAttribute('href') || '').length;
+    });
 
     links.forEach(function (link) {
         var linkHref = (link.getAttribute('href') || '').toLowerCase();
@@ -475,4 +481,86 @@ function filterLoginDirectory() {
         row.style.display = (query === '' || text.includes(query)) ? '' : 'none';
     }
 }
+
+// ==========================================
+// 9. REAL-TIME NOTIFICATIONS VIA SIGNALR
+// ==========================================
+function clearAllNotifications() {
+    var notifList = document.getElementById('notificationList');
+    var badge = document.getElementById('notifBadge');
+    var countText = document.getElementById('notifCountText');
+
+    if (notifList) {
+        notifList.innerHTML = `
+            <div id="noNotifications" class="p-4 text-center text-muted">
+                <i class="bi bi-bell-slash fs-4 d-block mb-2"></i>
+                <small>No new notifications</small>
+            </div>
+        `;
+    }
+    if (badge) {
+        badge.innerText = '0';
+        badge.classList.add('d-none');
+    }
+    if (countText) {
+        countText.innerText = '0 New';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    if (window.jQuery && $.connection && $.connection.notificationHub) {
+        var notifHub = $.connection.notificationHub;
+        
+        notifHub.client.receiveNotification = function (message) {
+            var notifList = document.getElementById('notificationList');
+            var noNotif = document.getElementById('noNotifications');
+            var badge = document.getElementById('notifBadge');
+            var countText = document.getElementById('notifCountText');
+
+            if (noNotif) {
+                noNotif.style.display = 'none';
+            }
+
+            var alertTitle = "New Alert";
+            if (message.toLowerCase().indexOf("table") !== -1) {
+                alertTitle = "New Table Booking Alert";
+            } else if (message.toLowerCase().indexOf("booking") !== -1) {
+                alertTitle = "New Room Booking Alert";
+            }
+
+            var newNotifHtml = `
+                <div class="notification-item p-3 border-bottom unread bg-light">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="notif-icon bg-primary-subtle text-primary rounded-circle p-2">
+                            <i class="bi bi-bell-fill"></i>
+                        </div>
+                        <div class="notif-content flex-grow-1">
+                            <h6 class="mb-1 text-dark small fw-bold">${alertTitle}</h6>
+                            <p class="mb-1 text-muted small" style="line-height: 1.4;">${message}</p>
+                            <span class="notif-time text-muted" style="font-size: 0.7rem;"><i class="bi bi-clock me-1"></i>Just now</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            if (notifList) {
+                notifList.insertAdjacentHTML('afterbegin', newNotifHtml);
+            }
+
+            if (badge && countText) {
+                var currentCount = parseInt(badge.innerText) || 0;
+                currentCount++;
+                badge.innerText = currentCount;
+                badge.classList.remove('d-none');
+                countText.innerText = currentCount + " New";
+            }
+        };
+
+        $.connection.hub.start().done(function () {
+            console.log("Connected to Notification Hub");
+        }).fail(function (err) {
+            console.error("SignalR connection error: " + err);
+        });
+    }
+});
 

@@ -99,6 +99,29 @@
                 color: #ffffff;
                 border-color: #442305;
             }
+            .hotel-table-actions {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+            }
+            .btn-action-luxury {
+                width: 36px;
+                height: 36px;
+                border-radius: 9px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                border: 1px solid transparent;
+                transition: all 0.2s ease;
+                font-size: 0.95rem;
+                text-decoration: none;
+            }
+            .btn-action-luxury.btn-edit { background: #fdfaf7; color: #442305 !important; border-color: #e8d7c5; }
+            .btn-action-luxury.btn-edit:hover { background: #442305; color: #ffffff !important; border-color: #442305; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(68, 35, 5, 0.2); }
+            .btn-action-luxury.btn-view { background: #eff6ff; color: #2563eb !important; border-color: #bfdbfe; }
+            .btn-action-luxury.btn-view:hover { background: #2563eb; color: #ffffff !important; border-color: #2563eb; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2); }
+            .btn-action-luxury.btn-delete { background: #fef2f2; color: #dc2626 !important; border-color: #fecaca; }
+            .btn-action-luxury.btn-delete:hover { background: #dc2626; color: #ffffff !important; border-color: #dc2626; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(220, 38, 38, 0.2); }
         </style>
     </asp:Content>
 
@@ -365,22 +388,26 @@
                                             : "<span class='badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2.5 py-1 rounded-pill small'><i class='bi bi-eye-slash-fill me-1'></i> Inactive</span>" %>
                                     </td>
                                     <td class="text-end pe-4">
-                                        <asp:LinkButton ID="btnToggleStatus" runat="server" CommandName="ToggleStatusMenuItem"
-                                            CommandArgument='<%# Eval("MenuItemId") %>'
-                                            CssClass="btn btn-sm btn-outline-warning px-2.5 py-1 rounded-pill fw-semibold me-1"
-                                            ToolTip='<%# Convert.ToBoolean(Eval("IsActive")) ? "Deactivate Dish (Hide on Site)" : "Activate Dish (Show on Site)" %>'>
-                                            <i class='<%# Convert.ToBoolean(Eval("IsActive")) ? "bi bi-eye" : "bi bi-eye-slash" %>'></i> Status
-                                        </asp:LinkButton>
-                                        <asp:LinkButton ID="btnEdit" runat="server" CommandName="EditMenuItem"
-                                            CommandArgument='<%# Eval("MenuItemId") %>'
-                                            CssClass="btn btn-sm btn-outline-primary px-3 rounded-pill fw-semibold me-1">
-                                            <i class="bi bi-pencil-square me-1"></i> Edit
-                                        </asp:LinkButton>
-                                        <asp:LinkButton ID="btnDelete" runat="server" CommandName="DeleteMenuItem"
-                                            CommandArgument='<%# Eval("MenuItemId") %>'
-                                            CssClass="btn btn-sm btn-outline-danger px-3 rounded-pill fw-semibold">
-                                            <i class="bi bi-trash me-1"></i> Delete
-                                        </asp:LinkButton>
+                                        <div class="hotel-table-actions justify-content-end">
+                                            <asp:LinkButton ID="btnToggleStatus" runat="server" CommandName="ToggleStatusMenuItem"
+                                                CommandArgument='<%# Eval("MenuItemId") %>'
+                                                CssClass="btn-action-luxury btn-view"
+                                                ToolTip='<%# Convert.ToBoolean(Eval("IsActive")) ? "Deactivate Dish (Hide on Site)" : "Activate Dish (Show on Site)" %>'>
+                                                <i class='<%# Convert.ToBoolean(Eval("IsActive")) ? "bi bi-eye" : "bi bi-eye-slash" %>'></i>
+                                            </asp:LinkButton>
+                                            <asp:LinkButton ID="btnEdit" runat="server" CommandName="EditMenuItem"
+                                                CommandArgument='<%# Eval("MenuItemId") %>'
+                                                CssClass="btn-action-luxury btn-edit"
+                                                ToolTip="Edit Item">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </asp:LinkButton>
+                                            <asp:LinkButton ID="btnDelete" runat="server" CommandName="DeleteMenuItem"
+                                                CommandArgument='<%# Eval("MenuItemId") %>'
+                                                CssClass="btn-action-luxury btn-delete"
+                                                ToolTip="Delete Item">
+                                                <i class="bi bi-trash"></i>
+                                            </asp:LinkButton>
+                                        </div>
                                     </td>
                                 </tr>
                             </ItemTemplate>

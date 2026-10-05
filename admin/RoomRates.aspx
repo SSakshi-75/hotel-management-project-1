@@ -13,9 +13,9 @@
             <p class="text-muted small mb-0">Manage rate plans, occupancy pricing, seasonal tariffs, and room-only vs breakfast packages.</p>
         </div>
         <div class="d-flex align-items-center gap-2">
-            <button type="button" class="btn-admin-primary" onclick="showAdminToast('Add Rate Plan', 'Opening rate plan configuration...', 'bi-tag text-gold')">
-                <i class="bi bi-plus-lg"></i> Add Rate Plan
-            </button>
+            <a href="AddRoom.aspx" class="btn-admin-primary">
+                <i class="bi bi-plus-lg"></i> Add Room Rate
+            </a>
             <button type="button" class="btn-admin-secondary" onclick="showAdminToast('Filter Rates', 'Filtering active rate matrices...', 'bi-funnel text-primary')">
                 <i class="bi bi-funnel"></i> Filter
             </button>
@@ -50,22 +50,39 @@
             <table class="table table-hover align-middle mb-0" id="ratesTable">
                 <thead class="bg-light text-muted small text-uppercase">
                     <tr>
-                        <th class="ps-4">Room Variant</th>
-                        <th>Rate Plan</th>
-                        <th>Inclusions</th>
-                        <th>Nightly Price</th>
+                        <th class="ps-4">Room</th>
+                        <th>Category</th>
+                        <th>Base Rate</th>
                         <th>Status</th>
                         <th class="text-end pe-4">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="border-top-0">
+                    <asp:Repeater ID="rptRoomRates" runat="server">
+                        <ItemTemplate>
+                            <tr>
+                                <td class="ps-4 fw-semibold text-dark"><%# Eval("RoomName") %></td>
+                                <td><span class="badge bg-light text-secondary border border-secondary-subtle rounded-pill px-3 py-2"><%# Eval("RoomCategory") %></span></td>
+                                <td class="fw-bold text-dark fs-6">&#8377;<%# Convert.ToDecimal(Eval("PricePerNight")).ToString("N0") %></td>
+                                <td><%# GetStatusBadge(Eval("IsActive")) %></td>
+                                <td class="text-end pe-4">
+                                    <div class="d-flex justify-content-end gap-2">
+                                        <a href="EditRoom.aspx?id=<%# Eval("RoomID") %>" class="btn btn-sm btn-outline-primary rounded-pill px-3 shadow-sm d-flex align-items-center gap-1"><i class="bi bi-pencil-square"></i> Edit</a>
+                                        <a href="../RoomDetails.aspx?id=<%# Eval("RoomID") %>" class="btn btn-sm btn-outline-secondary rounded-pill px-3 shadow-sm d-flex align-items-center gap-1" target="_blank"><i class="bi bi-eye"></i> View</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                    <% if (rptRoomRates.Items.Count == 0) { %>
                     <tr>
-                        <td colspan="6" class="text-center text-muted py-5">
+                        <td colspan="5" class="text-center text-muted py-5">
                             <i class="bi bi-tag fs-1 opacity-50 d-block mb-2 text-gold"></i>
                             <h6 class="fw-bold text-dark mb-1">No Room Rates Configured</h6>
-                            <p class="small text-muted mb-0">Click "+ Add Rate Plan" to set up tariffs.</p>
+                            <p class="small text-muted mb-0">Click "Add Room Rate" to set up tariffs.</p>
                         </td>
                     </tr>
+                    <% } %>
                 </tbody>
             </table>
         </div>

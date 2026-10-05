@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Web;
 using System.Web.UI;
+using Microsoft.AspNet.SignalR;
 
 public partial class Booking : System.Web.UI.Page
 {
@@ -385,7 +386,24 @@ public partial class Booking : System.Web.UI.Page
                             insCmd.ExecuteNonQuery();
                         }
 
+                        // Update Room status to 'Booked'
+                        string updateRoomSql = "UPDATE Rooms SET RoomStatus = 'Booked' WHERE RoomID = @RoomId";
+                        using (SqlCommand updCmd = new SqlCommand(updateRoomSql, con, tran))
+                        {
+                            updCmd.Parameters.AddWithValue("@RoomId", roomId);
+                            updCmd.ExecuteNonQuery();
+                        }
+
                         tran.Commit();
+
+                        // Send real-time notification to all connected admin panels
+                        var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
+
+                        hubContext.Clients.All.receiveNotification(
+                            "New booking received: " + bookingRef +
+                            " | Guest: " + guestName.Trim() +
+                            " | Room: " + actualRoomName
+                        );
 
                         SendJsonResponse(true, "Reservation successfully confirmed!", bookingRef);
                         return;

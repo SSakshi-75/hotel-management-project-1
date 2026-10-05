@@ -57,7 +57,22 @@ public partial class Admin_ManageHotel : Page
         }
         catch { }
     }
-
+    protected string GetStatusBadge(object statusObj)
+    {
+        string status = statusObj != null ? statusObj.ToString().Trim() : "Available";
+        if (status.Equals("Booked", StringComparison.OrdinalIgnoreCase))
+            return "<span class='badge bg-danger-subtle text-danger border border-danger-subtle px-2.5 py-1 rounded-pill small fw-semibold'><i class='bi bi-calendar-check-fill me-1'></i> Booked</span>";
+        else if (status.Equals("Occupied", StringComparison.OrdinalIgnoreCase))
+            return "<span class='badge bg-danger-subtle text-danger border border-danger-subtle px-2.5 py-1 rounded-pill small fw-semibold'><i class='bi bi-person-fill me-1'></i> Occupied</span>";
+        else if (status.Equals("Maintenance", StringComparison.OrdinalIgnoreCase))
+            return "<span class='badge bg-warning-subtle text-warning border border-warning-subtle px-2.5 py-1 rounded-pill small fw-semibold'><i class='bi bi-tools me-1'></i> Maintenance</span>";
+        else if (status.Equals("Blocked", StringComparison.OrdinalIgnoreCase))
+            return "<span class='badge bg-danger-subtle text-danger border border-danger-subtle px-2.5 py-1 rounded-pill small fw-semibold'><i class='bi bi-slash-circle-fill me-1'></i> Blocked</span>";
+        else if (status.Equals("Cleaning", StringComparison.OrdinalIgnoreCase))
+            return "<span class='badge bg-info-subtle text-info border border-info-subtle px-2.5 py-1 rounded-pill small fw-semibold'><i class='bi bi-stars me-1'></i> Cleaning</span>";
+        else
+            return "<span class='badge bg-success-subtle text-success border border-success-subtle px-2.5 py-1 rounded-pill small fw-semibold'><i class='bi bi-check-circle-fill me-1'></i> Available</span>";
+    }
     protected void grdrooms_PreRender(object sender, EventArgs e)
     {
         if (grdrooms.HeaderRow != null)

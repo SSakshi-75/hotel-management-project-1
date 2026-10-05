@@ -411,6 +411,9 @@
                                             onclick="window.print()">
                                             <i class="bi bi-printer me-1"></i> Print Reservation Pass
                                         </button>
+                                        <a href="MyBookings.aspx" class="btn btn-outline-dark px-4 py-2 fw-bold">
+                                            <i class="bi bi-journal-check me-1"></i> View My Bookings
+                                        </a>
                                         <a href="index.aspx" class="btn btn-navbar-theme px-4 py-2 fw-bold">
                                             <i class="bi bi-house me-1"></i> Return To Home
                                         </a>

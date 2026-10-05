@@ -94,7 +94,7 @@
     </asp:Panel>
     <!-- Daily Meal Schedule & Experiences Management Form -->
     <div class="rest-card-box">
-        <div class="rest-card-header d-flex align-items-center justify-content-between">
+        <div class="rest-card-header d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3">
             <div class="d-flex align-items-center gap-2">
                 <i class="bi bi-clock-history fs-4 text-warning"></i>
                 <div>
@@ -225,8 +225,8 @@
             </div>
 
             <!-- Action Buttons -->
-            <div class="d-flex align-items-center justify-content-between pt-4 mt-4 border-top">
-                <span class="text-muted small"><i class="bi bi-info-circle me-1 text-primary"></i> Saves Dining Schedule &amp; Experience Timings</span>
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3 pt-4 mt-4 border-top">
+                <span class="text-muted small text-center"><i class="bi bi-info-circle me-1 text-primary"></i> Saves Dining Schedule &amp; Experience Timings</span>
                 <asp:Button ID="btnSaveMealSchedule" runat="server" Text="Save Meal Hours &amp; Schedule"
                     CssClass="btn btn-gold-save" OnClick="btnSaveMealSchedule_Click" />
             </div>
@@ -236,7 +236,7 @@
 
     <!-- Live Meal Schedules Display Repeater Card -->
     <div class="rest-card-box mt-4">
-        <div class="rest-card-header d-flex align-items-center justify-content-between">
+        <div class="rest-card-header d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3">
             <div class="d-flex align-items-center gap-2">
                 <i class="bi bi-list-stars fs-4 text-warning"></i>
                 <div>

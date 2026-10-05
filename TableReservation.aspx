@@ -48,6 +48,9 @@
                 cursor: pointer;
                 transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
                 position: relative;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
             }
 
             .table-card-select:hover {
@@ -183,13 +186,12 @@
                     Fine Dining &bull; Indian, Mughlai &amp; Continental Haute Cuisine
                 </p>
                 <div
-                    class="d-inline-flex align-items-center gap-3 bg-dark bg-opacity-50 px-4 py-2 rounded-pill border border-warning border-opacity-25 small text-white">
+                    class="d-inline-flex flex-column flex-md-row align-items-center gap-2 gap-md-3 bg-dark bg-opacity-50 px-3 px-md-4 py-2 rounded-4 border border-warning border-opacity-25 small text-white">
                     <span><i class="bi bi-clock-fill text-warning me-1"></i> 11:00 AM &ndash; 11:00 PM</span>
-                    <span>&bull;</span>
+                    <span class="d-none d-md-inline">&bull;</span>
                     <span><i class="bi bi-geo-alt-fill text-warning me-1"></i> Hotel Ground Floor</span>
-                    <span>&bull;</span>
-                    <span class="text-success fw-bold"><i class="bi bi-check-circle-fill me-1"></i> Active for
-                        Reservations</span>
+                    <span class="d-none d-md-inline">&bull;</span>
+                    <span class="text-success fw-bold"><i class="bi bi-check-circle-fill me-1"></i> Active for Reservations</span>
                 </div>
             </div>
         </section>
@@ -217,7 +219,8 @@
                         <div class="p-4 p-md-5">
 
                             <!-- STEP 1: DATE, TIME & GUEST COUNT -->
-                            <div class="mb-5">
+                            <div class="step-container" id="step1-container">
+                                <div class="mb-5">
                                 <h5 class="fw-bold text-dark mb-3 d-flex align-items-center">
                                     <span class="res-step-badge">1</span> Select Date, Time Slot &amp; Guest Count
                                 </h5>
@@ -262,10 +265,15 @@
                                         </select>
                                     </div>
                                 </div>
+                                </div>
+                                <div class="text-end border-top pt-4">
+                                    <button type="button" class="btn btn-dark rounded-pill px-5 py-2 fw-bold shadow-sm" onclick="goToStep(2)">Proceed to Select Table <i class="bi bi-arrow-right ms-2"></i></button>
+                                </div>
                             </div>
 
                             <!-- STEP 2: AVAILABLE TABLES SELECTION GRID -->
-                            <div class="mb-5">
+                            <div class="step-container d-none" id="step2-container">
+                                <div class="mb-5">
                                 <div class="d-flex align-items-center justify-content-between mb-3">
                                     <h5 class="fw-bold text-dark mb-0 d-flex align-items-center">
                                         <span class="res-step-badge">2</span> Select Available Table at The Royal
@@ -308,7 +316,7 @@
                                                             <%# Eval("Section") %>
                                                         </span>
                                                     </div>
-                                                    <small class="text-muted d-block"><i class="bi bi-geo me-1"></i>
+                                                    <small class="text-muted d-block mt-auto"><i class="bi bi-geo me-1"></i>
                                                         <%# Eval("Location") %>
                                                             <%# GetFloorDisplay(Eval("Floor")) %>
                                                     </small>
@@ -329,11 +337,17 @@
                                     </asp:Panel>
 
                                 </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center border-top pt-4">
+                                    <button type="button" class="btn btn-light rounded-pill px-4 py-2 fw-bold" onclick="goToStep(1)"><i class="bi bi-arrow-left me-2"></i> Back</button>
+                                    <button type="button" class="btn btn-dark rounded-pill px-5 py-2 fw-bold shadow-sm" onclick="goToStep(3)">Proceed to Details <i class="bi bi-arrow-right ms-2"></i></button>
+                                </div>
                             </div>
 
                             <!-- STEP 3: CUSTOMER DETAILS & SPECIAL REQUEST -->
-                            <div class="mb-4">
-                                <h5 class="fw-bold text-dark mb-3 d-flex align-items-center">
+                            <div class="step-container d-none" id="step3-container">
+                                <div class="mb-4">
+                                    <h5 class="fw-bold text-dark mb-3 d-flex align-items-center">
                                     <span class="res-step-badge">3</span> Enter Customer Contact &amp; Special Request
                                 </h5>
                                 <div class="row g-3">
@@ -370,12 +384,14 @@
                             </div>
 
                             <!-- SUBMIT BUTTON -->
-                            <div class="text-center pt-3 border-top">
+                            <div class="d-flex justify-content-between align-items-center pt-4 border-top">
+                                <button type="button" class="btn btn-light rounded-pill px-4 py-2 fw-bold" onclick="goToStep(2)"><i class="bi bi-arrow-left me-2"></i> Back</button>
                                 <asp:LinkButton ID="btnConfirmReservation" runat="server"
-                                    CssClass="btn btn-reserve-submit" OnClick="btnConfirmReservation_Click"
+                                    CssClass="btn btn-reserve-submit shadow-sm" OnClick="btnConfirmReservation_Click"
                                     OnClientClick="return validateTableReservation();">
                                     <i class="bi bi-check-circle-fill me-2"></i> Confirm Table Reservation
                                 </asp:LinkButton>
+                            </div>
                             </div>
 
                         </div>
@@ -536,6 +552,42 @@
                 if (cEmail) cEmail.value = '';
                 if (cReq) cReq.value = '';
             });
+
+            function goToStep(stepNum) {
+                if (stepNum === 3) {
+                    var hdnNum = document.getElementById('hdnSelectedTableNum');
+                    var tableNum = hdnNum ? hdnNum.value.trim() : '';
+                    if (!tableNum) {
+                        alert('Please select an available table from Step 2 before proceeding.');
+                        return;
+                    }
+                }
+                var containers = document.querySelectorAll('.step-container');
+                for (var i = 0; i < containers.length; i++) {
+                    containers[i].classList.add('d-none');
+                }
+                var target = document.getElementById('step' + stepNum + '-container');
+                if (target) {
+                    target.classList.remove('d-none');
+                    target.classList.add('fade-in');
+                }
+                
+                var card = document.querySelector('.res-card-luxury');
+                if (card) {
+                    var y = card.getBoundingClientRect().top + window.scrollY - 80;
+                    window.scrollTo({top: y, behavior: 'smooth'});
+                }
+            }
         </script>
+        
+        <style>
+            .fade-in {
+                animation: fadeIn 0.4s ease-in-out;
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        </style>
 
     </asp:Content>

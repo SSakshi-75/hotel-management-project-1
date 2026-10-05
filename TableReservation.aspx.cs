@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Web.UI;
+using Microsoft.AspNet.SignalR;
 
 public partial class TableReservation : System.Web.UI.Page
 {
@@ -232,8 +233,14 @@ public partial class TableReservation : System.Web.UI.Page
         string dateCode = resDate.ToString("yyyyMMdd");
         int randNum = new Random().Next(1000, 9999);
         string bookingCode = "TAB-" + dateCode + "-" + randNum;
+        
+        int? userId = null;
+        if (Session["UserId"] != null)
+        {
+            userId = Convert.ToInt32(Session["UserId"]);
+        }
 
-        bool saved = SaveReservationToDatabase(bookingCode, custName, custPhone, custEmail, resDate, timeSlot, guestCount, tableNum, specialRequest);
+        bool saved = SaveReservationToDatabase(bookingCode, custName, custPhone, custEmail, resDate, timeSlot, guestCount, tableNum, specialRequest, userId);
 
         if (saved)
         {
@@ -241,6 +248,14 @@ public partial class TableReservation : System.Web.UI.Page
             litVouchDateTime.Text = resDate.ToString("dd MMM yyyy") + " @ " + timeSlot;
             litVouchTableGuests.Text = "Table " + tableNum + " (" + guestCount + " Guests)";
             litVouchGuestName.Text = custName + " (" + custPhone + ")";
+
+            // Send real-time notification to all connected admin panels
+            var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
+            hubContext.Clients.All.receiveNotification(
+                "New table reservation: " + bookingCode +
+                " | Guest: " + custName +
+                " | Table: " + tableNum + " for " + guestCount + " guests"
+            );
 
             pnlReservationForm.Visible = false;
             pnlConfirmationVoucher.Visible = true;
@@ -253,7 +268,7 @@ public partial class TableReservation : System.Web.UI.Page
         }
     }
 
-    private bool SaveReservationToDatabase(string bookingCode, string custName, string custPhone, string custEmail, DateTime resDate, string timeSlot, int guestCount, string tableNum, string specialRequest)
+    private bool SaveReservationToDatabase(string bookingCode, string custName, string custPhone, string custEmail, DateTime resDate, string timeSlot, int guestCount, string tableNum, string specialRequest, int? userId)
     {
         if (string.IsNullOrEmpty(connectionString)) return false;
 
@@ -279,8 +294,16 @@ public partial class TableReservation : System.Web.UI.Page
                             TableNumber NVARCHAR(50) NULL,
                             SpecialRequest NVARCHAR(500) NULL,
                             Status NVARCHAR(50) NOT NULL DEFAULT 'Pending',
-                            CreatedDate DATETIME DEFAULT GETDATE()
+                            CreatedDate DATETIME DEFAULT GETDATE(),
+                            UserId INT NULL
                         );
+                    END
+                    ELSE
+                    BEGIN
+                        IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID('TableReservations') AND name = 'UserId')
+                        BEGIN
+                            ALTER TABLE TableReservations ADD UserId INT NULL;
+                        END
                     END";
 
                 using (SqlCommand cmdEnsure = new SqlCommand(ensureSql, con))
@@ -293,12 +316,12 @@ public partial class TableReservation : System.Web.UI.Page
                     INSERT INTO TableReservations (
                         BookingCode, CustomerName, CustomerPhone, CustomerEmail,
                         ReservationDate, TimeSlot, GuestCount, TableNumber,
-                        SpecialRequest, Status, CreatedDate
+                        SpecialRequest, Status, CreatedDate, UserId
                     )
                     VALUES (
                         @BookingCode, @CustomerName, @CustomerPhone, @CustomerEmail,
                         @ReservationDate, @TimeSlot, @GuestCount, @TableNumber,
-                        @SpecialRequest, 'Pending', GETDATE()
+                        @SpecialRequest, 'Pending', GETDATE(), @UserId
                     )";
 
                 using (SqlCommand cmd = new SqlCommand(insertSql, con))
@@ -312,6 +335,7 @@ public partial class TableReservation : System.Web.UI.Page
                     cmd.Parameters.AddWithValue("@GuestCount", guestCount);
                     cmd.Parameters.AddWithValue("@TableNumber", tableNum);
                     cmd.Parameters.AddWithValue("@SpecialRequest", string.IsNullOrEmpty(specialRequest) ? (object)DBNull.Value : specialRequest);
+                    cmd.Parameters.AddWithValue("@UserId", userId.HasValue ? (object)userId.Value : DBNull.Value);
 
                     cmd.ExecuteNonQuery();
                 }
