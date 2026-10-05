@@ -387,5 +387,6 @@
 
     <!-- Custom Admin Dashboard JS -->
     <script src="js/dashboard.js?v=3.0"></script>
+    <script src="../js/gmail-validation.js"></script>
 </body>
 </html>

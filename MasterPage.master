@@ -306,5 +306,6 @@
     <script src="js/script.js"></script>
     <script src="js/room.js?v=8.0"></script>
 
+    <script src="js/gmail-validation.js"></script>
 </body>
 </html>
