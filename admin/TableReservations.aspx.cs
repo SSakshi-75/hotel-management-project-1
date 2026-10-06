@@ -193,7 +193,22 @@ public partial class Admin_TableReservations : System.Web.UI.Page
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
                     con.Open();
-                    string query = "DELETE FROM TableReservations WHERE ReservationId = @ReservationId";
+                    string query = @"
+                        DECLARE @TNum NVARCHAR(50);
+                        SELECT @TNum = TableNumber FROM TableReservations WHERE ReservationId = @ReservationId;
+
+                        DELETE FROM TableReservations WHERE ReservationId = @ReservationId;
+
+                        IF @TNum IS NOT NULL AND NOT EXISTS (
+                            SELECT 1 FROM TableReservations 
+                            WHERE TableNumber = @TNum AND Status IN ('Pending', 'Confirmed', 'Seated')
+                        )
+                        BEGIN
+                            UPDATE RestaurantTables 
+                            SET TableStatus = 'Available' 
+                            WHERE TableNumber = @TNum AND TableStatus = 'Booked';
+                        END";
+
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@ReservationId", resId);
@@ -234,7 +249,34 @@ public partial class Admin_TableReservations : System.Web.UI.Page
                     using (SqlConnection con = new SqlConnection(connectionString))
                     {
                         con.Open();
-                        string query = "UPDATE TableReservations SET Status = @Status WHERE ReservationId = @ReservationId";
+                        string query = @"
+                            UPDATE TableReservations SET Status = @Status WHERE ReservationId = @ReservationId;
+
+                            IF @Status IN ('Completed', 'Cancelled')
+                            BEGIN
+                                DECLARE @TableNum NVARCHAR(50);
+                                SELECT @TableNum = TableNumber FROM TableReservations WHERE ReservationId = @ReservationId;
+
+                                IF @TableNum IS NOT NULL AND NOT EXISTS (
+                                    SELECT 1 FROM TableReservations 
+                                    WHERE TableNumber = @TableNum 
+                                      AND ReservationId != @ReservationId
+                                      AND Status IN ('Pending', 'Confirmed', 'Seated')
+                                )
+                                BEGIN
+                                    UPDATE RestaurantTables 
+                                    SET TableStatus = 'Available' 
+                                    WHERE TableNumber = @TableNum AND TableStatus = 'Booked';
+                                END
+                            END
+                            ELSE IF @Status IN ('Confirmed', 'Seated', 'Pending')
+                            BEGIN
+                                UPDATE RestaurantTables 
+                                SET TableStatus = 'Booked' 
+                                WHERE TableNumber = (SELECT TableNumber FROM TableReservations WHERE ReservationId = @ReservationId)
+                                  AND TableStatus = 'Available';
+                            END";
+
                         using (SqlCommand cmd = new SqlCommand(query, con))
                         {
                             cmd.Parameters.AddWithValue("@Status", newStatus);

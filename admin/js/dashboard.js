@@ -377,7 +377,7 @@ function highlightActiveSidebarMenu() {
     links.forEach(function (l) { l.classList.remove('active'); });
 
     // Sort links by href length descending so specific query string links match first
-    links.sort(function(a, b) {
+    links.sort(function (a, b) {
         return (b.getAttribute('href') || '').length - (a.getAttribute('href') || '').length;
     });
 
@@ -510,7 +510,7 @@ function clearAllNotifications() {
 document.addEventListener('DOMContentLoaded', function () {
     if (window.jQuery && $.connection && $.connection.notificationHub) {
         var notifHub = $.connection.notificationHub;
-        
+
         notifHub.client.receiveNotification = function (message) {
             var notifList = document.getElementById('notificationList');
             var noNotif = document.getElementById('noNotifications');
@@ -542,7 +542,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>
                 </div>
             `;
-            
+
             if (notifList) {
                 notifList.insertAdjacentHTML('afterbegin', newNotifHtml);
             }

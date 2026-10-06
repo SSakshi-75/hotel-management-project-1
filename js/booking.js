@@ -12,6 +12,7 @@ var bookingState = {
     ratePlan: 'Room Only',
     ratePerNight: 0,
     baseRoomPrice: 0,
+    gstPercent: 18,
     nights: 0,
     checkIn: '',
     checkOut: '',
@@ -131,6 +132,7 @@ function selectBookingRoomCard(title, price, el) {
         bookingState.room = '';
         bookingState.baseRoomPrice = 0;
         bookingState.ratePerNight = 0;
+        bookingState.gstPercent = 18;
 
         // Reset hidden select
         var select = document.getElementById('bookingRoomSelect');
@@ -152,6 +154,13 @@ function selectBookingRoomCard(title, price, el) {
     if (el) {
         el.classList.add('active');
         bookingState.roomId = parseInt(el.getAttribute('data-roomid')) || 0;
+        var cardGst = el.getAttribute('data-gst');
+        if (cardGst !== null && cardGst !== '') {
+            var parsedGst = parseFloat(cardGst);
+            bookingState.gstPercent = !isNaN(parsedGst) ? parsedGst : 18;
+        } else {
+            bookingState.gstPercent = 18;
+        }
     }
 
     currentAppliedOffer = null;
@@ -232,7 +241,8 @@ function updateBookingSummary() {
 
     // Actual pricing calculation
     var roomPrice = bookingState.ratePerNight * nights * roomsCount;
-    var gst = Math.round(roomPrice * 0.18);
+    var gstRate = (typeof bookingState.gstPercent === 'number' && !isNaN(bookingState.gstPercent) && bookingState.gstPercent >= 0) ? bookingState.gstPercent : 18;
+    var gst = Math.round(roomPrice * (gstRate / 100));
     var total = roomPrice + gst;
     var sym = currencySymbols[bookingState.currency] || '₹';
 
@@ -246,6 +256,7 @@ function updateBookingSummary() {
     var tblGuests = document.getElementById('sumTableGuests');
     var tblNights = document.getElementById('sumTableNights');
     var tblPrice = document.getElementById('sumTablePrice');
+    var tblGstLabel = document.getElementById('sumTableGstLabel');
     var tblTaxes = document.getElementById('sumTableTaxes');
     var tblTotal = document.getElementById('sumTableTotal');
 
@@ -258,6 +269,7 @@ function updateBookingSummary() {
     if (tblGuests) tblGuests.textContent = guestsFormatted;
     if (tblNights) tblNights.textContent = nights + (nights === 1 ? ' Night' : ' Nights');
     if (tblPrice) tblPrice.textContent = sym + roomPrice.toLocaleString();
+    if (tblGstLabel) tblGstLabel.textContent = 'GST (' + gstRate + '%)';
     if (tblTaxes) tblTaxes.textContent = sym + gst.toLocaleString();
     if (tblTotal) tblTotal.textContent = sym + total.toLocaleString();
 }
@@ -313,7 +325,8 @@ function handleOnlineBookingSubmit(e) {
     var roomsSel = document.getElementById('totalRooms');
     var roomsCount = roomsSel ? (parseInt(roomsSel.value) || 1) : 1;
     var baseStay = bookingState.ratePerNight * (bookingState.nights || 1) * roomsCount;
-    var taxes = Math.round(baseStay * 0.18);
+    var gstRate = (typeof bookingState.gstPercent === 'number' && !isNaN(bookingState.gstPercent) && bookingState.gstPercent >= 0) ? bookingState.gstPercent : 18;
+    var taxes = Math.round(baseStay * (gstRate / 100));
     var grandTotal = baseStay + taxes;
     var sym = currencySymbols[bookingState.currency] || '₹';
 
@@ -379,7 +392,7 @@ function handleOnlineBookingSubmit(e) {
             if (confStay) confStay.textContent = datesFormatted + ' (' + (bookingState.nights || 1) + ((bookingState.nights || 1) === 1 ? ' Night)' : ' Nights)');
             if (confGR) confGR.textContent = guestsFormatted;
             if (confReq) confReq.textContent = specialReq || 'None';
-            if (confBaseTax) confBaseTax.textContent = sym + baseStay.toLocaleString() + ' + ' + sym + taxes.toLocaleString() + ' GST';
+            if (confBaseTax) confBaseTax.textContent = sym + baseStay.toLocaleString() + ' + ' + sym + taxes.toLocaleString() + ' GST (' + gstRate + '%)';
             if (confTot) confTot.innerHTML = sym + grandTotal.toLocaleString();
 
             // Hide form, reveal booking confirmation voucher pass
@@ -421,6 +434,13 @@ document.addEventListener("DOMContentLoaded", function () {
     var roomIdParam = urlParams.get('RoomId') || urlParams.get('roomId');
     if (roomIdParam) {
         bookingState.roomId = parseInt(roomIdParam) || 0;
+    }
+    var gstParam = urlParams.get('gst');
+    if (gstParam !== null && gstParam !== '') {
+        var parsedGst = parseFloat(gstParam);
+        if (!isNaN(parsedGst)) {
+            bookingState.gstPercent = parsedGst;
+        }
     }
     var offerParam = urlParams.get('offer');
     var planParam = urlParams.get('plan');
@@ -543,6 +563,15 @@ document.addEventListener("DOMContentLoaded", function () {
             bookingState.baseRoomPrice = baseP;
             bookingState.ratePerNight = baseP;
 
+            var cardGst = matchedCard.getAttribute('data-gst');
+            if (cardGst !== null && cardGst !== '') {
+                var pGst = parseFloat(cardGst);
+                if (!isNaN(pGst)) bookingState.gstPercent = pGst;
+            } else if (gstParam !== null && gstParam !== '') {
+                var pParamGst = parseFloat(gstParam);
+                if (!isNaN(pParamGst)) bookingState.gstPercent = pParamGst;
+            }
+
             // Keep hidden select in sync
             var select = document.getElementById('bookingRoomSelect');
             if (select) {
@@ -558,6 +587,10 @@ document.addEventListener("DOMContentLoaded", function () {
             bookingState.room = roomParam;
             bookingState.baseRoomPrice = parseInt(priceParam) || 0;
             bookingState.ratePerNight = bookingState.baseRoomPrice;
+            if (gstParam !== null && gstParam !== '') {
+                var pParamGst = parseFloat(gstParam);
+                if (!isNaN(pParamGst)) bookingState.gstPercent = pParamGst;
+            }
         }
     }
 

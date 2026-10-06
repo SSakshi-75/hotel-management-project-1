@@ -104,17 +104,15 @@
                                         </div>
                                     </div>
 
-                                    <div class="room-price" data-aos="fade-up" data-aos-delay="550">
+                                    <div class="room-price d-flex align-items-center gap-2" data-aos="fade-up" data-aos-delay="550">
                                         <span class="price-amount" id="roomPrice">&#8377; <%#
                                                 Eval("PricePerNight", "{0:N0}" ) %></span>
                                         <span class="price-period">per night</span>
+                                        <%# GetRoomAvailabilityBadge(Eval("RoomStatus")) %>
                                     </div>
 
                                     <div data-aos="fade-up" data-aos-delay="600">
-                                        <a href='<%# GetBookNowUrl(Eval("RoomId"), Eval("RoomName"), Eval("PricePerNight")) %>'
-                                            class="btn btn-book-now">
-                                            <i class="bi bi-calendar-check me-2"></i> Book Now
-                                        </a>
+                                        <%# GetBookNowButtonHtml(Eval("RoomId"), Eval("RoomName"), Eval("PricePerNight"), Eval("RoomStatus"), Eval("GSTPercentage")) %>
                                     </div>
                                 </div>
                             </div>

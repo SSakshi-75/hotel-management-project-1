@@ -16,6 +16,7 @@ public partial class Admin_AddRoom : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
+            EnsureGSTColumnExists();
             PopulateRoomCategories();
 
             string reqRoomId = Request.QueryString["RoomId"] ?? Request.QueryString["id"];
@@ -104,6 +105,36 @@ public partial class Admin_AddRoom : System.Web.UI.Page
     }
 
     // ==========================================
+    // AUTO-ENSURE GST COLUMN IN ROOMS TABLE
+    // ==========================================
+    private void EnsureGSTColumnExists()
+    {
+        if (!string.IsNullOrEmpty(connectionString))
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    con.Open();
+                    string sql = @"
+                        IF NOT EXISTS (
+                            SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+                            WHERE TABLE_NAME = 'Rooms' AND COLUMN_NAME = 'GSTPercentage'
+                        )
+                        BEGIN
+                            ALTER TABLE Rooms ADD GSTPercentage NVARCHAR(50) NULL CONSTRAINT DF_Rooms_GSTPercentage DEFAULT '18';
+                        END";
+                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch { }
+        }
+    }
+
+    // ==========================================
     // SETUP ADD MODE (BLANK FORM)
     // ==========================================
     private void SetupAddMode()
@@ -114,6 +145,10 @@ public partial class Admin_AddRoom : System.Web.UI.Page
         lblBadge.InnerText = "Room Entry Form";
         btnSaveRoom.Text = "Save & Publish Room";
         reqStarMainImg.Visible = true;
+        txtPrice.Text = "";
+        if (ddlGST != null && ddlGST.Items.FindByValue("12") != null) ddlGST.SelectedValue = "12";
+        hfGstMode.Value = "auto";
+        CalculateGSTServerSide();
     }
 
     // ==========================================
@@ -161,7 +196,30 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                             }
                             txtNewCategory.Value = "";
 
-                            txtPrice.Value = dr["PricePerNight"] != DBNull.Value ? dr["PricePerNight"].ToString() : "";
+                            txtPrice.Text = dr["PricePerNight"] != DBNull.Value ? dr["PricePerNight"].ToString() : "";
+
+                            string gstVal = dr["GSTPercentage"] != DBNull.Value ? dr["GSTPercentage"].ToString().Trim().Replace("%", "") : "12";
+                            if (string.IsNullOrEmpty(gstVal)) gstVal = "12";
+
+                            if (ddlGST != null)
+                            {
+                                if (ddlGST.Items.FindByValue(gstVal) != null)
+                                {
+                                    ddlGST.SelectedValue = gstVal;
+                                }
+                                else
+                                {
+                                    ddlGST.Items.Insert(0, new System.Web.UI.WebControls.ListItem(gstVal + "%", gstVal));
+                                    ddlGST.SelectedValue = gstVal;
+                                }
+                            }
+
+                            decimal parsedBase;
+                            decimal.TryParse(txtPrice.Text, out parsedBase);
+                            string expectedAuto = (parsedBase > 7500) ? "18" : "12";
+                            hfGstMode.Value = (gstVal != expectedAuto && parsedBase > 0) ? "manual" : "auto";
+
+                            CalculateGSTServerSide();
                             txtBadge.Value = dr["CategoryBadge"] != DBNull.Value ? dr["CategoryBadge"].ToString() : "";
                             txtRating.Value = dr["Rating"] != DBNull.Value ? dr["Rating"].ToString() : "";
                             txtMaxAdults.Value = dr["MaxGuests"] != DBNull.Value ? dr["MaxGuests"].ToString() : "";
@@ -283,7 +341,20 @@ public partial class Admin_AddRoom : System.Web.UI.Page
         {
             roomCategory = txtNewCategory.Value.Trim().ToUpper();
         }
-        string pricePerNight = txtPrice.Value.Trim();
+        string pricePerNight = txtPrice.Text.Trim();
+        string gstPercentage = (ddlGST != null && !string.IsNullOrEmpty(ddlGST.SelectedValue)) ? ddlGST.SelectedValue.Trim() : "12";
+        if (string.IsNullOrEmpty(gstPercentage) || gstPercentage == "auto")
+        {
+            decimal parsedP;
+            if (decimal.TryParse(pricePerNight, out parsedP) && parsedP > 7500)
+            {
+                gstPercentage = "18";
+            }
+            else
+            {
+                gstPercentage = "12";
+            }
+        }
         string categoryBadge = txtBadge.Value.Trim();
         string rating = txtRating.Value.Trim();
         string maxGuests = txtMaxAdults.Value.Trim();
@@ -429,6 +500,7 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                             RoomName = @RoomName,
                             RoomCategory = @RoomCategory,
                             PricePerNight = @PricePerNight,
+                            GSTPercentage = @GSTPercentage,
                             CategoryBadge = @CategoryBadge,
                             Rating = @Rating,
                             MaxGuests = @MaxGuests,
@@ -456,7 +528,7 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                     using (SqlCommand cmd = new SqlCommand(updateQuery, con))
                     {
                         cmd.Parameters.AddWithValue("@RoomID", roomId);
-                        BindCommandParameters(cmd, roomName, roomCategory, pricePerNight, categoryBadge, rating,
+                        BindCommandParameters(cmd, roomName, roomCategory, pricePerNight, gstPercentage, categoryBadge, rating,
                             maxGuests, roomArea, viewType, primaryRoomImage, shortDescription, keyAmenities,
                             headerBadge, headerTitle, headerSubtitle, headerImage, fullOverview, highlights,
                             galleryImage1, galleryImage2, galleryImage3, galleryImage4, reviewQuote, reviewAuthor);
@@ -503,6 +575,7 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                             RoomName,
                             RoomCategory,
                             PricePerNight,
+                            GSTPercentage,
                             CategoryBadge,
                             Rating,
                             MaxGuests,
@@ -531,6 +604,7 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                             @RoomName,
                             @RoomCategory,
                             @PricePerNight,
+                            @GSTPercentage,
                             @CategoryBadge,
                             @Rating,
                             @MaxGuests,
@@ -557,7 +631,7 @@ public partial class Admin_AddRoom : System.Web.UI.Page
 
                     using (SqlCommand cmd = new SqlCommand(insertQuery, con))
                     {
-                        BindCommandParameters(cmd, roomName, roomCategory, pricePerNight, categoryBadge, rating,
+                        BindCommandParameters(cmd, roomName, roomCategory, pricePerNight, gstPercentage, categoryBadge, rating,
                             maxGuests, roomArea, viewType, primaryRoomImage, shortDescription, keyAmenities,
                             headerBadge, headerTitle, headerSubtitle, headerImage, fullOverview, highlights,
                             galleryImage1, galleryImage2, galleryImage3, galleryImage4, reviewQuote, reviewAuthor);
@@ -585,7 +659,7 @@ public partial class Admin_AddRoom : System.Web.UI.Page
     // HELPER: BIND PARAMETERS TO SQL COMMAND
     // ==========================================
     private void BindCommandParameters(SqlCommand cmd, string roomName, string roomCategory, string pricePerNight,
-        string categoryBadge, string rating, string maxGuests, string roomArea, string viewType,
+        string gstPercentage, string categoryBadge, string rating, string maxGuests, string roomArea, string viewType,
         string primaryRoomImage, string shortDescription, string keyAmenities, string headerBadge,
         string headerTitle, string headerSubtitle, string headerImage, string fullOverview,
         string highlights, string galleryImage1, string galleryImage2, string galleryImage3,
@@ -594,6 +668,7 @@ public partial class Admin_AddRoom : System.Web.UI.Page
         cmd.Parameters.AddWithValue("@RoomName", roomName ?? "");
         cmd.Parameters.AddWithValue("@RoomCategory", roomCategory ?? "");
         cmd.Parameters.AddWithValue("@PricePerNight", pricePerNight ?? "");
+        cmd.Parameters.AddWithValue("@GSTPercentage", string.IsNullOrEmpty(gstPercentage) ? "18" : gstPercentage);
         cmd.Parameters.AddWithValue("@CategoryBadge", categoryBadge ?? "");
         cmd.Parameters.AddWithValue("@Rating", rating ?? "");
         cmd.Parameters.AddWithValue("@MaxGuests", maxGuests ?? "");
@@ -622,5 +697,97 @@ public partial class Admin_AddRoom : System.Web.UI.Page
     {
         pnlErrorMessage.Visible = true;
         lblErrorMessage.Text = message;
+    }
+
+    // ==========================================
+    // ASP.NET SERVER CONTROL GST PROCESSING
+    // ==========================================
+    protected void txtPrice_TextChanged(object sender, EventArgs e)
+    {
+        decimal price;
+        if (decimal.TryParse(txtPrice.Text.Trim(), out price) && price > 0)
+        {
+            if (hfGstMode.Value != "manual")
+            {
+                string autoRate = price > 7500 ? "18" : "12";
+                if (ddlGST.Items.FindByValue(autoRate) != null)
+                {
+                    ddlGST.SelectedValue = autoRate;
+                }
+            }
+        }
+        CalculateGSTServerSide();
+    }
+
+    protected void ddlGST_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        decimal price;
+        decimal.TryParse(txtPrice.Text.Trim(), out price);
+        string selectedRate = ddlGST.SelectedValue;
+        string autoRate = (price > 7500) ? "18" : "12";
+
+        if (selectedRate == autoRate)
+        {
+            hfGstMode.Value = "auto";
+        }
+        else
+        {
+            hfGstMode.Value = "manual";
+        }
+
+        CalculateGSTServerSide();
+    }
+
+    private void CalculateGSTServerSide()
+    {
+        decimal price = 0;
+        decimal.TryParse(txtPrice.Text.Trim(), out price);
+        if (price < 0) price = 0;
+
+        decimal rate = 12;
+        decimal.TryParse(ddlGST.SelectedValue, out rate);
+
+        bool isAuto = (hfGstMode.Value != "manual");
+
+        if (isAuto)
+        {
+            rate = (price > 7500) ? 18 : 12;
+            if (ddlGST.Items.FindByValue(rate.ToString()) != null)
+            {
+                ddlGST.SelectedValue = rate.ToString();
+            }
+        }
+
+        decimal gstAmount = Math.Round(price * (rate / 100m), 2);
+        decimal totalAmount = Math.Round(price + gstAmount, 2);
+
+        txtTotalPriceWithGST.Text = price > 0 ? totalAmount.ToString("N0") : "0";
+
+        // Update Breakdown Labels
+        lblBrkBasePrice.Text = price > 0 ? price.ToString("N0") : "0";
+        lblBrkGstRate.Text = rate.ToString() + "%";
+        lblBrkGstAmount.Text = price > 0 ? gstAmount.ToString("N0") : "0";
+        lblBrkTotalAmount.Text = price > 0 ? totalAmount.ToString("N0") : "0";
+
+        if (isAuto)
+        {
+            pnlGstAutoBadge.Style["background-color"] = "#eaf6ec";
+            pnlGstAutoBadge.Style["border-color"] = "#d4eed9";
+            litBadgeIcon.Text = "<i class=\"bi bi-check-circle-fill text-success mt-0.5\" style=\"font-size: 0.95rem;\"></i>";
+            lblAutoBadgeTitle.ForeColor = System.Drawing.ColorTranslator.FromHtml("#1e6b37");
+            lblAutoBadgeTitle.Text = "Automatically set based on price";
+            lblAutoBadgeDesc.Text = (price > 7500) ? "(Above ₹7,500 = 18%)" : "(₹7,500 or below = 12%)";
+            lblBrkGstRateSub.Text = (price > 7500) ? "(Above ₹7,500)" : "(₹7,500 or below)";
+        }
+        else
+        {
+            pnlGstAutoBadge.Style["background-color"] = "#f0f7fe";
+            pnlGstAutoBadge.Style["border-color"] = "#d4e8f8";
+            litBadgeIcon.Text = "<i class=\"bi bi-sliders text-primary mt-0.5\" style=\"font-size: 0.95rem;\"></i>";
+            lblAutoBadgeTitle.ForeColor = System.Drawing.ColorTranslator.FromHtml("#0d47a1");
+            lblAutoBadgeTitle.Text = "Manual rate: " + rate + "%";
+            lblAutoBadgeDesc.Text = "Custom override applied";
+            lblBrkGstRateSub.Text = "(Manual Override)";
+        }
     }
 }

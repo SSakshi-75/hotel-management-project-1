@@ -2,6 +2,7 @@ using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -114,7 +115,7 @@ public partial class Admin_RestaurantTables : System.Web.UI.Page
 
                                 totalCount++;
                                 if (string.Equals(status, "Available", StringComparison.OrdinalIgnoreCase)) availableCount++;
-                                else if (string.Equals(status, "Reserved", StringComparison.OrdinalIgnoreCase)) reservedCount++;
+                                else if (string.Equals(status, "Booked", StringComparison.OrdinalIgnoreCase) || string.Equals(status, "Reserved", StringComparison.OrdinalIgnoreCase)) reservedCount++;
                                 else if (string.Equals(status, "Blocked", StringComparison.OrdinalIgnoreCase)) blockedCount++;
                             }
                         }
@@ -147,6 +148,10 @@ public partial class Admin_RestaurantTables : System.Web.UI.Page
         {
             return "<span class=\"status-badge-available\"><i class=\"bi bi-circle-fill\" style=\"font-size: 0.55rem;\"></i> Available</span>";
         }
+        else if (string.Equals(status, "Booked", StringComparison.OrdinalIgnoreCase))
+        {
+            return "<span class=\"status-badge-booked\"><i class=\"bi bi-x-circle-fill text-danger\" style=\"font-size: 0.75rem;\"></i> Booked</span>";
+        }
         else if (string.Equals(status, "Reserved", StringComparison.OrdinalIgnoreCase))
         {
             return "<span class=\"status-badge-reserved\"><i class=\"bi bi-circle-fill\" style=\"font-size: 0.55rem;\"></i> Reserved</span>";
@@ -155,7 +160,7 @@ public partial class Admin_RestaurantTables : System.Web.UI.Page
         {
             return "<span class=\"status-badge-blocked\"><i class=\"bi bi-circle-fill\" style=\"font-size: 0.55rem;\"></i> Blocked</span>";
         }
-        return "<span class=\"badge bg-secondary\">" + status + "</span>";
+        return "<span class=\"badge bg-secondary\">" + HttpUtility.HtmlEncode(status) + "</span>";
     }
 
     // ==========================================

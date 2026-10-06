@@ -1,6 +1,7 @@
 /**
  * Add / Edit Room Admin Page JavaScript
  * Location: admin/js/addroom.js
+ * Note: GST processing is handled server-side via ASP.NET Controls (UpdatePanel & Code-Behind).
  */
 
 function previewUploadedImage(fileInput, targetInputId, previewImgId) {
@@ -40,7 +41,7 @@ function resetForm() {
     });
 
     if (window.showAdminToast) {
-        window.showAdminToast('Form Cleared', 'All basic room and room detail fields have been reset.', 'bi-arrow-counterclockwise text-primary');
+        window.showAdminToast('Form Cleared', 'All fields have been reset.', 'bi-arrow-counterclockwise text-primary');
     }
 }
 

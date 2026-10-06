@@ -36,6 +36,7 @@
     </asp:Content>
 
     <asp:Content ID="Content2" ContentPlaceHolderID="AdminContent" Runat="Server">
+        <asp:ScriptManager ID="smGst" runat="server" EnablePartialRendering="true"></asp:ScriptManager>
 
         <!-- Hidden Field for Room ID -->
         <asp:HiddenField ID="hdnRoomId" runat="server" Value="0" />
@@ -143,16 +144,171 @@
                             style="display:none;" />
                     </div>
 
-                    <!-- 2. Price & Rating -->
-                    <div class="col-md-4">
-                        <label class="form-label-custom" for="txtPrice">Price Per Night (&#8377;) <span
-                                class="text-danger">*</span></label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-light fw-bold border-end-0">&#8377;</span>
-                            <input type="number" id="txtPrice" runat="server" ClientIDMode="Static"
-                                class="form-control form-control-admin border-start-0 ps-1" placeholder="e.g. 8500" />
-                        </div>
-                    </div>
+                    <!-- ==========================================
+                         PRICING & TAX DETAILS (ASP.NET SERVER CONTROLS)
+                         ========================================== -->
+                    <asp:UpdatePanel ID="updPricingGST" runat="server" UpdateMode="Conditional">
+                        <ContentTemplate>
+                            <div class="col-12 mt-2">
+                                <div class="d-flex align-items-center gap-3 mb-1">
+                                    <div style="width: 44px; height: 44px; border-radius: 10px; background-color: #98693c; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 1.35rem; flex-shrink: 0; box-shadow: 0 2px 6px rgba(152,105,60,0.25);">
+                                        <i class="bi bi-coin"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="fw-bold text-dark mb-0" style="font-family: inherit; font-size: 1.2rem; letter-spacing: -0.2px;">Pricing &amp; Tax Details</h5>
+                                        <p class="text-muted small mb-0">Set the room price and GST will be calculated automatically based on Indian hotel GST rules.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Top Row: Price, GST Rate & Total + Info Card -->
+                            <div class="col-12 mt-3">
+                                <div class="row g-3">
+                                    <!-- Left: 3 Controls (Price, GST Rate, Total Price) -->
+                                    <div class="col-lg-8">
+                                        <div class="row g-3">
+                                            <!-- 1. Price Per Night -->
+                                            <div class="col-md-4">
+                                                <label class="form-label-custom" for="txtPrice">Price Per Night (&#8377;) <span class="text-danger">*</span></label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text bg-white border-end-0 text-muted" style="border-radius: 8px 0 0 8px; border-color: #dee2e6;">
+                                                        <i class="bi bi-wallet2"></i>
+                                                    </span>
+                                                    <asp:TextBox ID="txtPrice" runat="server" ClientIDMode="Static"
+                                                        CssClass="form-control form-control-admin border-start-0 ps-1"
+                                                        placeholder="5500" TextMode="Number"
+                                                        style="border-radius: 0 8px 8px 0; border-color: #dee2e6; height: 48px;"
+                                                        AutoPostBack="true" OnTextChanged="txtPrice_TextChanged"></asp:TextBox>
+                                                </div>
+                                                <div class="text-muted small mt-1" style="font-size: 0.76rem;">
+                                                    Enter the base price per night (excluding GST).
+                                                </div>
+                                            </div>
+
+                                            <!-- 2. GST Rate (Auto) -->
+                                            <div class="col-md-4">
+                                                <label class="form-label-custom d-flex align-items-center gap-1" for="ddlGST">
+                                                    GST Rate (Auto) <span class="text-danger">*</span>
+                                                    <i class="bi bi-info-circle-fill text-secondary ms-1" style="font-size: 0.8rem; cursor: help;" title="Indian Hotel GST Slab Rules: 12% if &#8804; ₹7,500; 18% if &gt; ₹7,500"></i>
+                                                </label>
+                                                <asp:DropDownList ID="ddlGST" runat="server" ClientIDMode="Static"
+                                                    CssClass="form-select form-select-admin"
+                                                    style="height: 48px; border-radius: 8px; border-color: #dee2e6;"
+                                                    AutoPostBack="true" OnSelectedIndexChanged="ddlGST_SelectedIndexChanged">
+                                                    <asp:ListItem Text="12%" Value="12"></asp:ListItem>
+                                                    <asp:ListItem Text="18%" Value="18"></asp:ListItem>
+                                                    <asp:ListItem Text="0%" Value="0"></asp:ListItem>
+                                                    <asp:ListItem Text="5%" Value="5"></asp:ListItem>
+                                                    <asp:ListItem Text="28%" Value="28"></asp:ListItem>
+                                                </asp:DropDownList>
+                                                <asp:HiddenField ID="hfGstMode" runat="server" ClientIDMode="Static" Value="auto" />
+
+                                                <!-- Green Auto Status Badge -->
+                                                <asp:Panel ID="pnlGstAutoBadge" runat="server" ClientIDMode="Static"
+                                                    CssClass="mt-2 p-2 rounded-2 d-flex align-items-start gap-2"
+                                                    style="background-color: #eaf6ec; border: 1px solid #d4eed9;">
+                                                    <asp:Literal ID="litBadgeIcon" runat="server" Text="<i class='bi bi-check-circle-fill text-success mt-0.5' style='font-size: 0.95rem;'></i>"></asp:Literal>
+                                                    <div style="font-size: 0.77rem; line-height: 1.35; color: #1e6b37;">
+                                                        <asp:Label ID="lblAutoBadgeTitle" runat="server" ClientIDMode="Static" CssClass="fw-semibold d-block" Text="Automatically set based on price"></asp:Label>
+                                                        <asp:Label ID="lblAutoBadgeDesc" runat="server" ClientIDMode="Static" CssClass="text-secondary" style="font-size: 0.73rem;" Text="(&#8377;7,500 or below = 12%)"></asp:Label>
+                                                    </div>
+                                                </asp:Panel>
+                                            </div>
+
+                                            <!-- 3. Total Price Per Night (Incl. GST) -->
+                                            <div class="col-md-4">
+                                                <label class="form-label-custom" for="txtTotalPriceWithGST">Total Price Per Night (Incl. GST)</label>
+                                                <div class="d-flex align-items-center px-3 rounded-2"
+                                                    style="background-color: #faf4ec; border: 1px solid #ebdccb; height: 48px;">
+                                                    <span class="fs-4 fw-bold me-2" style="color: #4a3319;">&#8377;</span>
+                                                    <asp:TextBox ID="txtTotalPriceWithGST" runat="server" ClientIDMode="Static"
+                                                        ReadOnly="true" CssClass="form-control-plaintext p-0 fw-bold fs-4"
+                                                        Text="0" style="outline: none; box-shadow: none; border: none; background: transparent; color: #231b14;"></asp:TextBox>
+                                                </div>
+                                                <div class="text-muted small mt-1" style="font-size: 0.76rem;">
+                                                    Auto-calculated: Base Price + GST
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Right: Info Card for Indian Hotel GST Rules -->
+                                    <div class="col-lg-4">
+                                        <div class="p-3 rounded-3 h-100 d-flex flex-column justify-content-between" style="background-color: #f0f7fe; border: 1px solid #d4e8f8;">
+                                            <div>
+                                                <div class="d-flex align-items-center gap-2 mb-2">
+                                                    <i class="bi bi-info-circle-fill text-primary" style="font-size: 0.95rem;"></i>
+                                                    <span class="fw-bold text-primary-emphasis" style="font-size: 0.88rem;">GST Rate for Hotel Rooms</span>
+                                                </div>
+                                                <div class="small mb-2" style="font-size: 0.8rem; color: #334155;">
+                                                    <div class="text-muted mb-1">As per GST rules (India):</div>
+                                                    <div class="d-flex align-items-center gap-2 mb-1">
+                                                        <span class="text-secondary">&bull;</span>
+                                                        <span>&#8377;7,500 or below</span>
+                                                        <span class="text-muted">&rarr;</span>
+                                                        <span class="fw-bold text-dark">12%</span>
+                                                    </div>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <span class="text-secondary">&bull;</span>
+                                                        <span>Above &#8377;7,500</span>
+                                                        <span class="text-muted">&rarr;</span>
+                                                        <span class="fw-bold text-dark">18%</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-muted small pt-2 border-top" style="font-size: 0.75rem; line-height: 1.35; border-color: rgba(208, 231, 248, 0.8) !important;">
+                                                GST is automatically calculated based on the room price. You can manually override if needed.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- GST Breakdown Card (Full Width) -->
+                            <div class="col-12 mt-3">
+                                <div class="p-3 rounded-3" style="background-color: #ffffff; border: 1px solid #ebdccb; box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
+                                    <div class="d-flex align-items-center gap-2 mb-3">
+                                        <div style="width: 26px; height: 26px; border-radius: 6px; background-color: #98693c; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.85rem;">
+                                            <i class="bi bi-file-earmark-text"></i>
+                                        </div>
+                                        <span class="fw-bold text-dark" style="font-size: 0.95rem;">GST Breakdown</span>
+                                    </div>
+                                    <div class="row g-3 align-items-center">
+                                        <!-- Col 1: Base Tariff -->
+                                        <div class="col-6 col-md-3">
+                                            <div class="text-muted small mb-1" style="font-size: 0.78rem;">Base Tariff (Price per Night)</div>
+                                            <div class="d-flex align-items-baseline gap-1">
+                                                <span class="fs-5 text-dark fw-bold">&#8377;</span>
+                                                <asp:Label ID="lblBrkBasePrice" runat="server" ClientIDMode="Static" CssClass="fs-4 fw-bold text-dark" Text="0"></asp:Label>
+                                            </div>
+                                        </div>
+                                        <!-- Col 2: GST Rate -->
+                                        <div class="col-6 col-md-3 border-start ps-3 ps-md-4">
+                                            <div class="text-muted small mb-1" style="font-size: 0.78rem;">GST Rate</div>
+                                            <asp:Label ID="lblBrkGstRate" runat="server" ClientIDMode="Static" CssClass="fs-4 fw-bold text-dark" Text="12%"></asp:Label>
+                                            <asp:Label ID="lblBrkGstRateSub" runat="server" ClientIDMode="Static" CssClass="text-muted d-block" style="font-size: 0.74rem;" Text="(&#8377;7,500 or below)"></asp:Label>
+                                        </div>
+                                        <!-- Col 3: GST Amount -->
+                                        <div class="col-6 col-md-3 border-start ps-3 ps-md-4">
+                                            <div class="text-muted small mb-1" style="font-size: 0.78rem;">GST Amount</div>
+                                            <div class="d-flex align-items-baseline gap-1">
+                                                <span class="fs-5 text-dark fw-bold">&#8377;</span>
+                                                <asp:Label ID="lblBrkGstAmount" runat="server" ClientIDMode="Static" CssClass="fs-4 fw-bold text-dark" Text="0"></asp:Label>
+                                            </div>
+                                        </div>
+                                        <!-- Col 4: Total Amount (Incl. GST) -->
+                                        <div class="col-6 col-md-3 border-start ps-3 ps-md-4">
+                                            <div class="text-muted small mb-1" style="font-size: 0.78rem;">Total Amount (Incl. GST)</div>
+                                            <div class="d-flex align-items-baseline gap-1">
+                                                <span class="fs-5 text-dark fw-bold">&#8377;</span>
+                                                <asp:Label ID="lblBrkTotalAmount" runat="server" ClientIDMode="Static" CssClass="fs-4 fw-bold text-dark" Text="0"></asp:Label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
 
                     <div class="col-md-4">
                         <label class="form-label-custom" for="txtBadge">Category Badge Tag</label>

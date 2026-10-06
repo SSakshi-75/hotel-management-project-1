@@ -105,7 +105,7 @@
                                         <option value="" disabled selected>Choose a room...</option>
                                         <asp:Repeater ID="rptBookingRoomSelectOptions" runat="server">
                                             <ItemTemplate>
-                                                <option value='<%# Eval("PricePerNight") %>'>
+                                                <option value='<%# Eval("PricePerNight") %>' data-gst='<%# Eval("GSTPercentage") %>'>
                                                     <%# Eval("RoomName") %> (&#8377; <%#
                                                             GetFormattedPrice(Eval("PricePerNight")) %>/night)
                                                 </option>
@@ -119,6 +119,7 @@
                                                 <div class="booking-room-pick-card" data-room='<%# Eval("RoomName") %>'
                                                     data-price='<%# Eval("PricePerNight") %>'
                                                     data-roomid='<%# Eval("RoomID") %>'
+                                                    data-gst='<%# Eval("GSTPercentage") %>'
                                                     onclick="selectBookingRoomCard(this)">
                                                     <div class="room-pick-check-icon"><i class="bi bi-check-lg"></i>
                                                     </div>
@@ -250,8 +251,7 @@
                                             <strong id="sumTablePrice" class="text-dark">--</strong>
                                         </div>
                                         <div class="summary-data-row">
-                                            <span class="text-muted"><i class="bi bi-percent me-2 text-gold"></i>GST
-                                                (18%)</span>
+                                            <span class="text-muted"><i class="bi bi-percent me-2 text-gold"></i><span id="sumTableGstLabel">GST (18%)</span></span>
                                             <strong id="sumTableTaxes" class="text-dark">--</strong>
                                         </div>
                                         <div class="summary-data-row total-row">

@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             var curHref = bookNowBtn.getAttribute('href') || 'Booking.aspx';
             var btnUrl = new URL(curHref, window.location.origin);
-            var keys = ['RoomId', 'roomId', 'room', 'title', 'price', 'checkIn', 'checkOut', 'adults', 'guests'];
+            var keys = ['RoomId', 'roomId', 'room', 'title', 'price', 'checkIn', 'checkOut', 'adults', 'guests', 'gst'];
             keys.forEach(function (k) {
                 var v = urlParams.get(k);
                 if (v && !btnUrl.searchParams.has(k)) {

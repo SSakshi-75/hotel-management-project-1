@@ -2,6 +2,7 @@ using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Web;
 using System.Web.UI;
 using Microsoft.AspNet.SignalR;
 
@@ -72,15 +73,43 @@ public partial class TableReservation : System.Web.UI.Page
                         cmdInit.ExecuteNonQuery();
                     }
 
-                    // Only select active tables added by admin
+                    // Selected reservation date
+                    DateTime selectedDate = DateTime.Today;
+                    if (txtResDate != null && !string.IsNullOrEmpty(txtResDate.Value))
+                    {
+                        DateTime.TryParse(txtResDate.Value, out selectedDate);
+                    }
+
+                    // Select tables with live TableStatus or active TableReservations for selected date
                     string query = @"
-                        SELECT TableId, TableNumber, TableName, Capacity, Section, Location, Floor, TableStatus, IsActive
-                        FROM RestaurantTables
-                        WHERE IsActive = 1
-                        ORDER BY TableNumber ASC";
+                        SELECT 
+                            T.TableId, 
+                            T.TableNumber, 
+                            T.TableName, 
+                            T.Capacity, 
+                            T.Section, 
+                            T.Location, 
+                            T.Floor,
+                            CASE 
+                                WHEN T.TableStatus IN ('Blocked', 'Maintenance') THEN T.TableStatus
+                                WHEN T.TableStatus IN ('Booked', 'Occupied') THEN 'Booked'
+                                WHEN EXISTS (
+                                    SELECT 1 
+                                    FROM TableReservations TR 
+                                    WHERE TR.TableNumber = T.TableNumber 
+                                      AND CAST(TR.ReservationDate AS DATE) = @SelectedDate
+                                      AND TR.Status IN ('Pending', 'Confirmed', 'Seated')
+                                ) THEN 'Booked'
+                                ELSE ISNULL(T.TableStatus, 'Available')
+                            END AS TableStatus,
+                            T.IsActive
+                        FROM RestaurantTables T
+                        WHERE T.IsActive = 1
+                        ORDER BY T.TableNumber ASC";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
+                        cmd.Parameters.AddWithValue("@SelectedDate", selectedDate.Date);
                         using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                         {
                             da.Fill(dt);
@@ -124,20 +153,25 @@ public partial class TableReservation : System.Web.UI.Page
     // ==========================================
     public string GetTableStatusBadge(object tableStatusObj)
     {
-        string status = tableStatusObj != null ? tableStatusObj.ToString() : "";
+        string status = tableStatusObj != null ? tableStatusObj.ToString().Trim() : "";
         if (string.Equals(status, "Available", StringComparison.OrdinalIgnoreCase))
         {
-            return "<span class=\"status-pill-available\">Available</span>";
+            return "<span class=\"status-pill-available\"><i class=\"bi bi-check-circle-fill me-1\"></i> Available</span>";
+        }
+        else if (string.Equals(status, "Booked", StringComparison.OrdinalIgnoreCase) ||
+                 string.Equals(status, "Occupied", StringComparison.OrdinalIgnoreCase))
+        {
+            return "<span class=\"status-pill-booked\"><i class=\"bi bi-x-circle-fill text-danger me-1\"></i> Booked</span>";
         }
         else if (string.Equals(status, "Reserved", StringComparison.OrdinalIgnoreCase))
         {
-            return "<span class=\"status-pill-reserved\">Reserved</span>";
+            return "<span class=\"status-pill-reserved\"><i class=\"bi bi-clock-fill me-1\"></i> Reserved</span>";
         }
         else if (string.Equals(status, "Blocked", StringComparison.OrdinalIgnoreCase))
         {
-            return "<span class=\"status-pill-blocked\">Blocked</span>";
+            return "<span class=\"status-pill-blocked\"><i class=\"bi bi-slash-circle me-1\"></i> Blocked</span>";
         }
-        return "<span class=\"badge bg-secondary\">" + status + "</span>";
+        return "<span class=\"badge bg-secondary\">" + HttpUtility.HtmlEncode(status) + "</span>";
     }
 
     public string GetTableCardClass(object tableStatusObj)
@@ -240,6 +274,19 @@ public partial class TableReservation : System.Web.UI.Page
             userId = Convert.ToInt32(Session["UserId"]);
         }
 
+        // Prevent double-booking: verify table availability in database
+        if (!IsTableAvailableForReservation(tableNum, resDate))
+        {
+            ClientScript.RegisterStartupScript(
+                this.GetType(),
+                "TableAlreadyBookedAlert",
+                "alert('Table " + Server.HtmlEncode(tableNum) + " is already Booked for the selected date. Please choose another table.');",
+                true
+            );
+            LoadAvailableTables();
+            return;
+        }
+
         bool saved = SaveReservationToDatabase(bookingCode, custName, custPhone, custEmail, resDate, timeSlot, guestCount, tableNum, specialRequest, userId);
 
         if (saved)
@@ -257,6 +304,7 @@ public partial class TableReservation : System.Web.UI.Page
                 " | Table: " + tableNum + " for " + guestCount + " guests"
             );
 
+            LoadAvailableTables();
             pnlReservationForm.Visible = false;
             pnlConfirmationVoucher.Visible = true;
 
@@ -311,7 +359,7 @@ public partial class TableReservation : System.Web.UI.Page
                     cmdEnsure.ExecuteNonQuery();
                 }
 
-                // Insert new table reservation
+                // Insert new table reservation and update table status to 'Booked'
                 string insertSql = @"
                     INSERT INTO TableReservations (
                         BookingCode, CustomerName, CustomerPhone, CustomerEmail,
@@ -322,7 +370,12 @@ public partial class TableReservation : System.Web.UI.Page
                         @BookingCode, @CustomerName, @CustomerPhone, @CustomerEmail,
                         @ReservationDate, @TimeSlot, @GuestCount, @TableNumber,
                         @SpecialRequest, 'Pending', GETDATE(), @UserId
-                    )";
+                    );
+
+                    -- Update RestaurantTables live status to 'Booked'
+                    UPDATE RestaurantTables 
+                    SET TableStatus = 'Booked' 
+                    WHERE TableNumber = @TableNumber;";
 
                 using (SqlCommand cmd = new SqlCommand(insertSql, con))
                 {
@@ -344,6 +397,86 @@ public partial class TableReservation : System.Web.UI.Page
             }
         }
         catch (Exception)
+        {
+            return false;
+        }
+    }
+
+    // ==========================================
+    // HELPER: VERIFY TABLE AVAILABILITY BEFORE RESERVING
+    // ==========================================
+    private bool IsTableAvailableForReservation(string tableNumber, DateTime resDate)
+    {
+        if (string.IsNullOrEmpty(connectionString) || string.IsNullOrEmpty(tableNumber)) return false;
+
+        try
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+
+                // 1. Check table status in RestaurantTables
+                string checkSql = @"
+                    SELECT TableStatus, IsActive 
+                    FROM RestaurantTables 
+                    WHERE TableNumber = @TableNumber";
+
+                using (SqlCommand cmd = new SqlCommand(checkSql, con))
+                {
+                    cmd.Parameters.AddWithValue("@TableNumber", tableNumber);
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            bool isActive = dr["IsActive"] != DBNull.Value && Convert.ToBoolean(dr["IsActive"]);
+                            string status = dr["TableStatus"] != DBNull.Value ? dr["TableStatus"].ToString().Trim() : "Available";
+
+                            if (!isActive || 
+                                status.Equals("Blocked", StringComparison.OrdinalIgnoreCase) || 
+                                status.Equals("Maintenance", StringComparison.OrdinalIgnoreCase) ||
+                                status.Equals("Booked", StringComparison.OrdinalIgnoreCase) ||
+                                status.Equals("Occupied", StringComparison.OrdinalIgnoreCase))
+                            {
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                // 2. Check active reservations for this table on this date
+                string checkResSql = @"
+                    IF EXISTS (SELECT * FROM sysobjects WHERE name='TableReservations' AND xtype='U')
+                    BEGIN
+                        SELECT COUNT(*) 
+                        FROM TableReservations 
+                        WHERE TableNumber = @TableNumber 
+                          AND CAST(ReservationDate AS DATE) = @ResDate 
+                          AND Status IN ('Pending', 'Confirmed', 'Seated');
+                    END
+                    ELSE
+                    BEGIN
+                        SELECT 0;
+                    END";
+
+                using (SqlCommand cmdRes = new SqlCommand(checkResSql, con))
+                {
+                    cmdRes.Parameters.AddWithValue("@TableNumber", tableNumber);
+                    cmdRes.Parameters.AddWithValue("@ResDate", resDate.Date);
+                    int activeResCount = Convert.ToInt32(cmdRes.ExecuteScalar());
+                    if (activeResCount > 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+        catch
         {
             return false;
         }

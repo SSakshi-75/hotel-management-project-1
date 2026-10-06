@@ -59,9 +59,11 @@ public partial class Booking : System.Web.UI.Page
                         PricePerNight,
                         MaxGuests,
                         RoomArea,
-                        PrimaryRoomImage
+                        PrimaryRoomImage,
+                        ISNULL(NULLIF(LTRIM(RTRIM(REPLACE(GSTPercentage, '%', ''))), ''), '18') AS GSTPercentage
                     FROM Rooms
                     WHERE ISNULL(IsActive, 1) = 1
+                      AND ISNULL(RoomStatus, 'Available') = 'Available'
                     ORDER BY RoomID ASC";
 
                 using (SqlCommand cmd = new SqlCommand(query, con))
@@ -193,13 +195,6 @@ public partial class Booking : System.Web.UI.Page
             int nights = (int)(checkOut.Date - checkIn.Date).TotalDays;
             if (nights <= 0) nights = 1;
 
-            if (totalAmount <= 0 && ratePerNight > 0)
-            {
-                decimal baseCost = ratePerNight * nights * totalRoomsCount;
-                decimal taxes = Math.Round(baseCost * 0.18m, 2);
-                totalAmount = baseCost + taxes;
-            }
-
             int roomId;
             int.TryParse(sRoomId, out roomId);
 
@@ -249,11 +244,13 @@ public partial class Booking : System.Web.UI.Page
 
                         // 1. Check room master status with UPDLOCK, HOLDLOCK
                         string lockRoomSql = @"
-                            SELECT RoomID, RoomName, RoomStatus, IsActive, MaxGuests, PricePerNight
+                            SELECT RoomID, RoomName, RoomStatus, IsActive, MaxGuests, PricePerNight,
+                                   ISNULL(NULLIF(LTRIM(RTRIM(REPLACE(GSTPercentage, '%', ''))), ''), '18') AS GSTPercentage
                             FROM Rooms WITH (UPDLOCK, HOLDLOCK)
                             WHERE RoomID = @RoomId";
 
                         string actualRoomName = roomName;
+                        decimal roomGstPercent = 18m;
                         using (SqlCommand roomCmd = new SqlCommand(lockRoomSql, con, tran))
                         {
                             roomCmd.Parameters.AddWithValue("@RoomId", roomId);
@@ -271,6 +268,15 @@ public partial class Booking : System.Web.UI.Page
                                 string roomStatus = rdr["RoomStatus"] != DBNull.Value ? rdr["RoomStatus"].ToString() : "Available";
                                 actualRoomName = rdr["RoomName"].ToString();
 
+                                if (rdr["GSTPercentage"] != DBNull.Value)
+                                {
+                                    decimal parsedGst;
+                                    if (decimal.TryParse(rdr["GSTPercentage"].ToString(), out parsedGst) && parsedGst >= 0)
+                                    {
+                                        roomGstPercent = parsedGst;
+                                    }
+                                }
+
                                 if (!isActive)
                                 {
                                     rdr.Close();
@@ -279,18 +285,23 @@ public partial class Booking : System.Web.UI.Page
                                     return;
                                 }
 
-                                if (roomStatus.Equals("Maintenance", StringComparison.OrdinalIgnoreCase) ||
-                                    roomStatus.Equals("Blocked", StringComparison.OrdinalIgnoreCase) ||
-                                    roomStatus.Equals("Inactive", StringComparison.OrdinalIgnoreCase))
+                                if (!roomStatus.Equals("Available", StringComparison.OrdinalIgnoreCase))
                                 {
                                     rdr.Close();
                                     tran.Rollback();
-                                    SendJsonResponse(false, "This room is currently under " + roomStatus + " and cannot be reserved.", "");
+                                    SendJsonResponse(false, "Selected room is currently Not Available and cannot be reserved.", "");
                                     return;
                                 }
 
                                 rdr.Close();
                             }
+                        }
+
+                        if (totalAmount <= 0 && ratePerNight > 0)
+                        {
+                            decimal baseCost = ratePerNight * nights * totalRoomsCount;
+                            decimal taxes = Math.Round(baseCost * (roomGstPercent / 100m), 2);
+                            totalAmount = baseCost + taxes;
                         }
 
                         // 2. Check for overlapping active bookings with UPDLOCK, HOLDLOCK
@@ -312,7 +323,7 @@ public partial class Booking : System.Web.UI.Page
                             if (overlapCount > 0)
                             {
                                 tran.Rollback();
-                                SendJsonResponse(false, "Double Booking Prevented: Room '" + actualRoomName + "' is already reserved for the selected dates (" + checkIn.ToString("dd MMM") + " – " + checkOut.ToString("dd MMM yyyy") + "). Please select different dates or choose another room.", "");
+                                SendJsonResponse(false, "Room '" + actualRoomName + "' is Not Available for the selected dates (" + checkIn.ToString("dd MMM") + " – " + checkOut.ToString("dd MMM yyyy") + "). Please select different dates or choose another room.", "");
                                 return;
                             }
                         }

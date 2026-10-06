@@ -23,6 +23,12 @@ public partial class RoomDetails : System.Web.UI.Page
         string roomTitle = Request.QueryString["title"] ?? Request.QueryString["room"];
         int roomId = 0;
 
+        DateTime qIn = DateTime.MinValue;
+        DateTime qOut = DateTime.MinValue;
+        bool hasValidDates = DateTime.TryParse(Request.QueryString["checkIn"], out qIn) &&
+                             DateTime.TryParse(Request.QueryString["checkOut"], out qOut) &&
+                             qOut > qIn;
+
         string query = @"
             SELECT
                 Id,
@@ -49,7 +55,31 @@ public partial class RoomDetails : System.Web.UI.Page
                 GalleryImage3,
                 GalleryImage4,
                 ReviewQuote,
-                ReviewAuthor
+                ReviewAuthor,
+                ISNULL(NULLIF(LTRIM(RTRIM(REPLACE(GSTPercentage, '%', ''))), ''), '18') AS GSTPercentage,
+                CASE
+                    -- Admin status Cleaning, Maintenance, Blocked, or Occupied
+                    WHEN ISNULL(RoomStatus, 'Available') IN ('Cleaning', 'Maintenance', 'Blocked', 'Occupied')
+                        THEN 'Not Available'
+
+                    -- Conflicting active bookings for the selected stay dates
+                    WHEN @HasDates = 1 AND EXISTS
+                    (
+                        SELECT 1
+                        FROM Bookings B
+                        WHERE (B.RoomId = Rooms.RoomID OR B.RoomId = Rooms.Id)
+                        AND B.BookingStatus IN ('Pending', 'Confirmed', 'Checked-In')
+                        AND B.CheckInDate < @CheckOutDate
+                        AND B.CheckOutDate > @CheckInDate
+                    )
+                        THEN 'Not Available'
+
+                    -- Admin status Available with no conflicting booking
+                    WHEN ISNULL(RoomStatus, 'Available') = 'Available'
+                        THEN 'Available'
+
+                    ELSE 'Not Available'
+                END AS RoomStatus
             FROM Rooms ";
 
         bool hasParam = false;
@@ -66,7 +96,7 @@ public partial class RoomDetails : System.Web.UI.Page
         }
         else
         {
-            query = "SELECT TOP 1 * FROM Rooms WHERE ISNULL(IsActive, 1) = 1 ORDER BY RoomID DESC";
+            query = "SELECT TOP 1 * FROM (" + query + ") Q WHERE ISNULL(IsActive, 1) = 1 ORDER BY RoomID DESC";
         }
 
         DataTable dt = new DataTable();
@@ -74,6 +104,10 @@ public partial class RoomDetails : System.Web.UI.Page
         {
             using (SqlCommand cmd = new SqlCommand(query, con))
             {
+                cmd.Parameters.Add("@HasDates", SqlDbType.Bit).Value = hasValidDates;
+                cmd.Parameters.Add("@CheckInDate", SqlDbType.DateTime).Value = hasValidDates ? (object)qIn : DBNull.Value;
+                cmd.Parameters.Add("@CheckOutDate", SqlDbType.DateTime).Value = hasValidDates ? (object)qOut : DBNull.Value;
+
                 if (hasParam)
                 {
                     if (roomId > 0)
@@ -381,18 +415,21 @@ public partial class RoomDetails : System.Web.UI.Page
     }
 
     // ==========================================
-    // GET BOOK NOW URL (Preserves RoomId, RoomName, Price, checkIn, checkOut, adults)
+    // GET BOOK NOW URL (Preserves RoomId, RoomName, Price, checkIn, checkOut, adults, gst)
     // ==========================================
-    public string GetBookNowUrl(object roomId, object roomName, object price)
+    public string GetBookNowUrl(object roomId, object roomName, object price, object gstObj = null)
     {
         string rId = roomId != null ? roomId.ToString() : "";
         string rName = roomName != null ? roomName.ToString() : "";
         string rPrice = price != null ? price.ToString() : "";
+        string rGst = gstObj != null ? gstObj.ToString().Trim().Replace("%", "") : "";
 
         string url = string.Format("Booking.aspx?RoomId={0}&room={1}&price={2}",
             rId,
             HttpUtility.UrlEncode(rName),
             rPrice);
+
+        if (!string.IsNullOrEmpty(rGst)) url += "&gst=" + HttpUtility.UrlEncode(rGst);
 
         string checkIn = Request.QueryString["checkIn"];
         string checkOut = Request.QueryString["checkOut"];
@@ -403,5 +440,41 @@ public partial class RoomDetails : System.Web.UI.Page
         if (!string.IsNullOrEmpty(adults)) url += "&adults=" + HttpUtility.UrlEncode(adults);
 
         return url;
+    }
+
+    // ==========================================
+    // ROOM AVAILABILITY BADGE
+    // ==========================================
+    public string GetRoomAvailabilityBadge(object statusObj)
+    {
+        string status = statusObj != null ? statusObj.ToString().Trim() : "Available";
+
+        if (status.Equals("Available", StringComparison.OrdinalIgnoreCase))
+        {
+            return "<span class=\"badge-room-avail ms-2\"><i class=\"bi bi-check-circle-fill text-success me-1\"></i> Available</span>";
+        }
+
+        return "<span class=\"badge-room-booked ms-2\"><i class=\"bi bi-x-circle-fill text-danger me-1\"></i> Not Available</span>";
+    }
+
+    // ==========================================
+    // BOOK NOW BUTTON (Enabled / Disabled)
+    // ==========================================
+    public string GetBookNowButtonHtml(object roomId, object roomName, object price, object statusObj, object gstObj = null)
+    {
+        string status = statusObj != null ? statusObj.ToString().Trim() : "Available";
+        bool isAvailable = string.Equals(status, "Available", StringComparison.OrdinalIgnoreCase);
+
+        if (!isAvailable)
+        {
+            return "<button type=\"button\" class=\"btn btn-book-now\" disabled " +
+                   "style=\"opacity: 0.6; cursor: not-allowed; pointer-events: none; background: #6c757d; border-color: #6c757d; box-shadow: none;\">" +
+                   "<i class=\"bi bi-slash-circle me-2\"></i> Not Available" +
+                   "</button>";
+        }
+
+        return "<a href=\"" + GetBookNowUrl(roomId, roomName, price, gstObj) + "\" class=\"btn btn-book-now\">" +
+               "<i class=\"bi bi-calendar-check me-2\"></i> Book Now" +
+               "</a>";
     }
 }

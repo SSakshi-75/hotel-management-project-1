@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Text;
@@ -72,45 +72,28 @@ public partial class Room : System.Web.UI.Page
 
 
     // =========================================================
+    // =========================================================
     // LOAD ALL ROOMS
     // =========================================================
     private void LoadRooms()
     {
-        string connectionString =
-            ConfigurationManager.ConnectionStrings["HotelConnection"].ConnectionString;
+        DateTime cin = DateTime.Today;
+        DateTime cout = DateTime.Today.AddDays(1);
 
-        string query = @"
-            SELECT
-                R.RoomID,
-                R.RoomName,
-                R.RoomCategory,
-                R.PricePerNight,
-                R.CategoryBadge,
-                R.Rating,
-                R.MaxGuests,
-                R.RoomArea,
-                R.ViewType,
-                R.PrimaryRoomImage,
-                R.ShortDescription,
-                R.KeyAmenities,
-                ISNULL(R.RoomStatus, 'Available') AS RoomStatus
-            FROM Rooms R
-            WHERE ISNULL(R.IsActive, 1) = 1
-            ORDER BY R.RoomID DESC";
-
-        using (SqlConnection con = new SqlConnection(connectionString))
+        if (!string.IsNullOrEmpty(txtCheckIn.Text))
         {
-            using (SqlCommand cmd = new SqlCommand(query, con))
-            {
-                con.Open();
-
-                using (SqlDataReader reader = cmd.ExecuteReader())
-                {
-                    rptRooms.DataSource = reader;
-                    rptRooms.DataBind();
-                }
-            }
+            DateTime.TryParse(txtCheckIn.Text, out cin);
         }
+        if (!string.IsNullOrEmpty(txtCheckOut.Text))
+        {
+            DateTime.TryParse(txtCheckOut.Text, out cout);
+        }
+        if (cout <= cin)
+        {
+            cout = cin.AddDays(1);
+        }
+
+        LoadAvailableRooms(cin, cout);
     }
 
 
@@ -138,24 +121,30 @@ public partial class Room : System.Web.UI.Page
                 R.PrimaryRoomImage,
                 R.ShortDescription,
                 R.KeyAmenities,
+                ISNULL(NULLIF(LTRIM(RTRIM(REPLACE(R.GSTPercentage, '%', ''))), ''), '18') AS GSTPercentage,
 
                 CASE
+                    -- Admin RoomStatus Cleaning, Maintenance, Blocked, or Occupied
+                    WHEN ISNULL(R.RoomStatus, 'Available') IN ('Cleaning', 'Maintenance', 'Blocked', 'Occupied')
+                        THEN 'Not Available'
 
-                    WHEN R.RoomStatus IN ('Maintenance', 'Blocked')
-                        THEN 'Booked'
-
+                    -- Conflicting active bookings for the selected stay dates
                     WHEN EXISTS
                     (
                         SELECT 1
                         FROM Bookings B
                         WHERE B.RoomId = R.RoomID
-                        AND B.BookingStatus IN ('Confirmed', 'CheckedIn', 'Checked-In')
+                        AND B.BookingStatus IN ('Pending', 'Confirmed', 'Checked-In')
                         AND B.CheckInDate < @CheckOutDate
                         AND B.CheckOutDate > @CheckInDate
                     )
-                        THEN 'Booked'
+                        THEN 'Not Available'
 
-                    ELSE 'Available'
+                    -- Admin RoomStatus Available with no conflicting booking
+                    WHEN ISNULL(R.RoomStatus, 'Available') = 'Available'
+                        THEN 'Available'
+
+                    ELSE 'Not Available'
 
                 END AS RoomStatus
 
@@ -250,30 +239,43 @@ public partial class Room : System.Web.UI.Page
                 ? statusObj.ToString().Trim()
                 : "Available";
 
-        if (
-            status.Equals(
-                "Booked",
-                StringComparison.OrdinalIgnoreCase
-            )
-            ||
-            status.Equals(
-                "Occupied",
-                StringComparison.OrdinalIgnoreCase
-            )
-        )
+        if (status.Equals("Available", StringComparison.OrdinalIgnoreCase))
         {
             return
-                "<span class=\"badge-room-booked\">" +
-                "<i class=\"bi bi-x-circle-fill text-danger me-1\"></i>" +
-                " Booked" +
+                "<span class=\"badge-room-avail\">" +
+                "<i class=\"bi bi-check-circle-fill text-success me-1\"></i>" +
+                " Available" +
                 "</span>";
         }
 
         return
-            "<span class=\"badge-room-avail\">" +
-            "<i class=\"bi bi-check-circle-fill text-success me-1\"></i>" +
-            " Available" +
+            "<span class=\"badge-room-booked\">" +
+            "<i class=\"bi bi-x-circle-fill text-danger me-1\"></i>" +
+            " Not Available" +
             "</span>";
+    }
+
+    // =========================================================
+    // ROOM ACTION BUTTON (Book Now / Not Available)
+    // =========================================================
+    public string GetRoomActionButtonHtml(object roomIdObj, object statusObj, object gstObj = null)
+    {
+        string status = statusObj != null ? statusObj.ToString().Trim() : "Available";
+        bool isAvailable = string.Equals(status, "Available", StringComparison.OrdinalIgnoreCase);
+
+        if (!isAvailable)
+        {
+            return "<button type=\"button\" class=\"btn btn-room-book text-decoration-none\" disabled " +
+                   "style=\"opacity: 0.6; cursor: not-allowed; pointer-events: none; background: #6c757d; border-color: #6c757d; box-shadow: none;\">" +
+                   "<span>Not Available</span>" +
+                   "<i class=\"bi bi-slash-circle ms-2 fs-7\"></i>" +
+                   "</button>";
+        }
+
+        return "<a href=\"" + GetRoomSelectUrl(roomIdObj, gstObj) + "\" class=\"btn btn-room-book text-decoration-none\">" +
+               "<span>Book Now</span>" +
+               "<i class=\"fa-solid fa-arrow-right ms-2 fs-7\"></i>" +
+               "</a>";
     }
 
 
@@ -439,11 +441,15 @@ public partial class Room : System.Web.UI.Page
     // =========================================================
     // ROOM SELECT URL (Preserves checkIn, checkOut, adults)
     // =========================================================
-    public string GetRoomSelectUrl(object roomIdObj)
+    public string GetRoomSelectUrl(object roomIdObj, object gstObj = null)
     {
         string rId = roomIdObj != null ? roomIdObj.ToString() : "";
         string url = "RoomDetails.aspx?RoomId=" + rId;
 
+        if (gstObj != null && !string.IsNullOrEmpty(gstObj.ToString()))
+        {
+            url += "&gst=" + Server.UrlEncode(gstObj.ToString().Trim().Replace("%", ""));
+        }
         if (!string.IsNullOrEmpty(txtCheckIn.Text))
         {
             url += "&checkIn=" + Server.UrlEncode(txtCheckIn.Text.Trim());

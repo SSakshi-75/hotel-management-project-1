@@ -423,15 +423,7 @@
                                                 <div class="room-card-full-footer justify-content-end">
 
 
-                                                    <a href='<%# GetRoomSelectUrl(Eval("RoomID")) %>'
-                                                        class="btn btn-room-book text-decoration-none">
-
-                                                        <span>Select Room
-                                                        </span>
-
-                                                        <i class="fa-solid fa-arrow-right ms-2 fs-7"></i>
-
-                                                    </a>
+                                                    <%# GetRoomActionButtonHtml(Eval("RoomID"), Eval("RoomStatus"), Eval("GSTPercentage")) %>
 
 
                                                 </div>

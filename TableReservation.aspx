@@ -123,6 +123,16 @@
                 display: inline-block;
             }
 
+            .status-pill-booked {
+                background-color: #fee2e2;
+                color: #991b1b;
+                font-size: 0.78rem;
+                font-weight: 600;
+                padding: 4px 12px;
+                border-radius: 50rem;
+                display: inline-block;
+            }
+
             .status-pill-reserved {
                 background-color: #fef3c7;
                 color: #92400e;
@@ -491,7 +501,7 @@
                     // Ensure all tables added by admin are always visible
                     item.style.display = 'block';
 
-                    if (status === 'Available') {
+                    if (status && status.trim().toLowerCase() === 'available') {
                         matchCount++;
                     }
                 });
@@ -504,7 +514,7 @@
 
             function handleTableCardClick(cardElem) {
                 if (!cardElem) return;
-                var status = cardElem.getAttribute('data-status') || '';
+                var status = (cardElem.getAttribute('data-status') || '').trim();
                 if (status.toLowerCase() !== 'available') return;
                 var tableId = cardElem.getAttribute('data-table-id') || '';
                 var tableNum = cardElem.getAttribute('data-table-num') || '';

@@ -208,7 +208,7 @@
 
                         <!-- Logout -->
                         <li class="nav-item nav-item-logout mt-4">
-                            <a href="Login.aspx" class="nav-link">
+                            <a href="Logout.aspx" class="nav-link">
                                 <span class="nav-icon"><i class="bi bi-box-arrow-right"></i></span>
                                 <span class="nav-text">Logout</span>
                             </a>
@@ -341,7 +341,7 @@
                                     <hr class="dropdown-divider my-1">
                                 </li>
                                 <li>
-                                    <a class="dropdown-item d-flex align-items-center gap-2 text-danger" href="Login.aspx">
+                                    <a class="dropdown-item d-flex align-items-center gap-2 text-danger" href="Logout.aspx">
                                         <i class="bi bi-box-arrow-right"></i>Logout
                                     </a>
                                 </li>

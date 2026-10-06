@@ -28,4 +28,24 @@ function updateCardLivePreview() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', updateCardLivePreview);
+// Auto-dismiss alert popup (e.g. Enquiry deleted successfully) after 2 seconds
+function setupAlertAutoDismiss() {
+    var alertPnl = document.querySelector('[id$="pnlEnquiryMsg"]') || document.querySelector('.alert');
+    if (alertPnl && alertPnl.offsetParent !== null) {
+        setTimeout(function () {
+            if (!alertPnl || alertPnl.dataset.dismissed === 'true') return;
+            alertPnl.dataset.dismissed = 'true';
+            alertPnl.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            alertPnl.style.opacity = '0';
+            alertPnl.style.transform = 'translateY(-8px)';
+            setTimeout(function () {
+                alertPnl.style.display = 'none';
+            }, 400);
+        }, 2000);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    updateCardLivePreview();
+    setupAlertAutoDismiss();
+});

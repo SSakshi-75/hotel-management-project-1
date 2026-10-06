@@ -1,7 +1,14 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Logout.aspx.cs" Inherits="admin_Logout" %>
-
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-</asp:Content>
-
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Logout.aspx.cs" Inherits="admin_Logout" %>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Logging Out | Admin Portal</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div style="font-family: sans-serif; text-align: center; margin-top: 50px;">
+            <p>Logging out admin session, please wait...</p>
+        </div>
+    </form>
+</body>
+</html>

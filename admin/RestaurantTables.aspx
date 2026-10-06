@@ -72,6 +72,18 @@
                 gap: 5px;
             }
 
+            .status-badge-booked {
+                background-color: #fee2e2;
+                color: #991b1b;
+                font-weight: 600;
+                padding: 5px 12px;
+                border-radius: 20px;
+                font-size: 0.82rem;
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+            }
+
             .status-badge-reserved {
                 background-color: #fef3c7;
                 color: #92400e;
@@ -327,6 +339,7 @@
                                 class="text-danger">*</span></label>
                         <asp:DropDownList ID="ddlTableStatus" runat="server" CssClass="form-select">
                             <asp:ListItem Value="Available" Selected="True">Available</asp:ListItem>
+                            <asp:ListItem Value="Booked">Booked</asp:ListItem>
                             <asp:ListItem Value="Reserved">Reserved</asp:ListItem>
                             <asp:ListItem Value="Blocked">Blocked</asp:ListItem>
                         </asp:DropDownList>
