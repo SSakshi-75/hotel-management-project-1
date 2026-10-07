@@ -406,11 +406,61 @@ public partial class Admin_Enquiries : System.Web.UI.Page
         lblEnquiryMsg.Text = msg;
         if (isSuccess)
         {
-            pnlEnquiryMsg.CssClass = "alert alert-success alert-dismissible fade show mb-4 shadow-sm rounded-4";
+            msgIconEnquiry.Attributes["class"] = "bi bi-check-circle-fill fs-4 text-success";
+            pnlEnquiryMsg.CssClass = "alert alert-success alert-dismissible fade show mb-4 shadow-sm rounded-4 position-relative overflow-hidden";
+
+            // Script: Shows confirmation for 2 seconds (2000ms), then smoothly fades out & disappears
+            string script = @"
+                (function() {
+                    function initAlert() {
+                        var alertElem = document.getElementById('" + pnlEnquiryMsg.ClientID + @"');
+                        if (!alertElem) return;
+
+                        try {
+                            alertElem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        } catch(e) {}
+
+                        var timerBar = alertElem.querySelector('.alert-timer-bar');
+                        if (timerBar) {
+                            timerBar.style.display = 'block';
+                            timerBar.style.width = '100%';
+                            timerBar.style.transition = 'width 2s linear';
+                            setTimeout(function() {
+                                timerBar.style.width = '0%';
+                            }, 20);
+                        }
+
+                        // Show confirmation for 2 seconds, then smoothly fade out
+                        setTimeout(function() {
+                            alertElem.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                            alertElem.style.opacity = '0';
+                            alertElem.style.transform = 'translateY(-10px)';
+                            setTimeout(function() {
+                                alertElem.style.display = 'none';
+                            }, 500);
+                        }, 2000);
+                    }
+
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', initAlert);
+                    } else {
+                        initAlert();
+                    }
+                })();";
+
+            ClientScript.RegisterStartupScript(this.GetType(), "AutoDismissEnquiryAlert2Sec", script, true);
         }
         else
         {
-            pnlEnquiryMsg.CssClass = "alert alert-danger alert-dismissible fade show mb-4 shadow-sm rounded-4";
+            msgIconEnquiry.Attributes["class"] = "bi bi-exclamation-triangle-fill fs-4 text-danger";
+            pnlEnquiryMsg.CssClass = "alert alert-danger alert-dismissible fade show mb-4 shadow-sm rounded-4 position-relative overflow-hidden";
+
+            string hideBarScript = @"
+                (function() {
+                    var bar = document.querySelector('.alert-timer-bar');
+                    if (bar) bar.style.display = 'none';
+                })();";
+            ClientScript.RegisterStartupScript(this.GetType(), "HideEnquiryTimerBar", hideBarScript, true);
         }
     }
 }

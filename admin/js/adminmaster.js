@@ -319,6 +319,30 @@ $(function () {
 
 
 
+            // Determine alert category & destination link
+            var lowerMsg = (message || "").toLowerCase();
+            var alertTitle = "New Alert";
+            var iconClass = "bi bi-bell-fill text-primary";
+            var iconBg = "bg-primary-subtle";
+            var targetUrl = "#";
+
+            if (lowerMsg.indexOf("contact") !== -1 || lowerMsg.indexOf("enquiry") !== -1 || lowerMsg.indexOf("message") !== -1) {
+                alertTitle = "New Contact Message Alert";
+                iconClass = "bi bi-envelope-fill text-warning";
+                iconBg = "bg-warning-subtle";
+                targetUrl = "Enquiries.aspx";
+            } else if (lowerMsg.indexOf("table") !== -1) {
+                alertTitle = "New Table Booking Alert";
+                iconClass = "bi bi-calendar2-check-fill text-success";
+                iconBg = "bg-success-subtle";
+                targetUrl = "TableReservations.aspx";
+            } else if (lowerMsg.indexOf("booking") !== -1 || lowerMsg.indexOf("room") !== -1) {
+                alertTitle = "New Room Booking Alert";
+                iconClass = "bi bi-door-open-fill text-primary";
+                iconBg = "bg-primary-subtle";
+                targetUrl = "Bookings.aspx";
+            }
+
             // ==========================================
             // CREATE NOTIFICATION ITEM
             // ==========================================
@@ -327,34 +351,26 @@ $(function () {
 
                 var notificationItem =
                     document.createElement(
-                        "div"
+                        "a"
                     );
 
-
+                notificationItem.href = targetUrl;
                 notificationItem.className =
-                    "p-3 border-bottom notification-item";
-
+                    "text-decoration-none d-block";
 
                 notificationItem.innerHTML =
-
-                    '<div class="d-flex align-items-start gap-2">' +
-
-                    '<i class="bi bi-bell-fill text-warning"></i>' +
-
-                    '<div>' +
-
-                    '<div class="small fw-semibold text-dark">' +
-                    message +
-                    '</div>' +
-
-                    '<div class="text-muted" style="font-size:0.7rem;">' +
-                    'Just now' +
-                    '</div>' +
-
-                    '</div>' +
-
+                    '<div class="notification-item p-3 border-bottom unread bg-light">' +
+                        '<div class="d-flex align-items-start gap-3">' +
+                            '<div class="notif-icon rounded-circle p-2 ' + iconBg + '" style="width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;">' +
+                                '<i class="' + iconClass + '"></i>' +
+                            '</div>' +
+                            '<div class="notif-content flex-grow-1">' +
+                                '<h6 class="mb-1 text-dark small fw-bold">' + alertTitle + '</h6>' +
+                                '<p class="mb-1 text-muted small" style="line-height: 1.4; word-break: break-word;">' + message + '</p>' +
+                                '<span class="notif-time text-muted" style="font-size: 0.7rem;"><i class="bi bi-clock me-1"></i>Just now</span>' +
+                            '</div>' +
+                        '</div>' +
                     '</div>';
-
 
                 // Add newest notification at TOP
                 notificationList.insertBefore(

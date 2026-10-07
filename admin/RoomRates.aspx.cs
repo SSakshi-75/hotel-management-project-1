@@ -31,21 +31,62 @@ public partial class Admin_RoomRates : Page
                     sda.Fill(dt);
                     rptRoomRates.DataSource = dt;
                     rptRoomRates.DataBind();
+
+                    int totalPlans = dt.Rows.Count;
+                    int activePlans = 0;
+                    decimal minRate = decimal.MaxValue;
+                    decimal maxRate = 0;
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        bool active = row["IsActive"] != DBNull.Value && Convert.ToBoolean(row["IsActive"]);
+                        if (active) activePlans++;
+
+                        if (row["PricePerNight"] != DBNull.Value)
+                        {
+                            decimal price = Convert.ToDecimal(row["PricePerNight"]);
+                            if (price < minRate) minRate = price;
+                            if (price > maxRate) maxRate = price;
+                        }
+                    }
+
+                    if (minRate == decimal.MaxValue) minRate = 0;
+
+                    kpiTotalPlans.InnerText = totalPlans.ToString();
+                    kpiActivePlans.InnerText = activePlans + " Active";
+                    kpiMinRate.InnerText = "₹" + minRate.ToString("N0");
+                    kpiMaxRate.InnerText = "₹" + maxRate.ToString("N0");
+                    litActiveTariffs.Text = activePlans + " Plans";
+                    lblTariffPill.InnerHtml = "<i class=\"bi bi-shield-check me-1\"></i> " + activePlans + " Active / " + totalPlans + " Total";
                 }
             }
         }
     }
 
-    protected string GetStatusBadge(object isActiveObj)
+    public string GetStatusBadge(object isActiveObj)
     {
-        bool isActive = Convert.ToBoolean(isActiveObj);
+        bool isActive = isActiveObj != null && isActiveObj != DBNull.Value && Convert.ToBoolean(isActiveObj);
         if (isActive)
         {
-            return "<span class=\"badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-2 fw-semibold\">Active</span>";
+            return "<span class=\"badge-hotel-live\"><span class=\"status-dot-pulse\"></span> Active</span>";
         }
         else
         {
-            return "<span class=\"badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-3 py-2 fw-semibold\">Inactive</span>";
+            return "<span class=\"badge bg-secondary text-white px-2.5 py-1 rounded-pill small\"><i class=\"bi bi-eye-slash-fill me-1\"></i> Inactive</span>";
         }
+    }
+
+    public string GetCategoryBadgeClass(object categoryObj)
+    {
+        if (categoryObj == null || categoryObj == DBNull.Value)
+        {
+            return "badge-category-deluxe";
+        }
+
+        string cat = categoryObj.ToString().Trim().ToUpper();
+        if (cat.Contains("PENTHOUSE")) return "badge-category-penthouse";
+        if (cat.Contains("FAMILY")) return "badge-category-family";
+        if (cat.Contains("EXECUTIVE")) return "badge-category-executive";
+        return "badge-category-deluxe";
     }
 }

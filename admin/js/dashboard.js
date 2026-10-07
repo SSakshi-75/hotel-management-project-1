@@ -327,7 +327,7 @@ window.handleMenuClick = function (featureName, elem) {
 window.triggerQuickAction = function (actionType) {
     switch (actionType) {
         case 'new-reservation':
-            showAdminToast('New Reservation', 'Opening reservation wizard for guests.', 'bi-calendar-plus text-warning');
+            window.location.href = 'Bookings.aspx?status=Confirmed';
             break;
         case 'block-room':
             showAdminToast('Room Maintenance', 'Maintenance block mode active.', 'bi-door-closed text-primary');
@@ -506,61 +506,4 @@ function clearAllNotifications() {
         countText.innerText = '0 New';
     }
 }
-
-document.addEventListener('DOMContentLoaded', function () {
-    if (window.jQuery && $.connection && $.connection.notificationHub) {
-        var notifHub = $.connection.notificationHub;
-
-        notifHub.client.receiveNotification = function (message) {
-            var notifList = document.getElementById('notificationList');
-            var noNotif = document.getElementById('noNotifications');
-            var badge = document.getElementById('notifBadge');
-            var countText = document.getElementById('notifCountText');
-
-            if (noNotif) {
-                noNotif.style.display = 'none';
-            }
-
-            var alertTitle = "New Alert";
-            if (message.toLowerCase().indexOf("table") !== -1) {
-                alertTitle = "New Table Booking Alert";
-            } else if (message.toLowerCase().indexOf("booking") !== -1) {
-                alertTitle = "New Room Booking Alert";
-            }
-
-            var newNotifHtml = `
-                <div class="notification-item p-3 border-bottom unread bg-light">
-                    <div class="d-flex align-items-start gap-3">
-                        <div class="notif-icon bg-primary-subtle text-primary rounded-circle p-2">
-                            <i class="bi bi-bell-fill"></i>
-                        </div>
-                        <div class="notif-content flex-grow-1">
-                            <h6 class="mb-1 text-dark small fw-bold">${alertTitle}</h6>
-                            <p class="mb-1 text-muted small" style="line-height: 1.4;">${message}</p>
-                            <span class="notif-time text-muted" style="font-size: 0.7rem;"><i class="bi bi-clock me-1"></i>Just now</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            if (notifList) {
-                notifList.insertAdjacentHTML('afterbegin', newNotifHtml);
-            }
-
-            if (badge && countText) {
-                var currentCount = parseInt(badge.innerText) || 0;
-                currentCount++;
-                badge.innerText = currentCount;
-                badge.classList.remove('d-none');
-                countText.innerText = currentCount + " New";
-            }
-        };
-
-        $.connection.hub.start().done(function () {
-            console.log("Connected to Notification Hub");
-        }).fail(function (err) {
-            console.error("SignalR connection error: " + err);
-        });
-    }
-});
 

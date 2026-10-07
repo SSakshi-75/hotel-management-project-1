@@ -339,14 +339,15 @@
     </div>
 
     <!-- Alert / Status Panel -->
-    <asp:Panel ID="pnlEnquiryMsg" runat="server" Visible="false" CssClass="alert alert-dismissible fade show mb-4 shadow-sm rounded-4" role="alert">
+    <asp:Panel ID="pnlEnquiryMsg" runat="server" Visible="false" CssClass="alert alert-dismissible fade show mb-4 shadow-sm rounded-4 position-relative overflow-hidden" role="alert">
         <div class="d-flex align-items-center gap-3">
-            <i class="bi bi-info-circle-fill fs-4 text-warning"></i>
+            <i id="msgIconEnquiry" runat="server" class="bi bi-check-circle-fill fs-4 text-success"></i>
             <div>
                 <asp:Label ID="lblEnquiryMsg" runat="server" CssClass="fw-semibold text-dark"></asp:Label>
             </div>
         </div>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="alert-timer-bar position-absolute bottom-0 start-0 bg-success" style="height: 3.5px; width: 100%; border-radius: 0 0 16px 16px;"></div>
     </asp:Panel>
 
     <!-- ==========================================
@@ -579,7 +580,7 @@
                                 <i class='<%# Eval("Status").ToString() == "Unread" ? "bi bi-check2 me-1" : "bi bi-envelope me-1" %>'></i>
                                 <%# Eval("Status").ToString() == "Unread" ? "Mark Read" : "Unread" %>
                             </asp:LinkButton>
-                            <asp:LinkButton ID="btnDelete" runat="server" CommandName="Delete" CommandArgument='<%# Eval("EnquiryID") %>' OnClientClick="return confirm('Are you sure you want to delete this enquiry message?');" CssClass="btn btn-sm btn-light border text-danger rounded-3" Title="Delete Message">
+                            <asp:LinkButton ID="btnDelete" runat="server" CommandName="Delete" CommandArgument='<%# Eval("EnquiryID") %>' CssClass="btn btn-sm btn-light border text-danger rounded-3" Title="Delete Message">
                                 <i class="bi bi-trash"></i>
                             </asp:LinkButton>
                         </td>

@@ -20,7 +20,17 @@ public partial class Contact : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
+            Session["ContactSubmitToken"] = Guid.NewGuid().ToString();
+            ViewState["ContactSubmitToken"] = Session["ContactSubmitToken"];
+
             LoadContactCards();
+
+            if (Session["ContactSuccessMessage"] != null)
+            {
+                string successMsg = Session["ContactSuccessMessage"].ToString();
+                Session.Remove("ContactSuccessMessage");
+                ShowMessage(successMsg, true);
+            }
         }
     }
 
@@ -148,6 +158,18 @@ public partial class Contact : System.Web.UI.Page
     // ==========================================
     protected void btnSendMessage_Click(object sender, EventArgs e)
     {
+        // Anti-duplicate submission check on page refresh
+        if (Session["ContactSubmitToken"] == null || ViewState["ContactSubmitToken"] == null ||
+            Session["ContactSubmitToken"].ToString() != ViewState["ContactSubmitToken"].ToString())
+        {
+            Response.Redirect("Contact.aspx", false);
+            Context.ApplicationInstance.CompleteRequest();
+            return;
+        }
+
+        // Invalidate token immediately
+        Session["ContactSubmitToken"] = Guid.NewGuid().ToString();
+
         try
         {
             string name = txtContactName.Text.Trim();
@@ -265,12 +287,26 @@ public partial class Contact : System.Web.UI.Page
             txtContactMessage.Text = "";
 
             // ==========================================
-            // SUCCESS CONFIRMATION (SHOWN FOR 2 SECONDS)
+            // BROADCAST REAL-TIME NOTIFICATION TO ADMIN
             // ==========================================
-            ShowMessage(
-                "Thank you! Your message has been sent successfully. We will get back to you shortly.",
-                true
-            );
+            try
+            {
+                string notifText = "New contact message: " + name.Trim() + " | Subject: " + subject.Trim();
+                NotificationHub.Broadcast(notifText);
+            }
+            catch (Exception exSignalR)
+            {
+                System.Diagnostics.Debug.WriteLine("SignalR Notification Error: " + exSignalR.Message);
+            }
+
+            // ==========================================
+            // SUCCESS REDIRECT (PRG PATTERN: PREVENTS RESUBMISSION ON REFRESH)
+            // ==========================================
+            Session["ContactSuccessMessage"] =
+                "Thank you! Your message has been sent successfully. We will get back to you shortly.";
+
+            Response.Redirect("Contact.aspx", false);
+            Context.ApplicationInstance.CompleteRequest();
         }
         catch (Exception ex)
         {
@@ -303,6 +339,9 @@ public partial class Contact : System.Web.UI.Page
             // Script: Shows confirmation prominently for 2 seconds (2000ms), then smoothly fades out & disappears
             string script = @"
                 (function() {
+                    if (window.history.replaceState) {
+                        window.history.replaceState(null, null, window.location.href);
+                    }
                     function initAlert() {
                         var alertElem = document.getElementById('" + pnlContactMsg.ClientID + @"');
                         if (!alertElem) return;

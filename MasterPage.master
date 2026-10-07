@@ -226,10 +226,10 @@
                             Hotel Management is a benchmark of luxury, tranquility, and world-class Indian hospitality. Experience handcrafted suites, opulent fine dining, and serene spa facilities.
                         </p>
                         <div class="d-flex gap-3 mt-4">
-                            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" class="footer-social-icon" title="Facebook"><i class="bi bi-facebook"></i></a>
-                            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="footer-social-icon" title="Instagram"><i class="bi bi-instagram"></i></a>
-                            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="footer-social-icon" title="Twitter"><i class="bi bi-twitter-x"></i></a>
-                            <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" class="footer-social-icon" title="YouTube"><i class="bi bi-youtube"></i></a>
+                            <a href="https://digitalbull.in/" target="_blank" rel="noopener noreferrer" class="footer-social-icon" title="Facebook"><i class="bi bi-facebook"></i></a>
+                            <a href="https://digitalbull.in/" target="_blank" rel="noopener noreferrer" class="footer-social-icon" title="Instagram"><i class="bi bi-instagram"></i></a>
+                            <a href="https://digitalbull.in/" target="_blank" rel="noopener noreferrer" class="footer-social-icon" title="Twitter"><i class="bi bi-twitter-x"></i></a>
+                            <a href="https://digitalbull.in/" target="_blank" rel="noopener noreferrer" class="footer-social-icon" title="YouTube"><i class="bi bi-youtube"></i></a>
                         </div>
                     </div>
 
@@ -262,15 +262,8 @@
                     <!-- Column 4: Newsletter & Contact -->
                     <div class="col-lg-3 col-md-6">
                         <h4 class="mb-3" style="color: #442305;">Stay Connected</h4>
-                        <p class="small text-muted mb-3">Subscribe for exclusive offers, seasonal deals, and luxury packages.</p>
-                        
-                        <div class="input-group mb-3">
-                            <input type="email" class="form-control border" placeholder="Enter your email" aria-label="Subscriber Email">
-                            <button class="btn fw-bold px-3 text-white" style="background-color: #442305;" type="button"><i class="bi bi-send-fill"></i></button>
-                        </div>
-
                         <div class="small text-muted">
-                            <p class="mb-1"><i class="bi bi-geo-alt me-2" style="color: #442305;"></i> Chanakyapuri, New Delhi 110021</p>
+                            <p class="mb-2"><i class="bi bi-geo-alt me-2" style="color: #442305;"></i> Chanakyapuri, New Delhi 110021</p>
                             <p class="mb-0"><i class="bi bi-telephone me-2" style="color: #442305;"></i> +91 11 3933 1234</p>
                         </div>
                     </div>
@@ -278,8 +271,9 @@
                 </div>
 
                 <!-- Footer Bottom -->
-                <div class="py-3 d-flex flex-wrap justify-content-between align-items-center small text-muted border-top">
+                <div class="py-3 d-flex flex-wrap justify-content-between align-items-center small text-muted border-top gap-2">
                     <p class="mb-0">&copy; 2026 Hotel Management. All Rights Reserved.</p>
+                    <p class="mb-0">Designed by <a href="https://digitalbull.in/" target="_blank" rel="noopener noreferrer" class="fw-semibold text-decoration-none" style="color: #B88E68;">Digital Bull</a></p>
                     <div class="d-flex gap-3 mt-2 mt-sm-0">
                         <a href="Privacy.aspx" class="text-decoration-none text-muted">Privacy Policy</a>
                         <span>|</span>

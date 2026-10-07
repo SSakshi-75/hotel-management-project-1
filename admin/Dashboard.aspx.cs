@@ -11,6 +11,27 @@ public partial class Admin_Dashboard : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        SetDynamicHeader();
+
+        string action = (Request["action"] ?? "").ToLowerInvariant();
+        string idStr = Request["id"] ?? Request["bookingId"];
+        int bookingId;
+        if (!string.IsNullOrEmpty(action) && int.TryParse(idStr, out bookingId))
+        {
+            if (action == "checkin")
+            {
+                ExecuteCheckIn(bookingId);
+                Response.Redirect("Dashboard.aspx", true);
+                return;
+            }
+            else if (action == "checkout")
+            {
+                ExecuteCheckOut(bookingId);
+                Response.Redirect("Dashboard.aspx", true);
+                return;
+            }
+        }
+
         if (!IsPostBack)
         {
             LoadDashboardMetrics();
@@ -18,7 +39,105 @@ public partial class Admin_Dashboard : System.Web.UI.Page
             LoadArrivals();
             LoadDepartures();
             LoadRecentBookings();
+            LoadDiningData();
             LoadRecentActivity();
+        }
+    }
+
+    private void ExecuteCheckIn(int bookingId)
+    {
+        try
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                string sql = @"
+                    UPDATE Bookings 
+                    SET BookingStatus = 'Checked-In' 
+                    WHERE BookingId = @BookingId;
+
+                    UPDATE Rooms 
+                    SET RoomStatus = 'Occupied' 
+                    WHERE RoomID = (SELECT RoomId FROM Bookings WHERE BookingId = @BookingId);";
+
+                using (SqlCommand cmd = new SqlCommand(sql, con))
+                {
+                    cmd.Parameters.AddWithValue("@BookingId", bookingId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine(ex.Message);
+        }
+    }
+
+    private void ExecuteCheckOut(int bookingId)
+    {
+        try
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                string sql = @"
+                    UPDATE Bookings 
+                    SET BookingStatus = 'Completed' 
+                    WHERE BookingId = @BookingId;
+
+                    UPDATE Rooms 
+                    SET RoomStatus = 'Cleaning' 
+                    WHERE RoomID = (SELECT RoomId FROM Bookings WHERE BookingId = @BookingId);";
+
+                using (SqlCommand cmd = new SqlCommand(sql, con))
+                {
+                    cmd.Parameters.AddWithValue("@BookingId", bookingId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine(ex.Message);
+        }
+    }
+
+    private void SetDynamicHeader()
+    {
+        try
+        {
+            int hour = DateTime.Now.Hour;
+            string greeting = "Good Morning, Admin!";
+            if (hour >= 5 && hour < 12)
+            {
+                greeting = "Good Morning, Admin!";
+            }
+            else if (hour >= 12 && hour < 17)
+            {
+                greeting = "Good Afternoon, Admin!";
+            }
+            else if (hour >= 17 && hour < 21)
+            {
+                greeting = "Good Evening, Admin!";
+            }
+            else
+            {
+                greeting = "Good Night, Admin!";
+            }
+
+            if (litGreeting != null)
+            {
+                litGreeting.Text = greeting;
+            }
+
+            if (litCurrentDate != null)
+            {
+                litCurrentDate.Text = DateTime.Now.ToString("dd MMM yyyy, dddd");
+            }
+        }
+        catch
+        {
+            // fallback
         }
     }
 
@@ -39,8 +158,8 @@ public partial class Admin_Dashboard : System.Web.UI.Page
                     FROM Bookings WHERE CAST(BookingDate AS DATE) = @Today AND BookingStatus != 'Cancelled';
                     
                     -- Bookings Today
-                    SELECT COUNT(*) AS TotalBookings,
-                           SUM(CASE WHEN BookingStatus = 'Confirmed' THEN 1 ELSE 0 END) AS ConfirmedBookings,
+                    SELECT COUNT(CASE WHEN BookingStatus != 'Cancelled' THEN 1 END) AS TotalBookings,
+                           SUM(CASE WHEN BookingStatus IN ('Confirmed', 'Checked-In', 'Completed') THEN 1 ELSE 0 END) AS ConfirmedBookings,
                            SUM(CASE WHEN BookingStatus = 'Pending' THEN 1 ELSE 0 END) AS PendingBookings
                     FROM Bookings WHERE CAST(BookingDate AS DATE) = @Today;
                     
@@ -51,17 +170,21 @@ public partial class Admin_Dashboard : System.Web.UI.Page
                            SUM(CASE WHEN ISNULL(RoomStatus, 'Available') = 'Cleaning' THEN 1 ELSE 0 END) AS CleaningRooms,
                            SUM(CASE WHEN ISNULL(RoomStatus, 'Available') = 'Maintenance' THEN 1 ELSE 0 END) AS MaintenanceRooms,
                            SUM(CASE WHEN ISNULL(RoomStatus, 'Available') = 'Blocked' THEN 1 ELSE 0 END) AS BlockedRooms
-                    FROM Rooms WHERE ISNULL(IsActive, 1) = 1;
+                    FROM Rooms;
                     
                     -- Check-ins Today
-                    SELECT COUNT(*) AS TotalCheckins,
-                           SUM(CASE WHEN BookingStatus IN ('Pending', 'Confirmed') THEN 1 ELSE 0 END) AS PendingCheckins
-                    FROM Bookings WHERE CAST(CheckInDate AS DATE) = @Today;
+                    SELECT 
+                        COUNT(CASE WHEN BookingStatus = 'Checked-In' OR (CAST(CheckInDate AS DATE) = @Today AND BookingStatus IN ('Confirmed', 'Pending')) THEN 1 END) AS TotalCheckins,
+                        SUM(CASE WHEN BookingStatus = 'Checked-In' THEN 1 ELSE 0 END) AS CheckedInCount,
+                        SUM(CASE WHEN BookingStatus IN ('Pending', 'Confirmed') AND CAST(CheckInDate AS DATE) <= @Today THEN 1 ELSE 0 END) AS PendingCheckins
+                    FROM Bookings;
                     
                     -- Check-outs Today
-                    SELECT COUNT(*) AS TotalCheckouts,
-                           SUM(CASE WHEN BookingStatus = 'Checked-In' THEN 1 ELSE 0 END) AS PendingCheckouts
-                    FROM Bookings WHERE CAST(CheckOutDate AS DATE) = @Today;
+                    SELECT 
+                        COUNT(CASE WHEN CAST(CheckOutDate AS DATE) = @Today OR (BookingStatus = 'Checked-In' AND CAST(CheckOutDate AS DATE) <= @Today) THEN 1 END) AS TotalCheckouts,
+                        SUM(CASE WHEN BookingStatus = 'Checked-In' AND CAST(CheckOutDate AS DATE) <= @Today THEN 1 ELSE 0 END) AS PendingCheckouts
+                    FROM Bookings;
+                    
                     -- Table Reservations Today
                     SELECT COUNT(*) AS TableResToday
                     FROM TableReservations WHERE CAST(ReservationDate AS DATE) = @Today;
@@ -69,20 +192,19 @@ public partial class Admin_Dashboard : System.Web.UI.Page
                     -- Table Stats
                     SELECT COUNT(*) AS TotalTables,
                            SUM(CASE WHEN ISNULL(TableStatus, 'Available') = 'Available' THEN 1 ELSE 0 END) AS AvailableTables,
-                           SUM(CASE WHEN ISNULL(TableStatus, 'Available') = 'Occupied' THEN 1 ELSE 0 END) AS OccupiedTables,
+                           SUM(CASE WHEN ISNULL(TableStatus, 'Available') IN ('Occupied', 'Booked') THEN 1 ELSE 0 END) AS OccupiedTables,
                            SUM(CASE WHEN ISNULL(TableStatus, 'Available') = 'Reserved' THEN 1 ELSE 0 END) AS ReservedTables
-                    FROM Tables WHERE ISNULL(IsActive, 1) = 1;
+                    FROM RestaurantTables WHERE ISNULL(IsActive, 1) = 1;
                 ";
 
                 using (SqlCommand cmd = new SqlCommand(kpiSql, con))
                 {
                     using (SqlDataReader rdr = cmd.ExecuteReader())
                     {
-                        // Revenue
+                        // Revenue (Card removed from Dashboard UI)
                         if (rdr.Read())
                         {
-                            decimal rev = Convert.ToDecimal(rdr["RevenueToday"]);
-                            lblTodayRevenue.Text = rev.ToString("N0");
+                            // Card removed from dashboard
                         }
                         
                         // Bookings
@@ -114,6 +236,7 @@ public partial class Admin_Dashboard : System.Web.UI.Page
                             lblRoomMaintenance.Text = rdr["MaintenanceRooms"] != DBNull.Value ? rdr["MaintenanceRooms"].ToString() : "0";
                             lblRoomBlocked.Text = rdr["BlockedRooms"] != DBNull.Value ? rdr["BlockedRooms"].ToString() : "0";
                             
+                            lblChartDonutCenter.Text = totalR.ToString();
                             hfDonutTotal.Value = totalR.ToString();
                             hfDonutData.Value = string.Format("[{0}, {1}, {2}, {3}, {4}]", lblRoomAvailable.Text, lblRoomOccupied.Text, lblRoomCleaning.Text, lblRoomMaintenance.Text, lblRoomBlocked.Text);
                         }
@@ -121,8 +244,12 @@ public partial class Admin_Dashboard : System.Web.UI.Page
                         // Check-ins
                         if (rdr.NextResult() && rdr.Read())
                         {
-                            lblCheckinsToday.Text = rdr["TotalCheckins"] != DBNull.Value ? rdr["TotalCheckins"].ToString() : "0";
-                            lblCheckinsPending.Text = rdr["PendingCheckins"] != DBNull.Value ? rdr["PendingCheckins"].ToString() : "0";
+                            int checkedIn = Convert.ToInt32(rdr["CheckedInCount"] != DBNull.Value ? rdr["CheckedInCount"] : 0);
+                            int pendingIn = Convert.ToInt32(rdr["PendingCheckins"] != DBNull.Value ? rdr["PendingCheckins"] : 0);
+                            int totalCheckins = Convert.ToInt32(rdr["TotalCheckins"] != DBNull.Value ? rdr["TotalCheckins"] : 0);
+
+                            lblCheckinsToday.Text = (checkedIn > 0 ? checkedIn : totalCheckins).ToString();
+                            lblCheckinsPending.Text = pendingIn.ToString();
                         }
                         
                         // Check-outs
@@ -174,8 +301,8 @@ public partial class Admin_Dashboard : System.Web.UI.Page
                     )
                     SELECT 
                         pd.d AS BookingDate,
-                        COUNT(b.BookingId) AS TotalBookings,
-                        SUM(CASE WHEN b.BookingStatus = 'Confirmed' THEN 1 ELSE 0 END) AS ConfirmedBookings
+                        COUNT(CASE WHEN b.BookingStatus != 'Cancelled' THEN b.BookingId END) AS TotalBookings,
+                        SUM(CASE WHEN b.BookingStatus IN ('Confirmed', 'Checked-In', 'Completed') THEN 1 ELSE 0 END) AS ConfirmedBookings
                     FROM PastDays pd
                     LEFT JOIN Bookings b ON CAST(b.BookingDate AS DATE) = pd.d
                     GROUP BY pd.d
@@ -217,11 +344,18 @@ public partial class Admin_Dashboard : System.Web.UI.Page
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 string sql = @"
-                    SELECT TOP 10 BookingReference, GuestName, ISNULL(RoomId, 'N/A') AS RoomNo, 
-                           CheckInDate, BookingStatus
-                    FROM Bookings
-                    WHERE CAST(CheckInDate AS DATE) = CAST(GETDATE() AS DATE)
-                    ORDER BY BookingId DESC";
+                    SELECT TOP 10 
+                        b.BookingId,
+                        b.BookingReference, 
+                        b.GuestName, 
+                        ISNULL(r.RoomName, 'Room #' + CAST(b.RoomId AS VARCHAR(10))) AS RoomNo, 
+                        b.CheckInDate, 
+                        b.BookingStatus
+                    FROM Bookings b
+                    LEFT JOIN Rooms r ON b.RoomId = r.RoomID
+                    WHERE CAST(b.CheckInDate AS DATE) = CAST(GETDATE() AS DATE)
+                       OR (b.BookingStatus IN ('Confirmed', 'Pending') AND CAST(b.CheckInDate AS DATE) <= CAST(GETDATE() AS DATE))
+                    ORDER BY b.BookingId DESC";
                 
                 using (SqlDataAdapter da = new SqlDataAdapter(sql, con))
                 {
@@ -242,11 +376,18 @@ public partial class Admin_Dashboard : System.Web.UI.Page
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 string sql = @"
-                    SELECT TOP 10 BookingReference, GuestName, ISNULL(RoomId, 'N/A') AS RoomNo, 
-                           CheckOutDate, BookingStatus
-                    FROM Bookings
-                    WHERE CAST(CheckOutDate AS DATE) = CAST(GETDATE() AS DATE)
-                    ORDER BY BookingId DESC";
+                    SELECT TOP 10 
+                        b.BookingId,
+                        b.BookingReference, 
+                        b.GuestName, 
+                        ISNULL(r.RoomName, 'Room #' + CAST(b.RoomId AS VARCHAR(10))) AS RoomNo, 
+                        b.CheckOutDate, 
+                        b.BookingStatus
+                    FROM Bookings b
+                    LEFT JOIN Rooms r ON b.RoomId = r.RoomID
+                    WHERE CAST(b.CheckOutDate AS DATE) = CAST(GETDATE() AS DATE)
+                       OR (b.BookingStatus = 'Checked-In' AND CAST(b.CheckOutDate AS DATE) <= CAST(GETDATE() AS DATE))
+                    ORDER BY b.BookingId DESC";
                 
                 using (SqlDataAdapter da = new SqlDataAdapter(sql, con))
                 {
@@ -267,10 +408,17 @@ public partial class Admin_Dashboard : System.Web.UI.Page
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 string sql = @"
-                    SELECT TOP 5 BookingReference, GuestName, ISNULL(RoomId, 'N/A') AS RoomNo, 
-                           CheckInDate, CheckOutDate, BookingStatus
-                    FROM Bookings
-                    ORDER BY BookingId DESC";
+                    SELECT TOP 5 
+                        b.BookingId,
+                        b.BookingReference, 
+                        b.GuestName, 
+                        ISNULL(r.RoomName, 'Room #' + CAST(b.RoomId AS VARCHAR(10))) AS RoomNo, 
+                        b.CheckInDate, 
+                        b.CheckOutDate, 
+                        b.BookingStatus
+                    FROM Bookings b
+                    LEFT JOIN Rooms r ON b.RoomId = r.RoomID
+                    ORDER BY b.BookingId DESC";
                 
                 using (SqlDataAdapter da = new SqlDataAdapter(sql, con))
                 {
@@ -339,5 +487,103 @@ public partial class Admin_Dashboard : System.Web.UI.Page
         if (s.Contains("check-out") || s.Contains("checked-out") || s.Contains("complet")) return "status-checkedout";
         if (s.Contains("cancel")) return "status-cancelled";
         return "status-pending";
+    }
+
+    // Helper function for Arrivals action button/badge
+    protected string GetArrivalActionHtml(object bookingId, object guestName, object status)
+    {
+        string s = status != null ? status.ToString() : "";
+        if (s == "Checked-In")
+        {
+            return "<span class=\"badge bg-success-subtle text-success border px-1 py-0\" style=\"font-size:0.72rem;\"><i class=\"bi bi-check2\"></i> In-House</span>";
+        }
+        string id = bookingId != null ? bookingId.ToString() : "";
+        string name = guestName != null ? guestName.ToString().Replace("'", "\\'") : "";
+        return string.Format("<a href=\"Dashboard.aspx?action=checkin&id={0}\" class=\"action-btn btn-checkin\" onclick=\"return confirm('Check-In guest {1} now? Room will be marked Occupied.');\">Check-In</a>", id, name);
+    }
+
+    // Helper function for Departures action button/badge
+    protected string GetDepartureActionHtml(object bookingId, object guestName, object status)
+    {
+        string s = status != null ? status.ToString() : "";
+        if (s == "Completed")
+        {
+            return "<span class=\"badge bg-secondary-subtle text-muted border px-1 py-0\" style=\"font-size:0.72rem;\"><i class=\"bi bi-check-all\"></i> Done</span>";
+        }
+        string id = bookingId != null ? bookingId.ToString() : "";
+        string name = guestName != null ? guestName.ToString().Replace("'", "\\'") : "";
+        return string.Format("<a href=\"Dashboard.aspx?action=checkout&id={0}\" class=\"action-btn btn-checkout\" onclick=\"return confirm('Check-Out guest {1} now? Room will be sent to cleaning.');\">Check-Out</a>", id, name);
+    }
+
+    private void LoadDiningData()
+    {
+        try
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+
+                // 1. Recent Table Reservations (Top 5)
+                string sqlRes = @"
+                    SELECT TOP 5 ReservationId, BookingCode, CustomerName, ReservationDate, TimeSlot, 
+                                 ISNULL(GuestCount, 2) AS GuestCount, ISNULL(TableNumber, 'TBA') AS TableNumber, 
+                                 ISNULL(Status, 'Pending') AS Status 
+                    FROM TableReservations 
+                    ORDER BY ReservationId DESC";
+
+                using (SqlDataAdapter daRes = new SqlDataAdapter(sqlRes, con))
+                {
+                    DataTable dtRes = new DataTable();
+                    daRes.Fill(dtRes);
+                    rptDiningReservations.DataSource = dtRes;
+                    rptDiningReservations.DataBind();
+                    litDiningResCount.Text = dtRes.Rows.Count.ToString();
+                }
+
+                // 2. Restaurant Tables Inventory (Top 5)
+                string sqlTables = @"
+                    SELECT TOP 5 TableId, TableNumber, TableName, Capacity, 
+                                 ISNULL(Section, 'Main Dining') AS Section, 
+                                 ISNULL(TableStatus, 'Available') AS TableStatus 
+                    FROM RestaurantTables 
+                    WHERE ISNULL(IsActive, 1) = 1 
+                    ORDER BY TableId ASC";
+
+                using (SqlDataAdapter daTbl = new SqlDataAdapter(sqlTables, con))
+                {
+                    DataTable dtTbl = new DataTable();
+                    daTbl.Fill(dtTbl);
+                    rptRestaurantTables.DataSource = dtTbl;
+                    rptRestaurantTables.DataBind();
+                    litDiningTablesCount.Text = dtTbl.Rows.Count.ToString();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine(ex.Message);
+        }
+    }
+
+    protected string GetDiningStatusBadgeClass(string status)
+    {
+        if (string.IsNullOrEmpty(status)) return "status-pending";
+        string s = status.ToLowerInvariant();
+        if (s.Contains("confirm")) return "status-confirmed";
+        if (s.Contains("pend")) return "status-pending";
+        if (s.Contains("seat")) return "status-checkedin";
+        if (s.Contains("complet")) return "status-checkedout";
+        if (s.Contains("cancel")) return "status-cancelled";
+        return "status-pending";
+    }
+
+    protected string GetTableStatusBadgeClass(string status)
+    {
+        if (string.IsNullOrEmpty(status)) return "status-confirmed";
+        string s = status.ToLowerInvariant();
+        if (s.Contains("avail")) return "status-confirmed";
+        if (s.Contains("book") || s.Contains("occup")) return "status-checkedin";
+        if (s.Contains("reserv")) return "status-pending";
+        return "status-checkedout";
     }
 }
