@@ -196,7 +196,7 @@ Hotel-Management-Project-1/
         └── script.js             # General Public Site Interactivity
 
 ================================================================================
-4. CORE MODULE SPECIFICATIONS & WORKFLOWS
+4. CORE MODULE SPECIFICATIONS
 ================================================================================
 
 --------------------------------------------------------------------------------
@@ -302,7 +302,210 @@ MODULE 7: FINE DINING & TABLE RESERVATIONS (TableReservation.aspx, admin/)
   `Menu.aspx` (culinary catalog).
 
 ================================================================================
-5. SECURITY & PRIVACY SPECIFICATIONS
+5. END-TO-END OPERATIONAL WORKFLOWS & SYSTEM PROCESS FLOWCHARTS
+================================================================================
+
+--------------------------------------------------------------------------------
+WORKFLOW 1: GUEST ROOM RESERVATION & STAY LIFECYCLE PIPELINE
+--------------------------------------------------------------------------------
+This workflow governs the full guest journey from discovery to completed stay,
+including database transactions, room status updates, and SignalR alerts.
+
+[GUEST DISCOVERY]
+       │
+       ▼
+1. Browse Suites (Room.aspx / RoomDetails.aspx)
+   * Guest selects dates, room type, occupancy, and tariff package.
+       │
+       ▼
+2. Complete Reservation Form (Booking.aspx / BookNow.aspx)
+   * Guest submits personal details, contact info, and special requests.
+       │
+       ▼
+3. Server-Side SQL Transaction (BookNow.aspx.cs / Booking.aspx.cs)
+   * BEGIN TRANSACTION
+   * INSERT INTO Bookings (BookingCode, GuestName, RoomID, Dates, Status = 'Confirmed')
+   * UPDATE Rooms SET RoomStatus = 'Booked' WHERE RoomID = @RoomId
+   * COMMIT TRANSACTION
+       │
+       ▼
+4. Real-Time SignalR Broadcast (NotificationHub.cs)
+   * NotificationHub.Broadcast("New booking received: REF#... | Guest: ...")
+   * Hub pushes notification via WebSocket / SSE to all active Admin sessions.
+   * Admin topbar: Bell badge increments, "New Room Booking Alert" item added.
+       │
+       ▼
+5. Guest Check-In Execution (admin/Bookings.aspx)
+   * On arrival, admin clicks [Check-In] in Bookings Ledger or Dashboard.
+   * System sets Booking.Status = 'Checked-In'.
+   * System auto-updates Rooms.RoomStatus = 'Occupied' (In-House).
+       │
+       ▼
+6. Guest Check-Out Execution (admin/Bookings.aspx)
+   * On departure, admin clicks [Check-Out].
+   * System sets Booking.Status = 'Completed'.
+   * System auto-updates Rooms.RoomStatus = 'Cleaning' (Housekeeping queue).
+       │
+       ▼
+7. Housekeeping Turnover (admin/Availability.aspx)
+   * Housekeeping finishes sanitization.
+   * Admin / Staff clicks [Available].
+   * Rooms.RoomStatus resets to 'Available', ready for next guest.
+
+
+--------------------------------------------------------------------------------
+WORKFLOW 2: FINE-DINING TABLE RESERVATION PIPELINE
+--------------------------------------------------------------------------------
+[DINING GUEST]
+       │
+       ▼
+1. Table Selection & Reservation (TableReservation.aspx)
+   * Guest selects Date, Time Slot, Party Size, and Table Number.
+   * System checks table capacity & existing reservations for time-slot conflict.
+       │
+       ▼
+2. Database Insertion (TableReservation.aspx.cs)
+   * Parameterized INSERT into TableReservations.
+   * Generates unique Booking Voucher Code (e.g. TR-2026-XXXX).
+       │
+       ▼
+3. SignalR Real-Time Alert Broadcast
+   * NotificationHub.Broadcast("New table reservation: CODE | Guest: ... | Table: ...")
+   * Admin topbar: Bell badge increments, "New Table Booking Alert" (Green Icon)
+     with direct link to admin/TableReservations.aspx.
+       │
+       ▼
+4. Instant Voucher Display (TableReservation.aspx)
+   * Reservation form smoothly hides.
+   * Printable confirmation voucher displayed on screen with reservation details.
+       │
+       ▼
+5. Admin Dining Management (admin/TableReservations.aspx)
+   * Admin views, manages, and honors guest reservations in real time.
+
+
+--------------------------------------------------------------------------------
+WORKFLOW 3: CONTACT INQUIRIES & ANTI-RESUBMISSION GUARD PIPELINE
+--------------------------------------------------------------------------------
+This workflow prevents duplicate submissions on refresh (F5) and alerts admin.
+
+[GUEST / VISITOR]
+       │
+       ▼
+1. Fill Inquiries Form (Contact.aspx)
+   * Inputs Name, Email, Subject, and Message.
+   * Clicks [SEND MESSAGE] button.
+       │
+       ▼
+2. Server Processing & Anti-Resubmission Token Validation (Contact.aspx.cs)
+   * Checks Session["ContactSubmitToken"] == ViewState["ContactSubmitToken"].
+   * If token mismatch (duplicate refresh / replay attack) -> Redirects to clean GET.
+   * If token valid -> Invalidates current token immediately.
+       │
+       ▼
+3. Dual-Table Database Synchronization
+   * INSERT INTO ContactEnquiries (Admin Inbox, Status = 'Unread')
+   * INSERT INTO ContactMessages (Secondary backup synchronization)
+       │
+       ▼
+4. Real-Time Admin Notification
+   * NotificationHub.Broadcast("New contact message from [Name] | Subject: [Subject]")
+   * Admin topbar: Bell badge increments (+1), "New Contact Message Alert" (Gold Icon)
+     prepended to dropdown list with link to admin/Enquiries.aspx.
+       │
+       ▼
+5. Post-Redirect-Get (PRG) Transition
+   * Session["ContactSuccessMessage"] = "Thank you! Your message has been sent..."
+   * HTTP 302 Redirect to Contact.aspx (GET request).
+   * Browser history converts from POST to GET (window.history.replaceState).
+       │
+       ▼
+6. 2-Second Auto-Dismissing Confirmation
+   * Page loads via GET; displays green success alert with animated 2s timer bar.
+   * After 2.0 seconds (2000ms), alert smoothly fades out and auto-dismisses.
+   * Pressing F5 / Refresh only reloads clean GET; ZERO duplicate messages sent.
+       │
+       ▼
+7. Admin Inquiries Moderation (admin/Enquiries.aspx)
+   * Admin reviews message, toggles Read/Unread status.
+   * When deleting: Trash icon directly deletes without blocking browser popup,
+     showing animated 2-second green confirmation banner.
+
+
+--------------------------------------------------------------------------------
+WORKFLOW 4: REAL-TIME SIGNALR WEBSOCKET NOTIFICATION ENGINE PIPELINE
+--------------------------------------------------------------------------------
+           [EVENT TRIGGER]
+     ┌────────────────────────┐
+     │ Room Booking Confirmed │ (Booking.aspx.cs)
+     │ Table Reserved         │ (TableReservation.aspx.cs)
+     │ Contact Form Sent      │ (Contact.aspx.cs)
+     └───────────┬────────────┘
+                 │
+                 ▼
+     [NotificationHub.cs]
+     * Calls NotificationHub.Broadcast(message)
+     * Retrieves GlobalHost.ConnectionManager.GetHubContext<NotificationHub>()
+     * Invokes Clients.All.receiveNotification(message)
+                 │
+                 ▼
+     [OWIN / SignalR Pipeline (/signalr)]
+     * Distributes event across active WebSockets / Server-Sent Events / Long-Polling
+                 │
+                 ▼
+     [admin/js/adminmaster.js (Active on All Admin Pages)]
+     * Receives message in real time
+     * Parses keyword: "table" -> Green Table Alert | "contact" -> Gold Inquiry Alert | "booking" -> Blue Room Alert
+     * Increments #notifBadge (+1) and unhides badge pill
+     * Updates #notifCountText ("X New")
+     * Prepends formatted notification card to #notificationList
+     * Hides #noNotifications empty state
+
+
+--------------------------------------------------------------------------------
+WORKFLOW 5: ROOM INVENTORY OPERATIONAL STATE MACHINE (Availability.aspx)
+--------------------------------------------------------------------------------
+Room operational statuses transition dynamically through defined states:
+
+               ┌──────────────────────────────────────┐
+               │                                      │
+               ▼                                      │ (Housekeeping Done)
+        ┌──────────────┐   Guest Check-In    ┌────────┴─────┐
+        │  AVAILABLE   │ ──────────────────> │   OCCUPIED   │
+        └──────┬───────┘                     └──────┬───────┘
+               │                                    │
+               │ (Manual Hold)                      │ (Guest Check-Out)
+               ▼                                    ▼
+        ┌──────────────┐                     ┌──────────────┐
+        │ MAINTENANCE  │                     │   CLEANING   │
+        │  OR BLOCKED  │                     │ (Housekeeping│
+        └──────┬───────┘                     │    Queue)    │
+               │                                    │
+               └───────────────> Ready <────────────┘
+
+
+--------------------------------------------------------------------------------
+WORKFLOW 6: ROLE-BASED AUTHENTICATION & ACCESS CONTROL PIPELINE
+--------------------------------------------------------------------------------
+[USER ACCESS ATTEMPT]
+       │
+       ├────────────────────────────────────────┬────────────────────────────────────────┐
+       ▼                                        ▼                                        ▼
+[GUEST LOGIN (Login.aspx)]             [GUEST REGISTER (Register.aspx)]         [ADMIN LOGIN (admin/Login.aspx)]
+       │                                        │                                        │
+       ▼                                        ▼                                        ▼
+Validate Credentials in SQL            Insert User with Hashed Password         Validate Admin Credentials in SQL
+       │                                        │                                        │
+       ▼                                        ▼                                        ▼
+Session["UserId"] = UserID             Auto-Login or Confirmation Screen        Session["AdminId"] = AdminID
+Session["UserName"] = Name                      │                               Session["IsAdmin"] = true
+       │                                        │                                        │
+       ▼                                        ▼                                        ▼
+MasterPage dynamically shows:          Redirect to LoginConfirmation.aspx       Redirect to admin/Dashboard.aspx
+"Hi, [Name]" + "Logout" link                                                    Full Admin Privileges Granted
+
+================================================================================
+6. SECURITY & PRIVACY SPECIFICATIONS
 ================================================================================
 * Parameterized SQL Queries:
   100% of all SQL execution utilizes `SqlParameter` objects with explicit SQL types.
@@ -320,7 +523,7 @@ MODULE 7: FINE DINING & TABLE RESERVATIONS (TableReservation.aspx, admin/)
   Database connections are managed via standard Web.config provider references.
 
 ================================================================================
-6. LOCAL SETUP & RUNNING INSTRUCTIONS
+7. LOCAL SETUP & RUNNING INSTRUCTIONS
 ================================================================================
 1. SYSTEM PREREQUISITES
    * Microsoft Windows 10 / 11 / Windows Server
@@ -342,11 +545,10 @@ MODULE 7: FINE DINING & TABLE RESERVATIONS (TableReservation.aspx, admin/)
                   providerName="System.Data.SqlClient" />
            </connectionStrings>
    Step 5: Press [F5] or click [IIS Express] in the Visual Studio toolbar.
-   Step 6: Access Public Guest Portal : http://localhost:PORT/index.aspx
-           Access Executive Admin     : http://localhost:PORT/admin/Dashboard.aspx
+   Step 6: Navigate to index.aspx to access the Public Guest Portal.
 
 ================================================================================
-7. VERIFICATION & QUALITY ASSURANCE STATUS
+8. VERIFICATION & QUALITY ASSURANCE STATUS
 ================================================================================
 * Compilation Status         : 100% Clean Build verified via ASP.NET runtime
                                (0 Compilation Errors).

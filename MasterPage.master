@@ -11,6 +11,10 @@
     <meta name="keywords" content="Hotel Management, Luxury Hotel, Hotel Booking, Resort, Rooms, Hotel Services, Suites">
     <meta name="author" content="Hotel Management">
 
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
     <!-- Bootstrap 5 CSS -->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     
