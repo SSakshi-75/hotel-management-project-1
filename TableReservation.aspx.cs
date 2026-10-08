@@ -297,8 +297,7 @@ public partial class TableReservation : System.Web.UI.Page
             litVouchGuestName.Text = custName + " (" + custPhone + ")";
 
             // Send real-time notification to all connected admin panels
-            var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
-            hubContext.Clients.All.receiveNotification(
+            NotificationHub.Broadcast(
                 "New table reservation: " + bookingCode +
                 " | Guest: " + custName +
                 " | Table: " + tableNum + " for " + guestCount + " guests"

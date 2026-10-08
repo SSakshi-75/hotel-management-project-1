@@ -200,124 +200,60 @@ document.addEventListener(
 
 $(function () {
 
-    // Check SignalR
-    if (!$.connection ||
-        !$.connection.notificationHub) {
+    var retryCount = 0;
+    var maxRetries = 5;
 
-        console.error(
-            "NotificationHub not found."
-        );
+    function startSignalR() {
+        // Check SignalR
+        if (!$.connection || !$.connection.notificationHub) {
+            if (retryCount < maxRetries) {
+                retryCount++;
+                setTimeout(startSignalR, 300);
+            } else {
+                console.warn("SignalR NotificationHub not available.");
+            }
+            return;
+        }
 
-        return;
-    }
+        // ==========================================
+        // SIGNALR HUB CONNECTION
+        // ==========================================
+        var notificationHub = $.connection.notificationHub;
 
-
-    // ==========================================
-    // SIGNALR HUB CONNECTION
-    // ==========================================
-
-    var notificationHub =
-        $.connection.notificationHub;
-
-
-
-    // ==========================================
-    // RECEIVE NOTIFICATION FROM SERVER
-    // ==========================================
-
-    notificationHub.client.receiveNotification =
-        function (message) {
-
-            console.log(
-                "New Notification:",
-                message
-            );
-
+        // ==========================================
+        // RECEIVE NOTIFICATION FROM SERVER
+        // ==========================================
+        notificationHub.client.receiveNotification = function (message) {
+            console.log("New Notification:", message);
 
             // Get elements
-            var badge =
-                document.getElementById(
-                    "notifBadge"
-                );
+            var badge = document.getElementById("notifBadge");
+            var countText = document.getElementById("notifCountText");
+            var notificationList = document.getElementById("notificationList");
+            var noNotifications = document.getElementById("noNotifications");
 
-            var countText =
-                document.getElementById(
-                    "notifCountText"
-                );
-
-            var notificationList =
-                document.getElementById(
-                    "notificationList"
-                );
-
-            var noNotifications =
-                document.getElementById(
-                    "noNotifications"
-                );
-
-
-            // ==========================================
             // Hide No Notification Message
-            // ==========================================
-
             if (noNotifications) {
-
-                noNotifications.style.display =
-                    "none";
+                noNotifications.style.display = "none";
             }
 
-
-            // ==========================================
             // Get Current Notification Count
-            // ==========================================
-
             var currentCount = 0;
-
-
-            if (
-                badge &&
-                badge.innerText
-            ) {
-
-                currentCount =
-                    parseInt(
-                        badge.innerText
-                    ) || 0;
+            if (badge && badge.innerText) {
+                currentCount = parseInt(badge.innerText) || 0;
             }
-
-
             currentCount++;
 
-
-
-            // ==========================================
             // UPDATE BELL BADGE
-            // ==========================================
-
             if (badge) {
-
-                badge.innerText =
-                    currentCount;
-
-                badge.classList.remove(
-                    "d-none"
-                );
+                badge.innerText = currentCount;
+                badge.classList.remove("d-none");
             }
 
-
-
-            // ==========================================
             // UPDATE "X NEW"
-            // ==========================================
-
             if (countText) {
-
-                countText.innerText =
-                    currentCount +
-                    " New";
+                countText.innerText = currentCount + " New";
             }
-
-
 
             // Determine alert category & destination link
             var lowerMsg = (message || "").toLowerCase();
@@ -343,21 +279,11 @@ $(function () {
                 targetUrl = "Bookings.aspx";
             }
 
-            // ==========================================
             // CREATE NOTIFICATION ITEM
-            // ==========================================
-
             if (notificationList) {
-
-                var notificationItem =
-                    document.createElement(
-                        "a"
-                    );
-
+                var notificationItem = document.createElement("a");
                 notificationItem.href = targetUrl;
-                notificationItem.className =
-                    "text-decoration-none d-block";
-
+                notificationItem.className = "text-decoration-none d-block";
                 notificationItem.innerHTML =
                     '<div class="notification-item p-3 border-bottom unread bg-light">' +
                         '<div class="d-flex align-items-start gap-3">' +
@@ -378,32 +304,94 @@ $(function () {
                     notificationList.firstChild
                 );
             }
-
         };
 
+        // ==========================================
+        // START SIGNALR CONNECTION
+        // ==========================================
+        $.connection.hub.start()
+            .done(function () {
+                console.log("SignalR connected successfully.");
+            })
+            .fail(function (error) {
+                console.error("SignalR connection failed:", error);
+            });
 
-
-    // ==========================================
-    // START SIGNALR CONNECTION
-    // ==========================================
-
-    $.connection.hub.start()
-
-        .done(function () {
-
-            console.log(
-                "SignalR connected successfully."
-            );
-
-        })
-
-        .fail(function (error) {
-
-            console.error(
-                "SignalR connection failed:",
-                error
-            );
-
+        // Auto-reconnect if connection drops
+        $.connection.hub.disconnected(function () {
+            setTimeout(function () {
+                $.connection.hub.start();
+            }, 5000);
         });
+    }
 
+    startSignalR();
+
+});
+
+// ==========================================
+// NOTIFICATION DISMISS / CLEAR READ LOGIC
+// ==========================================
+function clearAllNotifications() {
+    var badge = document.getElementById("notifBadge");
+    var countText = document.getElementById("notifCountText");
+    var notifList = document.getElementById("notificationList");
+
+    var maxId = (badge && badge.getAttribute("data-max-id")) ? badge.getAttribute("data-max-id") : "999999999";
+    document.cookie = "LastReadBookingId=" + encodeURIComponent(maxId) + "; path=/; max-age=2592000";
+
+    if (badge) {
+        badge.innerText = "0";
+        badge.classList.add("d-none");
+    }
+
+    if (countText) {
+        countText.innerText = "0 New";
+    }
+
+    if (notifList) {
+        notifList.innerHTML =
+            '<div id="noNotifications" class="p-4 text-center text-muted">' +
+                '<i class="bi bi-bell-slash text-muted fs-3 d-block mb-2 opacity-50"></i>' +
+                '<div class="small fw-semibold text-dark">No New Notifications</div>' +
+                '<span class="text-muted" style="font-size: 0.72rem;">All systems operational</span>' +
+            '</div>';
+    }
+}
+window.clearAllNotifications = clearAllNotifications;
+
+// When the bell button is clicked / dropdown opened, remove red badge
+document.addEventListener("DOMContentLoaded", function () {
+    var notifBtn = document.getElementById("notifDropdown");
+    if (notifBtn) {
+        notifBtn.addEventListener("click", function () {
+            var badge = document.getElementById("notifBadge");
+            if (badge && !badge.classList.contains("d-none")) {
+                var maxId = badge.getAttribute("data-max-id");
+                if (maxId) {
+                    document.cookie = "LastReadBookingId=" + encodeURIComponent(maxId) + "; path=/; max-age=2592000";
+                }
+                badge.classList.add("d-none");
+                var countText = document.getElementById("notifCountText");
+                if (countText) {
+                    countText.innerText = "0 New";
+                }
+            }
+        });
+    }
+
+    // When clicking any specific notification link, mark read
+    document.addEventListener("click", function (e) {
+        var notifLink = e.target.closest ? e.target.closest(".notification-item-link") : null;
+        if (notifLink) {
+            var notifId = notifLink.getAttribute("data-id");
+            if (notifId) {
+                document.cookie = "LastReadBookingId=" + encodeURIComponent(notifId) + "; path=/; max-age=2592000";
+            }
+            var badge = document.getElementById("notifBadge");
+            if (badge) {
+                badge.classList.add("d-none");
+            }
+        }
+    });
 });

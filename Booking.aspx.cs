@@ -408,9 +408,7 @@ public partial class Booking : System.Web.UI.Page
                         tran.Commit();
 
                         // Send real-time notification to all connected admin panels
-                        var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
-
-                        hubContext.Clients.All.receiveNotification(
+                        NotificationHub.Broadcast(
                             "New booking received: " + bookingRef +
                             " | Guest: " + guestName.Trim() +
                             " | Room: " + actualRoomName
