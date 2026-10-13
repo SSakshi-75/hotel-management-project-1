@@ -57,44 +57,6 @@
 
     <form id="form1" runat="server" enctype="multipart/form-data">
 
-        <!-- ==========================================
-             TOP HEADER / INFO BAR
-             ========================================== -->
-        <div class="top-bar-info bg-dark text-white py-2 border-bottom border-secondary border-opacity-25">
-            <div class="container-fluid px-4 px-lg-5">
-                <div class="d-flex flex-wrap justify-content-between align-items-center">
-                    
-                    <!-- Contact Details -->
-                    <div class="d-flex flex-wrap align-items-center gap-4">
-                        <span class="d-inline-flex align-items-center">
-                            <i class="bi bi-geo-alt-fill text-warning me-2"></i>
-                            Chanakyapuri, New Delhi, India 110021
-                        </span>
-                        <span class="d-inline-flex align-items-center">
-                            <i class="bi bi-telephone-fill text-warning me-2"></i>
-                            <a href="tel:+911139331234" class="text-white text-decoration-none">+91 11 3933 1234</a>
-                        </span>
-                        <span class="d-inline-flex align-items-center d-none d-md-inline-flex">
-                            <i class="bi bi-envelope-fill text-warning me-2"></i>
-                            <a href="mailto:info@hotelmanagement.com" class="text-white text-decoration-none">info@hotelmanagement.com</a>
-                        </span>
-                    </div>
-
-                    <!-- Social Links & Concierge Badge -->
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="d-flex gap-2">
-                            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" class="text-white hover-warning px-1" title="Facebook"><i class="bi bi-facebook"></i></a>
-                            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="text-white hover-warning px-1" title="Instagram"><i class="bi bi-instagram"></i></a>
-                            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="text-white hover-warning px-1" title="Twitter"><i class="bi bi-twitter-x"></i></a>
-                            <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" class="text-white hover-warning px-1" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
-                        </div>
-                        <span class="text-secondary d-none d-sm-inline">|</span>
-                        <span class="badge bg-warning text-dark fw-bold d-none d-sm-inline">24/7 Concierge</span>
-                    </div>
-
-                </div>
-            </div>
-        </div>
 
         <!-- ==========================================
              MAIN NAVIGATION HEADER (WHITE BG & LOGO)
@@ -267,8 +229,9 @@
                     <div class="col-lg-3 col-md-6">
                         <h4 class="mb-3" style="color: #442305;">Stay Connected</h4>
                         <div class="small text-muted">
-                            <p class="mb-2"><i class="bi bi-geo-alt me-2" style="color: #442305;"></i> Chanakyapuri, New Delhi 110021</p>
-                            <p class="mb-0"><i class="bi bi-telephone me-2" style="color: #442305;"></i> +91 11 3933 1234</p>
+                            <p class="mb-2"><i class="bi bi-geo-alt me-2" style="color: #442305;"></i> Chanakyapuri, New Delhi, India 110021</p>
+                            <p class="mb-2"><i class="bi bi-telephone me-2" style="color: #442305;"></i> <a href="tel:+911139331234" class="text-decoration-none text-muted">+91 11 3933 1234</a></p>
+                            <p class="mb-0"><i class="bi bi-envelope me-2" style="color: #442305;"></i> <a href="mailto:info@hotelmanagement.com" class="text-decoration-none text-muted">info@hotelmanagement.com</a></p>
                         </div>
                     </div>
 
