@@ -180,6 +180,7 @@
             .table-responsive::-webkit-scrollbar {
                 height: 4px;
             }
+
             .table-responsive::-webkit-scrollbar-thumb {
                 background: #cbd5e1;
                 border-radius: 4px;
@@ -504,18 +505,22 @@
                 justify-content: space-between;
                 align-items: center;
             }
+
             .dining-header-title-row {
                 display: flex;
                 align-items: center;
             }
+
             .dining-header-actions {
                 display: flex;
                 align-items: center;
                 gap: 8px;
             }
+
             .dining-mobile-viewall {
                 display: none;
             }
+
             .dining-desktop-viewall {
                 display: inline-block;
             }
@@ -528,6 +533,7 @@
                 height: 100%;
                 padding-bottom: 1.5rem;
             }
+
             .donut-legend-list {
                 display: flex;
                 flex-direction: column;
@@ -540,9 +546,11 @@
                 .dash-header {
                     margin-bottom: 20px;
                 }
+
                 .dash-title {
                     font-size: 1.55rem;
                 }
+
                 .dash-card {
                     padding: 14px 12px;
                 }
@@ -550,6 +558,7 @@
 
             /* Mobile Landscape & Below (<= 767.98px) */
             @media (max-width: 767.98px) {
+
                 /* Header: stack title and date badge cleanly without squishing */
                 .dash-header {
                     flex-direction: column;
@@ -758,6 +767,7 @@
 
             /* Small Mobile Devices (<= 575.98px) */
             @media (max-width: 575.98px) {
+
                 /* Reduce admin body padding slightly for more screen real estate */
                 .admin-content-body {
                     padding: 10px 8px !important;
@@ -810,14 +820,18 @@
 
         <div class="dash-header">
             <div>
-                <h2 class="dash-title"><span id="dashGreetingText"><asp:Literal ID="litGreeting" runat="server">Good Morning, Admin!</asp:Literal></span></h2>
+                <h2 class="dash-title"><span id="dashGreetingText">
+                        <asp:Literal ID="litGreeting" runat="server">Good Morning, Admin!</asp:Literal>
+                    </span></h2>
                 <p class="dash-subtitle mb-0">Here's what's happening at your hotel today.</p>
             </div>
             <div class="date-badge">
                 <i class="bi bi-calendar3"></i>
                 <div class="date-badge-text">
                     <small>Today</small>
-                    <strong id="dashDateText"><asp:Literal ID="litCurrentDate" runat="server"></asp:Literal></strong>
+                    <strong id="dashDateText">
+                        <asp:Literal ID="litCurrentDate" runat="server"></asp:Literal>
+                    </strong>
                 </div>
             </div>
         </div>
@@ -850,7 +864,9 @@
                     <div class="kpi-icon kpi-purple"><i class="bi bi-percent"></i></div>
                     <div class="kpi-title">Occupancy Rate</div>
                     <div class="kpi-value d-flex justify-content-between align-items-center">
-                        <span><asp:Literal ID="lblOccupancyRate" runat="server" Text="0"></asp:Literal>%</span>
+                        <span>
+                            <asp:Literal ID="lblOccupancyRate" runat="server" Text="0"></asp:Literal>%
+                        </span>
                         <i class="bi bi-pie-chart-fill text-muted fs-5 opacity-50 flex-shrink-0 ms-2"></i>
                     </div>
                     <div class="kpi-desc">
@@ -934,7 +950,8 @@
                             <canvas id="roomStatusDonutChart"></canvas>
                             <div
                                 style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-                                <div id="donutCenterTotalRooms" style="font-size:1.5rem; font-weight:700; color:#212529;">
+                                <div id="donutCenterTotalRooms"
+                                    style="font-size:1.5rem; font-weight:700; color:#212529;">
                                     <asp:Literal ID="lblChartDonutCenter" runat="server" Text="0"></asp:Literal>
                                 </div>
                                 <div style="font-size:0.7rem; color:#6c757d;">Total Rooms</div>
@@ -983,7 +1000,8 @@
             <div class="col-12 col-lg-6">
                 <div class="dash-card h-100 d-flex flex-column">
                     <div class="dash-card-header mb-3">
-                        <h5 class="dash-card-title"><i class="bi bi-calendar2-plus text-warning fs-5"></i> Today's Arrivals</h5>
+                        <h5 class="dash-card-title"><i class="bi bi-calendar2-plus text-warning fs-5"></i> Today's
+                            Arrivals</h5>
                         <a href="Bookings.aspx" class="view-all-link">View All <i class="bi bi-arrow-right"></i></a>
                     </div>
                     <div class="table-responsive flex-grow-1">
@@ -1003,28 +1021,36 @@
                                     <ItemTemplate>
                                         <tr>
                                             <td class="ps-2 text-start">
-                                                <span class="fw-bold font-monospace" style="color: #442305; font-size: 0.72rem;">
+                                                <span class="fw-bold font-monospace"
+                                                    style="color: #442305; font-size: 0.72rem;">
                                                     <%# Eval("BookingReference") %>
                                                 </span>
                                             </td>
                                             <td class="text-start">
-                                                <span class="fw-semibold text-dark text-truncate d-inline-block" style="max-width: 95px; vertical-align: middle;" title='<%# Eval("GuestName") %>'>
+                                                <span class="fw-semibold text-dark text-truncate d-inline-block"
+                                                    style="max-width: 95px; vertical-align: middle;"
+                                                    title='<%# Eval("GuestName") %>'>
                                                     <%# Eval("GuestName") %>
                                                 </span>
                                             </td>
                                             <td class="text-center">
-                                                <span class="badge bg-light text-dark border px-1 py-0" style="font-size: 0.74rem;"><%# Eval("RoomNo") %></span>
+                                                <span class="badge bg-light text-dark border px-1 py-0"
+                                                    style="font-size: 0.74rem;">
+                                                    <%# Eval("RoomNo") %>
+                                                </span>
                                             </td>
                                             <td class="text-center small text-muted">
                                                 <%# Convert.ToDateTime(Eval("CheckInDate")).ToString("hh:mm tt") %>
                                             </td>
                                             <td class="text-center">
-                                                <span class='status-badge <%# GetStatusBadgeClass(Eval("BookingStatus").ToString()) %>'>
+                                                <span
+                                                    class='status-badge <%# GetStatusBadgeClass(Eval("BookingStatus").ToString()) %>'>
                                                     <%# Eval("BookingStatus") %>
                                                 </span>
                                             </td>
                                             <td class="text-center pe-2">
-                                                <%# GetArrivalActionHtml(Eval("BookingId"), Eval("GuestName"), Eval("BookingStatus")) %>
+                                                <%# GetArrivalActionHtml(Eval("BookingId"), Eval("GuestName"),
+                                                    Eval("BookingStatus")) %>
                                             </td>
                                         </tr>
                                     </ItemTemplate>
@@ -1033,16 +1059,19 @@
                                     <tr>
                                         <td colspan="6" class="text-center text-muted py-4">
                                             <i class="bi bi-calendar2-check fs-3 d-block mb-2 opacity-50"></i>
-                                            <div class="small fw-semibold text-dark mb-1">No Arrivals Scheduled Today</div>
-                                            <div class="small text-muted">All guests arriving today are up to date or none are scheduled.</div>
+                                            <div class="small fw-semibold text-dark mb-1">No Arrivals Scheduled Today
+                                            </div>
+                                            <div class="small text-muted">All guests arriving today are up to date or
+                                                none are scheduled.</div>
                                         </td>
                                     </tr>
-                                <% } %>
+                                    <% } %>
                             </tbody>
                         </table>
                     </div>
                     <div class="mt-auto pt-3">
-                        <a href="Bookings.aspx" class="btn w-100 dash-footer-action-btn" style="border: 1px solid #ebdccb; color: #442305; font-size: 0.84rem; font-weight: 600; padding: 8px 16px; border-radius: 8px; background: #faf6f0;">
+                        <a href="Bookings.aspx" class="btn w-100 dash-footer-action-btn"
+                            style="border: 1px solid #ebdccb; color: #442305; font-size: 0.84rem; font-weight: 600; padding: 8px 16px; border-radius: 8px; background: #faf6f0;">
                             <i class="bi bi-box-arrow-in-right me-1 text-warning"></i> Manage Guest Check-Ins
                         </a>
                     </div>
@@ -1053,7 +1082,8 @@
             <div class="col-12 col-lg-6">
                 <div class="dash-card h-100 d-flex flex-column">
                     <div class="dash-card-header mb-3">
-                        <h5 class="dash-card-title"><i class="bi bi-box-arrow-right text-warning fs-5"></i> Today's Departures</h5>
+                        <h5 class="dash-card-title"><i class="bi bi-box-arrow-right text-warning fs-5"></i> Today's
+                            Departures</h5>
                         <a href="Bookings.aspx" class="view-all-link">View All <i class="bi bi-arrow-right"></i></a>
                     </div>
                     <div class="table-responsive flex-grow-1">
@@ -1073,28 +1103,36 @@
                                     <ItemTemplate>
                                         <tr>
                                             <td class="ps-2 text-start">
-                                                <span class="fw-bold font-monospace" style="color: #442305; font-size: 0.72rem;">
+                                                <span class="fw-bold font-monospace"
+                                                    style="color: #442305; font-size: 0.72rem;">
                                                     <%# Eval("BookingReference") %>
                                                 </span>
                                             </td>
                                             <td class="text-start">
-                                                <span class="fw-semibold text-dark text-truncate d-inline-block" style="max-width: 95px; vertical-align: middle;" title='<%# Eval("GuestName") %>'>
+                                                <span class="fw-semibold text-dark text-truncate d-inline-block"
+                                                    style="max-width: 95px; vertical-align: middle;"
+                                                    title='<%# Eval("GuestName") %>'>
                                                     <%# Eval("GuestName") %>
                                                 </span>
                                             </td>
                                             <td class="text-center">
-                                                <span class="badge bg-light text-dark border px-1 py-0" style="font-size: 0.74rem;"><%# Eval("RoomNo") %></span>
+                                                <span class="badge bg-light text-dark border px-1 py-0"
+                                                    style="font-size: 0.74rem;">
+                                                    <%# Eval("RoomNo") %>
+                                                </span>
                                             </td>
                                             <td class="text-center small text-muted">
                                                 <%# Convert.ToDateTime(Eval("CheckOutDate")).ToString("hh:mm tt") %>
                                             </td>
                                             <td class="text-center">
-                                                <span class='status-badge <%# GetStatusBadgeClass(Eval("BookingStatus").ToString()) %>'>
+                                                <span
+                                                    class='status-badge <%# GetStatusBadgeClass(Eval("BookingStatus").ToString()) %>'>
                                                     <%# Eval("BookingStatus") %>
                                                 </span>
                                             </td>
                                             <td class="text-center pe-2">
-                                                <%# GetDepartureActionHtml(Eval("BookingId"), Eval("GuestName"), Eval("BookingStatus")) %>
+                                                <%# GetDepartureActionHtml(Eval("BookingId"), Eval("GuestName"),
+                                                    Eval("BookingStatus")) %>
                                             </td>
                                         </tr>
                                     </ItemTemplate>
@@ -1103,16 +1141,19 @@
                                     <tr>
                                         <td colspan="6" class="text-center text-muted py-4">
                                             <i class="bi bi-box-arrow-right fs-3 d-block mb-2 opacity-50"></i>
-                                            <div class="small fw-semibold text-dark mb-1">No Departures Scheduled Today</div>
-                                            <div class="small text-muted">All guests departing today have checked out or none are scheduled.</div>
+                                            <div class="small fw-semibold text-dark mb-1">No Departures Scheduled Today
+                                            </div>
+                                            <div class="small text-muted">All guests departing today have checked out or
+                                                none are scheduled.</div>
                                         </td>
                                     </tr>
-                                <% } %>
+                                    <% } %>
                             </tbody>
                         </table>
                     </div>
                     <div class="mt-auto pt-3">
-                        <a href="Bookings.aspx" class="btn w-100 dash-footer-action-btn" style="border: 1px solid #ebdccb; color: #442305; font-size: 0.84rem; font-weight: 600; padding: 8px 16px; border-radius: 8px; background: #faf6f0;">
+                        <a href="Bookings.aspx" class="btn w-100 dash-footer-action-btn"
+                            style="border: 1px solid #ebdccb; color: #442305; font-size: 0.84rem; font-weight: 600; padding: 8px 16px; border-radius: 8px; background: #faf6f0;">
                             <i class="bi bi-box-arrow-right me-1 text-warning"></i> Manage Guest Check-Outs
                         </a>
                     </div>
@@ -1126,7 +1167,8 @@
             <div class="col-12 col-lg-6">
                 <div class="dash-card h-100 d-flex flex-column">
                     <div class="dash-card-header mb-3">
-                        <h5 class="dash-card-title"><i class="bi bi-calendar2-range text-warning fs-5"></i> Recent Bookings</h5>
+                        <h5 class="dash-card-title"><i class="bi bi-calendar2-range text-warning fs-5"></i> Recent
+                            Bookings</h5>
                         <a href="Bookings.aspx" class="view-all-link">View All <i class="bi bi-arrow-right"></i></a>
                     </div>
                     <div class="table-responsive flex-grow-1">
@@ -1147,31 +1189,41 @@
                                     <ItemTemplate>
                                         <tr>
                                             <td class="ps-2 text-start">
-                                                <span class="fw-bold font-monospace" style="color: #442305; font-size: 0.72rem;">
+                                                <span class="fw-bold font-monospace"
+                                                    style="color: #442305; font-size: 0.72rem;">
                                                     <%# Eval("BookingReference") %>
                                                 </span>
                                             </td>
                                             <td class="text-start">
-                                                <span class="fw-semibold text-dark text-truncate d-inline-block" style="max-width: 90px; vertical-align: middle;" title='<%# Eval("GuestName") %>'>
+                                                <span class="fw-semibold text-dark text-truncate d-inline-block"
+                                                    style="max-width: 90px; vertical-align: middle;"
+                                                    title='<%# Eval("GuestName") %>'>
                                                     <%# Eval("GuestName") %>
                                                 </span>
                                             </td>
                                             <td class="text-center">
-                                                <span class="badge bg-light text-dark border px-1 py-0" style="font-size: 0.74rem;"><%# Eval("RoomNo") %></span>
+                                                <span class="badge bg-light text-dark border px-1 py-0"
+                                                    style="font-size: 0.74rem;">
+                                                    <%# Eval("RoomNo") %>
+                                                </span>
                                             </td>
-                                            <td class="text-center small text-muted" title='<%# Convert.ToDateTime(Eval("CheckInDate")).ToString("dd MMM yyyy") %>'>
+                                            <td class="text-center small text-muted"
+                                                title='<%# Convert.ToDateTime(Eval("CheckInDate")).ToString("dd MMM yyyy") %>'>
                                                 <%# Convert.ToDateTime(Eval("CheckInDate")).ToString("dd MMM yy") %>
                                             </td>
-                                            <td class="text-center small text-muted" title='<%# Convert.ToDateTime(Eval("CheckOutDate")).ToString("dd MMM yyyy") %>'>
+                                            <td class="text-center small text-muted"
+                                                title='<%# Convert.ToDateTime(Eval("CheckOutDate")).ToString("dd MMM yyyy") %>'>
                                                 <%# Convert.ToDateTime(Eval("CheckOutDate")).ToString("dd MMM yy") %>
                                             </td>
                                             <td class="text-center">
-                                                <span class='status-badge <%# GetStatusBadgeClass(Eval("BookingStatus").ToString()) %>'>
+                                                <span
+                                                    class='status-badge <%# GetStatusBadgeClass(Eval("BookingStatus").ToString()) %>'>
                                                     <%# Eval("BookingStatus") %>
                                                 </span>
                                             </td>
                                             <td class="text-center pe-2">
-                                                <a href='Bookings.aspx?id=<%# Eval("BookingId") %>' class="action-btn btn-view">View</a>
+                                                <a href='Bookings.aspx?id=<%# Eval("BookingId") %>'
+                                                    class="action-btn btn-view">View</a>
                                             </td>
                                         </tr>
                                     </ItemTemplate>
@@ -1183,12 +1235,13 @@
                                             <div class="small fw-semibold text-dark mb-1">No Recent Bookings</div>
                                         </td>
                                     </tr>
-                                <% } %>
+                                    <% } %>
                             </tbody>
                         </table>
                     </div>
                     <div class="mt-auto pt-3">
-                        <a href="Bookings.aspx" class="btn w-100 dash-footer-action-btn" style="border: 1px solid #ebdccb; color: #442305; font-size: 0.84rem; font-weight: 600; padding: 8px 16px; border-radius: 8px; background: #faf6f0;">
+                        <a href="Bookings.aspx" class="btn w-100 dash-footer-action-btn"
+                            style="border: 1px solid #ebdccb; color: #442305; font-size: 0.84rem; font-weight: 600; padding: 8px 16px; border-radius: 8px; background: #faf6f0;">
                             <i class="bi bi-journal-bookmark me-1 text-warning"></i> View All Room Bookings
                         </a>
                     </div>
@@ -1200,43 +1253,67 @@
                 <div class="dash-card h-100 d-flex flex-column">
                     <div class="dash-card-header dining-card-header mb-3">
                         <div class="dining-header-title-row">
-                            <h5 class="dash-card-title mb-0"><i class="bi bi-shop-window text-warning fs-5"></i> Restaurant / Dining Today</h5>
-                            <a href="TableReservations.aspx" class="view-all-link dining-mobile-viewall">View All <i class="bi bi-arrow-right"></i></a>
+                            <h5 class="dash-card-title mb-0"><i class="bi bi-shop-window text-warning fs-5"></i>
+                                Restaurant / Dining Today</h5>
+                            <a href="TableReservations.aspx" class="view-all-link dining-mobile-viewall">View All <i
+                                    class="bi bi-arrow-right"></i></a>
                         </div>
                         <div class="dining-header-actions">
                             <div class="dining-tab-group d-flex gap-1">
-                                <button type="button" id="btnDiningResTab" class="dining-tab-btn active" onclick="switchDiningView('res'); return false;">
-                                    <i class="bi bi-calendar2-check me-1"></i>Reservations (<asp:Literal ID="litDiningResCount" runat="server" Text="0"></asp:Literal>)
+                                <button type="button" id="btnDiningResTab" class="dining-tab-btn active"
+                                    onclick="switchDiningView('res'); return false;">
+                                    <i class="bi bi-calendar2-check me-1"></i>Reservations (<asp:Literal
+                                        ID="litDiningResCount" runat="server" Text="0"></asp:Literal>)
                                 </button>
-                                <button type="button" id="btnDiningTablesTab" class="dining-tab-btn" onclick="switchDiningView('tables'); return false;">
-                                    <i class="bi bi-grid-3x3-gap me-1"></i>Table Status (<asp:Literal ID="litDiningTablesCount" runat="server" Text="0"></asp:Literal>)
+                                <button type="button" id="btnDiningTablesTab" class="dining-tab-btn"
+                                    onclick="switchDiningView('tables'); return false;">
+                                    <i class="bi bi-grid-3x3-gap me-1"></i>Table Status (<asp:Literal
+                                        ID="litDiningTablesCount" runat="server" Text="0"></asp:Literal>)
                                 </button>
                             </div>
-                            <a href="TableReservations.aspx" class="view-all-link ms-2 dining-desktop-viewall">View All <i class="bi bi-arrow-right"></i></a>
+                            <a href="TableReservations.aspx" class="view-all-link ms-2 dining-desktop-viewall">View All
+                                <i class="bi bi-arrow-right"></i></a>
                         </div>
                     </div>
 
                     <!-- Restaurant Live Status Compact Strip -->
-                    <div class="d-flex align-items-center justify-content-between px-3 py-2 rounded-3 mb-3 dining-status-strip" style="background: #faf6f0; border: 1px solid #ebdccb;">
+                    <div class="d-flex align-items-center justify-content-between px-3 py-2 rounded-3 mb-3 dining-status-strip"
+                        style="background: #faf6f0; border: 1px solid #ebdccb;">
                         <div class="d-flex align-items-center gap-2 flex-wrap dining-brand-group">
-                            <span class="fw-bold text-dark" style="font-family: 'Playfair Display', Georgia, serif; font-size: 0.95rem;">The Royal Kitchen</span>
-                            <span class="badge bg-success-subtle text-success rounded-pill fw-semibold border border-success-subtle" style="font-size:0.65rem;">Active</span>
-                            <span class="text-muted small d-none d-sm-inline">&bull; Indian | Continental | Chinese</span>
+                            <span class="fw-bold text-dark"
+                                style="font-family: 'Playfair Display', Georgia, serif; font-size: 0.95rem;">The Royal
+                                Kitchen</span>
+                            <span
+                                class="badge bg-success-subtle text-success rounded-pill fw-semibold border border-success-subtle"
+                                style="font-size:0.65rem;">Active</span>
+                            <span class="text-muted small d-none d-sm-inline">&bull; Indian | Continental |
+                                Chinese</span>
                         </div>
                         <div class="d-flex align-items-center gap-1 flex-wrap dining-badge-group">
                             <span class="badge bg-white text-dark border px-2 py-1" title="Available Tables">
-                                <span class="stat-indicator bg-success me-1 d-inline-block" style="width:7px; height:7px;"></span>
-                                Avail: <strong class="text-success"><asp:Literal ID="lblTableAvailable" runat="server" Text="0"></asp:Literal></strong>
+                                <span class="stat-indicator bg-success me-1 d-inline-block"
+                                    style="width:7px; height:7px;"></span>
+                                Avail: <strong class="text-success">
+                                    <asp:Literal ID="lblTableAvailable" runat="server" Text="0"></asp:Literal>
+                                </strong>
                             </span>
                             <span class="badge bg-white text-dark border px-2 py-1" title="Booked / Occupied Tables">
-                                <span class="stat-indicator bg-danger me-1 d-inline-block" style="width:7px; height:7px;"></span>
-                                Booked: <strong class="text-danger"><asp:Literal ID="lblTableOccupied" runat="server" Text="0"></asp:Literal></strong>
+                                <span class="stat-indicator bg-danger me-1 d-inline-block"
+                                    style="width:7px; height:7px;"></span>
+                                Booked: <strong class="text-danger">
+                                    <asp:Literal ID="lblTableOccupied" runat="server" Text="0"></asp:Literal>
+                                </strong>
                             </span>
                             <span class="badge bg-white text-dark border px-2 py-1" title="Today's Table Reservations">
-                                <span class="stat-indicator bg-warning me-1 d-inline-block" style="width:7px; height:7px;"></span>
-                                Res: <strong class="text-dark"><asp:Literal ID="lblTodayTableRes" runat="server" Text="0"></asp:Literal></strong>
+                                <span class="stat-indicator bg-warning me-1 d-inline-block"
+                                    style="width:7px; height:7px;"></span>
+                                Res: <strong class="text-dark">
+                                    <asp:Literal ID="lblTodayTableRes" runat="server" Text="0"></asp:Literal>
+                                </strong>
                             </span>
-                            <span style="display:none;"><asp:Literal ID="lblTableReserved" runat="server" Text="0"></asp:Literal></span>
+                            <span style="display:none;">
+                                <asp:Literal ID="lblTableReserved" runat="server" Text="0"></asp:Literal>
+                            </span>
                         </div>
                     </div>
 
@@ -1259,17 +1336,23 @@
                                     <ItemTemplate>
                                         <tr>
                                             <td class="ps-2 text-start">
-                                                <span class="fw-bold font-monospace" style="color: #442305; font-size: 0.72rem;">
+                                                <span class="fw-bold font-monospace"
+                                                    style="color: #442305; font-size: 0.72rem;">
                                                     <%# Eval("BookingCode") %>
                                                 </span>
                                             </td>
                                             <td class="text-start">
-                                                <span class="fw-semibold text-dark text-truncate d-inline-block" style="max-width: 85px; vertical-align: middle;" title='<%# Eval("CustomerName") %>'>
+                                                <span class="fw-semibold text-dark text-truncate d-inline-block"
+                                                    style="max-width: 85px; vertical-align: middle;"
+                                                    title='<%# Eval("CustomerName") %>'>
                                                     <%# Eval("CustomerName") %>
                                                 </span>
                                             </td>
                                             <td class="text-center">
-                                                <span class="badge bg-light text-dark border px-1 py-0" style="font-size: 0.74rem;"><%# Eval("TableNumber") %></span>
+                                                <span class="badge bg-light text-dark border px-1 py-0"
+                                                    style="font-size: 0.74rem;">
+                                                    <%# Eval("TableNumber") %>
+                                                </span>
                                             </td>
                                             <td class="text-center small text-muted">
                                                 <%# Eval("TimeSlot") %>
@@ -1278,7 +1361,8 @@
                                                 <%# Eval("GuestCount") %>p
                                             </td>
                                             <td class="text-center">
-                                                <span class='status-badge <%# GetDiningStatusBadgeClass(Eval("Status").ToString()) %>'>
+                                                <span
+                                                    class='status-badge <%# GetDiningStatusBadgeClass(Eval("Status").ToString()) %>'>
                                                     <%# Eval("Status") %>
                                                 </span>
                                             </td>
@@ -1292,11 +1376,13 @@
                                     <tr>
                                         <td colspan="7" class="text-center text-muted py-4">
                                             <i class="bi bi-inbox fs-3 d-block mb-2 opacity-50"></i>
-                                            <div class="small fw-semibold text-dark mb-1">No Table Reservations Found</div>
-                                            <div class="small text-muted">Click &ldquo;View Reservations&rdquo; to manage table bookings.</div>
+                                            <div class="small fw-semibold text-dark mb-1">No Table Reservations Found
+                                            </div>
+                                            <div class="small text-muted">Click &ldquo;View Reservations&rdquo; to
+                                                manage table bookings.</div>
                                         </td>
                                     </tr>
-                                <% } %>
+                                    <% } %>
                             </tbody>
                         </table>
                     </div>
@@ -1319,12 +1405,15 @@
                                     <ItemTemplate>
                                         <tr>
                                             <td class="ps-2 text-start">
-                                                <span class="fw-bold font-monospace" style="color: #442305; font-size: 0.72rem;">
+                                                <span class="fw-bold font-monospace"
+                                                    style="color: #442305; font-size: 0.72rem;">
                                                     <%# Eval("TableNumber") %>
                                                 </span>
                                             </td>
                                             <td class="text-start">
-                                                <span class="fw-semibold text-dark text-truncate d-inline-block" style="max-width: 90px; vertical-align: middle;" title='<%# Eval("TableName") %>'>
+                                                <span class="fw-semibold text-dark text-truncate d-inline-block"
+                                                    style="max-width: 90px; vertical-align: middle;"
+                                                    title='<%# Eval("TableName") %>'>
                                                     <%# Eval("TableName") %>
                                                 </span>
                                             </td>
@@ -1335,7 +1424,8 @@
                                                 <%# Eval("Capacity") %> Seats
                                             </td>
                                             <td class="text-center">
-                                                <span class='status-badge <%# GetTableStatusBadgeClass(Eval("TableStatus").ToString()) %>'>
+                                                <span
+                                                    class='status-badge <%# GetTableStatusBadgeClass(Eval("TableStatus").ToString()) %>'>
                                                     <%# Eval("TableStatus") %>
                                                 </span>
                                             </td>
@@ -1349,21 +1439,25 @@
                                     <tr>
                                         <td colspan="6" class="text-center text-muted py-4">
                                             <i class="bi bi-grid-3x3-gap fs-3 d-block mb-2 opacity-50"></i>
-                                            <div class="small fw-semibold text-dark mb-1">No Restaurant Tables Registered</div>
-                                            <div class="small text-muted">Click &ldquo;Manage Tables&rdquo; to set up restaurant tables.</div>
+                                            <div class="small fw-semibold text-dark mb-1">No Restaurant Tables
+                                                Registered</div>
+                                            <div class="small text-muted">Click &ldquo;Manage Tables&rdquo; to set up
+                                                restaurant tables.</div>
                                         </td>
                                     </tr>
-                                <% } %>
+                                    <% } %>
                             </tbody>
                         </table>
                     </div>
 
                     <!-- Dining Management Action Buttons -->
                     <div class="d-flex gap-2 mt-auto pt-3">
-                        <a href="RestaurantTables.aspx" class="btn flex-fill" style="background: #5a2e15; color: #fff; font-size: 0.84rem; font-weight: 600; padding: 8px 16px; border-radius: 8px;">
+                        <a href="RestaurantTables.aspx" class="btn flex-fill"
+                            style="background: #5a2e15; color: #fff; font-size: 0.84rem; font-weight: 600; padding: 8px 16px; border-radius: 8px;">
                             <i class="bi bi-grid-3x3-gap me-1"></i> Manage Tables
                         </a>
-                        <a href="TableReservations.aspx" class="btn flex-fill" style="border: 1px solid #dee2e6; color: #495057; font-size: 0.84rem; font-weight: 600; padding: 8px 16px; border-radius: 8px; background: #fff;">
+                        <a href="TableReservations.aspx" class="btn flex-fill"
+                            style="border: 1px solid #dee2e6; color: #495057; font-size: 0.84rem; font-weight: 600; padding: 8px 16px; border-radius: 8px; background: #fff;">
                             <i class="bi bi-calendar2-check me-1"></i> View Reservations
                         </a>
                     </div>
