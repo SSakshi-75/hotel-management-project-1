@@ -10,50 +10,174 @@
              FULL WIDTH & FULL HEIGHT HERO SECTION WITH REAL IMG
              ========================================== -->
         <section id="booking-hero" class="hero-full-width-wrapper position-relative w-100 overflow-hidden">
+            <div id="heroBannerCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000"
+                data-bs-pause="false">
 
-            <!-- Real Hero Image Element (Full width & height) -->
-            <div class="hero-img-overlay-wrapper">
-                <img src="images/hero-bg-luxury.jpg" fetchpriority="high" decoding="async" alt="Luxury Hotel Room"
-                    class="hero-banner-img img-fluid">
-                <div class="hero-img-gradient-overlay"></div>
-            </div>
+                <!-- Slide Indicators -->
+                <div class="carousel-indicators mb-3 z-3">
+                    <button type="button" data-bs-target="#heroBannerCarousel" data-bs-slide-to="0" class="active"
+                        aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#heroBannerCarousel" data-bs-slide-to="1"
+                        aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#heroBannerCarousel" data-bs-slide-to="2"
+                        aria-label="Slide 3"></button>
+                </div>
 
-            <div class="container-fluid px-4 px-lg-5 position-relative z-2 py-5 min-vh-85 d-flex align-items-center">
-                <div class="row align-items-center g-4 g-lg-5 w-100 mx-auto">
-
-                    <!-- Hero Title & Custom Explore Rooms Button -->
-                    <div class="col-lg-10 col-xl-9 text-dark hero-text-container animate-slide-left" data-aos="fade-right"
-                        data-aos-duration="1200">
-                        <!-- 5 Luxury Animated Stars & Glass Badge -->
-                        <div class="mb-3">
-                            <div class="glass-luxury-badge">
-                                <div class="welcome-stars-wrap mb-0 me-2">
-                                    <i class="fa-solid fa-star welcome-star" style="font-size: 0.95rem;"></i>
-                                    <i class="fa-solid fa-star welcome-star" style="font-size: 0.95rem;"></i>
-                                    <i class="fa-solid fa-star welcome-star"
-                                        style="font-size: 1.1rem; color: #9A724E;"></i>
-                                    <i class="fa-solid fa-star welcome-star" style="font-size: 0.95rem;"></i>
-                                    <i class="fa-solid fa-star welcome-star" style="font-size: 0.95rem;"></i>
-                                </div>
-                                <span class="badge-text">5-Star Luxury Experience</span>
-                            </div>
+                <div class="carousel-inner">
+                    <!-- Banner 1: Original Hero Banner -->
+                    <div class="carousel-item active" data-bs-interval="4000">
+                        <div class="hero-img-overlay-wrapper">
+                            <img src="images/hero-bg-luxury.jpg" fetchpriority="high" decoding="async"
+                                alt="Luxury Hotel Room" class="hero-banner-img img-fluid">
+                            <div class="hero-img-gradient-overlay"></div>
                         </div>
 
-                        <h1 class="hero-title display-3 fw-bold mb-4 text-dark animated-hero-title">
-                            Hotel Management Your Gateway To <span
-                                class="text-gradient-gold hero-animated-word">Serenity.</span>
-                        </h1>
+                        <div
+                            class="container-fluid px-4 px-lg-5 position-relative z-2 py-5 min-vh-85 d-flex align-items-center">
+                            <div class="row align-items-center g-4 g-lg-5 w-100 mx-auto">
+                                <div class="col-lg-10 col-xl-9 text-dark hero-text-container">
+                                    <div class="mb-3">
+                                        <div class="glass-luxury-badge">
+                                            <div class="welcome-stars-wrap mb-0 me-2">
+                                                <i class="fa-solid fa-star welcome-star"
+                                                    style="font-size: 0.95rem;"></i>
+                                                <i class="fa-solid fa-star welcome-star"
+                                                    style="font-size: 0.95rem;"></i>
+                                                <i class="fa-solid fa-star welcome-star"
+                                                    style="font-size: 1.1rem; color: #9A724E;"></i>
+                                                <i class="fa-solid fa-star welcome-star"
+                                                    style="font-size: 0.95rem;"></i>
+                                                <i class="fa-solid fa-star welcome-star"
+                                                    style="font-size: 0.95rem;"></i>
+                                            </div>
+                                            <span class="badge-text">5-Star Luxury Experience</span>
+                                        </div>
+                                    </div>
 
-                        <div class="mt-4 pt-2 hero-btn-animate">
-                            <a href="Room.aspx" class="btn-explore-custom">
-                                Explore Rooms
-                            </a>
+                                    <h1 class="hero-title display-3 fw-bold mb-4 text-dark animated-hero-title">
+                                        Hotel Management Your Gateway To <span
+                                            class="text-gradient-gold hero-animated-word">Serenity.</span>
+                                    </h1>
+
+                                    <div class="mt-4 pt-2 hero-btn-animate">
+                                        <a href="Room.aspx" class="btn-explore-custom">
+                                            Explore Rooms
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Banner 2: User-Provided Banner (banner-img.jpg) -->
+                    <div class="carousel-item" data-bs-interval="4000">
+                        <div class="hero-img-overlay-wrapper">
+                            <img src="images/banner-img.webp" decoding="async" alt="Luxury Ocean View Suite"
+                                class="hero-banner-img img-fluid">
+                            <div class="hero-img-gradient-overlay"></div>
+                        </div>
+
+                        <div
+                            class="container-fluid px-4 px-lg-5 position-relative z-2 py-5 min-vh-85 d-flex align-items-center">
+                            <div class="row align-items-center g-4 g-lg-5 w-100 mx-auto">
+                                <div class="col-lg-10 col-xl-9 text-dark hero-text-container">
+                                    <div class="mb-3">
+                                        <div class="glass-luxury-badge">
+                                            <div class="welcome-stars-wrap mb-0 me-2">
+                                                <i class="fa-solid fa-star welcome-star"
+                                                    style="font-size: 0.95rem;"></i>
+                                                <i class="fa-solid fa-star welcome-star"
+                                                    style="font-size: 0.95rem;"></i>
+                                                <i class="fa-solid fa-star welcome-star"
+                                                    style="font-size: 1.1rem; color: #9A724E;"></i>
+                                                <i class="fa-solid fa-star welcome-star"
+                                                    style="font-size: 0.95rem;"></i>
+                                                <i class="fa-solid fa-star welcome-star"
+                                                    style="font-size: 0.95rem;"></i>
+                                            </div>
+                                            <span class="badge-text">World-Class Royal Hospitality</span>
+                                        </div>
+                                    </div>
+
+                                    <h1 class="hero-title display-3 fw-bold mb-4 text-dark animated-hero-title">
+                                        Experience Handcrafted Luxury &amp; <span
+                                            class="text-gradient-gold hero-animated-word">Grandeur.</span>
+                                    </h1>
+
+                                    <div class="mt-4 pt-2 hero-btn-animate">
+                                        <a href="Booking.aspx" class="btn-explore-custom">
+                                            Book A Stay
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Banner 3: User-Selected Banner (hero-banner-2.jpg) -->
+                    <div class="carousel-item" data-bs-interval="4000">
+                        <div class="hero-img-overlay-wrapper">
+                            <img src="images/banner-img2.webp" decoding="async" alt="Luxury Private Sunset Pool & Suite"
+                                class="hero-banner-img img-fluid">
+                            <div class="hero-img-gradient-overlay"></div>
+                        </div>
+
+                        <div
+                            class="container-fluid px-4 px-lg-5 position-relative z-2 py-5 min-vh-85 d-flex align-items-center">
+                            <div class="row align-items-center g-4 g-lg-5 w-100 mx-auto">
+                                <div class="col-lg-10 col-xl-9 text-dark hero-text-container">
+                                    <div class="mb-3">
+                                        <div class="glass-luxury-badge">
+                                            <div class="welcome-stars-wrap mb-0 me-2">
+                                                <i class="fa-solid fa-star welcome-star"
+                                                    style="font-size: 0.95rem;"></i>
+                                                <i class="fa-solid fa-star welcome-star"
+                                                    style="font-size: 0.95rem;"></i>
+                                                <i class="fa-solid fa-star welcome-star"
+                                                    style="font-size: 1.1rem; color: #9A724E;"></i>
+                                                <i class="fa-solid fa-star welcome-star"
+                                                    style="font-size: 0.95rem;"></i>
+                                                <i class="fa-solid fa-star welcome-star"
+                                                    style="font-size: 0.95rem;"></i>
+                                            </div>
+                                            <span class="badge-text">Exclusive Sunset Sanctuary</span>
+                                        </div>
+                                    </div>
+
+                                    <h1 class="hero-title display-3 fw-bold mb-4 text-dark animated-hero-title">
+                                        Indulge In Handcrafted Tranquility &amp; <span
+                                            class="text-gradient-gold hero-animated-word">Opulence.</span>
+                                    </h1>
+
+                                    <div class="mt-4 pt-2 hero-btn-animate">
+                                        <a href="Room.aspx" class="btn-explore-custom">
+                                            Explore Suites
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                 </div>
             </div>
         </section>
+
+        <!-- 4-Second Auto-Slide Script -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var heroEl = document.getElementById('heroBannerCarousel');
+                if (heroEl && typeof bootstrap !== 'undefined' && bootstrap.Carousel) {
+                    var myCarousel = new bootstrap.Carousel(heroEl, {
+                        interval: 4000,
+                        ride: 'carousel',
+                        pause: false,
+                        wrap: true
+                    });
+                    myCarousel.cycle();
+                }
+            });
+        </script>
 
         <!-- ==========================================
              LUXURY STATS & HIGHLIGHTS BAR
@@ -177,7 +301,7 @@
                         <!-- Right Image 2 (Slides from Right) -->
                         <div data-aos="fade-left" data-aos-duration="1100" data-aos-delay="300">
                             <div class="welcome-img-card welcome-img-secondary shadow-sm">
-                                <img src="images/about-img3.jpg" loading="lazy" alt="Hotel Experience"
+                                <img src="images/index-img.webp" loading="lazy" alt="Hotel Experience"
                                     class="img-fluid w-100 h-100">
                             </div>
                         </div>
@@ -226,16 +350,23 @@
                                         <img src='<%# GetRoomImage(Eval("PrimaryRoomImage")) %>' loading="lazy"
                                             alt='<%# Eval("RoomName") %>' class="img-fluid"
                                             onerror="this.onerror=null; this.src='images/room-featured-presidential.jpg';">
-                                        <span class="badge-presidential-pill" style="color: #442305 !important; font-weight: 800;"><%# GetBadgeText(Eval("CategoryBadge"), Eval("RoomCategory")) %></span>
+                                        <span class="badge-presidential-pill"
+                                            style="color: #442305 !important; font-weight: 800;">
+                                            <%# GetBadgeText(Eval("CategoryBadge"), Eval("RoomCategory")) %>
+                                        </span>
                                         <div class="suite-overlay-pills">
                                             <span class="suite-overlay-pill">
-                                                <i class="bi bi-people-fill"></i> <%# Eval("MaxGuests") %>
+                                                <i class="bi bi-people-fill"></i>
+                                                <%# Eval("MaxGuests") %>
                                             </span>
                                             <span class="suite-overlay-pill">
-                                                <i class="bi bi-house-door-fill"></i> <%# Eval("RoomArea") %>
+                                                <i class="bi bi-house-door-fill"></i>
+                                                <%# Eval("RoomArea") %>
                                             </span>
                                             <span class="suite-overlay-pill">
-                                                <i class="bi bi-geo-alt-fill"></i> <%# string.IsNullOrEmpty(Convert.ToString(Eval("ViewType"))) ? "City View" : Eval("ViewType") %>
+                                                <i class="bi bi-geo-alt-fill"></i>
+                                                <%# string.IsNullOrEmpty(Convert.ToString(Eval("ViewType")))
+                                                    ? "City View" : Eval("ViewType") %>
                                             </span>
                                         </div>
                                     </div>
@@ -243,12 +374,16 @@
                                     <!-- Body -->
                                     <div class="featured-suite-body">
                                         <div class="suite-title-row">
-                                            <h3 class="suite-title"><%# Eval("RoomName") %></h3>
+                                            <h3 class="suite-title">
+                                                <%# Eval("RoomName") %>
+                                            </h3>
                                             <div class="suite-rating-box">
                                                 <div class="suite-rating-stars">
                                                     <%# RenderRatingStars(Eval("Rating")) %>
                                                 </div>
-                                                <div class="suite-rating-text"><%# Eval("Rating") %> Excellence</div>
+                                                <div class="suite-rating-text">
+                                                    <%# Eval("Rating") %> Excellence
+                                                </div>
                                             </div>
                                         </div>
 
@@ -263,7 +398,9 @@
                                         <div class="suite-price-action-row">
                                             <div class="suite-price-wrap">
                                                 <span class="currency">&#8377;</span>
-                                                <span class="amount"><%# Eval("PricePerNight", "{0:N0}") %></span>
+                                                <span class="amount">
+                                                    <%# Eval("PricePerNight", "{0:N0}" ) %>
+                                                </span>
                                                 <span class="period">/ night</span>
                                             </div>
                                             <a href='<%# "RoomDetails.aspx?RoomId=" + Eval("RoomID") %>'
@@ -283,23 +420,30 @@
                     <div class="col-lg-5 d-flex flex-column justify-content-between">
                         <asp:Repeater ID="rptMiniRooms" runat="server">
                             <ItemTemplate>
-                                <div class="mini-room-card" data-aos="fade-left" data-aos-duration="800" data-aos-delay='<%# (Container.ItemIndex + 1) * 150 %>'>
+                                <div class="mini-room-card" data-aos="fade-left" data-aos-duration="800"
+                                    data-aos-delay='<%# (Container.ItemIndex + 1) * 150 %>'>
                                     <div class="mini-room-img-wrap">
-                                        <img src='<%# GetRoomImage(Eval("PrimaryRoomImage")) %>' loading="lazy" alt='<%# Eval("RoomName") %>'
+                                        <img src='<%# GetRoomImage(Eval("PrimaryRoomImage")) %>' loading="lazy"
+                                            alt='<%# Eval("RoomName") %>'
                                             onerror="this.onerror=null; this.src='images/room-mini-business.jpg';">
                                     </div>
                                     <div class="mini-room-body">
                                         <div>
-                                            <h4 class="mini-room-title"><%# Eval("RoomName") %></h4>
+                                            <h4 class="mini-room-title">
+                                                <%# Eval("RoomName") %>
+                                            </h4>
                                             <p class="mini-room-desc">
                                                 <%# Eval("ShortDescription") %>
                                             </p>
                                             <div class="mini-room-tags">
-                                                <%# RenderMiniTags(Eval("ViewType"), Eval("KeyAmenities"), Eval("MaxGuests")) %>
+                                                <%# RenderMiniTags(Eval("ViewType"), Eval("KeyAmenities"),
+                                                    Eval("MaxGuests")) %>
                                             </div>
                                         </div>
                                         <div class="mini-room-footer">
-                                            <div class="mini-room-price"><span class="currency">&#8377;</span><%# Eval("PricePerNight", "{0:N0}") %> <small>/ night</small></div>
+                                            <div class="mini-room-price"><span class="currency">&#8377;</span>
+                                                <%# Eval("PricePerNight", "{0:N0}" ) %> <small>/ night</small>
+                                            </div>
                                             <a href='<%# "RoomDetails.aspx?RoomId=" + Eval("RoomID") %>'
                                                 class="btn btn-book-mini">
                                                 <span>Book</span>
@@ -342,59 +486,80 @@
                         <div class="line right"></div>
                     </div>
                     <p class="text-muted mx-auto mt-3" style="max-width: 720px; font-size: 0.95rem; line-height: 1.7;">
-                        Hotel's premier fine dining destination offering authentic Awadhi dum-pukht, royal Indian curries, kebabs, and international gourmet cuisine.
+                        Hotel's premier fine dining destination offering authentic Awadhi dum-pukht, royal Indian
+                        curries, kebabs, and international gourmet cuisine.
                     </p>
                 </div>
 
                 <!-- Single Restaurant Showcase Card: The Royal Kitchen (Matching Dining.aspx) -->
                 <div class="row justify-content-center">
                     <div class="col-xl-11 col-12" data-aos="fade-up" data-aos-duration="900">
-                        <div class="dining-venue-card shadow-sm overflow-hidden" style="border: 1px solid rgba(184, 142, 104, 0.28);">
+                        <div class="dining-venue-card shadow-sm overflow-hidden"
+                            style="border: 1px solid rgba(184, 142, 104, 0.28);">
                             <div class="row g-0 align-items-center">
                                 <!-- Image Column -->
                                 <div class="col-lg-6">
                                     <div class="dining-venue-img-wrap">
                                         <picture class="w-100 h-100 d-block">
                                             <source srcset="images/dining-royal-zafran.webp" type="image/webp">
-                                            <img src="images/dining-royal-zafran.jpg" alt="The Royal Kitchen Fine Dining" class="dining-venue-img" loading="lazy" decoding="async">
+                                            <img src="images/dining-royal-zafran.jpg"
+                                                alt="The Royal Kitchen Fine Dining" class="dining-venue-img"
+                                                loading="lazy" decoding="async">
                                         </picture>
                                         <span class="dining-venue-badge">
-                                            <i class="bi bi-crown me-1 text-warning"></i>Fine Dining &bull; Indian, Mughlai &amp; Continental
+                                            <i class="bi bi-crown me-1 text-warning"></i>Fine Dining &bull; Indian,
+                                            Mughlai &amp; Continental
                                         </span>
                                     </div>
                                 </div>
                                 <!-- Content Column -->
                                 <div class="col-lg-6">
                                     <div class="p-4 p-md-5">
-                                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
-                                            <span class="badge bg-gold-subtle text-warning-dark text-uppercase small fw-bold">Exclusive Hotel Restaurant</span>
-                                            <span class="text-muted small"><i class="bi bi-geo-alt me-1 text-gold"></i>Ground Floor, Garden Wing</span>
+                                        <div
+                                            class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+                                            <span
+                                                class="badge bg-gold-subtle text-warning-dark text-uppercase small fw-bold">Exclusive
+                                                Hotel Restaurant</span>
+                                            <span class="text-muted small"><i
+                                                    class="bi bi-geo-alt me-1 text-gold"></i>Ground Floor, Garden
+                                                Wing</span>
                                         </div>
-                                        <h3 class="font-serif fw-bold display-6 mb-2" style="color: #442305;">The Royal Kitchen</h3>
-                                        <p class="text-muted mb-4 leading-relaxed" style="font-size: 0.95rem; line-height: 1.7;">
-                                            An iconic fine-dining sanctuary celebrating regal culinary creations. Dine beneath ornate marble arches and crystal chandeliers while savouring slow-cooked Galouti kebabs, Dal Royal, artisanal tandoori breads, and aromatic Dum Biryanis crafted by master chefs.
+                                        <h3 class="font-serif fw-bold display-6 mb-2" style="color: #442305;">The Royal
+                                            Kitchen</h3>
+                                        <p class="text-muted mb-4 leading-relaxed"
+                                            style="font-size: 0.95rem; line-height: 1.7;">
+                                            An iconic fine-dining sanctuary celebrating regal culinary creations. Dine
+                                            beneath ornate marble arches and crystal chandeliers while savouring
+                                            slow-cooked Galouti kebabs, Dal Royal, artisanal tandoori breads, and
+                                            aromatic Dum Biryanis crafted by master chefs.
                                         </p>
 
                                         <div class="row g-3 mb-4 small text-muted">
                                             <div class="col-sm-6">
                                                 <div class="p-3 bg-light rounded-3 border">
-                                                    <strong class="d-block text-dark mb-1"><i class="bi bi-clock me-1 text-gold"></i>Operating Hours:</strong>
+                                                    <strong class="d-block text-dark mb-1"><i
+                                                            class="bi bi-clock me-1 text-gold"></i>Operating
+                                                        Hours:</strong>
                                                     <span>11:00 AM &ndash; 11:00 PM (Daily)</span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="p-3 bg-light rounded-3 border">
-                                                    <strong class="d-block text-dark mb-1"><i class="bi bi-person-badge me-1 text-gold"></i>Seating &amp; Ambience:</strong>
+                                                    <strong class="d-block text-dark mb-1"><i
+                                                            class="bi bi-person-badge me-1 text-gold"></i>Seating &amp;
+                                                        Ambience:</strong>
                                                     <span>Capacity: 90 Guests &bull; 2 Private Salons</span>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="d-flex gap-3 flex-wrap">
-                                            <a href="TableReservation.aspx" class="btn btn-navbar-theme px-4 py-2.5 fw-bold">
+                                            <a href="TableReservation.aspx"
+                                                class="btn btn-navbar-theme px-4 py-2.5 fw-bold">
                                                 <i class="bi bi-calendar2-check me-1"></i>Reserve Your Table
                                             </a>
-                                            <a href="Dining.aspx#menuShowcase" class="btn btn-outline-dark px-4 py-2.5 fw-bold">
+                                            <a href="Dining.aspx#menuShowcase"
+                                                class="btn btn-outline-dark px-4 py-2.5 fw-bold">
                                                 <i class="bi bi-journal-text me-1"></i>View Chef's Menu
                                             </a>
                                         </div>
@@ -411,7 +576,8 @@
                         <span>Explore Full Dining &amp; Menus</span>
                         <i class="bi bi-arrow-right"></i>
                     </a>
-                    <a href="TableReservation.aspx" class="btn btn-outline-dark px-4 py-3 rounded-pill fw-bold text-uppercase letter-spacing-1 small shadow-sm d-inline-flex align-items-center gap-2">
+                    <a href="TableReservation.aspx"
+                        class="btn btn-outline-dark px-4 py-3 rounded-pill fw-bold text-uppercase letter-spacing-1 small shadow-sm d-inline-flex align-items-center gap-2">
                         <i class="bi bi-calendar2-check text-gold"></i>
                         <span>Reserve A Table</span>
                     </a>
@@ -445,7 +611,8 @@
                         <span class="divider-line"></span>
                     </div>
                     <p class="text-muted mx-auto" style="max-width: 620px; font-size: 0.95rem; line-height: 1.7;">
-                        Indulge in handcrafted seasonal packages, gourmet dining credits, and wellness privileges designed to make every stay extraordinary.
+                        Indulge in handcrafted seasonal packages, gourmet dining credits, and wellness privileges
+                        designed to make every stay extraordinary.
                     </p>
                 </div>
 
@@ -453,7 +620,8 @@
                 <div class="row g-4 justify-content-center mb-5">
 
                     <!-- Offer Card 1: Breakfast Included -->
-                    <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+                    <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-duration="800"
+                        data-aos-delay="100">
                         <div class="special-offer-card">
                             <div class="offer-card-img-wrap">
                                 <img src="images/amenity-restaurant.jpg" loading="lazy" alt="Breakfast Included Offer">
@@ -467,18 +635,21 @@
                                     <span class="offer-card-category">Stay &amp; Dining</span>
                                     <h3 class="offer-card-title">Breakfast Inclusive Offer</h3>
                                     <p class="offer-card-desc">
-                                        Wake up to a lavish culinary spread with live chef stations, artisanal pastries, and freshly squeezed tropical juices.
+                                        Wake up to a lavish culinary spread with live chef stations, artisanal pastries,
+                                        and freshly squeezed tropical juices.
                                     </p>
                                     <ul class="offer-inclusions-list">
                                         <li><i class="bi bi-check-circle-fill"></i> Gourmet Breakfast for 2 Guests</li>
-                                        <li><i class="bi bi-check-circle-fill"></i> High-Speed Wi-Fi &amp; Valet Parking</li>
+                                        <li><i class="bi bi-check-circle-fill"></i> High-Speed Wi-Fi &amp; Valet Parking
+                                        </li>
                                         <li><i class="bi bi-check-circle-fill"></i> Complimentary Welcome Drink</li>
                                     </ul>
                                 </div>
                                 <div class="offer-card-footer">
                                     <div class="offer-price-box">
                                         <span class="offer-price-label">Starting From</span>
-                                        <span class="offer-price-val" data-inr-price="4999">&#8377;4,999 <span class="period">/ night</span></span>
+                                        <span class="offer-price-val" data-inr-price="4999">&#8377;4,999 <span
+                                                class="period">/ night</span></span>
                                     </div>
                                     <a href="OfferDetails.aspx?id=breakfast-included" class="btn-offer-view">
                                         <span>View Offer</span>
@@ -490,7 +661,8 @@
                     </div>
 
                     <!-- Offer Card 2: Weekend Getaway -->
-                    <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-duration="800" data-aos-delay="250">
+                    <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-duration="800"
+                        data-aos-delay="250">
                         <div class="special-offer-card">
                             <div class="offer-card-img-wrap">
                                 <img src="images/amenity-pool.jpg" loading="lazy" alt="Weekend Getaway Offer">
@@ -504,18 +676,21 @@
                                     <span class="offer-card-category">Weekend Leisure</span>
                                     <h3 class="offer-card-title">Weekend Royal Getaway</h3>
                                     <p class="offer-card-desc">
-                                        Escape routine with our revitalizing weekend sanctuary featuring poolside cabanas, afternoon high tea, and spa privileges.
+                                        Escape routine with our revitalizing weekend sanctuary featuring poolside
+                                        cabanas, afternoon high tea, and spa privileges.
                                     </p>
                                     <ul class="offer-inclusions-list">
                                         <li><i class="bi bi-check-circle-fill"></i> Heritage High Tea Service</li>
                                         <li><i class="bi bi-check-circle-fill"></i> 20% Savings On Spa Treatments</li>
-                                        <li><i class="bi bi-check-circle-fill"></i> Guaranteed 2:00 PM Late Checkout</li>
+                                        <li><i class="bi bi-check-circle-fill"></i> Guaranteed 2:00 PM Late Checkout
+                                        </li>
                                     </ul>
                                 </div>
                                 <div class="offer-card-footer">
                                     <div class="offer-price-box">
                                         <span class="offer-price-label">Starting From</span>
-                                        <span class="offer-price-val" data-inr-price="5499">&#8377;5,499 <span class="period">/ night</span></span>
+                                        <span class="offer-price-val" data-inr-price="5499">&#8377;5,499 <span
+                                                class="period">/ night</span></span>
                                     </div>
                                     <a href="OfferDetails.aspx?id=weekend-getaway" class="btn-offer-view">
                                         <span>View Offer</span>
@@ -527,7 +702,8 @@
                     </div>
 
                     <!-- Offer Card 3: Long Stay Offer -->
-                    <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
+                    <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-duration="800"
+                        data-aos-delay="400">
                         <div class="special-offer-card">
                             <div class="offer-card-img-wrap">
                                 <img src="images/room-featured-presidential.jpg" loading="lazy" alt="Long Stay Offer">
@@ -541,18 +717,22 @@
                                     <span class="offer-card-category">Extended Stay</span>
                                     <h3 class="offer-card-title">Long Stay Offer</h3>
                                     <p class="offer-card-desc">
-                                        Immerse deeper into comfort. Stay for 3 nights or more and enjoy 20% savings along with private airport transfers.
+                                        Immerse deeper into comfort. Stay for 3 nights or more and enjoy 20% savings
+                                        along with private airport transfers.
                                     </p>
                                     <ul class="offer-inclusions-list">
-                                        <li><i class="bi bi-check-circle-fill"></i> 20% Flat Discount on Entire Stay</li>
+                                        <li><i class="bi bi-check-circle-fill"></i> 20% Flat Discount on Entire Stay
+                                        </li>
                                         <li><i class="bi bi-check-circle-fill"></i> One-Way Airport Luxury Transfer</li>
-                                        <li><i class="bi bi-check-circle-fill"></i> Daily Laundry Credit (4 garments)</li>
+                                        <li><i class="bi bi-check-circle-fill"></i> Daily Laundry Credit (4 garments)
+                                        </li>
                                     </ul>
                                 </div>
                                 <div class="offer-card-footer">
                                     <div class="offer-price-box">
                                         <span class="offer-price-label">Special Discount</span>
-                                        <span class="offer-price-val" style="color: #B88E68;">20% OFF <span class="period">/ stay</span></span>
+                                        <span class="offer-price-val" style="color: #B88E68;">20% OFF <span
+                                                class="period">/ stay</span></span>
                                     </div>
                                     <a href="OfferDetails.aspx?id=long-stay" class="btn-offer-view">
                                         <span>View Offer</span>
@@ -875,8 +1055,7 @@
 
                     <!-- Modal Image -->
                     <div class="modal-body text-center p-2 p-md-3">
-                        <img id="galleryModalPreviewImg" src="" alt="Gallery Preview"
-                            class="img-fluid rounded-3">
+                        <img id="galleryModalPreviewImg" src="" alt="Gallery Preview" class="img-fluid rounded-3">
                     </div>
                 </div>
             </div>
