@@ -293,7 +293,7 @@
                     <div class="neighborhood-card">
                         <div class="neighborhood-img-wrap">
                             <span class="neighborhood-dist-pill"><i class="bi bi-geo-alt-fill"></i> 2.5 km</span>
-                            <img src="images/neighborhood-indiagate.jpg" loading="lazy" alt="India Gate" class="neighborhood-img">
+                            <img src="images/neighborhood-indiagate.webp" loading="lazy" alt="India Gate" class="neighborhood-img">
                         </div>
                         <div class="neighborhood-body">
                             <h3 class="neighborhood-title">India Gate</h3>
@@ -312,7 +312,7 @@
                     <div class="neighborhood-card">
                         <div class="neighborhood-img-wrap">
                             <span class="neighborhood-dist-pill"><i class="bi bi-geo-alt-fill"></i> 1.8 km</span>
-                            <img src="images/neighborhood-rashtrapati.jpg" loading="lazy" alt="Rashtrapati Bhavan" class="neighborhood-img">
+                            <img src="images/neighborhood-rashtrapati.webp" loading="lazy" alt="Rashtrapati Bhavan" class="neighborhood-img">
                         </div>
                         <div class="neighborhood-body">
                             <h3 class="neighborhood-title">Rashtrapati Bhavan</h3>
@@ -331,7 +331,7 @@
                     <div class="neighborhood-card">
                         <div class="neighborhood-img-wrap">
                             <span class="neighborhood-dist-pill"><i class="bi bi-geo-alt-fill"></i> 3.2 km</span>
-                            <img src="images/neighborhood-lodhigarden.jpg" loading="lazy" alt="Lodhi Garden" class="neighborhood-img">
+                            <img src="images/neighborhood-lodhigarden.webp" loading="lazy" alt="Lodhi Garden" class="neighborhood-img">
                         </div>
                         <div class="neighborhood-body">
                             <h3 class="neighborhood-title">Lodhi Garden</h3>
@@ -350,7 +350,7 @@
                     <div class="neighborhood-card">
                         <div class="neighborhood-img-wrap">
                             <span class="neighborhood-dist-pill"><i class="bi bi-geo-alt-fill"></i> 5.0 km</span>
-                            <img src="images/neighborhood-humayuntomb.jpg" loading="lazy" alt="Humayun's Tomb" class="neighborhood-img">
+                            <img src="images/neighborhood-humayuntomb.webp" loading="lazy" alt="Humayun's Tomb" class="neighborhood-img">
                         </div>
                         <div class="neighborhood-body">
                             <h3 class="neighborhood-title">Humayun's Tomb</h3>
@@ -369,7 +369,7 @@
                     <div class="neighborhood-card">
                         <div class="neighborhood-img-wrap">
                             <span class="neighborhood-dist-pill"><i class="bi bi-geo-alt-fill"></i> 1.0 km</span>
-                            <img src="images/neighborhood-railmuseum.jpg" loading="lazy" alt="National Rail Museum" class="neighborhood-img">
+                            <img src="images/neighborhood-railmuseum.webp" loading="lazy" alt="National Rail Museum" class="neighborhood-img">
                         </div>
                         <div class="neighborhood-body">
                             <h3 class="neighborhood-title">National Rail Museum</h3>
@@ -388,7 +388,7 @@
                     <div class="neighborhood-card">
                         <div class="neighborhood-img-wrap">
                             <span class="neighborhood-dist-pill"><i class="bi bi-geo-alt-fill"></i> 3.5 km</span>
-                            <img src="images/neighborhood-khanmarket.jpg" loading="lazy" alt="Khan Market" class="neighborhood-img">
+                            <img src="images/neighborhood-khanmarket.webp" loading="lazy" alt="Khan Market" class="neighborhood-img">
                         </div>
                         <div class="neighborhood-body">
                             <h3 class="neighborhood-title">Khan Market</h3>

@@ -1398,7 +1398,7 @@ iconify-icon.quote {
   background: #442305 !important;
   color: #ffffff !important;
   border: 1px solid #B88E68 !important;
-  border-radius: 0 !important;
+  border-radius: 20px !important;
   transition: all 0.3s ease;
   letter-spacing: 0.8px;
 }
@@ -1416,7 +1416,7 @@ iconify-icon.quote {
   background: #442305 !important;
   color: #ffffff !important;
   border: 1px solid #B88E68 !important;
-  border-radius: 4px !important;
+  border-radius: 20px !important;
   transition: all 0.3s ease;
   letter-spacing: 0.8px;
   font-size: 0.85rem;
@@ -6335,6 +6335,39 @@ video {
     padding: 22px 18px !important;
     gap: 14px !important;
   }
+
+  /* Mobile offcanvas buttons: single row, equal size, single line text */
+  #mobileNavbar .offcanvas-body .d-flex.align-items-center.gap-3 {
+    width: 100% !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 10px !important;
+  }
+
+  #mobileNavbar .btn-navbar-login,
+  #mobileNavbar .btn-navbar-theme {
+    flex: 1 1 0 !important;
+    width: 50% !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    max-height: 44px !important;
+    padding: 0 10px !important;
+    font-size: 0.78rem !important;
+    letter-spacing: 0.5px !important;
+    white-space: nowrap !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    text-align: center !important;
+  }
+
+  #mobileNavbar .btn-navbar-login i,
+  #mobileNavbar .btn-navbar-theme i {
+    font-size: 0.95rem !important;
+    margin-right: 6px !important;
+    margin-left: 0 !important;
+  }
 }
 
 /* ==========================================
@@ -8828,6 +8861,4 @@ input[type="checkbox"].auth-checkbox {
     width: 100%;
     height: 180px;
   }
-}
-}
 }

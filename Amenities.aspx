@@ -42,7 +42,7 @@
                 <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
                     <div class="amenity-card">
                         <div class="amenity-card-img-wrap">
-                            <img src="images/amenity-pool.jpg" loading="lazy" alt="Infinity Pool & Sun Deck" class="amenity-card-img">
+                            <img src="images/amenity-pool.webp" loading="lazy" alt="Infinity Pool & Sun Deck" class="amenity-card-img">
                         </div>
                         <div class="amenity-card-body">
                             <h3 class="amenity-card-title">Infinity Pool &amp; Sun Deck</h3>

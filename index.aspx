@@ -757,42 +757,42 @@
                     <div class="gallery-marquee-track">
                         <!-- Set 1 (Original 5 Images) -->
                         <div class="gallery-card-item">
-                            <img src="images/gallery-1.jpg" loading="lazy" alt="Luxury Hotel Suite Lounge">
-                            <a href="images/gallery-1.jpg" class="gallery-card-overlay gallery-lightbox-trigger"
-                                data-img-src="images/gallery-1.jpg" data-title="Luxury Hotel Suite Lounge"
+                            <img src="images/gallery-1.webp" loading="lazy" alt="Luxury Hotel Suite Lounge">
+                            <a href="images/gallery-1.webp" class="gallery-card-overlay gallery-lightbox-trigger"
+                                data-img-src="images/gallery-1.webp" data-title="Luxury Hotel Suite Lounge"
                                 title="Click to View Full Size">
                                 <i class="bi bi-eye"></i>
                             </a>
                         </div>
                         <div class="gallery-card-item">
-                            <img src="images/gallery-2.jpg" loading="lazy" alt="Fine Dining Breakfast Service">
-                            <a href="images/gallery-2.jpg" class="gallery-card-overlay gallery-lightbox-trigger"
-                                data-img-src="images/gallery-2.jpg" data-title="Fine Dining Gourmet Breakfast Service"
+                            <img src="images/gallery-2.webp" loading="lazy" alt="Fine Dining Breakfast Service">
+                            <a href="images/gallery-2.webp" class="gallery-card-overlay gallery-lightbox-trigger"
+                                data-img-src="images/gallery-2.webp" data-title="Fine Dining Gourmet Breakfast Service"
                                 title="Click to View Full Size">
                                 <i class="bi bi-eye"></i>
                             </a>
                         </div>
                         <div class="gallery-card-item">
-                            <img src="images/gallery-3.jpg" loading="lazy" alt="Sky Lounge Panoramic Bar">
-                            <a href="images/gallery-3.jpg" class="gallery-card-overlay gallery-lightbox-trigger"
-                                data-img-src="images/gallery-3.jpg"
+                            <img src="images/gallery-3.webp" loading="lazy" alt="Sky Lounge Panoramic Bar">
+                            <a href="images/gallery-3.webp" class="gallery-card-overlay gallery-lightbox-trigger"
+                                data-img-src="images/gallery-3.webp"
                                 data-title="Sky Lounge &amp; Executive Panoramic Bar" title="Click to View Full Size">
                                 <i class="bi bi-eye"></i>
                             </a>
                         </div>
                         <div class="gallery-card-item">
-                            <img src="images/gallery-4.jpg" loading="lazy" alt="Night Courtyard Architecture">
-                            <a href="images/gallery-4.jpg" class="gallery-card-overlay gallery-lightbox-trigger"
-                                data-img-src="images/gallery-4.jpg"
+                            <img src="images/gallery-4.webp" loading="lazy" alt="Night Courtyard Architecture">
+                            <a href="images/gallery-4.webp" class="gallery-card-overlay gallery-lightbox-trigger"
+                                data-img-src="images/gallery-4.webp"
                                 data-title="Illuminated Night Courtyard &amp; Royal Palace Architecture"
                                 title="Click to View Full Size">
                                 <i class="bi bi-eye"></i>
                             </a>
                         </div>
                         <div class="gallery-card-item">
-                            <img src="images/gallery-5.jpg" loading="lazy" alt="Infinity Pool Villa Resort">
-                            <a href="images/gallery-5.jpg" class="gallery-card-overlay gallery-lightbox-trigger"
-                                data-img-src="images/gallery-5.jpg"
+                            <img src="images/gallery-5.webp" loading="lazy" alt="Infinity Pool Villa Resort">
+                            <a href="images/gallery-5.webp" class="gallery-card-overlay gallery-lightbox-trigger"
+                                data-img-src="images/gallery-5.webp"
                                 data-title="Infinity Heated Swimming Pool &amp; Luxury Villa Deck"
                                 title="Click to View Full Size">
                                 <i class="bi bi-eye"></i>
@@ -801,42 +801,42 @@
 
                         <!-- Set 2 (Duplicated 5 Images for Seamless Infinite Loop) -->
                         <div class="gallery-card-item">
-                            <img src="images/gallery-1.jpg" loading="lazy" alt="Luxury Hotel Suite Lounge">
-                            <a href="images/gallery-1.jpg" class="gallery-card-overlay gallery-lightbox-trigger"
-                                data-img-src="images/gallery-1.jpg" data-title="Luxury Hotel Suite Lounge"
+                            <img src="images/gallery-1.webp" loading="lazy" alt="Luxury Hotel Suite Lounge">
+                            <a href="images/gallery-1.webp" class="gallery-card-overlay gallery-lightbox-trigger"
+                                data-img-src="images/gallery-1.webp" data-title="Luxury Hotel Suite Lounge"
                                 title="Click to View Full Size">
                                 <i class="bi bi-eye"></i>
                             </a>
                         </div>
                         <div class="gallery-card-item">
-                            <img src="images/gallery-2.jpg" loading="lazy" alt="Fine Dining Breakfast Service">
-                            <a href="images/gallery-2.jpg" class="gallery-card-overlay gallery-lightbox-trigger"
-                                data-img-src="images/gallery-2.jpg" data-title="Fine Dining Gourmet Breakfast Service"
+                            <img src="images/gallery-2.webp" loading="lazy" alt="Fine Dining Breakfast Service">
+                            <a href="images/gallery-2.webp" class="gallery-card-overlay gallery-lightbox-trigger"
+                                data-img-src="images/gallery-2.webp" data-title="Fine Dining Gourmet Breakfast Service"
                                 title="Click to View Full Size">
                                 <i class="bi bi-eye"></i>
                             </a>
                         </div>
                         <div class="gallery-card-item">
-                            <img src="images/gallery-3.jpg" loading="lazy" alt="Sky Lounge Panoramic Bar">
-                            <a href="images/gallery-3.jpg" class="gallery-card-overlay gallery-lightbox-trigger"
-                                data-img-src="images/gallery-3.jpg"
+                            <img src="images/gallery-3.webp" loading="lazy" alt="Sky Lounge Panoramic Bar">
+                            <a href="images/gallery-3.webp" class="gallery-card-overlay gallery-lightbox-trigger"
+                                data-img-src="images/gallery-3.webp"
                                 data-title="Sky Lounge &amp; Executive Panoramic Bar" title="Click to View Full Size">
                                 <i class="bi bi-eye"></i>
                             </a>
                         </div>
                         <div class="gallery-card-item">
-                            <img src="images/gallery-4.jpg" loading="lazy" alt="Night Courtyard Architecture">
-                            <a href="images/gallery-4.jpg" class="gallery-card-overlay gallery-lightbox-trigger"
-                                data-img-src="images/gallery-4.jpg"
+                            <img src="images/gallery-4.webp" loading="lazy" alt="Night Courtyard Architecture">
+                            <a href="images/gallery-4.webp" class="gallery-card-overlay gallery-lightbox-trigger"
+                                data-img-src="images/gallery-4.webp"
                                 data-title="Illuminated Night Courtyard &amp; Royal Palace Architecture"
                                 title="Click to View Full Size">
                                 <i class="bi bi-eye"></i>
                             </a>
                         </div>
                         <div class="gallery-card-item">
-                            <img src="images/gallery-5.jpg" loading="lazy" alt="Infinity Pool Villa Resort">
-                            <a href="images/gallery-5.jpg" class="gallery-card-overlay gallery-lightbox-trigger"
-                                data-img-src="images/gallery-5.jpg"
+                            <img src="images/gallery-5.webp" loading="lazy" alt="Infinity Pool Villa Resort">
+                            <a href="images/gallery-5.webp" class="gallery-card-overlay gallery-lightbox-trigger"
+                                data-img-src="images/gallery-5.webp"
                                 data-title="Infinity Heated Swimming Pool &amp; Luxury Villa Deck"
                                 title="Click to View Full Size">
                                 <i class="bi bi-eye"></i>
