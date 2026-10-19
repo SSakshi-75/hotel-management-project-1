@@ -301,7 +301,7 @@
                                             <div class="room-thumb-wrap">
                                                 <img src='<%# ResolveUrl("~/" + Eval("ImageUrl")) %>'
                                                     alt='<%# Eval("PhotoTitle") %>' class="hotel-room-thumb"
-                                                    onerror="this.src='../images/room-placeholder.jpg';" />
+                                                    onerror="this.onerror=null; this.src='../images/room-placeholder.jpg';" />
                                             </div>
                                         </ItemTemplate>
                                     </asp:TemplateField>

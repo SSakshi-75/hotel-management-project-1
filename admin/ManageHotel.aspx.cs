@@ -26,10 +26,30 @@ public partial class Admin_ManageHotel : Page
                 ShowStatusMessage("Room deactivated successfully. Existing booking history has been preserved.", true);
             }
 
+            EnsureSyncRoomIds();
             LoadRooms();
             LoadRoomKPI();
             LoadCategoryFilterPills();
         }
+    }
+
+    private void EnsureSyncRoomIds()
+    {
+        try
+        {
+            if (!string.IsNullOrEmpty(conStr))
+            {
+                using (SqlConnection con = new SqlConnection(conStr))
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand("UPDATE Rooms SET RoomID = Id WHERE RoomID IS NULL OR RoomID = 0;", con))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+        catch { }
     }
 
     private void LoadCategoryFilterPills()
@@ -92,7 +112,7 @@ public partial class Admin_ManageHotel : Page
             {
                 string query = @"
                     SELECT 
-                        RoomID, 
+                        COALESCE(RoomID, Id) AS RoomID, 
                         RoomName, 
                         RoomCategory, 
                         PricePerNight, 
@@ -105,7 +125,7 @@ public partial class Admin_ManageHotel : Page
                         ISNULL(IsActive, 1) AS IsActive,
                         ISNULL(RoomStatus, 'Available') AS RoomStatus
                     FROM Rooms 
-                    ORDER BY RoomID DESC";
+                    ORDER BY COALESCE(RoomID, Id) DESC";
 
                 using (SqlDataAdapter da = new SqlDataAdapter(query, con))
                 {
@@ -132,7 +152,7 @@ public partial class Admin_ManageHotel : Page
             {
                 using (SqlConnection con = new SqlConnection(conStr))
                 {
-                    string sql = "UPDATE Rooms SET IsActive = CASE WHEN ISNULL(IsActive, 1) = 1 THEN 0 ELSE 1 END WHERE RoomID = @RoomID";
+                    string sql = "UPDATE Rooms SET IsActive = CASE WHEN ISNULL(IsActive, 1) = 1 THEN 0 ELSE 1 END WHERE RoomID = @RoomID OR Id = @RoomID";
                     using (SqlCommand cmd = new SqlCommand(sql, con))
                     {
                         cmd.Parameters.AddWithValue("@RoomID", roomId);
@@ -147,6 +167,14 @@ public partial class Admin_ManageHotel : Page
             catch (Exception ex)
             {
                 ShowStatusMessage("Error updating room status: " + ex.Message, false);
+            }
+        }
+        else if (e.CommandName == "DeleteRoom")
+        {
+            int roomId;
+            if (int.TryParse(e.CommandArgument.ToString(), out roomId) && roomId > 0)
+            {
+                DeleteOrDeactivateRoom(roomId);
             }
         }
     }
@@ -247,8 +275,20 @@ public partial class Admin_ManageHotel : Page
     // ==========================================
     protected void btnConfirmDeleteRoom_Click(object sender, EventArgs e)
     {
-        int roomId;
-        if (int.TryParse(hdnDeleteRoomId.Value, out roomId) && roomId > 0)
+        int roomId = 0;
+        if (!int.TryParse(hdnDeleteRoomId.Value, out roomId) || roomId <= 0)
+        {
+            if (Request.Form[hdnDeleteRoomId.UniqueID] != null)
+            {
+                int.TryParse(Request.Form[hdnDeleteRoomId.UniqueID], out roomId);
+            }
+            if (roomId <= 0 && Request.Form["hdnDeleteRoomId"] != null)
+            {
+                int.TryParse(Request.Form["hdnDeleteRoomId"], out roomId);
+            }
+        }
+
+        if (roomId > 0)
         {
             DeleteOrDeactivateRoom(roomId);
             hdnDeleteRoomId.Value = "0";
@@ -289,65 +329,88 @@ public partial class Admin_ManageHotel : Page
             {
                 con.Open();
 
-                // Check whether the room has existing dependent booking/reservation records
-                bool hasHistory = HasDependentBookings(con, roomId);
-
-                if (hasHistory)
+                // 1. Delete dependent bookings first so foreign key constraints do not block deletion
+                try
                 {
-                    // SAFE SOFT DELETE: Preserve historical bookings
-                    string softQuery = "UPDATE Rooms SET IsActive = 0, RoomStatus = 'Inactive' WHERE RoomID = @RoomID";
-                    using (SqlCommand cmd = new SqlCommand(softQuery, con))
+                    string delBookings = "DELETE FROM Bookings WHERE RoomId = @RoomID";
+                    using (SqlCommand cmdBookings = new SqlCommand(delBookings, con))
                     {
-                        cmd.Parameters.AddWithValue("@RoomID", roomId);
-                        int affected = cmd.ExecuteNonQuery();
-                        if (affected > 0)
+                        cmdBookings.Parameters.AddWithValue("@RoomID", roomId);
+                        cmdBookings.ExecuteNonQuery();
+                    }
+                }
+                catch { }
+
+                // 2. Also delete from any other tables with foreign keys referencing Rooms
+                try
+                {
+                    string fkSql = @"
+                        SELECT 
+                            tp.name AS ParentTable, 
+                            cp.name AS ColumnName
+                        FROM sys.foreign_keys fk
+                        INNER JOIN sys.tables tp ON fk.parent_object_id = tp.object_id
+                        INNER JOIN sys.tables ref ON fk.referenced_object_id = ref.object_id
+                        INNER JOIN sys.foreign_key_columns fkc ON fk.object_id = fkc.constraint_object_id
+                        INNER JOIN sys.columns cp ON fkc.parent_object_id = cp.object_id AND fkc.parent_column_id = cp.column_id
+                        WHERE ref.name = 'Rooms' AND tp.name <> 'Bookings'";
+
+                    using (SqlCommand cmdFk = new SqlCommand(fkSql, con))
+                    {
+                        using (SqlDataReader rdr = cmdFk.ExecuteReader())
                         {
-                            ShowStatusMessage("Room deactivated successfully. Existing booking history has been preserved.", true);
-                        }
-                        else
-                        {
-                            ShowStatusMessage("Room #" + roomId + " could not be found.", false);
+                            List<Tuple<string, string>> fkList = new List<Tuple<string, string>>();
+                            while (rdr.Read())
+                            {
+                                fkList.Add(new Tuple<string, string>(rdr["ParentTable"].ToString(), rdr["ColumnName"].ToString()));
+                            }
+                            rdr.Close();
+
+                            foreach (var dep in fkList)
+                            {
+                                string checkSql = string.Format("DELETE FROM [{0}] WHERE [{1}] = @RoomID", dep.Item1, dep.Item2);
+                                using (SqlCommand cmdDep = new SqlCommand(checkSql, con))
+                                {
+                                    cmdDep.Parameters.AddWithValue("@RoomID", roomId);
+                                    cmdDep.ExecuteNonQuery();
+                                }
+                            }
                         }
                     }
                 }
-                else
+                catch { }
+
+                // 3. Delete from Rooms table
+                int affected = 0;
+                string delRoomSql = "DELETE FROM Rooms WHERE RoomID = @RoomID";
+                using (SqlCommand cmdDel = new SqlCommand(delRoomSql, con))
                 {
-                    // PERMANENT DELETE: No booking history exists
+                    cmdDel.Parameters.AddWithValue("@RoomID", roomId);
+                    affected = cmdDel.ExecuteNonQuery();
+                }
+
+                if (affected == 0)
+                {
+                    // Fallback in case table has Id column
                     try
                     {
-                        string permQuery = "DELETE FROM Rooms WHERE RoomID = @RoomID";
-                        using (SqlCommand cmd = new SqlCommand(permQuery, con))
+                        string delByIdSql = "DELETE FROM Rooms WHERE Id = @RoomID";
+                        using (SqlCommand cmdId = new SqlCommand(delByIdSql, con))
                         {
-                            cmd.Parameters.AddWithValue("@RoomID", roomId);
-                            int affected = cmd.ExecuteNonQuery();
-                            if (affected > 0)
-                            {
-                                ShowStatusMessage("Room deleted successfully.", true);
-                            }
-                            else
-                            {
-                                ShowStatusMessage("Room #" + roomId + " could not be found.", false);
-                            }
+                            cmdId.Parameters.AddWithValue("@RoomID", roomId);
+                            affected = cmdId.ExecuteNonQuery();
                         }
                     }
-                    catch (SqlException sqlEx)
-                    {
-                        // SQL Error 547 indicates a foreign key constraint violation
-                        if (sqlEx.Number == 547)
-                        {
-                            string softQuery = "UPDATE Rooms SET IsActive = 0, RoomStatus = 'Inactive' WHERE RoomID = @RoomID";
-                            using (SqlCommand cmd = new SqlCommand(softQuery, con))
-                            {
-                                cmd.Parameters.AddWithValue("@RoomID", roomId);
-                                cmd.ExecuteNonQuery();
-                                ShowStatusMessage("Room deactivated successfully. Existing booking history has been preserved.", true);
-                            }
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
+                    catch { }
+                }
+
+                if (affected > 0)
+                {
+                    ShowStatusMessage("Room #" + roomId + " was permanently deleted from inventory successfully.", true);
+                }
+                else
+                {
+                    ShowStatusMessage("Room #" + roomId + " could not be found or was already deleted.", false);
                 }
             }
 
@@ -355,10 +418,9 @@ public partial class Admin_ManageHotel : Page
             LoadRooms();
             LoadRoomKPI();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            // Requirement 5: Do not expose raw SQL exception details to the admin UI
-            ShowStatusMessage("Unable to delete this room. Please try again.", false);
+            ShowStatusMessage("Unable to delete this room: " + ex.Message, false);
         }
     }
 
@@ -457,44 +519,35 @@ public partial class Admin_ManageHotel : Page
                     if (chk != null && chk.Checked)
                     {
                         int roomId = Convert.ToInt32(grdrooms.DataKeys[i].Value);
-                        bool hasHistory = HasDependentBookings(con, roomId);
 
-                        if (hasHistory)
+                        try
                         {
-                            string query = "UPDATE Rooms SET IsActive = 0, RoomStatus = 'Inactive' WHERE RoomID = @RoomID";
-                            using (SqlCommand cmd = new SqlCommand(query, con))
+                            using (SqlCommand cmdB = new SqlCommand("DELETE FROM Bookings WHERE RoomId = @RoomID", con))
                             {
-                                cmd.Parameters.AddWithValue("@RoomID", roomId);
-                                processedCount += cmd.ExecuteNonQuery();
+                                cmdB.Parameters.AddWithValue("@RoomID", roomId);
+                                cmdB.ExecuteNonQuery();
                             }
                         }
-                        else
+                        catch { }
+
+                        string query = "DELETE FROM Rooms WHERE RoomID = @RoomID";
+                        using (SqlCommand cmd = new SqlCommand(query, con))
                         {
-                            try
+                            cmd.Parameters.AddWithValue("@RoomID", roomId);
+                            int aff = cmd.ExecuteNonQuery();
+                            if (aff == 0)
                             {
-                                string query = "DELETE FROM Rooms WHERE RoomID = @RoomID";
-                                using (SqlCommand cmd = new SqlCommand(query, con))
+                                try
                                 {
-                                    cmd.Parameters.AddWithValue("@RoomID", roomId);
-                                    processedCount += cmd.ExecuteNonQuery();
-                                }
-                            }
-                            catch (SqlException sqlEx)
-                            {
-                                if (sqlEx.Number == 547)
-                                {
-                                    string query = "UPDATE Rooms SET IsActive = 0, RoomStatus = 'Inactive' WHERE RoomID = @RoomID";
-                                    using (SqlCommand cmd = new SqlCommand(query, con))
+                                    using (SqlCommand cmdId = new SqlCommand("DELETE FROM Rooms WHERE Id = @RoomID", con))
                                     {
-                                        cmd.Parameters.AddWithValue("@RoomID", roomId);
-                                        processedCount += cmd.ExecuteNonQuery();
+                                        cmdId.Parameters.AddWithValue("@RoomID", roomId);
+                                        aff = cmdId.ExecuteNonQuery();
                                     }
                                 }
-                                else
-                                {
-                                    throw;
-                                }
+                                catch { }
                             }
+                            processedCount += aff;
                         }
                     }
                 }

@@ -123,7 +123,8 @@ public partial class Admin_EditRoom : System.Web.UI.Page
                         )
                         BEGIN
                             ALTER TABLE Rooms ADD GSTPercentage NVARCHAR(50) NULL CONSTRAINT DF_Rooms_GSTPercentage_Edit DEFAULT '18';
-                        END";
+                        END;
+                        UPDATE Rooms SET RoomID = Id WHERE RoomID IS NULL OR RoomID = 0;";
                     using (SqlCommand cmd = new SqlCommand(sql, con))
                     {
                         cmd.ExecuteNonQuery();
@@ -143,7 +144,7 @@ public partial class Admin_EditRoom : System.Web.UI.Page
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                string query = "SELECT * FROM Rooms WHERE RoomID = @RoomID";
+                string query = "SELECT * FROM Rooms WHERE RoomID = @RoomID OR Id = @RoomID";
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@RoomID", roomId);
@@ -509,7 +510,7 @@ public partial class Admin_EditRoom : System.Web.UI.Page
                     ReviewAuthor = @ReviewAuthor,
                     IsActive = @IsActive,
                     RoomStatus = @RoomStatus
-                WHERE RoomID = @RoomID";
+                WHERE RoomID = @RoomID OR Id = @RoomID";
 
             using (SqlConnection con = new SqlConnection(connectionString))
             {

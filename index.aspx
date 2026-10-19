@@ -502,7 +502,7 @@
                                     <div class="dining-venue-img-wrap">
                                         <picture class="w-100 h-100 d-block">
                                             <source srcset="images/dining-royal-zafran.webp" type="image/webp">
-                                            <img src="images/dining-royal-zafran.jpg"
+                                            <img src="images/dining-royal-zafran.webp"
                                                 alt="The Royal Kitchen Fine Dining" class="dining-venue-img"
                                                 loading="lazy" decoding="async">
                                         </picture>

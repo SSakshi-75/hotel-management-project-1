@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -90,16 +91,84 @@ public partial class Booking : System.Web.UI.Page
 
     public string GetRoomImageUrl(object imgObj)
     {
-        if (imgObj == null || string.IsNullOrWhiteSpace(imgObj.ToString()))
+        string defaultFallback = ResolveUrl("~/images/room-mini-business.jpg");
+        if (imgObj == null || imgObj == DBNull.Value || string.IsNullOrWhiteSpace(imgObj.ToString()))
         {
-            return ResolveUrl("~/images/room-mini-business.jpg");
+            return defaultFallback;
         }
-        string imgPath = imgObj.ToString().Trim();
-        if (imgPath.StartsWith("http://") || imgPath.StartsWith("https://")) return imgPath;
-        if (imgPath.StartsWith("~/")) return ResolveUrl(imgPath);
-        if (imgPath.StartsWith("/")) return ResolveUrl("~" + imgPath);
-        if (imgPath.StartsWith("images/")) return ResolveUrl("~/" + imgPath);
-        return ResolveUrl("~/images/rooms/" + imgPath);
+
+        string imageName = imgObj.ToString().Trim().Replace("\\", "/");
+
+        // External link
+        if (imageName.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+            imageName.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+        {
+            return imageName;
+        }
+
+        // Normalize leading ~/ or /
+        if (imageName.StartsWith("~/"))
+        {
+            imageName = imageName.Substring(2);
+        }
+        else if (imageName.StartsWith("/"))
+        {
+            imageName = imageName.Substring(1);
+        }
+
+        try
+        {
+            // Case 1: Already has images/rooms/
+            if (imageName.StartsWith("images/rooms/", StringComparison.OrdinalIgnoreCase))
+            {
+                if (File.Exists(Server.MapPath("~/" + imageName)))
+                {
+                    return ResolveUrl("~/" + imageName);
+                }
+                string fname = Path.GetFileName(imageName);
+                if (File.Exists(Server.MapPath("~/images/rooms/" + fname)))
+                {
+                    return ResolveUrl("~/images/rooms/" + fname);
+                }
+                if (File.Exists(Server.MapPath("~/images/" + fname)))
+                {
+                    return ResolveUrl("~/images/" + fname);
+                }
+                return defaultFallback;
+            }
+
+            // Case 2: Starts with images/
+            if (imageName.StartsWith("images/", StringComparison.OrdinalIgnoreCase))
+            {
+                if (File.Exists(Server.MapPath("~/" + imageName)))
+                {
+                    return ResolveUrl("~/" + imageName);
+                }
+                string fname = Path.GetFileName(imageName);
+                if (File.Exists(Server.MapPath("~/images/rooms/" + fname)))
+                {
+                    return ResolveUrl("~/images/rooms/" + fname);
+                }
+                if (File.Exists(Server.MapPath("~/images/" + fname)))
+                {
+                    return ResolveUrl("~/images/" + fname);
+                }
+                return defaultFallback;
+            }
+
+            // Case 3: Just raw filename
+            if (File.Exists(Server.MapPath("~/images/rooms/" + imageName)))
+            {
+                return ResolveUrl("~/images/rooms/" + imageName);
+            }
+            if (File.Exists(Server.MapPath("~/images/" + imageName)))
+            {
+                return ResolveUrl("~/images/" + imageName);
+            }
+        }
+        catch { }
+
+        return defaultFallback;
     }
 
     public string GetFormattedRoomArea(object areaObj)

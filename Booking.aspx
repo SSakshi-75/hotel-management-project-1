@@ -126,7 +126,7 @@
                                                     <div class="room-pick-img-wrap position-relative">
                                                         <img src='<%# GetRoomImageUrl(Eval("PrimaryRoomImage")) %>'
                                                             alt='<%# Eval("RoomName") %>'
-                                                            onerror="this.src='images/room-mini-business.jpg';" />
+                                                            onerror="this.onerror=null; this.src='images/room-mini-business.jpg';" />
                                                     </div>
                                                     <div class="room-pick-title">
                                                         <%# Eval("RoomName") %>

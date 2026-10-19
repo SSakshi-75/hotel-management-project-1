@@ -2,26 +2,28 @@
     AutoEventWireup="true" MaintainScrollPositionOnPostback="true" CodeFile="ManageHotel.aspx.cs"
     Inherits="Admin_ManageHotel" %>
 
-    <asp:Content ID="Content1" ContentPlaceHolderID="adminHead" Runat="Server">
+    <asp:Content ID="Content1" ContentPlaceHolderID="adminHead" runat="Server">
         <meta name="description" content="Hotel Management - Executive Rooms and Suites Administration" />
         <link rel="stylesheet" type="text/css" href="css/managehotel.css?v=2.0" />
     </asp:Content>
 
-    <asp:Content ID="Content2" ContentPlaceHolderID="AdminContent" Runat="Server">
+    <asp:Content ID="Content2" ContentPlaceHolderID="AdminContent" runat="Server">
 
         <!-- Page Header & Action Bar -->
         <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
             <div>
                 <h2 class="fw-bold mb-1 manage-hotel-title">Manage Hotel &amp; Suites</h2>
-                <p class="text-muted small mb-0">Overview of all hotel room inventories, tariffs, specifications, and
-                    live guest portal publishing.</p>
+                <p class="text-muted small mb-0">
+                    Overview of all hotel room inventories, tariffs, specifications, and
+                    live guest portal publishing.
+                </p>
             </div>
             <div class="d-flex align-items-center flex-wrap gap-2">
                 <a href="../Room.aspx" target="_blank" class="btn-hotel-preview-site">
-                    <i class="bi bi-globe2"></i> Live Guest Rooms <i class="bi bi-box-arrow-up-right small"></i>
+                    <i class="bi bi-globe2"></i>Live Guest Rooms <i class="bi bi-box-arrow-up-right small"></i>
                 </a>
                 <a href="AddRoom.aspx" class="btn-hotel-add-room">
-                    <i class="bi bi-plus-lg"></i> Add New Room
+                    <i class="bi bi-plus-lg"></i>Add New Room
                 </a>
             </div>
         </div>
@@ -43,7 +45,8 @@
             <!-- Total Rooms -->
             <div class="col-6 col-lg-3">
                 <div class="hotel-kpi-card">
-                    <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2">
+                    <div
+                        class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2">
                         <div>
                             <span class="kpi-label">Total Suites &amp; Rooms</span>
                             <div class="kpi-value mt-1" id="kpiTotalRooms" runat="server">0</div>
@@ -59,7 +62,8 @@
             <!-- Published & Live -->
             <div class="col-6 col-lg-3">
                 <div class="hotel-kpi-card">
-                    <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2">
+                    <div
+                        class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2">
                         <div>
                             <span class="kpi-label">Publish Status</span>
                             <div class="kpi-value mt-1 text-success" id="kpiLiveRooms" runat="server">0 Live</div>
@@ -75,7 +79,8 @@
             <!-- Average Tariff -->
             <div class="col-6 col-lg-3">
                 <div class="hotel-kpi-card">
-                    <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2">
+                    <div
+                        class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2">
                         <div>
                             <span class="kpi-label">Average Tariff</span>
                             <div class="kpi-value mt-1" id="kpiAvgTariff" runat="server">₹ 0</div>
@@ -91,7 +96,8 @@
             <!-- Distinct Categories -->
             <div class="col-6 col-lg-3">
                 <div class="hotel-kpi-card">
-                    <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2">
+                    <div
+                        class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2">
                         <div>
                             <span class="kpi-label">Room Categories</span>
                             <div class="kpi-value mt-1" id="kpiTotalCategories" runat="server">0 Tiers</div>
@@ -116,7 +122,7 @@
                 </div>
                 <div>
                     <span class="header-count-pill" id="lblRoomCountPill" runat="server">
-                        <i class="bi bi-shield-check me-1"></i> 0 Rooms Active
+                        <i class="bi bi-shield-check me-1"></i>0 Rooms Active
                     </span>
                 </div>
             </div>
@@ -139,10 +145,12 @@
                             <button type="button" class="filter-pill-btn active"
                                 onclick="setCategoryFilter('ALL', this); return false;">
                                 All Suites
+
                             </button>
                             <asp:Repeater ID="rptCategoryFilters" runat="server">
                                 <ItemTemplate>
-                                    <button type="button" class="filter-pill-btn" data-category='<%# Eval("CategoryName") %>'
+                                    <button type="button" class="filter-pill-btn"
+                                        data-category='<%# Eval("CategoryName") %>'
                                         onclick="setCategoryFilter(this); return false;">
                                         <%# Eval("CategoryName") %>
                                     </button>
@@ -210,7 +218,7 @@
                                             </a>
                                             <div class="room-specs-list">
                                                 <span class="room-spec-item" title="Room ID">
-                                                    <i class="bi bi-hash"></i> Room #<%# Eval("RoomID") %>
+                                                    <i class="bi bi-hash"></i>Room #<%# Eval("RoomID") %>
                                                 </span>
                                                 <span class="room-spec-item" title="Max Occupancy">
                                                     <i class="bi bi-people-fill"></i>
@@ -240,11 +248,10 @@
                                         <%-- PRICE --%>
                                             <asp:TemplateField HeaderText="Tariff / Night">
                                                 <ItemTemplate>
-                                                    <span class="hotel-tariff-amount">
-                                                        &#8377; <%# string.Format("{0:N0}", Eval("PricePerNight")) %>
+                                                    <span class="hotel-tariff-amount">&#8377; <%#
+                                                            string.Format("{0:N0}", Eval("PricePerNight")) %>
                                                     </span>
-                                                    <span class="hotel-tariff-period">
-                                                        per room / night
+                                                    <span class="hotel-tariff-period">per room / night
                                                     </span>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
@@ -259,43 +266,49 @@
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
 
-                                            <%-- AVAILABILITY STATUS --%>
-                                                <asp:TemplateField HeaderText="Availability">
-                                                    <ItemTemplate>
-                                                        <%# GetStatusBadge(Eval("RoomStatus")) %>
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-
-                                                <%-- ACTIONS --%>
-                                                    <asp:TemplateField HeaderText="Actions">
+                                                <%-- AVAILABILITY STATUS --%>
+                                                    <asp:TemplateField HeaderText="Availability">
                                                         <ItemTemplate>
-                                                            <div class="hotel-table-actions justify-content-center">
-                                                                <asp:LinkButton ID="btnToggleStatus" runat="server"
-                                                                    CommandName="ToggleStatus"
-                                                                    CommandArgument='<%# Eval("RoomID") %>'
-                                                                    CssClass="btn-action-luxury btn-edit"
-                                                                    ToolTip='<%# Convert.ToBoolean(Eval("IsActive")) ? "Deactivate Room (Hide on Site)" : "Activate Room (Publish on Site)" %>'>
-                                                                    <i
-                                                                        class='<%# Convert.ToBoolean(Eval("IsActive")) ? "bi bi-eye-fill text-success" : "bi bi-eye-slash-fill text-warning" %>'></i>
-                                                                </asp:LinkButton>
-                                                                <a href='<%# "EditRoom.aspx?RoomId=" + Eval("RoomID") %>'
-                                                                    class="btn-action-luxury btn-edit"
-                                                                    title="Edit Room">
-                                                                    <i class="bi bi-pencil-square"></i>
-                                                                </a>
-                                                                <a href='<%# ResolveUrl("~/RoomDetails.aspx?RoomId=" + Eval("RoomID")) %>'
-                                                                    target="_blank" class="btn-action-luxury btn-view"
-                                                                    title="View Room">
-                                                                    <i class="bi bi-box-arrow-up-right"></i>
-                                                                </a>
-                                                                <a href='<%# "DeleteRoom.aspx?RoomId=" + Eval("RoomID") %>'
-                                                                    class="btn-action-luxury btn-delete"
-                                                                    title="Delete Room">
-                                                                    <i class="bi bi-trash3"></i>
-                                                                </a>
-                                                            </div>
+                                                            <%# GetStatusBadge(Eval("RoomStatus")) %>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
+
+                                                    <%-- ACTIONS --%>
+                                                        <asp:TemplateField HeaderText="Actions">
+                                                            <ItemTemplate>
+                                                                <div class="hotel-table-actions justify-content-center">
+                                                                    <asp:LinkButton ID="btnToggleStatus" runat="server"
+                                                                        CommandName="ToggleStatus"
+                                                                        CommandArgument='<%# Eval("RoomID") %>'
+                                                                        CssClass="btn-action-luxury btn-edit"
+                                                                        ToolTip='<%# Convert.ToBoolean(Eval("IsActive")) ? "Deactivate Room (Hide on Site)" : "Activate Room (Publish on Site)" %>'>
+                                                                        <i
+                                                                            class='<%# Convert.ToBoolean(Eval("IsActive")) ? "bi bi-eye-fill text-success" : "bi bi-eye-slash-fill text-warning" %>'></i>
+                                                                    </asp:LinkButton>
+                                                                    <a href='<%# "EditRoom.aspx?RoomId=" + Eval("RoomID") %>'
+                                                                        class="btn-action-luxury btn-edit"
+                                                                        title="Edit Room">
+                                                                        <i class="bi bi-pencil-square"></i>
+                                                                    </a>
+                                                                    <a href='<%# ResolveUrl("~/RoomDetails.aspx?RoomId=" + Eval("RoomID")) %>'
+                                                                        target="_blank"
+                                                                        class="btn-action-luxury btn-view"
+                                                                        title="View Room">
+                                                                        <i class="bi bi-box-arrow-up-right"></i>
+                                                                    </a>
+                                                                    <asp:LinkButton ID="btnDeleteRoom" runat="server"
+                                                                        CommandName="DeleteRoom"
+                                                                        CommandArgument='<%# Eval("RoomID") %>'
+                                                                        CssClass="btn-action-luxury btn-delete"
+                                                                        ToolTip="Delete Room"
+                                                                        data-room-id='<%# Eval("RoomID") %>'
+                                                                        data-room-name='<%# HttpUtility.HtmlAttributeEncode(Eval("RoomName") != null ? Eval("RoomName").ToString() : "") %>'
+                                                                        OnClientClick="return confirmDeleteRoom(this);">
+                                                                        <i class="bi bi-trash3"></i>
+                                                                    </asp:LinkButton>
+                                                                </div>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
                     </Columns>
 
                     <%-- EMPTY DATA TEMPLATE --%>
@@ -304,14 +317,14 @@
                                 <div class="empty-hotel-icon">
                                     <i class="bi bi-door-closed"></i>
                                 </div>
-                                <h4 class="fw-bold text-dark mb-1">
-                                    No Hotel Rooms Registered
+                                <h4 class="fw-bold text-dark mb-1">No Hotel Rooms Registered
                                 </h4>
                                 <p class="text-muted small mb-3">
                                     Begin by configuring your first luxury room or executive suite entry.
+
                                 </p>
                                 <a href="AddRoom.aspx" class="btn-hotel-add-room">
-                                    <i class="bi bi-plus-lg"></i> Add New Room
+                                    <i class="bi bi-plus-lg"></i>Add New Room
                                 </a>
                             </div>
                         </EmptyDataTemplate>
@@ -329,8 +342,8 @@
                 </div>
                 <div>
                     <a href="../Room.aspx" target="_blank" class="text-decoration-none fw-semibold"
-                        style="color: var(--hotel-gold-dark);">
-                        View Guest Catalog <i class="bi bi-arrow-right small"></i>
+                        style="color: var(--hotel-gold-dark);">View Guest Catalog <i
+                            class="bi bi-arrow-right small"></i>
                     </a>
                 </div>
             </div>
@@ -338,7 +351,8 @@
         </div>
 
         <!-- Hidden Field to store target Room ID for deletion -->
-        <asp:HiddenField ID="hdnDeleteRoomId" runat="server" Value="0" />
+        <asp:HiddenField ID="hdnDeleteRoomId" runat="server" ClientIDMode="Static" Value="0" />
+
 
         <!-- Bootstrap 5 Delete Confirmation Modal -->
         <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel"
@@ -366,7 +380,8 @@
                         </div>
 
                         <p class="text-danger small mb-0 fw-semibold">
-                            <i class="bi bi-shield-exclamation me-1"></i> This action cannot be undone.
+                            <i class="bi bi-shield-exclamation me-1"></i>This action cannot be undone.
+
                         </p>
                     </div>
 
@@ -375,10 +390,11 @@
                             class="btn btn-light px-4 py-2 fw-semibold text-secondary border rounded-3"
                             data-bs-dismiss="modal">
                             Cancel
+
                         </button>
                         <asp:Button ID="btnConfirmDeleteRoom" runat="server" Text="Delete Room"
                             CssClass="btn btn-danger px-4 py-2 fw-semibold rounded-3 shadow-sm"
-                            OnClick="btnConfirmDeleteRoom_Click" />
+                            OnClick="btnConfirmDeleteRoom_Click" CausesValidation="false" />
                     </div>
                 </div>
             </div>

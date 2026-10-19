@@ -123,7 +123,8 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                         )
                         BEGIN
                             ALTER TABLE Rooms ADD GSTPercentage NVARCHAR(50) NULL CONSTRAINT DF_Rooms_GSTPercentage DEFAULT '18';
-                        END";
+                        END;
+                        UPDATE Rooms SET RoomID = Id WHERE RoomID IS NULL OR RoomID = 0;";
                     using (SqlCommand cmd = new SqlCommand(sql, con))
                     {
                         cmd.ExecuteNonQuery();
@@ -160,7 +161,7 @@ public partial class Admin_AddRoom : System.Web.UI.Page
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                string query = "SELECT * FROM Rooms WHERE RoomID = @RoomID";
+                string query = "SELECT * FROM Rooms WHERE RoomID = @RoomID OR Id = @RoomID";
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@RoomID", roomId);
@@ -523,7 +524,7 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                             ReviewAuthor = @ReviewAuthor,
                             IsActive = @IsActive,
                             RoomStatus = @RoomStatus
-                        WHERE RoomID = @RoomID";
+                        WHERE RoomID = @RoomID OR Id = @RoomID";
 
                     using (SqlCommand cmd = new SqlCommand(updateQuery, con))
                     {
@@ -569,9 +570,75 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                     // ==========================================
                     // SQL INSERT QUERY FOR NEW ROOM
                     // ==========================================
+                    // string insertQuery = @"
+                    //     INSERT INTO Rooms
+                    //     (
+                    //         RoomName,
+                    //         RoomCategory,
+                    //         PricePerNight,
+                    //         GSTPercentage,
+                    //         CategoryBadge,
+                    //         Rating,
+                    //         MaxGuests,
+                    //         RoomArea,
+                    //         ViewType,
+                    //         PrimaryRoomImage,
+                    //         ShortDescription,
+                    //         KeyAmenities,
+                    //         HeaderBadge,
+                    //         HeaderTitle,
+                    //         HeaderSubtitle,
+                    //         HeaderImage,
+                    //         FullOverview,
+                    //         Highlights,
+                    //         GalleryImage1,
+                    //         GalleryImage2,
+                    //         GalleryImage3,
+                    //         GalleryImage4,
+                    //         ReviewQuote,
+                    //         ReviewAuthor,
+                    //         IsActive,
+                    //         RoomStatus
+                    //     )
+                    //     VALUES
+                    //     (
+                    //         @RoomName,
+                    //         @RoomCategory,
+                    //         @PricePerNight,
+                    //         @GSTPercentage,
+                    //         @CategoryBadge,
+                    //         @Rating,
+                    //         @MaxGuests,
+                    //         @RoomArea,
+                    //         @ViewType,
+                    //         @PrimaryRoomImage,
+                    //         @ShortDescription,
+                    //         @KeyAmenities,
+                    //         @HeaderBadge,
+                    //         @HeaderTitle,
+                    //         @HeaderSubtitle,
+                    //         @HeaderImage,
+                    //         @FullOverview,
+                    //         @Highlights,
+                    //         @GalleryImage1,
+                    //         @GalleryImage2,
+                    //         @GalleryImage3,
+                    //         @GalleryImage4,
+                    //         @ReviewQuote,
+                    //         @ReviewAuthor,
+                    //         @IsActive,
+                    //         @RoomStatus
+                    //     );
+                    //     DECLARE @NewId INT = SCOPE_IDENTITY();
+                    //     UPDATE Rooms SET RoomID = @NewId WHERE Id = @NewId AND (RoomID IS NULL OR RoomID = 0);";
+                    // ==========================================
+                    // SQL INSERT QUERY FOR NEW ROOM (WITH UNIQUE RoomID)
+                    // ==========================================
                     string insertQuery = @"
+                        DECLARE @NextRoomId INT = ISNULL((SELECT MAX(COALESCE(RoomID, Id, 0)) FROM Rooms), 0) + 1;
                         INSERT INTO Rooms
                         (
+                            RoomID,
                             RoomName,
                             RoomCategory,
                             PricePerNight,
@@ -601,6 +668,7 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                         )
                         VALUES
                         (
+                            @NextRoomId,
                             @RoomName,
                             @RoomCategory,
                             @PricePerNight,
@@ -627,7 +695,9 @@ public partial class Admin_AddRoom : System.Web.UI.Page
                             @ReviewAuthor,
                             @IsActive,
                             @RoomStatus
-                        )";
+                        );";
+
+
 
                     using (SqlCommand cmd = new SqlCommand(insertQuery, con))
                     {

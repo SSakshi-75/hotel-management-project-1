@@ -59,7 +59,8 @@
                             <div class="col-lg-7" data-aos="fade-right" data-aos-delay="200">
                                 <div class="room-header-image">
                                     <img id="headerMainImg" src='<%# GetRoomImage(Eval("PrimaryRoomImage")) %>'
-                                        loading="lazy" alt='<%# Eval("RoomName") %>' class="img-fluid rounded">
+                                        loading="lazy" alt='<%# Eval("RoomName") %>' class="img-fluid rounded"
+                                        onerror="this.onerror=null; this.src='images/rooms/room-ocean-view.jpg';" />
                                     <div class="room-badge">
                                         <span class="text-white" id="headerCategoryBadge">
                                             <%# GetCategoryBadge(Eval("CategoryBadge"), Eval("RoomCategory")) %>
@@ -88,7 +89,7 @@
                                     <div class="room-capacity mb-4" data-aos="fade-up" data-aos-delay="500">
                                         <div class="capacity-item">
                                             <i class="bi bi-people-fill"></i>
-                                            <span>Up to <%# Eval("MaxGuests") %> guests</span>
+                                            <span>Up to <%# Eval("MaxGuests") != null && Eval("MaxGuests").ToString().IndexOf("Guest", StringComparison.OrdinalIgnoreCase) >= 0 ? Eval("MaxGuests") : Eval("MaxGuests") + " guests" %></span>
                                         </div>
                                         <div class="capacity-item">
                                             <i class="bi bi-aspect-ratio-fill"></i>
@@ -125,7 +126,8 @@
                                 <div class="gallery-main" data-aos="zoom-in" data-aos-delay="300">
                                     <img id="galleryMainPhoto" src='<%# GetRoomImage(Eval("PrimaryRoomImage")) %>'
                                         loading="lazy" alt='<%# Eval("RoomName") %>' class="img-fluid"
-                                        onclick="swapGallery(this)">
+                                        onerror="this.onerror=null; this.src='images/rooms/room-ocean-view.jpg';"
+                                        onclick="swapGallery(this)" />
                                 </div>
                                 <div class="gallery-thumbnails">
                                     <%# GetGalleryThumbnails(Container.DataItem) %>

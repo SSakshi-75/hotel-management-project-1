@@ -5,7 +5,7 @@
         <meta name="description" content="Online Table Reservation - The Royal Kitchen Fine Dining Restaurant" />
         <style>
             .res-hero-section {
-                background: linear-gradient(rgba(44, 23, 5, 0.8), rgba(44, 23, 5, 0.88)), url('images/dining-royal-zafran.jpg') center/cover no-repeat;
+                background: linear-gradient(rgba(44, 23, 5, 0.8), rgba(44, 23, 5, 0.88)), url('images/dining-royal-zafran.webp') center/cover no-repeat;
                 padding: 70px 0 50px;
                 color: #ffffff;
             }

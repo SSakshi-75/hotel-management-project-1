@@ -5,25 +5,49 @@
 
 var currentActiveCategory = 'ALL';
 
-function confirmDeleteRoom(roomId, roomName) {
-    var hdn = document.querySelector('[id$="hdnDeleteRoomId"]');
-    if (hdn) {
+function confirmDeleteRoom(btnOrId, name) {
+    var roomId = "";
+    var roomName = "";
+
+    if (btnOrId && typeof btnOrId === "object" && btnOrId.getAttribute) {
+        roomId = btnOrId.getAttribute("data-room-id") || "";
+        roomName = btnOrId.getAttribute("data-room-name") || "";
+    } else {
+        roomId = btnOrId || "";
+        roomName = name || "";
+    }
+
+    roomId = String(roomId).trim();
+
+    var hdn = document.getElementById("hdnDeleteRoomId") || document.querySelector('[id$="hdnDeleteRoomId"]');
+    var lbl = document.getElementById("lblDeleteModalRoomName");
+    var modalEl = document.getElementById("deleteConfirmModal");
+
+    if (hdn && roomId) {
         hdn.value = roomId;
     }
-    var lbl = document.getElementById('lblDeleteModalRoomName');
+
     if (lbl) {
-        lbl.innerText = roomName || ('Room #' + roomId);
+        lbl.textContent = (roomName ? roomName + " " : "") + (roomId ? "(Room #" + roomId + ")" : "");
     }
-    var modalEl = document.getElementById('deleteConfirmModal');
-    if (modalEl) {
-        if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-            var modal = bootstrap.Modal.getOrCreateInstance(modalEl);
-            modal.show();
-        } else if (typeof $ !== 'undefined' && $(modalEl).modal) {
-            $(modalEl).modal('show');
+
+    // Try showing Bootstrap modal
+    try {
+        if (modalEl && window.bootstrap && bootstrap.Modal) {
+            bootstrap.Modal.getOrCreateInstance(modalEl).show();
+            return false;
+        } else if (modalEl && window.jQuery && typeof jQuery.fn.modal === "function") {
+            jQuery(modalEl).modal("show");
+            return false;
         }
+    } catch (e) {
+        // Fallback to native confirmation below
     }
+
+    // Direct confirm fallback if modal is unavailable
+    return confirm("Are you sure you want to permanently delete " + (roomName ? roomName : "this room") + (roomId ? " (Room #" + roomId + ")" : "") + "?");
 }
+
 
 function toggleSelectAllRooms(master) {
     var checkboxes = document.querySelectorAll('.room-row-chk input[type="checkbox"]');

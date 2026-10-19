@@ -6090,7 +6090,7 @@ footer#footer {
   position: relative;
   padding: 45px 0 40px;
   background-image: linear-gradient(180deg, rgba(15, 12, 10, 0.45) 0%, rgba(45, 23, 5, 0.35) 50%, rgba(15, 12, 10, 0.75) 100%),
-    url('images/amenity-pool.jpg');
+    url('images/amenity-pool.webp');
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;

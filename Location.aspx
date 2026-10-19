@@ -19,7 +19,7 @@
                 </div>
                 <div class="mt-3 mt-md-0">
                     <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb mb-0 page-title-breadcrumb bg-transparent p-0">
+                        <ol class="breadcrumb mb-0 page-title-breadcrumb bg-transparent" style="padding: 10px 28px !important;">
                             <li class="breadcrumb-item"><a href="index.aspx" class="text-white text-decoration-none">Home</a></li>
                             <li class="breadcrumb-item active text-gold fw-bold" aria-current="page">Location</li>
                         </ol>

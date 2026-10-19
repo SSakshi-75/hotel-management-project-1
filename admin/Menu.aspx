@@ -354,9 +354,9 @@
                                         #<%# Eval("MenuItemId") %>
                                     </td>
                                     <td>
-                                        <img src='<%# ResolveUrl("~/" + Eval("ImageUrl")) %>'
+                                        <img src='<%# string.IsNullOrEmpty(Eval("ImageUrl") as string) ? ResolveUrl("~/images/food-paneer-tikka.jpg") : ResolveUrl("~/" + Eval("ImageUrl")) %>'
                                             alt='<%# Eval("ItemName") %>' class="dish-thumb-img"
-                                            onerror="this.src='../images/room-placeholder.jpg';" />
+                                            onerror="this.onerror=null; this.src='../images/food-paneer-tikka.jpg';" />
                                     </td>
                                     <td>
                                         <div class="fw-bold text-dark dish-name-text"><%# Eval("ItemName") %></div>

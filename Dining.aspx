@@ -22,7 +22,7 @@
                     </div>
                     <div class="mt-3 mt-md-0">
                         <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb mb-0 page-title-breadcrumb bg-transparent p-0">
+                            <ol class="breadcrumb mb-0 page-title-breadcrumb bg-transparent" style="padding: 10px 28px !important;">
                                 <li class="breadcrumb-item"><a href="index.aspx"
                                         class="text-white text-decoration-none">Home</a></li>
                                 <li class="breadcrumb-item active text-gold fw-bold" aria-current="page">Dining</li>
@@ -148,8 +148,9 @@
                     <div class="row g-0 align-items-center">
                         <div class="col-lg-6">
                             <div class="dining-venue-img-wrap">
-                                <img src="images/dining-royal-zafran.jpg" alt="The Royal Kitchen Fine Dining"
-                                    class="dining-venue-img">
+                                <img src="images/dining-royal-zafran.webp" alt="The Royal Kitchen Fine Dining"
+                                    class="dining-venue-img"
+                                    onerror="this.onerror=null; this.src='images/dining-lounge-bar.jpg';" />
                                 <span class="dining-venue-badge"><i class="bi bi-crown me-1 text-warning"></i>Fine
                                     Dining &bull; Indian, Mughlai &amp; Continental</span>
                             </div>
@@ -322,7 +323,7 @@
                                     <div class="menu-dish-thumb">
                                         <img src='<%# ResolveUrl("~/" + Eval("ImageUrl")) %>'
                                             alt='<%# Eval("ItemName") %>' class="menu-dish-img"
-                                            onerror="this.src='images/food-paneer-tikka.jpg';" />
+                                            onerror="this.onerror=null; this.src='images/food-paneer-tikka.jpg';" />
                                     </div>
                                     <div class="menu-dish-content">
                                         <div class="d-flex justify-content-between align-items-baseline mb-1">

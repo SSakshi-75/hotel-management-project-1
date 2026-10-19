@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Text;
@@ -10,6 +11,7 @@ public partial class Room : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
+            SyncRoomIds();
             DateTime today = DateTime.Today;
 
             DateTime qIn, qOut;
@@ -109,7 +111,7 @@ public partial class Room : System.Web.UI.Page
 
         string query = @"
             SELECT
-                R.RoomID,
+                COALESCE(R.RoomID, R.Id) AS RoomID,
                 R.RoomName,
                 R.RoomCategory,
                 R.PricePerNight,
@@ -133,7 +135,7 @@ public partial class Room : System.Web.UI.Page
                     (
                         SELECT 1
                         FROM Bookings B
-                        WHERE B.RoomId = R.RoomID
+                        WHERE (B.RoomId = R.RoomID OR B.RoomId = R.Id)
                         AND B.BookingStatus IN ('Pending', 'Confirmed', 'Checked-In')
                         AND B.CheckInDate < @CheckOutDate
                         AND B.CheckOutDate > @CheckInDate
@@ -152,7 +154,7 @@ public partial class Room : System.Web.UI.Page
 
             WHERE ISNULL(R.IsActive, 1) = 1
 
-            ORDER BY R.RoomID DESC";
+            ORDER BY COALESCE(R.RoomID, R.Id) DESC";
 
         using (SqlConnection con = new SqlConnection(connectionString))
         {
@@ -354,49 +356,131 @@ public partial class Room : System.Web.UI.Page
     // =========================================================
     // ROOM IMAGE
     // =========================================================
+    // protected string GetRoomImage(object image)
+    // {
+    //     string imageName =
+    //         Convert.ToString(image).Trim();
+
+    //     if (string.IsNullOrEmpty(imageName))
+    //     {
+    //         return ResolveUrl(
+    //             "~/images/room-placeholder.jpg"
+    //         );
+    //     }
+
+    //     // Full external URL
+    //     if (
+    //         imageName.StartsWith("http://") ||
+    //         imageName.StartsWith("https://")
+    //     )
+    //     {
+    //         return imageName;
+    //     }
+
+    //     // Already contains ~/ path
+    //     if (imageName.StartsWith("~/"))
+    //     {
+    //         return ResolveUrl(imageName);
+    //     }
+
+    //     // Starts with /
+    //     if (imageName.StartsWith("/"))
+    //     {
+    //         return ResolveUrl("~" + imageName);
+    //     }
+
+    //     // Starts with images/
+    //     if (imageName.StartsWith("images/"))
+    //     {
+    //         return ResolveUrl("~/" + imageName);
+    //     }
+
+    //     // Only filename stored in database
+    //     return ResolveUrl(
+    //         "~/images/rooms/" + imageName
+    //     );
+    // }
+
     protected string GetRoomImage(object image)
     {
-        string imageName =
-            Convert.ToString(image).Trim();
-
-        if (string.IsNullOrEmpty(imageName))
+        string defaultFallback = ResolveUrl("~/images/rooms/room-ocean-view.jpg");
+        if (image == null || image == DBNull.Value || string.IsNullOrWhiteSpace(image.ToString()))
         {
-            return ResolveUrl(
-                "~/images/room-placeholder.jpg"
-            );
+            return defaultFallback;
         }
 
-        // Full external URL
-        if (
-            imageName.StartsWith("http://") ||
-            imageName.StartsWith("https://")
-        )
+        string imageName = image.ToString().Trim().Replace("\\", "/");
+
+        // External URL (http / https)
+        if (imageName.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+            imageName.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
         {
             return imageName;
         }
 
-        // Already contains ~/ path
+        // Normalize leading ~/ or /
         if (imageName.StartsWith("~/"))
         {
-            return ResolveUrl(imageName);
+            imageName = imageName.Substring(2);
         }
-
-        // Starts with /
-        if (imageName.StartsWith("/"))
+        else if (imageName.StartsWith("/"))
         {
-            return ResolveUrl("~" + imageName);
+            imageName = imageName.Substring(1);
         }
 
-        // Starts with images/
-        if (imageName.StartsWith("images/"))
+        try
         {
-            return ResolveUrl("~/" + imageName);
-        }
+            // Case 1: Already has images/rooms/
+            if (imageName.StartsWith("images/rooms/", StringComparison.OrdinalIgnoreCase))
+            {
+                if (File.Exists(Server.MapPath("~/" + imageName)))
+                {
+                    return ResolveUrl("~/" + imageName);
+                }
+                string fname = Path.GetFileName(imageName);
+                if (File.Exists(Server.MapPath("~/images/rooms/" + fname)))
+                {
+                    return ResolveUrl("~/images/rooms/" + fname);
+                }
+                if (File.Exists(Server.MapPath("~/images/" + fname)))
+                {
+                    return ResolveUrl("~/images/" + fname);
+                }
+                return defaultFallback;
+            }
 
-        // Only filename stored in database
-        return ResolveUrl(
-            "~/images/rooms/" + imageName
-        );
+            // Case 2: Starts with images/
+            if (imageName.StartsWith("images/", StringComparison.OrdinalIgnoreCase))
+            {
+                if (File.Exists(Server.MapPath("~/" + imageName)))
+                {
+                    return ResolveUrl("~/" + imageName);
+                }
+                string fname = Path.GetFileName(imageName);
+                if (File.Exists(Server.MapPath("~/images/rooms/" + fname)))
+                {
+                    return ResolveUrl("~/images/rooms/" + fname);
+                }
+                if (File.Exists(Server.MapPath("~/images/" + fname)))
+                {
+                    return ResolveUrl("~/images/" + fname);
+                }
+                return defaultFallback;
+            }
+
+            // Case 3: Just raw filename
+            if (File.Exists(Server.MapPath("~/images/rooms/" + imageName)))
+            {
+                return ResolveUrl("~/images/rooms/" + imageName);
+            }
+            if (File.Exists(Server.MapPath("~/images/" + imageName)))
+            {
+                return ResolveUrl("~/images/" + imageName);
+            }
+        }
+        catch { }
+
+        return defaultFallback;
     }
 
 
@@ -465,5 +549,27 @@ public partial class Room : System.Web.UI.Page
         }
 
         return url;
+    }
+
+    private void SyncRoomIds()
+    {
+        try
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["HotelConnection"] != null
+                ? ConfigurationManager.ConnectionStrings["HotelConnection"].ConnectionString
+                : "";
+            if (!string.IsNullOrEmpty(connectionString))
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand("UPDATE Rooms SET RoomID = Id WHERE RoomID IS NULL OR RoomID = 0;", con))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+        catch { }
     }
 }

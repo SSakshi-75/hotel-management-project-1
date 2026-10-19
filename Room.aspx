@@ -218,25 +218,29 @@
                                 <h6 class="filter-section-title">Rating</h6>
                                 <div class="filter-options-list">
                                     <label class="filter-check-row">
-                                        <input type="checkbox" id="chkRating45" class="form-check-input filter-rating-chk" value="4.5"
+                                        <input type="checkbox" id="chkRating45"
+                                            class="form-check-input filter-rating-chk" value="4.5"
                                             onchange="applyFilters()" onclick="applyFilters()" />
                                         <span class="filter-check-text"><i
                                                 class="fa-solid fa-star text-warning me-1"></i>4.5 &amp; above</span>
                                     </label>
                                     <label class="filter-check-row">
-                                        <input type="checkbox" id="chkRating40" class="form-check-input filter-rating-chk" value="4.0"
+                                        <input type="checkbox" id="chkRating40"
+                                            class="form-check-input filter-rating-chk" value="4.0"
                                             onchange="applyFilters()" onclick="applyFilters()" />
                                         <span class="filter-check-text"><i
                                                 class="fa-solid fa-star text-warning me-1"></i>4.0 &amp; above</span>
                                     </label>
                                     <label class="filter-check-row">
-                                        <input type="checkbox" id="chkRating35" class="form-check-input filter-rating-chk" value="3.5"
+                                        <input type="checkbox" id="chkRating35"
+                                            class="form-check-input filter-rating-chk" value="3.5"
                                             onchange="applyFilters()" onclick="applyFilters()" />
                                         <span class="filter-check-text"><i
                                                 class="fa-solid fa-star text-warning me-1"></i>3.5 &amp; above</span>
                                     </label>
                                     <label class="filter-check-row">
-                                        <input type="checkbox" id="chkRating30" class="form-check-input filter-rating-chk" value="3.0"
+                                        <input type="checkbox" id="chkRating30"
+                                            class="form-check-input filter-rating-chk" value="3.0"
                                             onchange="applyFilters()" onclick="applyFilters()" />
                                         <span class="filter-check-text"><i
                                                 class="fa-solid fa-star text-warning me-1"></i>3.0 &amp; above</span>
@@ -293,8 +297,12 @@
                                      ================================== -->
                                             <div class="room-card-full-img">
 
+                                                <!-- <img src='<%# GetRoomImage(Eval("PrimaryRoomImage")) %>' loading="lazy"
+                                                    alt='<%# Eval("RoomName") %>' /> -->
+
                                                 <img src='<%# GetRoomImage(Eval("PrimaryRoomImage")) %>' loading="lazy"
-                                                    alt='<%# Eval("RoomName") %>' />
+                                                    alt='<%# Eval("RoomName") %>'
+                                                    onerror="this.onerror=null; this.src='images/rooms/room-ocean-view.jpg';" />
 
 
                                                 <!-- Category Badge -->
@@ -423,7 +431,8 @@
                                                 <div class="room-card-full-footer justify-content-end">
 
 
-                                                    <%# GetRoomActionButtonHtml(Eval("RoomID"), Eval("RoomStatus"), Eval("GSTPercentage")) %>
+                                                    <%# GetRoomActionButtonHtml(Eval("RoomID"), Eval("RoomStatus"),
+                                                        Eval("GSTPercentage")) %>
 
 
                                                 </div>

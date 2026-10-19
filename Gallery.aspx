@@ -38,7 +38,7 @@
 
                         <nav aria-label="breadcrumb">
 
-                            <ol class="breadcrumb mb-0 page-title-breadcrumb bg-transparent p-0">
+                            <ol class="breadcrumb mb-0 page-title-breadcrumb bg-transparent" style="padding: 10px 28px !important;">
 
                                 <li class="breadcrumb-item">
 
@@ -173,7 +173,7 @@
 
                                     <img src='<%# ResolveUrl("~/" + Eval("ImageUrl")) %>' loading="lazy"
                                         alt='<%# Eval("PhotoTitle") %>' class="gallery-item-img"
-                                        onerror="this.src='images/room-placeholder.jpg';" />
+                                        onerror="this.onerror=null; this.src='images/room-placeholder.jpg';" />
 
 
                                     <!-- ZOOM / VIEW ICON -->

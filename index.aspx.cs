@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -33,7 +34,7 @@ public partial class index : System.Web.UI.Page
                     con.Open();
                     string query = @"
                         SELECT TOP 4
-                            RoomID,
+                            COALESCE(RoomID, Id) AS RoomID,
                             RoomName,
                             RoomCategory,
                             PricePerNight,
@@ -47,7 +48,7 @@ public partial class index : System.Web.UI.Page
                             KeyAmenities
                         FROM Rooms
                         WHERE ISNULL(IsActive, 1) = 1
-                        ORDER BY RoomID DESC";
+                        ORDER BY COALESCE(RoomID, Id) DESC";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -117,28 +118,84 @@ public partial class index : System.Web.UI.Page
 
     public string GetRoomImage(object image)
     {
-        string imageName = Convert.ToString(image).Trim();
-        if (string.IsNullOrEmpty(imageName))
+        string defaultFallback = ResolveUrl("~/images/room-featured-presidential.jpg");
+        if (image == null || image == DBNull.Value || string.IsNullOrWhiteSpace(image.ToString()))
         {
-            return "images/room-featured-presidential.jpg";
+            return defaultFallback;
         }
-        if (imageName.StartsWith("http://") || imageName.StartsWith("https://"))
+
+        string imageName = image.ToString().Trim().Replace("\\", "/");
+
+        // External link
+        if (imageName.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+            imageName.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
         {
             return imageName;
         }
+
+        // Normalize leading ~/ or /
         if (imageName.StartsWith("~/"))
         {
-            return ResolveUrl(imageName);
+            imageName = imageName.Substring(2);
         }
-        if (imageName.StartsWith("/"))
+        else if (imageName.StartsWith("/"))
         {
-            return ResolveUrl("~" + imageName);
+            imageName = imageName.Substring(1);
         }
-        if (imageName.StartsWith("images/"))
+
+        try
         {
-            return ResolveUrl("~/" + imageName);
+            // Case 1: Already has images/rooms/
+            if (imageName.StartsWith("images/rooms/", StringComparison.OrdinalIgnoreCase))
+            {
+                if (File.Exists(Server.MapPath("~/" + imageName)))
+                {
+                    return ResolveUrl("~/" + imageName);
+                }
+                string fname = Path.GetFileName(imageName);
+                if (File.Exists(Server.MapPath("~/images/rooms/" + fname)))
+                {
+                    return ResolveUrl("~/images/rooms/" + fname);
+                }
+                if (File.Exists(Server.MapPath("~/images/" + fname)))
+                {
+                    return ResolveUrl("~/images/" + fname);
+                }
+                return defaultFallback;
+            }
+
+            // Case 2: Starts with images/
+            if (imageName.StartsWith("images/", StringComparison.OrdinalIgnoreCase))
+            {
+                if (File.Exists(Server.MapPath("~/" + imageName)))
+                {
+                    return ResolveUrl("~/" + imageName);
+                }
+                string fname = Path.GetFileName(imageName);
+                if (File.Exists(Server.MapPath("~/images/rooms/" + fname)))
+                {
+                    return ResolveUrl("~/images/rooms/" + fname);
+                }
+                if (File.Exists(Server.MapPath("~/images/" + fname)))
+                {
+                    return ResolveUrl("~/images/" + fname);
+                }
+                return defaultFallback;
+            }
+
+            // Case 3: Just raw filename
+            if (File.Exists(Server.MapPath("~/images/rooms/" + imageName)))
+            {
+                return ResolveUrl("~/images/rooms/" + imageName);
+            }
+            if (File.Exists(Server.MapPath("~/images/" + imageName)))
+            {
+                return ResolveUrl("~/images/" + imageName);
+            }
         }
-        return ResolveUrl("~/images/rooms/" + imageName);
+        catch { }
+
+        return defaultFallback;
     }
 
     public string GetBadgeText(object badgeObj, object categoryObj)

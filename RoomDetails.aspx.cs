@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
+using System.IO;
 using System.Web;
 
 public partial class RoomDetails : System.Web.UI.Page
@@ -11,120 +12,268 @@ public partial class RoomDetails : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
+            SyncRoomIds();
             LoadRoomDetails();
         }
     }
 
+    //private void LoadRoomDetails()
+    //{
+    //    string connectionString = ConfigurationManager.ConnectionStrings["HotelConnection"].ConnectionString;
+
+    //    string roomIdStr = Request.QueryString["RoomId"] ?? Request.QueryString["RoomID"] ?? Request.QueryString["id"];
+    //    string roomTitle = Request.QueryString["title"] ?? Request.QueryString["room"];
+    //    int roomId = 0;
+
+    //    DateTime qIn = DateTime.MinValue;
+    //    DateTime qOut = DateTime.MinValue;
+    //    bool hasValidDates = DateTime.TryParse(Request.QueryString["checkIn"], out qIn) &&
+    //                         DateTime.TryParse(Request.QueryString["checkOut"], out qOut) &&
+    //                         qOut > qIn;
+
+    //    string query = @"
+    //        SELECT
+    //            Id,
+    //            RoomID,
+    //            RoomName,
+    //            RoomCategory,
+    //            PricePerNight,
+    //            CategoryBadge,
+    //            Rating,
+    //            MaxGuests,
+    //            RoomArea,
+    //            ViewType,
+    //            PrimaryRoomImage,
+    //            ShortDescription,
+    //            KeyAmenities,
+    //            HeaderBadge,
+    //            HeaderTitle,
+    //            HeaderSubtitle,
+    //            HeaderImage,
+    //            FullOverview,
+    //            Highlights,
+    //            GalleryImage1,
+    //            GalleryImage2,
+    //            GalleryImage3,
+    //            GalleryImage4,
+    //            ReviewQuote,
+    //            ReviewAuthor,
+    //            ISNULL(NULLIF(LTRIM(RTRIM(REPLACE(GSTPercentage, '%', ''))), ''), '18') AS GSTPercentage,
+    //            CASE
+    //                -- Admin status Cleaning, Maintenance, Blocked, or Occupied
+    //                WHEN ISNULL(RoomStatus, 'Available') IN ('Cleaning', 'Maintenance', 'Blocked', 'Occupied')
+    //                    THEN 'Not Available'
+
+    //                -- Conflicting active bookings for the selected stay dates
+    //                WHEN @HasDates = 1 AND EXISTS
+    //                (
+    //                    SELECT 1
+    //                    FROM Bookings B
+    //                    WHERE (B.RoomId = Rooms.RoomID OR B.RoomId = Rooms.Id)
+    //                    AND B.BookingStatus IN ('Pending', 'Confirmed', 'Checked-In')
+    //                    AND B.CheckInDate < @CheckOutDate
+    //                    AND B.CheckOutDate > @CheckInDate
+    //                )
+    //                    THEN 'Not Available'
+
+    //                -- Admin status Available with no conflicting booking
+    //                WHEN ISNULL(RoomStatus, 'Available') = 'Available'
+    //                    THEN 'Available'
+
+    //                ELSE 'Not Available'
+    //            END AS RoomStatus
+    //        FROM Rooms ";
+
+    //    bool hasParam = false;
+
+    //    if (!string.IsNullOrEmpty(roomIdStr) && int.TryParse(roomIdStr, out roomId))
+    //    {
+    //        query += "WHERE (RoomID = @RoomID OR Id = @RoomID) AND ISNULL(IsActive, 1) = 1";
+    //        hasParam = true;
+    //    }
+    //    else if (!string.IsNullOrEmpty(roomTitle))
+    //    {
+    //        query += "WHERE (RoomName = @RoomName OR RoomName LIKE '%' + @RoomName + '%') AND ISNULL(IsActive, 1) = 1";
+    //        hasParam = true;
+    //    }
+    //    else
+    //    {
+    //        query = "SELECT TOP 1 * FROM (" + query + ") Q WHERE ISNULL(IsActive, 1) = 1 ORDER BY RoomID DESC";
+    //    }
+
+    //    DataTable dt = new DataTable();
+    //    using (SqlConnection con = new SqlConnection(connectionString))
+    //    {
+    //        using (SqlCommand cmd = new SqlCommand(query, con))
+    //        {
+    //            cmd.Parameters.Add("@HasDates", SqlDbType.Bit).Value = hasValidDates;
+    //            cmd.Parameters.Add("@CheckInDate", SqlDbType.DateTime).Value = hasValidDates ? (object)qIn : DBNull.Value;
+    //            cmd.Parameters.Add("@CheckOutDate", SqlDbType.DateTime).Value = hasValidDates ? (object)qOut : DBNull.Value;
+
+    //            if (hasParam)
+    //            {
+    //                if (roomId > 0)
+    //                {
+    //                    cmd.Parameters.Add("@RoomID", SqlDbType.Int).Value = roomId;
+    //                }
+    //                else if (!string.IsNullOrEmpty(roomTitle))
+    //                {
+    //                    cmd.Parameters.Add("@RoomName", SqlDbType.NVarChar, 150).Value = roomTitle;
+    //                }
+    //            }
+
+    //            con.Open();
+    //            using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+    //            {
+    //                da.Fill(dt);
+    //            }
+    //        }
+    //    }
+
+    //    if (dt.Rows.Count > 0)
+    //    {
+    //        rptRoomDetails.DataSource = dt;
+    //        rptRoomDetails.DataBind();
+    //    }
+    //    else
+    //    {
+    //        Response.Redirect("Room.aspx");
+    //    }
+    //}
+
+
     private void LoadRoomDetails()
     {
-        string connectionString = ConfigurationManager.ConnectionStrings["HotelConnection"].ConnectionString;
+        string connectionString =
+            ConfigurationManager.ConnectionStrings["HotelConnection"].ConnectionString;
 
-        string roomIdStr = Request.QueryString["RoomId"] ?? Request.QueryString["RoomID"] ?? Request.QueryString["id"];
-        string roomTitle = Request.QueryString["title"] ?? Request.QueryString["room"];
+        string roomIdStr = Request.QueryString["RoomId"]
+                        ?? Request.QueryString["RoomID"]
+                        ?? Request.QueryString["id"];
+
+        string roomTitle = Request.QueryString["title"]
+                        ?? Request.QueryString["room"];
+
         int roomId = 0;
 
         DateTime qIn = DateTime.MinValue;
         DateTime qOut = DateTime.MinValue;
-        bool hasValidDates = DateTime.TryParse(Request.QueryString["checkIn"], out qIn) &&
-                             DateTime.TryParse(Request.QueryString["checkOut"], out qOut) &&
-                             qOut > qIn;
+
+        bool hasValidDates =
+            DateTime.TryParse(Request.QueryString["checkIn"], out qIn) &&
+            DateTime.TryParse(Request.QueryString["checkOut"], out qOut) &&
+            qOut > qIn;
 
         string query = @"
-            SELECT
-                Id,
-                RoomID,
-                RoomName,
-                RoomCategory,
-                PricePerNight,
-                CategoryBadge,
-                Rating,
-                MaxGuests,
-                RoomArea,
-                ViewType,
-                PrimaryRoomImage,
-                ShortDescription,
-                KeyAmenities,
-                HeaderBadge,
-                HeaderTitle,
-                HeaderSubtitle,
-                HeaderImage,
-                FullOverview,
-                Highlights,
-                GalleryImage1,
-                GalleryImage2,
-                GalleryImage3,
-                GalleryImage4,
-                ReviewQuote,
-                ReviewAuthor,
-                ISNULL(NULLIF(LTRIM(RTRIM(REPLACE(GSTPercentage, '%', ''))), ''), '18') AS GSTPercentage,
-                CASE
-                    -- Admin status Cleaning, Maintenance, Blocked, or Occupied
-                    WHEN ISNULL(RoomStatus, 'Available') IN ('Cleaning', 'Maintenance', 'Blocked', 'Occupied')
-                        THEN 'Not Available'
+        SELECT
+            R.Id,
+            COALESCE(R.RoomID, R.Id) AS RoomID,
+            R.RoomName,
+            R.RoomCategory,
+            R.PricePerNight,
+            R.CategoryBadge,
+            R.Rating,
+            R.MaxGuests,
+            R.RoomArea,
+            R.ViewType,
+            R.PrimaryRoomImage,
+            R.ShortDescription,
+            R.KeyAmenities,
+            R.HeaderBadge,
+            R.HeaderTitle,
+            R.HeaderSubtitle,
+            R.HeaderImage,
+            R.FullOverview,
+            R.Highlights,
+            R.GalleryImage1,
+            R.GalleryImage2,
+            R.GalleryImage3,
+            R.GalleryImage4,
+            R.ReviewQuote,
+            R.ReviewAuthor,
 
-                    -- Conflicting active bookings for the selected stay dates
-                    WHEN @HasDates = 1 AND EXISTS
-                    (
-                        SELECT 1
-                        FROM Bookings B
-                        WHERE (B.RoomId = Rooms.RoomID OR B.RoomId = Rooms.Id)
-                        AND B.BookingStatus IN ('Pending', 'Confirmed', 'Checked-In')
+            ISNULL(
+                NULLIF(
+                    LTRIM(RTRIM(REPLACE(R.GSTPercentage, '%', ''))),
+                    ''
+                ),
+                '18'
+            ) AS GSTPercentage,
+
+            CASE
+                WHEN ISNULL(R.RoomStatus, 'Available')
+                     IN ('Cleaning', 'Maintenance', 'Blocked', 'Occupied')
+                    THEN 'Not Available'
+
+                WHEN @HasDates = 1 AND EXISTS
+                (
+                    SELECT 1
+                    FROM dbo.Bookings B
+                    WHERE
+                        (B.RoomId = R.RoomID OR B.RoomId = R.Id)
+                        AND B.BookingStatus
+                            IN ('Pending', 'Confirmed', 'Checked-In')
                         AND B.CheckInDate < @CheckOutDate
                         AND B.CheckOutDate > @CheckInDate
-                    )
-                        THEN 'Not Available'
+                )
+                    THEN 'Not Available'
 
-                    -- Admin status Available with no conflicting booking
-                    WHEN ISNULL(RoomStatus, 'Available') = 'Available'
-                        THEN 'Available'
+                WHEN ISNULL(R.RoomStatus, 'Available') = 'Available'
+                    THEN 'Available'
 
-                    ELSE 'Not Available'
-                END AS RoomStatus
-            FROM Rooms ";
+                ELSE 'Not Available'
+            END AS RoomStatus
 
-        bool hasParam = false;
+        FROM dbo.Rooms R
+        WHERE ISNULL(R.IsActive, 1) = 1
+    ";
 
-        if (!string.IsNullOrEmpty(roomIdStr) && int.TryParse(roomIdStr, out roomId))
+        if (!string.IsNullOrWhiteSpace(roomIdStr) &&
+            int.TryParse(roomIdStr, out roomId))
         {
-            query += "WHERE (RoomID = @RoomID OR Id = @RoomID) AND ISNULL(IsActive, 1) = 1";
-            hasParam = true;
+            query += " AND (R.RoomID = @RoomID OR R.Id = @RoomID)";
         }
-        else if (!string.IsNullOrEmpty(roomTitle))
+        else if (!string.IsNullOrWhiteSpace(roomTitle))
         {
-            query += "WHERE (RoomName = @RoomName OR RoomName LIKE '%' + @RoomName + '%') AND ISNULL(IsActive, 1) = 1";
-            hasParam = true;
+            query += " AND (R.RoomName = @RoomName " +
+                     "OR R.RoomName LIKE '%' + @RoomName + '%')";
         }
         else
         {
-            query = "SELECT TOP 1 * FROM (" + query + ") Q WHERE ISNULL(IsActive, 1) = 1 ORDER BY RoomID DESC";
+            query += " AND COALESCE(R.RoomID, R.Id) = " +
+                     "(SELECT MAX(COALESCE(R2.RoomID, R2.Id)) FROM dbo.Rooms R2 " +
+                     "WHERE ISNULL(R2.IsActive, 1) = 1)";
         }
 
         DataTable dt = new DataTable();
+
         using (SqlConnection con = new SqlConnection(connectionString))
+        using (SqlCommand cmd = new SqlCommand(query, con))
         {
-            using (SqlCommand cmd = new SqlCommand(query, con))
+            cmd.Parameters.Add("@HasDates", SqlDbType.Bit).Value =
+                hasValidDates;
+
+            cmd.Parameters.Add("@CheckInDate", SqlDbType.DateTime).Value =
+                hasValidDates ? (object)qIn : DBNull.Value;
+
+            cmd.Parameters.Add("@CheckOutDate", SqlDbType.DateTime).Value =
+                hasValidDates ? (object)qOut : DBNull.Value;
+
+            if (roomId > 0)
             {
-                cmd.Parameters.Add("@HasDates", SqlDbType.Bit).Value = hasValidDates;
-                cmd.Parameters.Add("@CheckInDate", SqlDbType.DateTime).Value = hasValidDates ? (object)qIn : DBNull.Value;
-                cmd.Parameters.Add("@CheckOutDate", SqlDbType.DateTime).Value = hasValidDates ? (object)qOut : DBNull.Value;
+                cmd.Parameters.Add("@RoomID", SqlDbType.Int).Value = roomId;
+            }
+            else if (!string.IsNullOrWhiteSpace(roomTitle))
+            {
+                cmd.Parameters.Add("@RoomName", SqlDbType.NVarChar, 150).Value =
+                    roomTitle;
+            }
 
-                if (hasParam)
-                {
-                    if (roomId > 0)
-                    {
-                        cmd.Parameters.Add("@RoomID", SqlDbType.Int).Value = roomId;
-                    }
-                    else if (!string.IsNullOrEmpty(roomTitle))
-                    {
-                        cmd.Parameters.Add("@RoomName", SqlDbType.NVarChar, 150).Value = roomTitle;
-                    }
-                }
+            con.Open();
 
-                con.Open();
-                using (SqlDataAdapter da = new SqlDataAdapter(cmd))
-                {
-                    da.Fill(dt);
-                }
+            using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+            {
+                da.Fill(dt);
             }
         }
 
@@ -139,39 +288,95 @@ public partial class RoomDetails : System.Web.UI.Page
         }
     }
 
+
     // ==========================================
     // ROOM IMAGE HELPER
     // ==========================================
     protected string GetRoomImage(object image)
     {
-        string imageName = Convert.ToString(image).Trim();
+        return GetRoomImage(image, "~/images/rooms/room-ocean-view.jpg");
+    }
 
-        if (string.IsNullOrEmpty(imageName))
+    protected string GetRoomImage(object image, string fallbackPath)
+    {
+        string defaultFallback = ResolveUrl(!string.IsNullOrEmpty(fallbackPath) ? fallbackPath : "~/images/rooms/room-ocean-view.jpg");
+        if (image == null || image == DBNull.Value || string.IsNullOrWhiteSpace(image.ToString()))
         {
-            return ResolveUrl("~/images/room-featured-presidential.jpg");
+            return defaultFallback;
         }
 
-        if (imageName.StartsWith("http://") || imageName.StartsWith("https://"))
+        string imageName = image.ToString().Trim().Replace("\\", "/");
+
+        // External link
+        if (imageName.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+            imageName.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
         {
             return imageName;
         }
 
+        // Normalize leading ~/ or /
         if (imageName.StartsWith("~/"))
         {
-            return ResolveUrl(imageName);
+            imageName = imageName.Substring(2);
         }
-
-        if (imageName.StartsWith("/"))
+        else if (imageName.StartsWith("/"))
         {
-            return ResolveUrl("~" + imageName);
+            imageName = imageName.Substring(1);
         }
 
-        if (imageName.StartsWith("images/"))
+        try
         {
-            return ResolveUrl("~/" + imageName);
-        }
+            // Case 1: Already has images/rooms/
+            if (imageName.StartsWith("images/rooms/", StringComparison.OrdinalIgnoreCase))
+            {
+                if (File.Exists(Server.MapPath("~/" + imageName)))
+                {
+                    return ResolveUrl("~/" + imageName);
+                }
+                string fname = Path.GetFileName(imageName);
+                if (File.Exists(Server.MapPath("~/images/rooms/" + fname)))
+                {
+                    return ResolveUrl("~/images/rooms/" + fname);
+                }
+                if (File.Exists(Server.MapPath("~/images/" + fname)))
+                {
+                    return ResolveUrl("~/images/" + fname);
+                }
+                return defaultFallback;
+            }
 
-        return ResolveUrl("~/images/rooms/" + imageName);
+            // Case 2: Starts with images/
+            if (imageName.StartsWith("images/", StringComparison.OrdinalIgnoreCase))
+            {
+                if (File.Exists(Server.MapPath("~/" + imageName)))
+                {
+                    return ResolveUrl("~/" + imageName);
+                }
+                string fname = Path.GetFileName(imageName);
+                if (File.Exists(Server.MapPath("~/images/rooms/" + fname)))
+                {
+                    return ResolveUrl("~/images/rooms/" + fname);
+                }
+                if (File.Exists(Server.MapPath("~/images/" + fname)))
+                {
+                    return ResolveUrl("~/images/" + fname);
+                }
+                return defaultFallback;
+            }
+
+            // Case 3: Just raw filename
+            if (File.Exists(Server.MapPath("~/images/rooms/" + imageName)))
+            {
+                return ResolveUrl("~/images/rooms/" + imageName);
+            }
+            if (File.Exists(Server.MapPath("~/images/" + imageName)))
+            {
+                return ResolveUrl("~/images/" + imageName);
+            }
+        }
+        catch { }
+
+        return defaultFallback;
     }
 
     // ==========================================
@@ -187,6 +392,14 @@ public partial class RoomDetails : System.Web.UI.Page
 
         StringBuilder html = new StringBuilder();
 
+        string[] defaultGallery = new string[]
+        {
+            "~/images/rooms/room-ocean-view.jpg",
+            "~/images/rooms/room-classic-double.jpg",
+            "~/images/rooms/room-superior-king.jpg",
+            "~/images/rooms/room-luxury-penthouse.jpg"
+        };
+
         string[] galleryImages =
         {
             Convert.ToString(row["GalleryImage1"]),
@@ -195,13 +408,12 @@ public partial class RoomDetails : System.Web.UI.Page
             Convert.ToString(row["GalleryImage4"])
         };
 
-        foreach (string image in galleryImages)
+        for (int i = 0; i < galleryImages.Length; i++)
         {
-            string imageName = image.Trim();
-            if (!string.IsNullOrEmpty(imageName))
-            {
-                html.Append("<img src='" + GetRoomImage(imageName) + "' class='gallery-thumb' alt='Room Gallery' onclick='swapGallery(this)' />");
-            }
+            string img = galleryImages[i];
+            string fallback = ResolveUrl(defaultGallery[i]);
+            string srcUrl = !string.IsNullOrWhiteSpace(img) ? GetRoomImage(img, defaultGallery[i]) : fallback;
+            html.Append("<img src='" + srcUrl + "' class='gallery-thumb' alt='Room Gallery' loading='lazy' onerror=\"this.onerror=null; this.src='" + fallback + "';\" onclick='swapGallery(this)' />");
         }
 
         return html.ToString();
@@ -476,5 +688,27 @@ public partial class RoomDetails : System.Web.UI.Page
         return "<a href=\"" + GetBookNowUrl(roomId, roomName, price, gstObj) + "\" class=\"btn btn-book-now\">" +
                "<i class=\"bi bi-calendar-check me-2\"></i> Book Now" +
                "</a>";
+    }
+
+    private void SyncRoomIds()
+    {
+        try
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["HotelConnection"] != null
+                ? ConfigurationManager.ConnectionStrings["HotelConnection"].ConnectionString
+                : "";
+            if (!string.IsNullOrEmpty(connectionString))
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand("UPDATE Rooms SET RoomID = Id WHERE RoomID IS NULL OR RoomID = 0;", con))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+        catch { }
     }
 }
