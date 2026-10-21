@@ -118,6 +118,7 @@ public partial class Booking : System.Web.UI.Page
 
         try
         {
+
             // Case 1: Already has images/rooms/
             if (imageName.StartsWith("images/rooms/", StringComparison.OrdinalIgnoreCase))
             {

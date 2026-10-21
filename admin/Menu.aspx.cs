@@ -20,6 +20,60 @@ public partial class Admin_Menu : System.Web.UI.Page
         }
     }
 
+    protected override void OnPreRender(EventArgs e)
+    {
+        base.OnPreRender(e);
+
+        int editId = 0;
+        int.TryParse(hdnEditMenuItemId.Value, out editId);
+        if (editId > 0)
+        {
+            string img = hdnCurrentDishImageUrl.Value;
+            if (string.IsNullOrEmpty(img))
+            {
+                try
+                {
+                    string connectionString = ConfigurationManager.ConnectionStrings["HotelConnection"] != null
+                        ? ConfigurationManager.ConnectionStrings["HotelConnection"].ConnectionString
+                        : "";
+                    if (!string.IsNullOrEmpty(connectionString))
+                    {
+                        using (SqlConnection con = new SqlConnection(connectionString))
+                        {
+                            con.Open();
+                            using (SqlCommand cmd = new SqlCommand("SELECT ImageUrl FROM MenuItems WHERE MenuItemId = @MenuItemId", con))
+                            {
+                                cmd.Parameters.AddWithValue("@MenuItemId", editId);
+                                object res = cmd.ExecuteScalar();
+                                if (res != null && res != DBNull.Value)
+                                {
+                                    img = res.ToString().Trim();
+                                    hdnCurrentDishImageUrl.Value = img;
+                                }
+                            }
+                        }
+                    }
+                }
+                catch { }
+            }
+
+            if (!string.IsNullOrEmpty(img))
+            {
+                pnlExistingImageInfo.Visible = true;
+                txtCurrentImageUrl.Text = img;
+                imgCurrentDishThumb.Src = ResolveUrl(img.StartsWith("~") ? img : ("~/" + img));
+            }
+            else
+            {
+                pnlExistingImageInfo.Visible = false;
+            }
+        }
+        else
+        {
+            pnlExistingImageInfo.Visible = false;
+        }
+    }
+
     private void PopulateMenuCategories()
     {
         string selectedVal = ddlCategory.SelectedValue;
@@ -429,7 +483,22 @@ public partial class Admin_Menu : System.Web.UI.Page
                                 btnCancelEdit.Visible = true;
                                 lblImageReq.Text = " (Optional)";
 
-                                ShowSuccess("Edit Mode Active", "Loaded details for '" + txtDishName.Text + "'. Make your changes and click Update Menu Dish.");
+                                string currentImg = dr["ImageUrl"] != DBNull.Value ? dr["ImageUrl"].ToString().Trim() : "";
+                                hdnCurrentDishImageUrl.Value = currentImg;
+
+                                if (!string.IsNullOrEmpty(currentImg))
+                                {
+                                    pnlExistingImageInfo.Visible = true;
+                                    txtCurrentImageUrl.Text = currentImg;
+                                    imgCurrentDishThumb.Src = ResolveUrl(currentImg.StartsWith("~") ? currentImg : ("~/" + currentImg));
+                                }
+                                else
+                                {
+                                    pnlExistingImageInfo.Visible = false;
+                                }
+
+                                pnlSuccessMessage.Visible = false;
+                                pnlErrorMessage.Visible = false;
                             }
                             else
                             {
@@ -530,6 +599,11 @@ public partial class Admin_Menu : System.Web.UI.Page
         if (ddlCategory.Items.Count > 0) ddlCategory.SelectedIndex = 0;
         if (ddlDietaryType.Items.Count > 0) ddlDietaryType.SelectedIndex = 0;
         if (ddlIsActive.Items.Count > 0) ddlIsActive.SelectedIndex = 0;
+
+        hdnCurrentDishImageUrl.Value = "";
+        if (pnlExistingImageInfo != null) pnlExistingImageInfo.Visible = false;
+        if (txtCurrentImageUrl != null) txtCurrentImageUrl.Text = "";
+        if (imgCurrentDishThumb != null) imgCurrentDishThumb.Src = "";
     }
 
 

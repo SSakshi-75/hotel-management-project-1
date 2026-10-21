@@ -440,6 +440,10 @@ public partial class Admin_Gallery : System.Web.UI.Page
         btnUploadGallery.Text = "Upload Photo";
         lblFormTitle.Text = "Upload Gallery Photo Form";
         btnCancelEdit.Visible = false;
+
+        if (pnlCurrentGalleryImage != null) pnlCurrentGalleryImage.Visible = false;
+        if (lblCurrentGalleryPath != null) lblCurrentGalleryPath.InnerText = "";
+        if (imgCurrentGalleryPreview != null) imgCurrentGalleryPreview.Src = "";
     }
 
 
@@ -490,7 +494,7 @@ public partial class Admin_Gallery : System.Web.UI.Page
                 string connectionString = ConfigurationManager.ConnectionStrings["HotelConnection"].ConnectionString;
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT PhotoTitle, Category, ISNULL(IsActive, 1) AS IsActive FROM GalleryPhotos WHERE GalleryId = @GalleryId";
+                    string query = "SELECT PhotoTitle, Category, ImageUrl, ISNULL(IsActive, 1) AS IsActive FROM GalleryPhotos WHERE GalleryId = @GalleryId";
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@GalleryId", galleryId);
@@ -513,6 +517,18 @@ public partial class Admin_Gallery : System.Web.UI.Page
                                 txtNewCategory.Text = "";
                                 bool isAct = dr["IsActive"] != DBNull.Value && Convert.ToBoolean(dr["IsActive"]);
                                 ddlIsActive.SelectedValue = isAct ? "1" : "0";
+
+                                string currentImg = dr["ImageUrl"] != DBNull.Value ? dr["ImageUrl"].ToString().Trim() : "";
+                                if (!string.IsNullOrEmpty(currentImg))
+                                {
+                                    pnlCurrentGalleryImage.Visible = true;
+                                    lblCurrentGalleryPath.InnerText = currentImg;
+                                    imgCurrentGalleryPreview.Src = ResolveUrl(currentImg.StartsWith("~") ? currentImg : ("~/" + currentImg));
+                                }
+                                else
+                                {
+                                    pnlCurrentGalleryImage.Visible = false;
+                                }
 
                                 hdnEditGalleryId.Value = galleryId.ToString();
                                 btnUploadGallery.Text = "Update Photo";

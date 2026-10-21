@@ -3,32 +3,33 @@
    Location: admin/js/menu.js
    ========================================== */
 
-// Auto-Dismiss Script for Messages (3.5s for success, 4.5s for error)
+// Auto-Dismiss Script for Messages (2s for success, 3s for error)
 (function () {
     function setupAutoDismiss(elemId, delayMs) {
         var elem = document.getElementById(elemId);
         if (elem) {
             setTimeout(function () {
-                elem.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                elem.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
                 elem.style.opacity = '0';
-                elem.style.transform = 'translateY(-10px)';
+                elem.style.transform = 'translateY(-8px)';
                 setTimeout(function () {
                     elem.style.display = 'none';
-                }, 600);
+                }, 400);
             }, delayMs);
         }
     }
     function triggerDismiss() {
         var successPnl = document.querySelector('[id$="pnlSuccessMessage"]');
         var errorPnl = document.querySelector('[id$="pnlErrorMessage"]');
-        if (successPnl) setupAutoDismiss(successPnl.id, 3500);
-        if (errorPnl) setupAutoDismiss(errorPnl.id, 4500);
+        if (successPnl) setupAutoDismiss(successPnl.id, 2000);
+        if (errorPnl) setupAutoDismiss(errorPnl.id, 3000);
     }
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', triggerDismiss);
     } else {
         triggerDismiss();
     }
+    window.addEventListener('load', triggerDismiss);
 })();
 
 var currentCategoryFilter = 'all';
@@ -82,5 +83,20 @@ window.addEventListener('DOMContentLoaded', function () {
     if (sel && (sel.value === '__NEW__' || sel.value === 'NEW')) {
         var txt = document.getElementById('txtNewCategory');
         if (txt) txt.style.display = 'block';
+    }
+
+    // Auto-sync current dish image preview in Edit mode
+    var hdn = document.querySelector('[id$="hdnCurrentDishImageUrl"]');
+    var pnl = document.querySelector('[id$="pnlExistingImageInfo"]');
+    var txt = document.querySelector('[id$="txtCurrentImageUrl"]');
+    var img = document.querySelector('[id$="imgCurrentDishThumb"]');
+    if (hdn && hdn.value && hdn.value.trim() !== '') {
+        if (pnl) pnl.style.display = 'block';
+        if (txt) txt.value = hdn.value.trim();
+        if (img) {
+            var raw = hdn.value.trim();
+            var relPath = raw.indexOf('~/') === 0 ? raw.substring(2) : (raw.indexOf('/') === 0 ? raw.substring(1) : raw);
+            img.src = '../' + relPath;
+        }
     }
 });

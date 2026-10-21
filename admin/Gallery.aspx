@@ -182,6 +182,18 @@
                         <asp:FileUpload ID="fileImage" runat="server" CssClass="form-control-admin w-100" />
                         <small class="text-muted d-block mt-1">Allowed formats: JPG, JPEG, PNG, WEBP (Max size: 10
                             MB)</small>
+
+                        <!-- Current Image Path & Preview in Edit Mode -->
+                        <asp:Panel ID="pnlCurrentGalleryImage" runat="server" Visible="false" CssClass="mt-2 p-2 bg-light rounded-3 border d-flex align-items-center gap-3">
+                            <img id="imgCurrentGalleryPreview" runat="server" src="#" alt="Current Photo"
+                                 style="width: 52px; height: 52px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;"
+                                 onerror="this.onerror=null; this.src='../images/room-placeholder.jpg';" />
+                            <div class="overflow-hidden">
+                                <span class="d-block small text-muted fw-semibold">Current Saved Image:</span>
+                                <code id="lblCurrentGalleryPath" runat="server" class="small text-primary text-break fw-bold"></code>
+                                <small class="text-muted d-block mt-0.5" style="font-size: 0.75rem;">(To keep this image, leave the file input above empty)</small>
+                            </div>
+                        </asp:Panel>
                     </div>
 
                     <!-- Upload & Cancel Buttons -->

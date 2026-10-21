@@ -94,16 +94,19 @@
                 cursor: pointer;
             }
 
-            .menu-filter-btn:hover, .menu-filter-btn.active {
+            .menu-filter-btn:hover,
+            .menu-filter-btn.active {
                 background-color: #442305;
                 color: #ffffff;
                 border-color: #442305;
             }
+
             .hotel-table-actions {
                 display: inline-flex;
                 align-items: center;
                 gap: 6px;
             }
+
             .btn-action-luxury {
                 width: 36px;
                 height: 36px;
@@ -116,12 +119,48 @@
                 font-size: 0.95rem;
                 text-decoration: none;
             }
-            .btn-action-luxury.btn-edit { background: #fdfaf7; color: #442305 !important; border-color: #e8d7c5; }
-            .btn-action-luxury.btn-edit:hover { background: #442305; color: #ffffff !important; border-color: #442305; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(68, 35, 5, 0.2); }
-            .btn-action-luxury.btn-view { background: #eff6ff; color: #2563eb !important; border-color: #bfdbfe; }
-            .btn-action-luxury.btn-view:hover { background: #2563eb; color: #ffffff !important; border-color: #2563eb; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2); }
-            .btn-action-luxury.btn-delete { background: #fef2f2; color: #dc2626 !important; border-color: #fecaca; }
-            .btn-action-luxury.btn-delete:hover { background: #dc2626; color: #ffffff !important; border-color: #dc2626; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(220, 38, 38, 0.2); }
+
+            .btn-action-luxury.btn-edit {
+                background: #fdfaf7;
+                color: #442305 !important;
+                border-color: #e8d7c5;
+            }
+
+            .btn-action-luxury.btn-edit:hover {
+                background: #442305;
+                color: #ffffff !important;
+                border-color: #442305;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 10px rgba(68, 35, 5, 0.2);
+            }
+
+            .btn-action-luxury.btn-view {
+                background: #eff6ff;
+                color: #2563eb !important;
+                border-color: #bfdbfe;
+            }
+
+            .btn-action-luxury.btn-view:hover {
+                background: #2563eb;
+                color: #ffffff !important;
+                border-color: #2563eb;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+            }
+
+            .btn-action-luxury.btn-delete {
+                background: #fef2f2;
+                color: #dc2626 !important;
+                border-color: #fecaca;
+            }
+
+            .btn-action-luxury.btn-delete:hover {
+                background: #dc2626;
+                color: #ffffff !important;
+                border-color: #dc2626;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 10px rgba(220, 38, 38, 0.2);
+            }
         </style>
     </asp:Content>
 
@@ -134,11 +173,13 @@
                     Dining Menu Management
                 </h2>
                 <p class="text-muted small mb-0">
-                    Add new dishes, update pricing, tags, dietary options, and manage items connected directly to the database.
+                    Add new dishes, update pricing, tags, dietary options, and manage items connected directly to the
+                    database.
                 </p>
             </div>
             <div class="d-flex gap-2">
-                <a href="../Dining.aspx" target="_blank" class="btn btn-outline-dark btn-sm px-3 rounded-pill fw-semibold">
+                <a href="../Dining.aspx" target="_blank"
+                    class="btn btn-outline-dark btn-sm px-3 rounded-pill fw-semibold">
                     <i class="bi bi-eye me-1"></i> View Live Menu
                 </a>
                 <a href="Dashboard.aspx" class="btn-admin-secondary text-decoration-none">
@@ -147,26 +188,23 @@
             </div>
         </div>
 
-        <!-- Success Confirmation Card (RegistrationConfirmation.aspx Style) -->
-        <asp:Panel ID="pnlSuccessMessage" runat="server" Visible="false" CssClass="mb-4">
-            <div class="card shadow-sm border-0 text-center p-4 rounded-4 bg-white">
-                <div class="mb-3">
-                    <i class="bi bi-check-circle-fill text-success" style="font-size:60px;"></i>
+        <!-- Compact Success Alert (Auto-Dismiss in 2 seconds) -->
+        <asp:Panel ID="pnlSuccessMessage" runat="server" Visible="false" CssClass="mb-3">
+            <div class="alert alert-success d-flex align-items-center justify-content-between py-2 px-3 rounded-3 shadow-sm border-0 mb-0"
+                style="background: #ecfdf5; border-left: 4px solid #10b981 !important; max-width: 650px; margin: 0 auto;">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                    <div>
+                        <strong class="text-dark small">
+                            <asp:Label ID="lblSuccessTitle" runat="server" Text="Success!"></asp:Label>:
+                        </strong>
+                        <asp:Label ID="lblSuccessMessage" runat="server" CssClass="text-secondary small ms-1"
+                            Text="The dining dish has been saved to the database successfully.">
+                        </asp:Label>
+                    </div>
                 </div>
-                <h3 class="fw-bold text-dark mb-2" style="font-family: 'Playfair Display', Georgia, serif;">
-                    <asp:Label ID="lblSuccessTitle" runat="server" Text="Action Successful!"></asp:Label>
-                </h3>
-                <p class="text-muted mb-3">
-                    <asp:Label ID="lblSuccessMessage" runat="server"
-                        Text="The dining dish has been saved to the database successfully.">
-                    </asp:Label>
-                </p>
-                <div>
-                    <button type="button" class="btn btn-sm btn-outline-secondary px-4 rounded-pill fw-semibold"
-                        onclick="this.closest('.card').style.display='none';">
-                        <i class="bi bi-x-lg me-1"></i> Close Confirmation
-                    </button>
-                </div>
+                <button type="button" class="btn-close ms-3" style="font-size: 0.75rem;" data-bs-dismiss="alert"
+                    aria-label="Close" onclick="this.closest('.alert').style.display='none';"></button>
             </div>
         </asp:Panel>
 
@@ -189,9 +227,11 @@
              ========================================== -->
         <div class="add-room-card mb-4">
             <asp:HiddenField ID="hdnEditMenuItemId" runat="server" Value="0" />
+            <asp:HiddenField ID="hdnCurrentDishImageUrl" runat="server" Value="" />
             <div class="add-room-header">
                 <h4 class="mb-0 fw-bold d-flex align-items-center gap-2" style="font-size: 1.1rem;">
-                    <i class="bi bi-cup-hot-fill text-warning"></i> <asp:Label ID="lblFormTitle" runat="server" Text="Add New Dining Menu Dish"></asp:Label>
+                    <i class="bi bi-cup-hot-fill text-warning"></i>
+                    <asp:Label ID="lblFormTitle" runat="server" Text="Add New Dining Menu Dish"></asp:Label>
                 </h4>
                 <span class="badge bg-white text-dark px-3 py-1.5 rounded-pill font-monospace small">
                     Database Entry
@@ -210,7 +250,8 @@
                     <!-- Category -->
                     <div class="col-md-4">
                         <label class="form-label-custom">Category <span class="text-danger">*</span></label>
-                        <asp:DropDownList ID="ddlCategory" runat="server" CssClass="form-select-admin w-100" ClientIDMode="Static" onchange="toggleNewMenuCategory(this);">
+                        <asp:DropDownList ID="ddlCategory" runat="server" CssClass="form-select-admin w-100"
+                            ClientIDMode="Static" onchange="toggleNewMenuCategory(this);">
                             <asp:ListItem Value="kebabs">Tandoori Starters &amp; Kebabs</asp:ListItem>
                             <asp:ListItem Value="mains">Royal Indian Curries</asp:ListItem>
                             <asp:ListItem Value="biryani">Dum Biryani &amp; Rice</asp:ListItem>
@@ -219,8 +260,9 @@
                             <asp:ListItem Value="beverages">Chai, Lassi &amp; Beverages</asp:ListItem>
                             <asp:ListItem Value="__NEW__">+ Add New Category...</asp:ListItem>
                         </asp:DropDownList>
-                        <asp:TextBox ID="txtNewCategory" runat="server" ClientIDMode="Static" CssClass="form-control-admin w-100 mt-2"
-                            placeholder="Enter new category name..." style="display:none;"></asp:TextBox>
+                        <asp:TextBox ID="txtNewCategory" runat="server" ClientIDMode="Static"
+                            CssClass="form-control-admin w-100 mt-2" placeholder="Enter new category name..."
+                            style="display:none;"></asp:TextBox>
                     </div>
 
                     <!-- Price -->
@@ -272,9 +314,44 @@
 
                     <!-- Dish Image Upload -->
                     <div class="col-md-8">
-                        <label class="form-label-custom">Dish Image File <asp:Label ID="lblImageReq" runat="server" Text="*" CssClass="text-danger"></asp:Label></label>
+                        <label class="form-label-custom">Dish Image File <asp:Label ID="lblImageReq" runat="server"
+                                Text="*" CssClass="text-danger"></asp:Label></label>
                         <asp:FileUpload ID="fileDishImage" runat="server" CssClass="form-control-admin w-100" />
-                        <small class="text-muted d-block mt-1">Allowed formats: JPG, JPEG, PNG, WEBP (Max size: 10 MB)</small>
+                        <small class="text-muted d-block mt-1">Allowed formats: JPG, JPEG, PNG, WEBP (Max size: 10
+                            MB)</small>
+
+                        <!-- Current Saved Image Info in Edit/Update Mode -->
+                        <asp:Panel ID="pnlExistingImageInfo" runat="server" Visible="false"
+                            CssClass="mt-3 p-3 bg-white rounded-3 border shadow-sm">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="fw-bold small text-dark d-flex align-items-center gap-1">
+                                    <i class="bi bi-image-fill text-warning"></i> Current Dish Image Path (Already in
+                                    Database):
+                                </span>
+                                <span
+                                    class="badge bg-success-subtle text-success border px-2 py-0.5 rounded-pill small">
+                                    Active on Web
+                                </span>
+                            </div>
+                            <div class="d-flex align-items-center gap-3">
+                                <img id="imgCurrentDishThumb" runat="server" src="#" alt="Dish Thumbnail"
+                                    style="width: 58px; height: 58px; object-fit: cover; border-radius: 8px; border: 1.5px solid #cbd5e1; flex-shrink: 0;"
+                                    onerror="this.onerror=null; this.src='../images/food-paneer-tikka.jpg';" />
+                                <div class="flex-grow-1">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text bg-light text-muted font-monospace small"><i
+                                                class="bi bi-link-45deg"></i></span>
+                                        <asp:TextBox ID="txtCurrentImageUrl" runat="server" ReadOnly="true"
+                                            CssClass="form-control font-monospace bg-light fw-bold text-dark small"
+                                            style="cursor: text;"></asp:TextBox>
+                                    </div>
+                                    <small class="text-muted d-block mt-1" style="font-size: 0.78rem;">
+                                        Agar aapko yahi photo rakhni hai toh upar <b>Choose File</b> ko khali chhod
+                                        dein. Agar nayi image lagani hai tabhi Choose File se upload karein.
+                                    </small>
+                                </div>
+                            </div>
+                        </asp:Panel>
                     </div>
 
                     <!-- Submit Button -->
@@ -297,22 +374,31 @@
                     <h4 class="mb-0 fw-bold d-flex align-items-center gap-2" style="font-size: 1.1rem;">
                         <i class="bi bi-book-half text-warning"></i> Current Dining Menu Dishes
                     </h4>
-                    <asp:Label ID="lblTotalCount" runat="server" CssClass="badge bg-white text-dark px-3 py-1.5 rounded-pill font-monospace small">
+                    <asp:Label ID="lblTotalCount" runat="server"
+                        CssClass="badge bg-white text-dark px-3 py-1.5 rounded-pill font-monospace small">
                         0 Dishes
                     </asp:Label>
                 </div>
             </div>
 
             <!-- Category Filter Tabs & Search -->
-            <div class="p-3 bg-light border-bottom d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+            <div
+                class="p-3 bg-light border-bottom d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                 <div class="d-flex flex-wrap gap-2" id="adminMenuFilterGroup">
-                    <button type="button" class="menu-filter-btn active" onclick="filterAdminMenu('all', this)">All</button>
-                    <button type="button" class="menu-filter-btn" onclick="filterAdminMenu('kebabs', this)">Starters &amp; Kebabs</button>
-                    <button type="button" class="menu-filter-btn" onclick="filterAdminMenu('mains', this)">Curries &amp; Mains</button>
-                    <button type="button" class="menu-filter-btn" onclick="filterAdminMenu('biryani', this)">Biryani &amp; Rice</button>
-                    <button type="button" class="menu-filter-btn" onclick="filterAdminMenu('breads', this)">Breads &amp; Naan</button>
-                    <button type="button" class="menu-filter-btn" onclick="filterAdminMenu('desserts', this)">Mithai &amp; Desserts</button>
-                    <button type="button" class="menu-filter-btn" onclick="filterAdminMenu('beverages', this)">Chai &amp; Beverages</button>
+                    <button type="button" class="menu-filter-btn active"
+                        onclick="filterAdminMenu('all', this)">All</button>
+                    <button type="button" class="menu-filter-btn" onclick="filterAdminMenu('kebabs', this)">Starters
+                        &amp; Kebabs</button>
+                    <button type="button" class="menu-filter-btn" onclick="filterAdminMenu('mains', this)">Curries &amp;
+                        Mains</button>
+                    <button type="button" class="menu-filter-btn" onclick="filterAdminMenu('biryani', this)">Biryani
+                        &amp; Rice</button>
+                    <button type="button" class="menu-filter-btn" onclick="filterAdminMenu('breads', this)">Breads &amp;
+                        Naan</button>
+                    <button type="button" class="menu-filter-btn" onclick="filterAdminMenu('desserts', this)">Mithai
+                        &amp; Desserts</button>
+                    <button type="button" class="menu-filter-btn" onclick="filterAdminMenu('beverages', this)">Chai
+                        &amp; Beverages</button>
                 </div>
                 <div class="input-group" style="max-width: 260px;">
                     <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
@@ -343,7 +429,8 @@
                                 <td colspan="9" class="text-center py-5 text-muted">
                                     <i class="bi bi-inbox fs-2 d-block mb-2 text-muted opacity-50"></i>
                                     <span class="fw-semibold text-dark d-block">No Dishes Added Yet</span>
-                                    <span class="small text-muted">Aap upar diye gaye form se jo bhi dish add karenge, wo yahan table me list ho jayegi.</span>
+                                    <span class="small text-muted">Aap upar diye gaye form se jo bhi dish add karenge,
+                                        wo yahan table me list ho jayegi.</span>
                                 </td>
                             </tr>
                         </asp:PlaceHolder>
@@ -359,25 +446,31 @@
                                             onerror="this.onerror=null; this.src='../images/food-paneer-tikka.jpg';" />
                                     </td>
                                     <td>
-                                        <div class="fw-bold text-dark dish-name-text"><%# Eval("ItemName") %></div>
-                                        <small class="text-muted d-block text-truncate" style="max-width: 280px;" title='<%# Eval("Description") %>'>
+                                        <div class="fw-bold text-dark dish-name-text">
+                                            <%# Eval("ItemName") %>
+                                        </div>
+                                        <small class="text-muted d-block text-truncate" style="max-width: 280px;"
+                                            title='<%# Eval("Description") %>'>
                                             <%# Eval("Description") %>
                                         </small>
                                     </td>
                                     <td>
-                                        <span class="badge bg-light text-dark border px-2.5 py-1 rounded-pill small fw-semibold">
+                                        <span
+                                            class="badge bg-light text-dark border px-2.5 py-1 rounded-pill small fw-semibold">
                                             <%# GetCategoryDisplayName(Eval("Category")) %>
                                         </span>
                                     </td>
                                     <td>
-                                        <%# Eval("DietaryType").ToString() == "Pure Veg" 
+                                        <%# Eval("DietaryType").ToString()=="Pure Veg"
                                             ? "<span class='badge-veg-pill'><i class='bi bi-circle-fill'></i> Pure Veg</span>"
-                                            : "<span class='badge-nonveg-pill'><i class='bi bi-circle-fill'></i> Non-Veg</span>" %>
+                                            : "<span class='badge-nonveg-pill'><i class='bi bi-circle-fill'></i> Non-Veg</span>"
+                                            %>
                                     </td>
                                     <td>
-                                        <%# string.IsNullOrEmpty(Eval("Badge") as string) 
-                                            ? "<span class='text-muted small'>-</span>" 
-                                            : "<span class='badge-special-tag'><i class='bi bi-award-fill text-warning'></i> " + Eval("Badge") + "</span>" %>
+                                        <%# string.IsNullOrEmpty(Eval("Badge") as string)
+                                            ? "<span class='text-muted small'>-</span>"
+                                            : "<span class='badge-special-tag'><i class='bi bi-award-fill text-warning'></i> "
+                                            + Eval("Badge") + "</span>" %>
                                     </td>
                                     <td class="fw-bold text-dark">
                                         &#8377;<%# Convert.ToDecimal(Eval("Price")).ToString("N0") %>
@@ -385,26 +478,27 @@
                                     <td>
                                         <%# Convert.ToBoolean(Eval("IsActive"))
                                             ? "<span class='badge bg-success-subtle text-success border border-success-subtle px-2.5 py-1 rounded-pill small'><i class='bi bi-check-circle-fill me-1'></i> Active</span>"
-                                            : "<span class='badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2.5 py-1 rounded-pill small'><i class='bi bi-eye-slash-fill me-1'></i> Inactive</span>" %>
+                                            : "<span class='badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2.5 py-1 rounded-pill small'><i class='bi bi-eye-slash-fill me-1'></i> Inactive</span>"
+                                            %>
                                     </td>
                                     <td class="text-end pe-4">
                                         <div class="hotel-table-actions justify-content-end">
-                                            <asp:LinkButton ID="btnToggleStatus" runat="server" CommandName="ToggleStatusMenuItem"
+                                            <asp:LinkButton ID="btnToggleStatus" runat="server"
+                                                CommandName="ToggleStatusMenuItem"
                                                 CommandArgument='<%# Eval("MenuItemId") %>'
                                                 CssClass="btn-action-luxury btn-view"
                                                 ToolTip='<%# Convert.ToBoolean(Eval("IsActive")) ? "Deactivate Dish (Hide on Site)" : "Activate Dish (Show on Site)" %>'>
-                                                <i class='<%# Convert.ToBoolean(Eval("IsActive")) ? "bi bi-eye" : "bi bi-eye-slash" %>'></i>
+                                                <i
+                                                    class='<%# Convert.ToBoolean(Eval("IsActive")) ? "bi bi-eye" : "bi bi-eye-slash" %>'></i>
                                             </asp:LinkButton>
                                             <asp:LinkButton ID="btnEdit" runat="server" CommandName="EditMenuItem"
                                                 CommandArgument='<%# Eval("MenuItemId") %>'
-                                                CssClass="btn-action-luxury btn-edit"
-                                                ToolTip="Edit Item">
+                                                CssClass="btn-action-luxury btn-edit" ToolTip="Edit Item">
                                                 <i class="bi bi-pencil-square"></i>
                                             </asp:LinkButton>
                                             <asp:LinkButton ID="btnDelete" runat="server" CommandName="DeleteMenuItem"
                                                 CommandArgument='<%# Eval("MenuItemId") %>'
-                                                CssClass="btn-action-luxury btn-delete"
-                                                ToolTip="Delete Item">
+                                                CssClass="btn-action-luxury btn-delete" ToolTip="Delete Item">
                                                 <i class="bi bi-trash"></i>
                                             </asp:LinkButton>
                                         </div>
