@@ -11,6 +11,16 @@ public partial class Admin_Dashboard : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+
+        // Admin authentication checks
+        if (Session["AdminId"] == null || Session["IsAdmin"] == null ||
+    !(Session["IsAdmin"] is bool) || !(bool)Session["IsAdmin"])
+        {
+            Response.Redirect("~/admin/Login.aspx", false);
+            Context.ApplicationInstance.CompleteRequest();
+            return;
+        }
+
         SetDynamicHeader();
 
         string action = (Request["action"] ?? "").ToLowerInvariant();
@@ -42,6 +52,7 @@ public partial class Admin_Dashboard : System.Web.UI.Page
             LoadDiningData();
             LoadRecentActivity();
         }
+
     }
 
     private void ExecuteCheckIn(int bookingId)
@@ -148,7 +159,7 @@ public partial class Admin_Dashboard : System.Web.UI.Page
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 con.Open();
-                
+
                 // 1. KPI Metrics
                 string kpiSql = @"
                     DECLARE @Today DATE = CAST(GETDATE() AS DATE);
@@ -206,7 +217,7 @@ public partial class Admin_Dashboard : System.Web.UI.Page
                         {
                             // Card removed from dashboard
                         }
-                        
+
                         // Bookings
                         if (rdr.NextResult() && rdr.Read())
                         {
@@ -220,27 +231,27 @@ public partial class Admin_Dashboard : System.Web.UI.Page
                         {
                             int totalR = Convert.ToInt32(rdr["TotalRooms"] != DBNull.Value ? rdr["TotalRooms"] : 0);
                             int occR = Convert.ToInt32(rdr["OccupiedRooms"] != DBNull.Value ? rdr["OccupiedRooms"] : 0);
-                            
+
                             lblTotalRooms.Text = totalR.ToString();
                             lblOccupiedRooms.Text = occR.ToString();
-                            
+
                             int occRate = totalR > 0 ? (int)Math.Round((double)occR * 100 / totalR) : 0;
                             lblOccupancyRate.Text = occRate.ToString();
-                            
+
                             lblAvailableRooms.Text = rdr["AvailableRooms"] != DBNull.Value ? rdr["AvailableRooms"].ToString() : "0";
-                            
+
                             // For Donut Chart
                             lblRoomAvailable.Text = lblAvailableRooms.Text;
                             lblRoomOccupied.Text = occR.ToString();
                             lblRoomCleaning.Text = rdr["CleaningRooms"] != DBNull.Value ? rdr["CleaningRooms"].ToString() : "0";
                             lblRoomMaintenance.Text = rdr["MaintenanceRooms"] != DBNull.Value ? rdr["MaintenanceRooms"].ToString() : "0";
                             lblRoomBlocked.Text = rdr["BlockedRooms"] != DBNull.Value ? rdr["BlockedRooms"].ToString() : "0";
-                            
+
                             lblChartDonutCenter.Text = totalR.ToString();
                             hfDonutTotal.Value = totalR.ToString();
                             hfDonutData.Value = string.Format("[{0}, {1}, {2}, {3}, {4}]", lblRoomAvailable.Text, lblRoomOccupied.Text, lblRoomCleaning.Text, lblRoomMaintenance.Text, lblRoomBlocked.Text);
                         }
-                        
+
                         // Check-ins
                         if (rdr.NextResult() && rdr.Read())
                         {
@@ -251,20 +262,20 @@ public partial class Admin_Dashboard : System.Web.UI.Page
                             lblCheckinsToday.Text = (checkedIn > 0 ? checkedIn : totalCheckins).ToString();
                             lblCheckinsPending.Text = pendingIn.ToString();
                         }
-                        
+
                         // Check-outs
                         if (rdr.NextResult() && rdr.Read())
                         {
                             lblCheckoutsToday.Text = rdr["TotalCheckouts"] != DBNull.Value ? rdr["TotalCheckouts"].ToString() : "0";
                             lblCheckoutsPending.Text = rdr["PendingCheckouts"] != DBNull.Value ? rdr["PendingCheckouts"].ToString() : "0";
                         }
-                        
+
                         // Table Reservations
                         if (rdr.NextResult() && rdr.Read())
                         {
                             lblTodayTableRes.Text = rdr["TableResToday"] != DBNull.Value ? rdr["TableResToday"].ToString() : "0";
                         }
-                        
+
                         // Table Stats
                         if (rdr.NextResult() && rdr.Read())
                         {
@@ -356,7 +367,7 @@ public partial class Admin_Dashboard : System.Web.UI.Page
                     WHERE CAST(b.CheckInDate AS DATE) = CAST(GETDATE() AS DATE)
                        OR (b.BookingStatus IN ('Confirmed', 'Pending') AND CAST(b.CheckInDate AS DATE) <= CAST(GETDATE() AS DATE))
                     ORDER BY b.BookingId DESC";
-                
+
                 using (SqlDataAdapter da = new SqlDataAdapter(sql, con))
                 {
                     DataTable dt = new DataTable();
@@ -388,7 +399,7 @@ public partial class Admin_Dashboard : System.Web.UI.Page
                     WHERE CAST(b.CheckOutDate AS DATE) = CAST(GETDATE() AS DATE)
                        OR (b.BookingStatus = 'Checked-In' AND CAST(b.CheckOutDate AS DATE) <= CAST(GETDATE() AS DATE))
                     ORDER BY b.BookingId DESC";
-                
+
                 using (SqlDataAdapter da = new SqlDataAdapter(sql, con))
                 {
                     DataTable dt = new DataTable();
@@ -419,7 +430,7 @@ public partial class Admin_Dashboard : System.Web.UI.Page
                     FROM Bookings b
                     LEFT JOIN Rooms r ON b.RoomId = r.RoomID
                     ORDER BY b.BookingId DESC";
-                
+
                 using (SqlDataAdapter da = new SqlDataAdapter(sql, con))
                 {
                     DataTable dt = new DataTable();
@@ -463,7 +474,7 @@ public partial class Admin_Dashboard : System.Web.UI.Page
                         FROM Users
                     ) A
                     ORDER BY ActivityTime DESC";
-                
+
                 using (SqlDataAdapter da = new SqlDataAdapter(sql, con))
                 {
                     DataTable dt = new DataTable();
@@ -475,7 +486,7 @@ public partial class Admin_Dashboard : System.Web.UI.Page
         }
         catch { }
     }
-    
+
     // Helper function for UI badge formatting
     protected string GetStatusBadgeClass(string status)
     {
@@ -587,3 +598,5 @@ public partial class Admin_Dashboard : System.Web.UI.Page
         return "status-checkedout";
     }
 }
+
+
