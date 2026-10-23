@@ -22,7 +22,8 @@
                     </div>
                     <div class="mt-3 mt-md-0">
                         <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb mb-0 page-title-breadcrumb bg-transparent" style="padding: 10px 28px !important;">
+                            <ol class="breadcrumb mb-0 page-title-breadcrumb bg-transparent"
+                                style="padding: 10px 28px !important;">
                                 <li class="breadcrumb-item"><a href="index.aspx"
                                         class="text-white text-decoration-none">Home</a></li>
                                 <li class="breadcrumb-item active text-gold fw-bold" aria-current="page">Dining</li>
@@ -43,15 +44,16 @@
                         <div class="position-relative">
                             <img src="images/indian-chef.jpg" alt="Master Executive Chef"
                                 class="img-fluid rounded-4 shadow-lg w-100"
-                                style="max-height: 480px; object-fit: cover;">
-                            <div class="position-absolute bottom-0 start-0 m-3 p-3 rounded-3 shadow text-white"
-                                style="background: rgba(68, 35, 5, 0.9); backdrop-filter: blur(8px); border-left: 4px solid #B88E68;">
+                                style="min-height: 380px; max-height: 480px; object-fit: cover; object-position: center top;">
+                            <div class="position-absolute bottom-0 start-0 rounded-3 shadow text-white"
+                                style="background: rgba(68, 35, 5, 0.92); backdrop-filter: blur(8px); border-left: 4px solid #B88E68; margin: clamp(8px, 2.5vw, 16px); padding: clamp(10px, 2.5vw, 16px); max-width: calc(100% - clamp(16px, 5vw, 32px)); box-sizing: border-box;">
                                 <span
-                                    class="badge bg-gold-subtle text-warning-dark text-uppercase small fw-bold mb-1">Executive
-                                    Master Chef</span>
-                                <h5 class="font-serif mb-0 fw-bold text-white" style="color: #ffffff !important;">Chef
-                                    Sanjeev Kapoor Signature Recipes</h5>
-                                <small class="text-white-50">30+ Years of Royal Awadhi &amp; Global Culinary Art</small>
+                                    class="badge bg-gold-subtle text-warning-dark text-uppercase fw-bold mb-1"
+                                    style="font-size: clamp(0.62rem, 2vw, 0.75rem); padding: 3px 8px;">Executive Master Chef</span>
+                                <h5 class="font-serif fw-bold text-white mb-1"
+                                    style="color: #ffffff !important; font-size: clamp(0.92rem, 3.2vw, 1.25rem); line-height: 1.25;">Chef Sanjeev Kapoor Signature Recipes</h5>
+                                <small class="text-white-50 d-block"
+                                    style="font-size: clamp(0.68rem, 2.2vw, 0.82rem); line-height: 1.25;">30+ Years of Royal Awadhi &amp; Global Culinary Art</small>
                             </div>
                         </div>
                     </div>
@@ -192,8 +194,8 @@
                                 </div>
 
                                 <div class="d-flex gap-3 flex-wrap">
-                                    <a href="TableReservation.aspx" class="btn btn-navbar-theme px-4 py-2.5 fw-bold">
-                                        <i class="bi bi-calendar2-check me-1"></i>Reserve Your Table
+                                    <a href="TableReservation.aspx" class="btn btn-navbar-theme px-4 py-2.5 fw-bold text-center d-inline-flex align-items-center justify-content-center">
+                                        <i class="bi bi-calendar2-check me-2"></i>Reserve Your Table
                                     </a>
                                     <a href="#menuShowcase" class="btn btn-outline-dark px-4 py-2.5 fw-bold"
                                         onclick="filterMenuCategory('kebabs')">

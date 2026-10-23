@@ -6483,8 +6483,8 @@ video {
      1. "EXPERIENCE TRUE TRANQUILITY" (#about-us)
      2. "EXCLUSIVE LIVING SPACES" (#rooms-showcase)
      ======================================================== */
-  #about-us > .container-fluid[data-aos="fade-up"],
-  #rooms-showcase > .container-fluid[data-aos="fade-up"] {
+  #about-us>.container-fluid[data-aos="fade-up"],
+  #rooms-showcase>.container-fluid[data-aos="fade-up"] {
     transform: none !important;
     opacity: 1 !important;
   }
