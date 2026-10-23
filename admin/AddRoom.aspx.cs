@@ -409,7 +409,7 @@ public partial class Admin_AddRoom : System.Web.UI.Page
         // Case 1: No new file chosen -> preserve old image
         // Case 2: New file chosen -> save file and update path
         // ==========================================
-        string imageFolder = Server.MapPath("~/images/rooms/");
+        string imageFolder = Server.MapPath("~/admin/uploads/room/");
         if (!Directory.Exists(imageFolder))
         {
             Directory.CreateDirectory(imageFolder);
@@ -422,7 +422,7 @@ public partial class Admin_AddRoom : System.Web.UI.Page
         {
             string fileName = Guid.NewGuid().ToString("N").Substring(0, 8) + "_" + Path.GetFileName(mainImage.FileName);
             mainImage.SaveAs(Path.Combine(imageFolder, fileName));
-            primaryRoomImage = "~/images/rooms/" + fileName;
+            primaryRoomImage = "~/admin/uploads/room/" + fileName;
         }
 
         if (!isEditMode && string.IsNullOrEmpty(primaryRoomImage))
@@ -438,7 +438,7 @@ public partial class Admin_AddRoom : System.Web.UI.Page
         {
             string fileName = Guid.NewGuid().ToString("N").Substring(0, 8) + "_" + Path.GetFileName(headerFile.FileName);
             headerFile.SaveAs(Path.Combine(imageFolder, fileName));
-            headerImage = "~/images/rooms/" + fileName;
+            headerImage = "~/admin/uploads/room/" + fileName;
         }
 
         // Gallery Image 1
@@ -448,7 +448,7 @@ public partial class Admin_AddRoom : System.Web.UI.Page
         {
             string fileName = Guid.NewGuid().ToString("N").Substring(0, 8) + "_" + Path.GetFileName(galleryFile1.FileName);
             galleryFile1.SaveAs(Path.Combine(imageFolder, fileName));
-            galleryImage1 = "~/images/rooms/" + fileName;
+            galleryImage1 = "~/admin/uploads/room/" + fileName;
         }
 
         // Gallery Image 2
@@ -458,7 +458,7 @@ public partial class Admin_AddRoom : System.Web.UI.Page
         {
             string fileName = Guid.NewGuid().ToString("N").Substring(0, 8) + "_" + Path.GetFileName(galleryFile2.FileName);
             galleryFile2.SaveAs(Path.Combine(imageFolder, fileName));
-            galleryImage2 = "~/images/rooms/" + fileName;
+            galleryImage2 = "~/admin/uploads/room/" + fileName;
         }
 
         // Gallery Image 3
@@ -468,7 +468,7 @@ public partial class Admin_AddRoom : System.Web.UI.Page
         {
             string fileName = Guid.NewGuid().ToString("N").Substring(0, 8) + "_" + Path.GetFileName(galleryFile3.FileName);
             galleryFile3.SaveAs(Path.Combine(imageFolder, fileName));
-            galleryImage3 = "~/images/rooms/" + fileName;
+            galleryImage3 = "~/admin/uploads/room/" + fileName;
         }
 
         // Gallery Image 4
@@ -478,7 +478,7 @@ public partial class Admin_AddRoom : System.Web.UI.Page
         {
             string fileName = Guid.NewGuid().ToString("N").Substring(0, 8) + "_" + Path.GetFileName(galleryFile4.FileName);
             galleryFile4.SaveAs(Path.Combine(imageFolder, fileName));
-            galleryImage4 = "~/images/rooms/" + fileName;
+            galleryImage4 = "~/admin/uploads/room/" + fileName;
         }
 
         // ==========================================

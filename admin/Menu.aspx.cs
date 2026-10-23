@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Web.UI.WebControls;
 
 public partial class Admin_Menu : System.Web.UI.Page
@@ -251,16 +252,43 @@ public partial class Admin_Menu : System.Web.UI.Page
                     return;
                 }
 
-                string folderPath = Server.MapPath("~/images/dining/");
+                string folderPath = Server.MapPath("~/admin/uploads/dinning/");
                 if (!Directory.Exists(folderPath))
                 {
                     Directory.CreateDirectory(folderPath);
                 }
 
-                string fileName = "dish_" + Guid.NewGuid().ToString("N") + extension;
-                savedFilePath = Path.Combine(folderPath, fileName);
+                // Generate clean, readable, SEO-friendly file name from dish name (e.g. paneer-tikka.webp)
+                string baseSlug = Regex.Replace(dishName.ToLower(), @"[^a-z0-9\s-]", "");
+                baseSlug = Regex.Replace(baseSlug, @"\s+", "-").Trim('-');
+
+                if (string.IsNullOrEmpty(baseSlug))
+                {
+                    baseSlug = Path.GetFileNameWithoutExtension(fileDishImage.FileName).ToLower();
+                    baseSlug = Regex.Replace(baseSlug, @"[^a-z0-9\s-]", "");
+                    baseSlug = Regex.Replace(baseSlug, @"\s+", "-").Trim('-');
+                }
+
+                if (string.IsNullOrEmpty(baseSlug))
+                {
+                    baseSlug = "dish";
+                }
+
+                string fileName = baseSlug + extension;
+                string fullFilePath = Path.Combine(folderPath, fileName);
+
+                // If file already exists, append a number counter (-1, -2) to prevent overwrite
+                int duplicateCount = 1;
+                while (File.Exists(fullFilePath))
+                {
+                    fileName = baseSlug + "-" + duplicateCount + extension;
+                    fullFilePath = Path.Combine(folderPath, fileName);
+                    duplicateCount++;
+                }
+
+                savedFilePath = fullFilePath;
                 fileDishImage.SaveAs(savedFilePath);
-                imageUrl = "images/dining/" + fileName;
+                imageUrl = "admin/uploads/dinning/" + fileName;
             }
 
             string connectionString = ConfigurationManager.ConnectionStrings["HotelConnection"].ConnectionString;
@@ -330,7 +358,7 @@ public partial class Admin_Menu : System.Web.UI.Page
                     }
 
                     // Delete old image file if replaced
-                    if (hasNewFile && !string.IsNullOrEmpty(oldImageUrl) && oldImageUrl.StartsWith("images/dining/"))
+                    if (hasNewFile && !string.IsNullOrEmpty(oldImageUrl) && (oldImageUrl.StartsWith("admin/uploads/dinning/") || oldImageUrl.StartsWith("admin/uploads/dining/") || oldImageUrl.StartsWith("images/dining/")))
                     {
                         string oldPhysicalPath = Server.MapPath("~/" + oldImageUrl);
                         if (File.Exists(oldPhysicalPath))
@@ -545,8 +573,8 @@ public partial class Admin_Menu : System.Web.UI.Page
                     }
                 }
 
-                // Step 3: Delete physical file if inside images/dining/
-                if (!string.IsNullOrEmpty(relativeImageUrl) && relativeImageUrl.StartsWith("images/dining/"))
+                // Step 3: Delete physical file if inside admin/uploads/dinning/ or admin/uploads/dining/ or images/dining/
+                if (!string.IsNullOrEmpty(relativeImageUrl) && (relativeImageUrl.StartsWith("admin/uploads/dinning/") || relativeImageUrl.StartsWith("admin/uploads/dining/") || relativeImageUrl.StartsWith("images/dining/")))
                 {
                     string physicalPath = Server.MapPath("~/" + relativeImageUrl);
                     if (File.Exists(physicalPath))
