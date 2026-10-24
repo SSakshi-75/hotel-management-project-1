@@ -114,7 +114,7 @@
                         </div>
 
                         <div class="d-flex gap-3 flex-wrap">
-                            <button type="button" class="btn btn-navbar-theme px-4 py-2.5 fw-bold"
+                            <button type="button" class="btn btn-navbar-theme px-4 py-2.5 fw-bold text-center d-inline-flex align-items-center justify-content-center"
                                 onclick="openTableReservationModal('The Royal Kitchen')">
                                 <i class="bi bi-calendar-event me-2"></i>Reserve A Table
                             </button>

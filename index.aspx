@@ -555,8 +555,8 @@
 
                                         <div class="d-flex gap-3 flex-wrap">
                                             <a href="TableReservation.aspx"
-                                                class="btn btn-navbar-theme px-4 py-2.5 fw-bold">
-                                                <i class="bi bi-calendar2-check me-1"></i>Reserve Your Table
+                                                class="btn btn-navbar-theme px-4 py-2.5 fw-bold text-center d-inline-flex align-items-center justify-content-center">
+                                                <i class="bi bi-calendar2-check me-2"></i>Reserve Your Table
                                             </a>
                                             <a href="Dining.aspx#menuShowcase"
                                                 class="btn btn-outline-dark px-4 py-2.5 fw-bold">

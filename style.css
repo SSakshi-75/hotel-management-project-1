@@ -1413,6 +1413,10 @@ iconify-icon.quote {
   font-size: clamp(0.72rem, 0.45vw + 0.35rem, 0.88rem) !important;
   padding: clamp(6px, 0.5vw, 10px) clamp(10px, 0.9vw, 22px) !important;
   white-space: nowrap !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
 }
 
 .btn-navbar-theme:hover {
