@@ -2,6 +2,187 @@
     AutoEventWireup="true" CodeFile="Booking.aspx.cs" Inherits="Booking" %>
 
     <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+        <style>
+            /* Mobile Responsive Styles for Booking Page - Strictly Scoped to Screens <= 767.98px */
+            @media (max-width: 767.98px) {
+                #booking-section.booking-section-wrapper {
+                    padding: 25px 0 50px !important;
+                }
+
+                #booking-section .container-fluid {
+                    padding-left: 8px !important;
+                    padding-right: 8px !important;
+                }
+
+                .booking-form-card {
+                    padding: 14px 10px !important;
+                    border-radius: 12px !important;
+                    overflow: hidden !important;
+                    box-sizing: border-box !important;
+                }
+
+                .booking-step-container {
+                    padding: 14px 10px !important;
+                    border-radius: 12px !important;
+                    margin-bottom: 16px !important;
+                    overflow: hidden !important;
+                    box-sizing: border-box !important;
+                }
+
+                .booking-step-header {
+                    margin-bottom: 12px !important;
+                    padding-bottom: 8px !important;
+                }
+
+                .booking-step-title {
+                    font-size: 1.3rem !important;
+                }
+
+                .step-num-badge {
+                    width: 28px !important;
+                    height: 28px !important;
+                    font-size: 0.85rem !important;
+                }
+
+                /* Fix Room Cards Overflow on Mobile - Use Clean Flexbox Column */
+                .booking-room-pick-grid {
+                    display: flex !important;
+                    flex-direction: column !important;
+                    width: 100% !important;
+                    max-width: 100% !important;
+                    gap: 12px !important;
+                    box-sizing: border-box !important;
+                    padding: 0 !important;
+                    margin: 0 !important;
+                }
+
+                .booking-room-pick-card {
+                    display: flex !important;
+                    flex-direction: column !important;
+                    width: 100% !important;
+                    max-width: 100% !important;
+                    box-sizing: border-box !important;
+                    padding: 12px !important;
+                    border-radius: 12px !important;
+                    margin: 0 !important;
+                    overflow: hidden !important;
+                }
+
+                .room-pick-img-wrap {
+                    width: 100% !important;
+                    max-width: 100% !important;
+                    height: 155px !important;
+                    border-radius: 8px !important;
+                    overflow: hidden !important;
+                    margin-bottom: 10px !important;
+                }
+
+                .room-pick-img-wrap img {
+                    width: 100% !important;
+                    height: 100% !important;
+                    object-fit: cover !important;
+                    display: block !important;
+                }
+
+                .room-pick-title {
+                    font-size: 1.25rem !important;
+                    line-height: 1.25 !important;
+                    margin-bottom: 4px !important;
+                }
+
+                .room-pick-meta {
+                    font-size: 0.82rem !important;
+                    margin-bottom: 10px !important;
+                    white-space: nowrap !important;
+                    overflow: hidden !important;
+                    text-overflow: ellipsis !important;
+                    color: #64748b !important;
+                }
+
+                .room-pick-footer {
+                    display: flex !important;
+                    justify-content: space-between !important;
+                    align-items: center !important;
+                    padding-top: 10px !important;
+                    border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
+                    margin-top: auto !important;
+                    width: 100% !important;
+                    box-sizing: border-box !important;
+                    gap: 8px !important;
+                }
+
+                .room-pick-price {
+                    font-size: 1.05rem !important;
+                    font-weight: 800 !important;
+                    white-space: nowrap !important;
+                    display: inline-flex !important;
+                    align-items: baseline !important;
+                    margin: 0 !important;
+                    flex-shrink: 0 !important;
+                }
+
+                .room-pick-period {
+                    font-size: 0.72rem !important;
+                    font-weight: 500 !important;
+                    color: #64748b !important;
+                    margin-left: 2px !important;
+                    white-space: nowrap !important;
+                }
+
+                .room-pick-view-btn {
+                    font-size: 0.72rem !important;
+                    padding: 3px 10px !important;
+                    border-radius: 50px !important;
+                    white-space: nowrap !important;
+                    flex-shrink: 0 !important;
+                    line-height: 1.35 !important;
+                    display: inline-flex !important;
+                    align-items: center !important;
+                    gap: 3px !important;
+                    margin-left: auto !important;
+                }
+
+                .room-pick-view-btn i {
+                    font-size: 0.72rem !important;
+                }
+
+                .room-pick-view-btn .bi-box-arrow-up-right {
+                    font-size: 0.65rem !important;
+                }
+
+                .room-pick-check-icon {
+                    top: 14px !important;
+                    right: 14px !important;
+                    width: 26px !important;
+                    height: 26px !important;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18) !important;
+                }
+            }
+
+            @media (max-width: 360px) {
+                .room-pick-price {
+                    font-size: 0.98rem !important;
+                }
+
+                .room-pick-period {
+                    font-size: 0.68rem !important;
+                }
+
+                .room-pick-view-btn {
+                    font-size: 0.68rem !important;
+                    padding: 3px 8px !important;
+                    border-radius: 50px !important;
+                }
+
+                .room-pick-view-btn i {
+                    font-size: 0.68rem !important;
+                }
+
+                .room-pick-view-btn .bi-box-arrow-up-right {
+                    font-size: 0.6rem !important;
+                }
+            }
+        </style>
     </asp:Content>
 
     <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
@@ -60,7 +241,8 @@
                                     <h2 class="booking-form-header-title mb-0">Online Reservation</h2>
                                 </div>
                                 <span
-                                    class="badge bg-dark text-gold border border-gold px-3 py-2 small align-self-start align-self-sm-auto text-nowrap">Online Reservation</span>
+                                    class="badge bg-dark text-gold border border-gold px-3 py-2 small align-self-start align-self-sm-auto text-nowrap">Online
+                                    Reservation</span>
                             </div>
 
                             <!-- Promotional Offer Applied Banner -->
@@ -105,7 +287,8 @@
                                         <option value="" disabled selected>Choose a room...</option>
                                         <asp:Repeater ID="rptBookingRoomSelectOptions" runat="server">
                                             <ItemTemplate>
-                                                <option value='<%# Eval("PricePerNight") %>' data-gst='<%# Eval("GSTPercentage") %>'>
+                                                <option value='<%# Eval("PricePerNight") %>'
+                                                    data-gst='<%# Eval("GSTPercentage") %>'>
                                                     <%# Eval("RoomName") %> (&#8377; <%#
                                                             GetFormattedPrice(Eval("PricePerNight")) %>/night)
                                                 </option>
@@ -137,26 +320,30 @@
                                                             &bull; <%# GetFormattedRoomArea(Eval("RoomArea")) %>
                                                     </div>
                                                     <div
-                                                        class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top">
+                                                        class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top room-pick-footer">
                                                         <div class="room-pick-price">&#8377;<%#
-                                                                GetFormattedPrice(Eval("PricePerNight")) %> <small>/
+                                                                GetFormattedPrice(Eval("PricePerNight")) %> <small class="room-pick-period">/
                                                                     night</small></div>
                                                         <a href='<%# "RoomDetails.aspx?RoomId=" + Eval("RoomID") %>'
                                                             target="_blank"
-                                                            class="btn btn-outline-dark rounded-pill d-inline-flex align-items-center"
+                                                            class="btn btn-outline-dark rounded-pill d-inline-flex align-items-center room-pick-view-btn"
                                                             style="font-size: 0.8rem; padding: 4px 14px; border-radius: 50px !important; line-height: 1.4; white-space: nowrap;"
                                                             onclick="event.stopPropagation();"
                                                             title="View full room details">
-                                                            <i class="bi bi-info-circle me-1" style="font-size: 0.82rem;"></i>
+                                                            <i class="bi bi-info-circle me-1"
+                                                                style="font-size: 0.82rem;"></i>
                                                             <span>View Details</span>
-                                                            <i class="bi bi-box-arrow-up-right ms-1" style="font-size: 0.72rem;"></i>
+                                                            <i class="bi bi-box-arrow-up-right ms-1"
+                                                                style="font-size: 0.72rem;"></i>
                                                         </a>
                                                     </div>
                                                 </div>
                                             </ItemTemplate>
-                                        </asp:Repeater>                                     </div>
+                                        </asp:Repeater>
+                                    </div>
 
-                                    <input type="hidden" name="bookingRateRadio" id="radioRateRoomOnly" value="Room Only" />
+                                    <input type="hidden" name="bookingRateRadio" id="radioRateRoomOnly"
+                                        value="Room Only" />
                                 </div>
 
                                 <!-- 2. Guest Information -->
@@ -247,11 +434,12 @@
                                         </div>
                                         <div class="summary-data-row">
                                             <span class="text-muted"><i class="bi bi-tag me-2 text-gold"></i>Room
-                                                 Price</span>
+                                                Price</span>
                                             <strong id="sumTablePrice" class="text-dark">--</strong>
                                         </div>
                                         <div class="summary-data-row">
-                                            <span class="text-muted"><i class="bi bi-percent me-2 text-gold"></i><span id="sumTableGstLabel">GST (18%)</span></span>
+                                            <span class="text-muted"><i class="bi bi-percent me-2 text-gold"></i><span
+                                                    id="sumTableGstLabel">GST (18%)</span></span>
                                             <strong id="sumTableTaxes" class="text-dark">--</strong>
                                         </div>
                                         <div class="summary-data-row total-row">

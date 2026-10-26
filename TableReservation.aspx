@@ -179,6 +179,243 @@
                 padding: 30px;
                 position: relative;
             }
+
+            /* ========================================================
+               TABLE RESERVATION MOBILE RESPONSIVE (max-width: 767.98px)
+               Strictly scoped to mobile devices - ZERO change on web
+               ======================================================== */
+            @media (max-width: 767.98px) {
+                /* 1. Hero Banner */
+                .res-hero-section {
+                    padding: 40px 15px 30px !important;
+                }
+
+                .res-hero-section h1.display-4 {
+                    font-size: 2rem !important;
+                    line-height: 1.2 !important;
+                }
+
+                .res-hero-section p.fs-5 {
+                    font-size: 0.95rem !important;
+                    line-height: 1.4 !important;
+                }
+
+                .res-hero-section .badge {
+                    font-size: 0.72rem !important;
+                }
+
+                /* Info strip in hero */
+                .res-hero-section .rounded-4 {
+                    font-size: 0.78rem !important;
+                    padding: 10px 14px !important;
+                    width: 100% !important;
+                    max-width: 330px !important;
+                    margin: 0 auto !important;
+                    gap: 6px !important;
+                }
+
+                /* 2. Container & Luxury Card */
+                .container.py-5 {
+                    padding-top: 20px !important;
+                    padding-bottom: 35px !important;
+                    padding-left: 12px !important;
+                    padding-right: 12px !important;
+                }
+
+                .res-card-luxury {
+                    border-radius: 16px !important;
+                    margin-bottom: 2rem !important;
+                }
+
+                /* Card Header: Stack neatly on mobile to prevent squishing */
+                .res-card-header {
+                    padding: 16px 16px !important;
+                    flex-direction: column !important;
+                    align-items: flex-start !important;
+                    gap: 10px !important;
+                }
+
+                .res-card-header h3 {
+                    font-size: 1.25rem !important;
+                }
+
+                .res-card-header small {
+                    font-size: 0.8rem !important;
+                    display: block !important;
+                    margin-top: 2px !important;
+                }
+
+                .res-card-header .badge {
+                    align-self: flex-start !important;
+                    font-size: 0.72rem !important;
+                    padding: 4px 10px !important;
+                }
+
+                /* Card Body */
+                .res-card-luxury .p-4.p-md-5,
+                .res-card-luxury > div:last-child {
+                    padding: 18px 14px !important;
+                }
+
+                /* 3. Step Headings */
+                h5.fw-bold.text-dark {
+                    font-size: 1.05rem !important;
+                    line-height: 1.35 !important;
+                }
+
+                .res-step-badge {
+                    width: 26px !important;
+                    height: 26px !important;
+                    font-size: 0.8rem !important;
+                    margin-right: 8px !important;
+                    flex-shrink: 0 !important;
+                }
+
+                /* Step 2 Header (Heading + Match Count Badge) */
+                #step2-container .d-flex.align-items-center.justify-content-between.mb-3 {
+                    flex-direction: column !important;
+                    align-items: flex-start !important;
+                    gap: 8px !important;
+                }
+
+                #lblTableMatchCount {
+                    font-size: 0.75rem !important;
+                    padding: 3px 10px !important;
+                }
+
+                /* 4. Table Selection Cards */
+                .table-card-select {
+                    padding: 14px 14px !important;
+                    border-radius: 14px !important;
+                }
+
+                .table-num-pill {
+                    font-size: 0.95rem !important;
+                    padding: 3px 10px !important;
+                    border-radius: 6px !important;
+                }
+
+                .status-pill-available,
+                .status-pill-booked,
+                .status-pill-reserved,
+                .status-pill-blocked {
+                    font-size: 0.72rem !important;
+                    padding: 3px 10px !important;
+                }
+
+                .badge-capacity,
+                .badge-table-type {
+                    font-size: 0.72rem !important;
+                    padding: 3px 8px !important;
+                }
+
+                .table-card-select .fw-bold.text-dark.mb-1 {
+                    font-size: 0.95rem !important;
+                }
+
+                .table-card-select small.text-muted {
+                    font-size: 0.75rem !important;
+                }
+
+                /* 5. Navigation Buttons & Footer Actions */
+                /* Step 1 button */
+                #step1-container .text-end {
+                    text-align: center !important;
+                }
+
+                #step1-container .btn-dark {
+                    width: 100% !important;
+                    padding: 10px 20px !important;
+                    font-size: 0.92rem !important;
+                }
+
+                /* Step 2 buttons */
+                #step2-container .d-flex.justify-content-between.align-items-center.border-top {
+                    gap: 8px !important;
+                    padding-top: 14px !important;
+                }
+
+                #step2-container .btn-light {
+                    padding: 8px 14px !important;
+                    font-size: 0.85rem !important;
+                    white-space: nowrap !important;
+                    flex-shrink: 0 !important;
+                }
+
+                #step2-container .btn-dark {
+                    padding: 8px 16px !important;
+                    font-size: 0.85rem !important;
+                    white-space: nowrap !important;
+                    flex: 1 !important;
+                    display: inline-flex !important;
+                    align-items: center !important;
+                    justify-content: center !important;
+                }
+
+                /* Step 3 buttons */
+                #step3-container .d-flex.justify-content-between.align-items-center.pt-4 {
+                    gap: 8px !important;
+                    padding-top: 14px !important;
+                    flex-direction: column-reverse !important;
+                }
+
+                #step3-container .btn-light {
+                    width: 100% !important;
+                    padding: 8px 14px !important;
+                    font-size: 0.88rem !important;
+                    text-align: center !important;
+                }
+
+                .btn-reserve-submit {
+                    width: 100% !important;
+                    padding: 11px 18px !important;
+                    font-size: 0.92rem !important;
+                    text-align: center !important;
+                    white-space: nowrap !important;
+                }
+
+                /* 6. Form Controls */
+                .form-control-lg,
+                .form-select-lg {
+                    font-size: 0.95rem !important;
+                    padding: 8px 12px !important;
+                }
+
+                .form-label {
+                    font-size: 0.85rem !important;
+                    margin-bottom: 4px !important;
+                }
+
+                .mb-5 {
+                    margin-bottom: 1.5rem !important;
+                }
+
+                /* 7. Voucher Screen */
+                .confirmation-voucher {
+                    padding: 20px 14px !important;
+                    border-radius: 14px !important;
+                }
+
+                .confirmation-voucher h2 {
+                    font-size: 1.35rem !important;
+                }
+
+                .confirmation-voucher p {
+                    font-size: 0.85rem !important;
+                    margin-bottom: 1rem !important;
+                }
+
+                .confirmation-voucher .d-flex.align-items-center.justify-content-center.gap-3 {
+                    flex-direction: column !important;
+                    width: 100% !important;
+                    gap: 10px !important;
+                }
+
+                .confirmation-voucher .btn {
+                    width: 100% !important;
+                    padding: 9px 16px !important;
+                }
+            }
         </style>
     </asp:Content>
 

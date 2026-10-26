@@ -18,13 +18,13 @@
             </div>
         </section>
 
-        <div class="container my-5">
+        <div class="container my-4 my-md-5 mybookings-container">
             <div class="row">
                 <div class="col-12">
-                    <h4 class="font-serif fw-bold mb-3 text-dark"><i class="bi bi-door-open-fill text-warning me-2"></i>Room Bookings</h4>
+                    <h4 class="font-serif fw-bold mb-3 text-dark mybookings-heading"><i class="bi bi-door-open-fill text-warning me-2"></i>Room Bookings</h4>
                     <asp:Repeater ID="rptBookings" runat="server">
                         <HeaderTemplate>
-                            <div class="table-responsive shadow-sm rounded">
+                            <div class="table-responsive shadow-sm rounded mybookings-table-card">
                                 <table class="table table-hover align-middle mb-0 bg-white border">
                                     <thead class="table-dark text-uppercase small">
                                         <tr>
@@ -66,10 +66,10 @@
                         </FooterTemplate>
                     </asp:Repeater>
 
-                    <h4 class="font-serif fw-bold mt-5 mb-3 text-dark"><i class="bi bi-cup-hot-fill text-warning me-2"></i>Table Reservations</h4>
+                    <h4 class="font-serif fw-bold mt-4 mt-md-5 mb-3 text-dark mybookings-heading"><i class="bi bi-cup-hot-fill text-warning me-2"></i>Table Reservations</h4>
                     <asp:Repeater ID="rptTableBookings" runat="server">
                         <HeaderTemplate>
-                            <div class="table-responsive shadow-sm rounded">
+                            <div class="table-responsive shadow-sm rounded mybookings-table-card">
                                 <table class="table table-hover align-middle mb-0 bg-white border">
                                     <thead class="table-dark text-uppercase small">
                                         <tr>
@@ -103,16 +103,16 @@
                     </asp:Repeater>
 
                     <asp:Panel ID="pnlNoBookings" runat="server" Visible="false"
-                        CssClass="text-center py-5 shadow-sm rounded bg-white border mt-4">
-                        <i class="bi bi-calendar-x display-1 text-muted mb-3 d-block"></i>
-                        <h3 class="font-serif fw-bold">No Bookings Found</h3>
-                        <p class="text-muted">You haven't made any room or table reservations yet.</p>
-                        <div class="d-flex justify-content-center gap-3 mt-3">
-                            <a href="Room.aspx" class="btn btn-theme px-4 py-2">Book a Room</a>
-                            <a href="TableReservation.aspx" class="btn btn-outline-dark px-4 py-2">Reserve a Table</a>
+                        CssClass="text-center py-5 px-3 px-sm-4 shadow-sm rounded-4 bg-white border mt-4 mybookings-empty-card">
+                        <i class="bi bi-calendar-x display-1 text-muted mb-3 d-block mybookings-empty-icon"></i>
+                        <h3 class="font-serif fw-bold mybookings-empty-title">No Bookings Found</h3>
+                        <p class="text-muted mybookings-empty-desc">You haven't made any room or table reservations yet.</p>
+                        <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center gap-2 gap-sm-3 mt-3 mybookings-btn-group">
+                            <a href="Room.aspx" class="btn btn-theme px-4 py-2 rounded-pill">Book a Room</a>
+                            <a href="TableReservation.aspx" class="btn btn-outline-dark px-4 py-2 rounded-pill">Reserve a Table</a>
                         </div>
                     </asp:Panel>
                 </div>
-        </div>
+            </div>
         </div>
     </asp:Content>
